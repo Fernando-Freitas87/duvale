@@ -4222,3 +4222,13 @@
 2025-02-02 16:33:40 [INFO]: Usuário autenticado: ID 4, Tipo administrador, Nome Lidiane Penha
 2025-02-02 16:33:42 [INFO]: Usuário autenticado: ID 4, Tipo administrador, Nome Lidiane Penha
 2025-02-02 16:35:09 [INFO]: Usuário autenticado: ID 4, Tipo administrador, Nome Lidiane Penha
+2025-02-02 18:55:51 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 18:55:51 [WARN]: Token expirado. | IP: ::1
+2025-02-02 18:55:53 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 18:55:53 [WARN]: Token expirado. | IP: ::1
+2025-02-02 18:55:53 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 18:55:53 [WARN]: Token expirado. | IP: ::1
+2025-02-02 18:55:59 [INFO]: Usuário autenticado com sucesso. ID: 3
+2025-02-02 18:56:00 [INFO]: Usuário autenticado: ID 3, Tipo administrador, Nome Edjackson Silveira
+2025-02-02 18:56:00 [INFO]: Usuário autenticado: ID 3, Tipo administrador, Nome Edjackson Silveira
+2025-02-02 18:56:09 [INFO]: Usuário autenticado: ID 3, Tipo administrador, Nome Edjackson Silveira
