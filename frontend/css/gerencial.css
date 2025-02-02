@@ -1,0 +1,661 @@
+/***************************************************************
+ * [1] RESET E CONFIGURAÇÕES BÁSICAS DO SITE
+ ***************************************************************/
+ * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fonte padrão do corpo */
+body {
+  font-family: 'Roboto', sans-serif;
+  min-height: 100vh;                        /* Garante altura mínima */
+  background-image: url('/img/fundo1.png'); /* Fundo fixo personalizado */
+  background-size: cover;                   /* Ajusta para cobrir a tela */
+  background-position: center;              /* Centraliza o fundo */
+  background-repeat: no-repeat;             /* Impede repetição da imagem */
+  background-attachment: fixed;             /* Mantém o fundo fixo ao rolar */
+}
+
+/***************************************************************
+* [2] NAVBAR (CABEÇALHO SUPERIOR)
+***************************************************************/
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #004085; /* Azul escuro */
+  color: white;
+}
+
+/* Logo dentro da Navbar */
+.navbar .logo img {
+  height: 40px;
+  width: auto;
+}
+
+/* Menu de navegação (ul e li) */
+.navbar .menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+.navbar .menu li a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+.navbar .menu li a:hover,
+.navbar .menu li a.active {
+  color: #ffcc00; /* Destaque no hover ou item ativo */
+}
+
+/* Informação do usuário (canto direito da navbar) */
+.navbar .user-info {
+  font-size: 14px;
+}
+
+/***************************************************************
+* [3] LINKS E BOTÕES (ESTILIZAÇÃO GENÉRICA)
+***************************************************************/
+/* Links (ancoras) */
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: #ddd;
+}
+
+/* Botões (elemento button) */
+button {
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.3s, color 0.3s;
+}
+button:focus {
+  outline: 2px solid #ddd;
+  outline-offset: 2px;
+}
+
+/* Botão principal (btn-primary) */
+.btn-primary {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #004085;
+  color: #fff;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+.btn-primary:hover {
+  background-color: #00346b;
+}
+
+/* Botão secundário (btn-secondary) */
+.btn-secondary {
+  background-color: #ddd;
+  color: #333;
+}
+.btn-secondary:hover {
+  background-color: #bbb;
+}
+
+/***************************************************************
+* [4] CONTAINER PRINCIPAL (MAIN-CONTAINER)
+***************************************************************/
+.main-container {
+  background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 30px auto;
+  max-width: 1200px;
+}
+
+/* Título principal da página */
+h1 {
+  text-align: center;
+  color: #004085;
+}
+
+/* Títulos de segundo nível (se necessário) */
+h2 {
+  color: #004085;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+/* Linha divisória entre seções */
+.divider {
+  border: 1px solid #004085;
+  margin: 10px 0 20px;
+}
+
+/* Responsividade do .main-container */
+@media (max-width: 768px) {
+  .main-container {
+      margin: 20px 10px;
+      padding: 15px;
+  }
+  body {
+      background-position: top; /* Em telas menores, alinha o fundo para o topo */
+  }
+}
+
+/***************************************************************
+* [5] AÇÕES E ÍCONES (COLUNA DE AÇÕES)
+***************************************************************/
+/* Container para alinhar ícones de ação em colunas de tabelas */
+.coluna-acoes {
+display: flex;
+justify-content: center;  /* Centraliza ícones horizontalmente */
+align-items: center;      /* Centraliza ícones verticalmente */
+gap: 10px;                /* Espaçamento entre ícones */
+}
+
+/* Ícone de exclusão */
+a.btn-icone-excluir {
+text-decoration: none;
+font-size: 16px;
+color: #dc3545;  /* Vermelho */
+cursor: pointer;
+}
+a.btn-icone-excluir:hover {
+color: #c82333;  /* Vermelho mais escuro no hover */
+}
+
+/* Ícones de edição e download */
+a.btn-icone-editar,
+a.btn-icone-baixar {
+text-decoration: none;
+font-size: 16px;
+color: #333;      /* Preto padrão */
+cursor: pointer;
+}
+a.btn-icone-editar:hover {
+color: #007bff;   /* Azul no hover */
+}
+a.btn-icone-baixar:hover {
+color: #28a745;   /* Verde no hover */
+}
+
+/***************************************************************
+* [6] CARDS (VISÃO GERAL) E ESTILIZAÇÃO
+***************************************************************/
+/* Agrupa os cards em grade (4 colunas) */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 colunas */
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Card individual */
+.card {
+  background-color: #fff;
+  border: 0.5px solid #00346b; /* Borda azul-escuro */
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer; /* Indica que é clicável */
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Card ativo (exibindo tabela ou destaque) */
+.card-ativo {
+  border: 3px solid #00346b;         /* Borda azul */
+  background-color: #ffffff;         /* Fundo branco */
+  box-shadow: 0 0 10px #00000024;    /* Sombra */
+  transition: all 0.3s ease;
+}
+
+/* Efeito no hover do card */
+.card:hover {
+  background-color: #f2f2f2;
+  transform: scale(1.02);
+}
+
+/* Card "Total em Atraso" com estilos especiais */
+#card-total-em-atraso {
+  border-color: #800000; /* Vermelho escuro (marrom) */
+}
+#card-total-em-atraso-valor {
+  color: #800000;
+}
+
+/* Card "A Vencer" */
+#card-a-vencer {
+  border-color: #00346b;
+}
+#card-a-receber {
+  color: #00346b;
+}
+
+/* Cabeçalho (título) dentro do card */
+.card-header h3 {
+  font-size: 1.1rem;
+  margin: 0;
+  color: #00346b; /* Azul-escuro */
+}
+
+/* Texto principal do card */
+.card p {
+  margin: 0.5rem 0 0;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/***************************************************************
+* [7] TABELAS (Classe .table)
+***************************************************************/
+/* Layout padrão para tabelas */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+/* Cabeçalho da tabela (fundo azul-escuro) */
+.table thead {
+  background: #004085;
+  color: #fff;
+}
+
+/* Espaçamento e bordas em células */
+.table th,
+.table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+/* Hover na linha do corpo da tabela */
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Responsividade de tabelas para telas muito pequenas (ex: celular) */
+@media screen and (max-width: 580px) {
+  .table {
+      display: block;
+  }
+  .row {
+      display: block;
+      padding: 14px 0 7px;
+  }
+  .row.header {
+      padding: 0;
+      height: 6px;
+  }
+  .row.header .cell {
+      display: none;
+  }
+  .row .cell {
+      display: block;
+      margin-bottom: 10px;
+  }
+  .row .cell:before {
+      content: attr(data-title);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #969696;
+  }
+}
+
+/***************************************************************
+* [8] PAGINAÇÃO (Classes .pagination e .btn-paginacao)
+***************************************************************/
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0; /* Espaçamento vertical */
+}
+
+.btn-paginacao {
+  padding: 8px 16px;
+  background-color: #004085; /* Azul escuro */
+  color: white;
+  border: 1px solid #004085;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.btn-paginacao:hover {
+  background-color: #00346b; /* Azul mais escuro no hover */
+  transform: scale(1.05);
+}
+.btn-paginacao:disabled {
+  background-color: #ddd;
+  color: #aaa;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Botão ativo na paginação */
+.pagination .active {
+  background-color: #0069d9;
+  color: white;
+  font-weight: bold;
+  border: 1px solid #0069d9;
+  cursor: default;
+  transform: none;
+}
+.pagination .active:hover {
+  transform: none; /* Não anima botão ativo */
+}
+
+/***************************************************************
+* [9] AVISOS (SEÇÃO DE AVISOS GERENCIAIS)
+***************************************************************/
+.aviso {
+  background-color: #fff4e6; /* Fundo creme */
+  border: 1px solid #ffd580; /* Borda amarelada */
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.aviso h3 {
+  color: #d77a1e; /* Título em laranja */
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.aviso p {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 5px 0;
+}
+
+.aviso strong {
+  color: #d9534f;
+  font-weight: bold;
+}
+
+/***************************************************************
+* [10] RODAPÉ (FOOTER)
+***************************************************************/
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #004085;
+  color: white;
+  font-size: 14px;
+  margin-top: 30px;
+}
+
+.footer a {
+  color: #00c853;
+  text-decoration: none;
+  font-weight: bold;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsividade para footer e navbar */
+@media (max-width: 768px) {
+  .navbar {
+      flex-wrap: wrap;
+  }
+  .navbar .menu {
+      flex-direction: column;
+      gap: 10px;
+  }
+}
+
+/***************************************************************
+* [11] ESTILOS ESPECÍFICOS PARA GERENCIAMENTO (IMÓVEIS, CLIENTES, ETC.)
+***************************************************************/
+.gerenciar-imoveis,
+.gerenciar-clientes {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Cabeçalho das tabelas na listagem de imóveis/clientes */
+.imoveis-list .table .row.header,
+.clientes-list .table .row.header {
+  font-weight: bold;
+  background: #2980b9;
+  color: white;
+}
+
+/* Células padrão */
+.imoveis-list .table .cell,
+.clientes-list .table .cell {
+  padding: 10px;
+  border: 1px solid #dee2e6;
+  display: table-cell;
+}
+
+/* Botões de adicionar (imóvel/cliente) */
+#adicionar-imovel-btn,
+#adicionar-cliente-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#adicionar-imovel-btn:hover,
+#adicionar-cliente-btn:hover {
+  background-color: #1f6fa5;
+}
+
+/***************************************************************
+* [14] MODAL (EDITAR CONTRATOS, ETC.)
+***************************************************************/
+.modal {
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fundo transparente */
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #fff;
+  width: 400px;
+  max-width: 90%;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #004085; /* Azul-escuro */
+}
+
+.modal-content label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: 600;
+}
+
+.modal-content input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Botões dentro do modal (reutiliza .btn-primary, .btn-secondary, .btn-danger) */
+.btn-danger {
+  background-color: #dc3545; /* Vermelho Bootstrap */
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/***************************************************************
+* [15] BOTÕES GENÉRICOS (BASE)
+***************************************************************/
+/* Botão genérico (estilo base) */
+.btn-base {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 0 4px; /* espaçamento horizontal mínimo */
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #fff; /* texto branco */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Zoom no hover */
+.btn-base:hover {
+  transform: scale(1.05);
+}
+
+/* Compressão ao clicar */
+.btn-base:active {
+  transform: scale(0.95);
+}
+
+/* =========================
+   Botão "Detalhes"
+   - Usa tom de azul-escuro
+ ========================= */
+.btn-detalhes {
+  background-color: #004085;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-detalhes:hover {
+  background-color: #00346b; /* Hover: azul mais escuro */
+}
+
+/* Botão "Baixar" */
+.btn-baixar {
+  background-color: #004085;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-baixar:hover {
+  background-color: #00346b; /* Hover: azul mais escuro */
+}
+
+/* Botão "Editar" (genérico) */
+.btn-editar,
+.btn-editar-cliente,
+.btn-editar-imovel {
+  background-color: #004085;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-editar:hover,
+.btn-editar-cliente:hover,
+.btn-editar-imovel:hover {
+  background-color: #00346b;
+}
+
+/***************************************************************
+* [16] MODAL DE REGISTRO DE CAIXA (EXEMPLO)
+***************************************************************/
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-submit {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.btn-submit:hover {
+  background-color: #45a049;
+}

@@ -1,0 +1,60 @@
+CONTRATO DE LOCA��O DE IM�VEL
+
+Os signat�rios que contratam nas qualidades indicadas neste ato, t�m entre si, ajustadas a presente loca��o, mediante as seguintes cl�usulas e condi��es:
+
+� **LOCADOR:** DUVALE CONSTRUTORA, IMOBILI�RIA E LOCA��O DE M�QUINAS LTDA, CNPJ: 25.093.384/0001-65, situada na Av Jos� Monteiro de Melo, 590 � Sala 02, Bairro Rodagem, Acara�-CE, CEP: 62580-000.
+
+� **LOCAT�RIO:** {{nome_locatario}}, {{nacionalidade_locatario}}, maior e capaz, nascido(a) em {{data_nascimento_locatario}}, inscrito no CPF n� {{cpf_locatario}}, e portador da Carteira Nacional de Habilita��o sob Registro n� {{cnh_locatario}}.
+
+� **CAU��O:** O Locador recebe neste ato do Locat�rio a import�ncia de R$ {{valor_caucao}} ({{valor_caucao_extenso}}) a t�tulo de garantia locat�cia, referente a {{meses_caucao}} m�s(es) de aluguel, mediante dep�sito banc�rio na seguinte conta: Ag�ncia 0001-9, Conta Corrente 7263515-0, Banco Inter, favorecido DUVALE CONSTRUTORA, IMOBILI�RIA E LOCA��O DE M�QUINAS LTDA, CNPJ: 25.093.384/0001-65. O aluguel mensal acima indicado deve ser pago **improrrogavelmente** at� o dia {{dia_vencimento}} de cada m�s a vencer, atrav�s de dep�sito banc�rio na conta acima citada.
+
+� **OBJETO DA LOCA��O PARA TEMPORADA:** Um im�vel situado � {{endereco_imovel}}. Fim a que se destina: **{{finalidade_imovel}}**.
+
+� **PRAZO DA LOCA��O:** {{prazo_locacao}} meses. In�cio {{data_inicio}}, t�rmino {{data_fim}}. Uma vez expirado o prazo mencionado, considera-se extinto todos os efeitos jur�dicos do presente contrato de loca��o, obrigando-se as partes pela confec��o de outro, caso haja interesse pela perman�ncia no im�vel. O valor locat�cio ser� aquele praticado no mercado imobili�rio.
+
+� **DA INEXIST�NCIA DE DEVOLU��O:** No caso de encerramento da estadia em momento anterior ao previsto, por qualquer motivo, o locador n�o devolver� valores ao locat�rio.
+
+� **DA DEMORA NA DESOCUPA��O:** A perman�ncia no im�vel ap�s o prazo contratado implicar� no pagamento da di�ria em dobro, por dia que exceder at� a definitiva desocupa��o.
+
+� **TRIBUTOS E DEMAIS ENCARGOS:** Os consumos de �gua, luz, telefone, IPTU, assim como todos os atributos que incidam ou venham a incidir sobre o im�vel, conserva��o, seguro e outros decorrentes de lei, assim como suas respectivas majora��es, ficam a cargo do LOCAT�RIO. O n�o pagamento na �poca determinada acarretar� a rescis�o deste contrato.
+
+� **OBRIGA��ES GERAIS:**
+  - O LOCAT�RIO n�o poder� sublocar, no seu todo ou em parte, o im�vel, e dele usar� de forma a n�o prejudicar as condi��es est�ticas, seguran�a, moral, bem como a tranquilidade e o bem-estar dos vizinhos.
+  - No caso de qualquer obra, reforma ou adapta��o, devidamente autorizada pelo LOCADOR, o LOCAT�RIO se obriga a repor o im�vel locado em estado primitivo, por ocasi�o da entrega efetiva das chaves, n�o podendo exigir qualquer indeniza��o.
+
+**Par�grafo �nico:** O LOCADOR, por si ou por preposto, poder� visitar o im�vel durante a loca��o para verificar o exato cumprimento das cl�usulas deste contrato.
+
+� A infra��o de qualquer das cl�usulas deste contrato faz incorrer o infrator na multa irredut�vel de 20% (vinte por cento) sobre o aluguel anual em vigor � �poca da infra��o, e importa na sua rescis�o de pleno direito, independentemente de qualquer notifica��o ou aviso, sujeitando-se a parte inadimplente ao pagamento das perdas e danos que forem apuradas.
+
+� A responsabilidade do LOCAT�RIO pelo aluguel e demais obriga��es legais e contratuais s� terminar� com a devolu��o definitiva das chaves e quita��o de todos os d�bitos de loca��o e os consect�rios legais e contratuais, inclusive reparos, se necess�rios.
+
+� Na hip�tese de ser necess�ria qualquer medida judicial, o LOCADOR e o LOCAT�RIO poder�o ser citados pelo correio, com AR (Aviso de Recebimento) dirigido aos respectivos endere�os mencionados no pre�mbulo deste instrumento.
+
+As partes contratantes elegem o FORO da cidade de **Acara�/CE**, qualquer que sejam seus domic�lios.
+
+E assim, por estarem justos e contratados, assinam o presente instrumento em 02 (duas) vias de igual teor, na presen�a das testemunhas que igualmente abaixo assinam.
+
+**Acara�/CE**, {{data_contrato}}.
+
+_______________________________________________________  
+{{nome_locatario}}  
+CPF n� {{cpf_locatario}}  
+LOCAT�RIO  
+
+_______________________________________________________  
+DUVALE CONSTRUTORA, IMOBILI�RIA E LOCA��O  
+CNPJ: 25.093.384/0001-65  
+LOCADOR  
+
+**Jo�o Edjackson Silveira**  
+S�cio Propriet�rio  
+
+**Testemunhas:**  
+
+1. Nome: __________________________________  
+   RG: _____________________________________  
+   CPF: ____________________________________  
+
+2. Nome: __________________________________  
+   RG: _____________________________________  
+   CPF: ____________________________________  

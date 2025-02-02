@@ -1,0 +1,173 @@
+/* Reset básico */
+body, h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Define o estilo para o fundo da página */
+body {
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove espaçamento interno padrão */
+    background: url('/img/fundo2.png') no-repeat center center fixed; /* Imagem centralizada e fixa */
+    background-size: cover; /* Ajusta para cobrir toda a área sem distorção */
+    height: 100vh; /* Garante altura total da janela */
+    font-family: Arial, sans-serif; /* Fonte padrão */
+}
+
+/* Centraliza e ajusta o contêiner principal */
+.login-wrapper {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Altura total da tela */
+    overflow: hidden; /* Impede que rolagem extra apareça */
+}
+
+/* Estiliza o contêiner de login */
+.login-container {
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo branco com transparência */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para destaque */
+    max-width: 400px; /* Largura máxima */
+    width: 90%; /* Responsivo para telas pequenas */
+    text-align: center; /* Centraliza conteúdo */
+}
+
+.logo {
+    max-width: 180px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #222; /* Texto mais escuro */
+    margin-bottom: 10px;
+}
+
+.login-instructions {
+    font-size: 1rem;
+    color: #555; /* Subtítulo com contraste maior */
+    margin-bottom: 20px;
+}
+
+/* Container dos campos de PIN */
+.pin-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Espaçamento maior entre os campos */
+    margin: 20px 0;
+}
+
+.pin-box {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 1.5rem;
+    border: 2px solid #ccc; /* Borda mais visível */
+    border-radius: 8px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil nos campos */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.pin-box:focus {
+    border-color: #3498db; /* Azul para indicar foco */
+}
+
+.pin-box:focus-visible {
+    border-color: #4170c9; /* Verde mais visível */
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.5);
+}
+
+.pin-box.error {
+    border-color: #e74c3c;
+    animation: shake 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .pin-box {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Animação de erro */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.message {
+    margin-top: 15px;
+    font-size: 1rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+
+.message.error {
+    color: #e74c3c; /* Vermelho para erros */
+}
+
+.message.success {
+    color: #27ae60; /* Verde para sucesso */
+}
+
+/* Botão para solicitar PIN */
+.request-pin-link {
+    font-size: 1rem;
+    color: #3498db; /* Azul para destaque */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.request-pin-link:hover {
+    color: #1f78b4; /* Azul mais escuro no hover */
+}
+
+/* Rodapé */
+.footer {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.footer a {
+    color: #1abc9c;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.footer a:hover {
+    color: #16a085;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .login-container {
+        width: 95%;
+        padding: 20px 25px;
+    }
+
+    .pin-box {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .footer {
+        font-size: 0.7rem;
+    }
+}

@@ -1,0 +1,448 @@
+2025-01-10 18:10:40 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:10:40 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:12:23 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:12:23 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:12:50 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:12:50 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:25:01 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:25:01 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:26:50 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:26:50 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:26:57 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 18:26:57 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 20:04:08 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 20:04:08 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 21:02:49 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 21:02:49 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 22:46:18 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 22:46:18 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 22:46:20 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 22:46:20 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 22:47:12 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 22:47:12 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 22:52:18 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 22:52:18 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 22:52:23 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 22:52:23 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 23:16:05 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 23:16:05 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 23:35:00 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 23:35:00 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 23:39:07 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 23:39:07 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 23:39:10 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 23:39:10 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 23:44:39 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-10 23:44:39 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-11 09:03:11 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-11 09:03:11 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-11 09:14:36 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-11 09:14:36 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-11 21:44:06 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-11 21:44:06 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:48:21 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:48:21 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:55:24 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:55:24 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:55:35 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:55:36 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:57:50 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:57:50 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:57:53 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:57:53 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:58:11 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:58:11 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:58:36 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:58:36 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:59:01 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:59:01 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:59:04 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 12:59:04 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:02:27 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:02:27 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:02:31 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:02:31 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:02:32 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:02:32 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:05:10 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:05:10 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:06:14 [ERROR]: Erro ao filtrar mensalidades: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:06:15 [ERROR]: Erro ao filtrar mensalidades: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:06:16 [ERROR]: Erro ao filtrar mensalidades: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:08:03 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 13:08:03 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 14:00:08 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 14:00:08 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 14:00:12 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 14:00:12 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 14:03:10 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 14:03:10 [ERROR]: Erro ao buscar mensalidades pendentes: Unknown column 'm.imovel_descricao' in 'field list'
+2025-01-12 23:28:54 [ERROR]: Erro ao buscar mensalidades a vencer: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-10' at line 19
+2025-01-12 23:28:57 [ERROR]: Erro ao buscar mensalidades a vencer: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-10' at line 19
+2025-01-12 23:28:59 [ERROR]: Erro ao buscar mensalidades em atraso: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-10' at line 19
+2025-01-15 10:38:28 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 10:38:30 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 10:38:33 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 10:38:36 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 13:44:54 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:06:38 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 18:09:28 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:09:45 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:14:03 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:14:31 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:24:08 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:24:23 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:28:01 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:33:20 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:33:37 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:40:29 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'json')
+2025-01-15 18:45:21 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 18:48:34 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 18:55:42 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 19:00:31 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 19:00:43 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 19:01:26 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 19:27:32 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 19:31:39 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 19:34:15 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 19:40:47 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 19:42:37 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 19:53:29 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 19:58:02 [ERROR]: Erro ao autenticar o PIN: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:08:31 [ERROR]: Erro na autenticação simplificada: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:08:42 [ERROR]: Erro na autenticação simplificada: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:08:45 [ERROR]: Erro na autenticação simplificada: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:08:46 [ERROR]: Erro na autenticação simplificada: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:08:49 [ERROR]: Erro na autenticação simplificada: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:08:59 [ERROR]: Erro na autenticação simplificada: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:15:24 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:15:30 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:19:41 [ERROR]: Erro ao autenticar: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:19:49 [ERROR]: Erro ao autenticar: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:19:52 [ERROR]: Erro ao autenticar: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:21:33 [ERROR]: Erro ao autenticar: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:23:09 [ERROR]: Erro ao autenticar: Cannot read properties of undefined (reading 'status')
+2025-01-15 20:33:33 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:40:00 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:40:04 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:43:13 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:43:14 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:46:36 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:47:32 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:47:39 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:48:17 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:48:24 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-15 20:48:31 [ERROR]: Erro ao autenticar: jwt is not defined
+2025-01-17 11:15:48 [ERROR]: Erro ao cadastrar cliente:
+2025-01-17 19:16:17 [ERROR]: Erro ao cadastrar cliente:
+2025-01-17 22:16:32 [ERROR]: Erro ao cadastrar cliente:
+2025-01-18 21:58:20 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-18 21:58:20 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:39:52 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:39:52 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:41:21 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:41:21 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:41:24 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:41:24 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:55:16 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:55:16 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:57:37 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:57:37 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'm.cliente_id' in 'on clause'
+2025-01-19 13:58:15 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'c.nome' in 'field list'
+2025-01-19 13:58:15 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'c.nome' in 'field list'
+2025-01-19 13:59:20 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'c.nome' in 'field list'
+2025-01-19 13:59:20 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'c.nome' in 'field list'
+2025-01-19 14:17:55 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'c.nome' in 'field list'
+2025-01-19 14:17:55 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'c.nome' in 'field list'
+2025-01-19 14:21:05 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'c.nome' in 'field list'
+2025-01-19 14:21:05 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'c.nome' in 'field list'
+2025-01-19 14:26:03 [ERROR]: Erro ao buscar mensalidades em atraso: Unknown column 'c.nome' in 'field list'
+2025-01-19 14:26:03 [ERROR]: Erro ao buscar mensalidades a vencer: Unknown column 'c.nome' in 'field list'
+2025-01-19 15:10:10 [ERROR]: Erro ao buscar mensalidades em atraso: Undeclared variable: NaN
+2025-01-19 15:10:10 [ERROR]: Erro ao buscar mensalidades a vencer: Undeclared variable: NaN
+2025-01-19 15:10:10 [ERROR]: Erro ao buscar avisos gerenciais: Undeclared variable: NaN
+2025-01-19 15:11:46 [ERROR]: Erro ao buscar mensalidades a vencer: Undeclared variable: NaN
+2025-01-19 15:11:46 [ERROR]: Erro ao buscar avisos gerenciais: Undeclared variable: NaN
+2025-01-19 15:11:55 [ERROR]: Erro ao buscar avisos gerenciais: Undeclared variable: NaN
+2025-01-19 15:12:04 [ERROR]: Erro ao buscar avisos gerenciais: Undeclared variable: NaN
+2025-01-19 17:47:42 [ERROR]: Erro ao buscar avisos gerenciais: Cannot set headers after they are sent to the client
+2025-01-19 17:50:48 [ERROR]: Erro ao buscar avisos gerenciais: Cannot set headers after they are sent to the client
+2025-01-19 17:52:00 [ERROR]: Erro ao buscar avisos gerenciais: Cannot set headers after they are sent to the client
+2025-01-19 17:52:34 [ERROR]: Erro ao buscar avisos gerenciais: Cannot set headers after they are sent to the client
+2025-01-19 17:55:37 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 17:57:25 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 17:57:26 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 17:57:27 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 17:57:28 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 17:57:29 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 17:57:36 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 17:57:53 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 17:57:54 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 17:57:55 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 18:14:13 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 18:22:24 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 18:29:14 [ERROR]: Erro ao buscar avisos gerenciais: totalRegistros is not defined
+2025-01-19 19:16:21 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 19:22:53 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 19:49:16 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 19:49:41 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 19:49:47 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 20:26:09 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 20:26:09 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 20:26:11 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 20:26:11 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 20:26:25 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 20:26:32 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 20:30:33 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 20:31:01 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 20:34:24 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 20:34:24 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 20:34:35 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 20:34:47 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 20:35:01 [ERROR]: Erro ao buscar avisos gerenciais: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'duvale.mensalidades.status' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2025-01-19 22:30:24 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 22:59:54 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 22:59:58 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:00:05 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:03:47 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:03:47 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:03:49 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:04:14 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:04:18 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:04:48 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:04:52 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:04:56 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:10:18 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:10:21 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:10:32 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:10:34 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:10:35 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:10:38 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:10:40 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:12:05 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:12:14 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:12:44 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:12:46 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:12:47 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:12:53 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:14:02 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:14:05 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-19 23:14:06 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 16:14:56 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:42:29 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:42:37 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:46:43 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:46:46 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:47:05 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:48:00 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:48:13 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:48:19 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:48:56 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:50:10 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:50:17 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:50:22 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:50:24 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:50:48 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:51:31 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:52:25 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:54:39 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 19:54:49 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:03:52 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:04:15 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:04:17 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:04:20 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:04:25 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:04:28 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:04:30 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:05:12 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:05:33 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:10:09 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:10:54 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:10:57 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:11:16 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:11:57 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:12:03 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-20 21:12:25 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 08:03:11 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 10:23:29 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 14:38:44 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 14:40:28 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 14:40:44 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 14:40:48 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 14:40:59 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 15:10:21 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 15:10:25 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:44:18 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:44:31 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:44:39 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:44:51 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:44:52 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:45:22 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:45:56 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:46:03 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:46:30 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:47:40 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:50:35 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:52:46 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:52:57 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:53:21 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:53:40 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:55:02 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 18:55:21 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 19:16:44 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 19:17:18 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 19:17:40 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 19:17:47 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 19:20:26 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 20:38:22 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 20:42:43 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:31:20 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:31:31 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:31:46 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:31:50 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:33:15 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:33:40 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:33:53 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:34:08 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:34:29 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:34:46 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:34:58 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:35:05 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:35:16 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:35:27 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-21 22:35:36 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-22 12:08:54 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-22 15:46:55 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-22 23:00:27 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-23 14:37:06 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-23 14:38:23 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-23 17:37:56 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-23 17:38:04 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 10:25:55 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 14:19:40 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 14:19:40 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 18:03:28 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 18:03:28 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 18:04:00 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 18:04:00 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 18:04:35 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 18:04:35 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 19:17:06 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 19:17:06 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-24 20:46:34 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 20:46:34 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 20:52:31 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 20:52:31 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 20:54:32 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 20:54:32 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 22:44:11 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 22:44:11 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 22:48:34 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 22:49:29 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 22:49:30 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 22:52:29 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 22:52:30 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 22:52:33 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-24 22:52:33 [ERROR]: Erro ao buscar avisos gerenciais: pool is not defined
+2025-01-25 12:14:46 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-25 12:14:46 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-25 12:15:06 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-25 12:15:06 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-25 12:15:30 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-25 12:15:30 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 00:02:53 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 00:02:53 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 00:09:27 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 00:09:27 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 00:12:07 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 00:12:07 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 14:59:39 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 14:59:39 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 17:10:35 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 17:10:43 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 17:10:49 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 17:10:49 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 17:10:49 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-26 17:10:49 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 09:35:21 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 09:35:21 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 12:51:56 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 12:51:56 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 12:51:56 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 16:58:56 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 16:58:56 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 17:01:24 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 17:01:24 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 17:12:30 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 17:12:30 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 17:15:33 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 17:15:33 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 18:53:42 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 18:53:43 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-27 18:53:43 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-28 14:13:11 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-28 14:13:13 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-28 14:13:13 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-28 22:07:44 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-28 22:07:44 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-29 18:45:36 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-29 20:21:26 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-29 20:21:27 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-29 20:32:24 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-29 20:32:25 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-29 20:34:14 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-29 20:34:15 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:15:40 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:15:41 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:17:30 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:17:30 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:19:20 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:19:20 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:21:11 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:21:11 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:23:01 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:23:02 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:24:51 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:24:51 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:26:42 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:26:42 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:28:32 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:28:32 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:30:22 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:30:22 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:32:13 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:32:14 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:34:03 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:34:03 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:35:53 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:35:53 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:37:43 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:37:44 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:39:34 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:39:34 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:41:24 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:41:24 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:43:14 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:43:14 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:45:04 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:45:04 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:46:55 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:46:55 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:50:26 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 08:50:26 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 09:19:16 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 09:19:16 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 09:42:34 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-30 09:42:34 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-31 16:12:55 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-01-31 17:17:31 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 09:43:54 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 11:53:40 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 12:03:41 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 12:05:15 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 12:05:18 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 12:06:36 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 13:21:18 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 13:21:18 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 15:58:42 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired
+2025-02-02 15:58:42 [ERROR]: Erro na verificação do token: TokenExpiredError - jwt expired

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- Metadados básicos -->
+    <meta charset="UTF-8"> <!-- Define a codificação de caracteres -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura para responsividade -->
+
+    <!-- Título da página -->
+    <title>Login - DuVale</title>
+
+    <!-- Importação de estilos -->
+    <link rel="stylesheet" href="./css/styles.css"> <!-- Estilos personalizados -->
+
+
+</head>
+<body>
+    <!-- Wrapper para o layout geral da página -->
+    <div class="login-wrapper">
+        <!-- Contêiner do formulário de login -->
+        <div class="login-container">
+            <!-- Logo -->
+            <img src="img/Logop.png" alt="Logo Duvale" class="logo">
+
+            <!-- Título -->
+            <h1>Sistema de Gestão</h1>
+
+            <!-- Linha divisória -->
+            <hr>
+
+            <!-- Instruções para o usuário -->
+            <p class="login-instructions">Digite seu PIN de 6 dígitos para acessar</p>
+
+            <!-- Campo de entrada do PIN -->
+            <div class="pin-container">
+                <!-- Cada input representa um dígito do PIN -->
+                <input type="password" maxlength="1" class="pin-box" id="pin-1">
+                <input type="password" maxlength="1" class="pin-box" id="pin-2">
+                <input type="password" maxlength="1" class="pin-box" id="pin-3">
+                <span>-</span> <!-- Separador visual -->
+                <input type="password" maxlength="1" class="pin-box" id="pin-4">
+                <input type="password" maxlength="1" class="pin-box" id="pin-5">
+                <input type="password" maxlength="1" class="pin-box" id="pin-6">
+            </div>
+
+            <!-- Texto de instrução para solicitar PIN -->
+            <p id="pin-instructions">Caso não tenha um PIN, solicite o acesso.</p>
+
+            <!-- Link para solicitar PIN -->
+            <div class="request-pin">
+                <a href="https://wa.me/5588981202539" class="request-pin-link">Solicitar PIN</a>
+            </div>
+
+            <!-- Mensagem de erro exibida dinamicamente -->
+            <div id="message" class="message error">
+                Erro ao conectar ao servidor. Verifique sua conexão.
+            </div>
+
+            <!-- Local onde será exibida a data e hora -->
+            <p id="datetime">Carregando...</p>
+
+            <!-- Linha divisória -->
+            <hr>
+
+            <!-- Rodapé -->
+            <footer class="footer">
+                <p>Setta Software Solutions. Todos os direitos reservados.</p>
+                <p>Desenvolvido por Fernando Freitas | &copy; 2024</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Importação do script JavaScript -->
+    <script src="./js/app.js"></script>
+</body>
+</html>

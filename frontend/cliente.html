@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel do Cliente</title>
+  <link rel="stylesheet" href="css/admin-style.css" />
+  <link rel="stylesheet" href="css/cadastro.css" />
+
+  <!-- 
+    Importação do script COM defer:
+    O defer faz com que o script seja baixado em paralelo,
+    mas executado apenas depois que o DOM estiver pronto.
+  -->
+  <script src="js/dashboard-cliente.js" defer></script>
+</head>
+<body class="background">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="img/duvaleb.png" alt="Logo DuVale" />
+    </div>
+    <ul class="menu">
+      <!-- 
+        IMPORTANTE: Adicionamos id="sair" para que o JS possa
+        "enxergar" este link e aplicar o logout corretamente.
+       -->
+      <li>
+        <a href="index.html" id="sair">
+          <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="main-container">
+    <div>
+      <br />
+      <h1>
+        Bem-vindo, <span id="user-name">Usuário</span>!
+      </h1>
+      <hr class="divider" />
+    </div>
+
+    <!-- Seção de Visão Geral / Cards -->
+    <section class="overview">
+      <div class="cards">
+
+        <!-- Card Em Aberto -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Em Aberto</h3>
+            <button class="card-menu-btn" aria-label="Menu de opções">
+              <img src="img/pgt.png" alt="detalhes" />
+            </button>
+          </div>
+          <hr class="divider" />
+          <!-- Mensalidade do usuário -->
+          <p id="mensalidade-cliente">R$ 0,00</p>
+          <br />
+          <!-- Botão para gerar PIX -->
+          <button
+            id="gerar-pix"
+            aria-label="Gerar QR Code para pagamento com PIX"
+          >
+            <img src="img/pix.png" alt="pix" class="h3-icon" />
+            Pague com PIX
+          </button>
+          <div class="avisos">
+            <li class="avisos-li">Vencimento: --/--/----</li>
+            <li class="avisos-li">
+              Evite multas e juros, pague sua mensalidade em dia
+            </li>
+          </div>
+        </div>
+
+        <!-- Card Contrato -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Seu Contrato</h3>
+            <button class="card-menu-btn" aria-label="Menu de opções">
+              <img src="img/contrato.png" alt="detalhes" />
+            </button>
+          </div>
+          <hr class="divider" />
+          <br />
+          <!-- Exibição da duração do contrato -->
+          <p id="Contrato">-- Meses</p>
+          <br />
+          <div class="avisos">
+            <li class="avisos-li">
+              Vigência: --/--/---- - --/--/----
+            </li>
+            <li class="avisos-li">
+              Valor Mensal: R$ 0,00
+            </li>
+            <li class="avisos-li">
+              Valor Total: R$ 0,00
+            </li>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção Histórico -->
+    <h3>Seu histórico</h3>
+    <hr class="divider" />
+    <section class="historico">
+      <div class="table">
+        <div class="row header green">
+          <div class="cell">Nome</div>
+          <div class="cell">Imóvel</div>
+          <div class="cell">Vencimento</div>
+          <div class="cell">Valor</div>
+          <div class="cell">Status</div>
+          <div class="cell">Ação</div>
+        </div>
+        <!-- Linhas (rows) de histórico serão adicionadas dinamicamente via JS -->
+      </div>
+    </section>
+
+    <!-- Seção de Avisos -->
+    <section class="avisos">
+      <h3>Avisos</h3>
+      <hr class="divider" />
+      <div id="avisos-container">
+        <!-- Avisos podem ser adicionados dinamicamente -->
+      </div>
+      <div id="avisos-pagination" class="pagination">
+        <!-- Botões de paginação, se necessário, podem ser gerados aqui -->
+      </div>
+    </section>
+  </main>
+</body>
+</html>
