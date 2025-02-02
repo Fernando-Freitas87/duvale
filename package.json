@@ -20,12 +20,5 @@
     "pdfkit": "^0.16.0",
     "uuid": "^11.0.3",
     "winston": "^3.17.0"
-  },
-  "keywords": [
-    "duvale",
-    "backend",
-    "api"
-  ],
-  "author": "Fernando Freitas",
-  "license": "ISC"
+  }
 }
