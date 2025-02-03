@@ -4,9 +4,11 @@
  * Carrega o resumo geral (cards) e já pega emAtraso e aVencer (sem paginação)
  * do endpoint /api/mensalidades/resumo.
  */
+const apiBaseUrl = "https://duvale-production.up.railway.app";
+
 export async function carregarResumo() {
   try {
-    const response = await fetch("http://localhost:3000/api/mensalidades/resumo");
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/resumo`);
     if (!response.ok) {
       console.warn("Erro ao carregar resumo, usando valores padrão.");
       atualizarCards({ totalImoveis:0, totalContratos:0, totalReceber:0, totalAtraso:0 });
@@ -119,7 +121,7 @@ export function atualizarTabela(tabelaId, dados) {
 export async function carregarEmAtraso(page = 1, limit = 10) {
   try {
     // Requisição para a API de mensalidades em atraso, com suporte a paginação.
-    const response = await fetch(`http://localhost:3000/api/mensalidades/em-atraso?page=${page}&limit=${limit}`);
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/em-atraso?page=${page}&limit=${limit}`);
     if (!response.ok) {
       throw new Error(`Erro ao carregar mensalidades em atraso. Status: ${response.status}`);
     }
@@ -193,7 +195,7 @@ export async function carregarEmAtraso(page = 1, limit = 10) {
 export async function carregarAVencer(page = 1, limit = 10) {
   try {
     // Faz a requisição para o endpoint de mensalidades "a vencer".
-    const response = await fetch(`http://localhost:3000/api/mensalidades/a-vencer?page=${page}&limit=${limit}`);
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/a-vencer?page=${page}&limit=${limit}`);
     if (!response.ok) {
       throw new Error(`Erro ao carregar mensalidades a vencer. Status: ${response.status}`);
     }
@@ -303,7 +305,7 @@ async function atualizarStatusMensalidade(mensalidadeId, novoStatus, valor) {
     }
 
     // Realiza a requisição para atualizar o status da mensalidade
-    const response = await fetch(`http://localhost:3000/api/mensalidades/${mensalidadeId}/status`, {
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/${mensalidadeId}/status`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: novoStatus, valor }), // Incluímos o valor no corpo da requisição
@@ -336,7 +338,7 @@ window.atualizarStatusMensalidade = atualizarStatusMensalidade;
  */
 export async function carregarAvisos(page = 1, limit = 5, usarPaginacao = false) {
   try {
-    let url = "http://localhost:3000/api/mensalidades/avisos";
+    let url = `"${apiBaseUrl}/api/mensalidades/avisos"`;
     if (usarPaginacao) {
       url += `?page=${page}&limit=${limit}`;
     }
