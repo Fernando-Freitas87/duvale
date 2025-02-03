@@ -8,7 +8,7 @@ body, h1, p {
 body {
     margin: 0; /* Remove margens padrão */
     padding: 0; /* Remove espaçamento interno padrão */
-    background: url('frontend/img/fundo2.png') no-repeat center center fixed; /* Imagem centralizada e fixa */
+    background: url('./img/fundo2.png') no-repeat center center fixed; /* Imagem centralizada e fixa */
     background-size: cover; /* Ajusta para cobrir toda a área sem distorção */
     height: 100vh; /* Garante altura total da janela */
     font-family: Arial, sans-serif; /* Fonte padrão */
