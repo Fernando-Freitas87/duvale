@@ -9,11 +9,8 @@
  * Importação de Módulos
  */
 const express = require('express');
-app.use(cors({
-  origin: 'https://fernando-freitas87.github.io', // Substitua pelo domínio exato do GitHub Pages
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));const cron = require('node-cron');
+const cors = require('cors');
+const cron = require('node-cron');
 const path = require('path');
 const db = require('./db');             // Conexão com o banco de dados
 const logger = require('./utils/logger'); 
@@ -45,10 +42,13 @@ const app = express();
 /**
  * Middlewares Globais
  */
-app.use(cors());
-app.use(express.json());
+app.use(cors({
+  origin: 'https://fernando-freitas87.github.io/duvale/frontend/index.html', // Substitua pelo domínio exato do GitHub Pages
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 /**
  * Teste de Conexão com o Banco
