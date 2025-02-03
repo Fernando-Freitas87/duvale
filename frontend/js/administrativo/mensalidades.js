@@ -338,7 +338,7 @@ window.atualizarStatusMensalidade = atualizarStatusMensalidade;
  */
 export async function carregarAvisos(page = 1, limit = 5, usarPaginacao = false) {
   try {
-    let url = `"${apiBaseUrl}/api/mensalidades/avisos"`;
+    let url = `${apiBaseUrl}/api/mensalidades/avisos`;
     if (usarPaginacao) {
       url += `?page=${page}&limit=${limit}`;
     }

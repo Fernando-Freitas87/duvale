@@ -1,8 +1,9 @@
 // imoveis.js
+const apiBaseUrl = "https://duvale-production.up.railway.app";
 
 export async function carregarImoveis() {
   try {
-    const response = await fetch("http://localhost:3000/api/imoveis");
+    const response = await fetch(`${apiBaseUrl}/api/imoveis`);
     if (!response.ok) {
       throw new Error(`Erro ao buscar imóveis. Status: ${response.status}`);
     }
@@ -79,7 +80,7 @@ async function salvarEdicaoImovel(imovelId) {
     const endereco  = document.getElementById("edit-imovel-endereco").value;
     const status    = document.getElementById("edit-imovel-status").value;
 
-    const response = await fetch(`http://localhost:3000/api/imoveis/${imovelId}`, {
+    const response = await fetch(`${apiBaseUrl}/api/imoveis/${imovelId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ descricao, endereco, status })
@@ -101,7 +102,7 @@ async function salvarEdicaoImovel(imovelId) {
 
 async function excluirImovel(imovelId) {
   try {
-    const response = await fetch(`http://localhost:3000/api/imoveis/${imovelId}`, {
+    const response = await fetch(`${apiBaseUrl}/api/imoveis/${imovelId}`, {
       method: "DELETE"
     });
     if (!response.ok) {

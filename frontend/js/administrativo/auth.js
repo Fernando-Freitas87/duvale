@@ -6,6 +6,8 @@
  * - Faz requisição à /api/usuario para obter nome.
  * - Exibe no elemento #user-name.
  */
+const apiBaseUrl = "https://duvale-production.up.railway.app";
+
 export async function carregarUsuario() {
   try {
     const token = localStorage.getItem("authToken");
@@ -14,7 +16,7 @@ export async function carregarUsuario() {
       return;
     }
 
-    const response = await fetch("http://localhost:3000/api/usuario", {
+    const response = await fetch(`${apiBaseUrl}/api/usuario`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

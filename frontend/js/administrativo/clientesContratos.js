@@ -1,9 +1,11 @@
 // clientesContratos.js
 
 // 1) CLIENTES
+const apiBaseUrl = "https://duvale-production.up.railway.app";
+
 export async function carregarClientes() {
   try {
-    const response = await fetch("http://localhost:3000/api/clientes", {
+    const response = await fetch(`${apiBaseUrl}/api/clientes`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
@@ -93,7 +95,7 @@ async function salvarEdicaoCliente(clienteId) {
     const pin = document.getElementById("edit-cliente-pin").value;
     const observacoes = document.getElementById("edit-cliente-observacoes").value;
 
-    const response = await fetch(`http://localhost:3000/api/clientes/${clienteId}`, {
+    const response = await fetch(`${apiBaseUrl}/api/clientes/${clienteId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nome, cpf, telefone, pin, observacoes })
@@ -112,7 +114,7 @@ async function salvarEdicaoCliente(clienteId) {
 
 async function excluirCliente(clienteId) {
   try {
-    const response = await fetch(`http://localhost:3000/api/clientes/${clienteId}`, {
+    const response = await fetch(`${apiBaseUrl}/api/clientes/${clienteId}`, {
       method: "DELETE"
     });
     if (!response.ok) throw new Error(`Erro ao excluir cliente. Status: ${response.status}`);
@@ -134,7 +136,7 @@ async function excluirCliente(clienteId) {
 export async function carregarContratos() {
   try {
     // Faz a requisição para obter os contratos
-    const response = await fetch("http://localhost:3000/api/contratos");
+    const response = await fetch(`${apiBaseUrl}/api/contratos`);
     if (!response.ok) throw new Error(`Erro ao buscar contratos. Status: ${response.status}`);
 
     // Processa a resposta e seleciona o corpo da tabela
@@ -219,7 +221,7 @@ async function baixarContrato(contratoId) {
     }
 
     // Faz a requisição ao backend para gerar o contrato
-    const response = await fetch(`http://localhost:3000/api/contratos/gerar/${contratoId}`);
+    const response = await fetch(`${apiBaseUrl}/api/contratos/gerar/${contratoId}`);
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Erro ao gerar contrato.");
@@ -257,7 +259,7 @@ async function salvarEdicaoContrato(contratoId) {
     const diaVencimento = document.getElementById("edit-dia-vencimento").value;
     const dataInicio = document.getElementById("edit-data-inicio").value;
 
-    const response = await fetch(`http://localhost:3000/api/contratos/${contratoId}`, {
+    const response = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -284,7 +286,7 @@ async function salvarEdicaoContrato(contratoId) {
  */
 async function inativarContrato(contratoId) {
   try {
-    const response = await fetch(`http://localhost:3000/api/contratos/${contratoId}`, {
+    const response = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}`, {
       method: "DELETE",
     });
     if (!response.ok) throw new Error(`Erro ao deletar contrato. Status: ${response.status}`);
