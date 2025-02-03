@@ -1,3 +1,4 @@
+const apiBaseUrl = "https://duvale-production.up.railway.app";
 document.addEventListener("DOMContentLoaded", () => {
   /***************************************************************
    * [1] VARIÁVEIS E ELEMENTOS PRINCIPAIS
@@ -51,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const response = await fetch('http://localhost:3000/api/usuario', {
+      const response = await fetch(`${apiBaseUrl}/api/usuario`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -135,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function carregarClientes() {
     try {
       showLoading("Carregando clientes...");
-      const response = await fetch("http://localhost:3000/api/cadastro/clientes");
+      const response = await fetch(`${apiBaseUrl}/api/cadastro/clientes`);
       if (!response.ok) {
         if (response.status === 404) throw new Error("Nenhum cliente encontrado.");
         throw new Error("Erro ao carregar clientes.");
@@ -168,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function carregarImoveis() {
     try {
       showLoading("Carregando imóveis...");
-      const response = await fetch("http://localhost:3000/api/cadastro/imoveis/disponiveis");
+      const response = await fetch(`${apiBaseUrl}/api/cadastro/imoveis/disponiveis`);
       if (!response.ok) {
         if (response.status === 404) throw new Error("Nenhum imóvel disponível.");
         throw new Error("Erro ao carregar imóveis.");
@@ -233,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       try {
         showLoading("Cadastrando cliente...");
-        const response = await fetch("http://localhost:3000/api/cadastro/clientes", {
+        const response = await fetch(`${apiBaseUrl}/api/cadastro/clientes`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(cliente),
@@ -277,7 +278,7 @@ if (formImovel) {
 
     try {
       showLoading("Cadastrando imóvel...");
-      const response = await fetch("http://localhost:3000/api/cadastro/imoveis", {
+      const response = await fetch(`${apiBaseUrl}/api/cadastro/imoveis`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(imovel),
@@ -326,7 +327,7 @@ if (formImovel) {
 
       try {
         showLoading("Cadastrando contrato...");
-        const response = await fetch("http://localhost:3000/api/cadastro/contratos", {
+        const response = await fetch(`${apiBaseUrl}/api/cadastro/contratos`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(contrato),
@@ -357,7 +358,7 @@ if (formImovel) {
    */
   async function baixarContrato(contratoId) {
     try {
-      const response = await fetch(`http://localhost:3000/api/contratos/${contratoId}/gerar-pdf`);
+      const response = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}/gerar-pdf`);
       if (!response.ok) {
         throw new Error("Erro ao gerar PDF do contrato.");
       }
