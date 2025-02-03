@@ -43,7 +43,7 @@ const app = express();
  * Middlewares Globais
  */
 app.use(cors({
-  origin: 'https://fernando-freitas87.github.io', // Substitua pelo domínio exato do GitHub Pages
+  origin: 'https://fernando-freitas87.github.io/duvale', // Substitua pelo domínio exato do GitHub Pages
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
