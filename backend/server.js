@@ -189,7 +189,7 @@ app.post('/api/gerar-qrcode', async (req, res) => {
 /**
  * Inicialização do Servidor
  */
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   logger.info(`Servidor rodando em http://localhost:${PORT}`);
 });
