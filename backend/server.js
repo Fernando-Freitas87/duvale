@@ -17,6 +17,9 @@ const logger = require('./utils/logger');
 const { authenticateToken } = require('./middlewares/auth');
 const { atualizarStatusMensalidades } = require('./services/mensalidadesService');
 
+// Configure CORS para permitir o domínio do frontend
+const allowedOrigins = ['https://fernando-freitas87.github.io'];
+
 /**
  * Importação de Controllers e Rotas
  */
@@ -43,7 +46,7 @@ const app = express();
  * Middlewares Globais
  */
 app.use(cors({
-  origin: 'https://fernando-freitas87.github.io/duvale/frontend', // Substitua pelo domínio exato do GitHub Pages
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
