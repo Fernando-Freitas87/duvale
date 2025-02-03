@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const CadastroImoveisController = require('../controllers/CadastroImoveisController');
+const cadastroImoveisController = require('../controllers/CadastroImoveisController');
 const db = require('../db');  // Conexão com o banco de dados
 
 router.post('/', cadastroImoveisController.cadastrarImovel);
