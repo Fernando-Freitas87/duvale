@@ -4253,3 +4253,8 @@
 2025-02-02 19:28:06 [INFO]: Usuário autenticado: ID 1, Tipo administrador, Nome Fernando Freitas
 2025-02-02 19:28:21 [INFO]: Usuário autenticado: ID 1, Tipo administrador, Nome Fernando Freitas
 2025-02-02 19:28:21 [INFO]: Usuário autenticado: ID 1, Tipo administrador, Nome Fernando Freitas
+2025-02-03 15:32:14 [INFO]: Servidor rodando em http://localhost:3000
+2025-02-03 15:32:14 [INFO]: Conexão com o banco de dados bem-sucedida.
+2025-02-03 15:32:23 [INFO]: Usuário autenticado com sucesso. ID: 3
+2025-02-03 15:32:23 [INFO]: Usuário autenticado: ID 3, Tipo administrador, Nome Edjackson Silveira
+2025-02-03 15:32:23 [INFO]: Usuário autenticado: ID 3, Tipo administrador, Nome Edjackson Silveira
