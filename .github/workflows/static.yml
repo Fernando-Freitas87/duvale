@@ -28,7 +28,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './frontend' # Ajuste o caminho para sua subpasta do frontend
+          path: './duvale/frontend' # Ajuste o caminho para sua subpasta do frontend
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
