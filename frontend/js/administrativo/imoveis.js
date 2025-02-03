@@ -21,9 +21,10 @@ export async function carregarImoveis() {
       tr.innerHTML = `
         <td>${imovel.descricao || "Sem descrição"}</td>
         <td>${imovel.endereco || "Endereço não informado"}</td>
-        <td>${imovel.status || "Indefinido"}</td>
         <td>${imovel.clienteEnel || "N/A"}</td> <!-- Dados de Cliente ENEL -->
         <td>${imovel.clienteCagece || "N/A"}</td> <!-- Dados de Cliente CAGECE -->
+        <td>${imovel.status || "Indefinido"}</td>
+
         <td class="coluna-acoes">
           <a href="#" class="btn-icone-excluir" data-id="${imovel.id}" title="Excluir Imóvel">
             <i class="fas fa-trash-alt"></i>
