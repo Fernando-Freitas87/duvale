@@ -134,6 +134,8 @@
         <th>Descrição</th>
         <th>Endereço</th>
         <th>Status</th>
+        <th>Cliente ENEL</th> <!-- Nova Coluna -->
+        <th>Cliente CAGECE</th> <!-- Nova Coluna -->
         <th>Ações</th>
       </tr>
     </thead>
@@ -149,16 +151,22 @@
       <h3>Editar Imóvel</h3>
       <label for="edit-imovel-descricao">Descrição:</label>
       <input type="text" id="edit-imovel-descricao" />
-
+  
       <label for="edit-imovel-endereco">Endereço:</label>
       <input type="text" id="edit-imovel-endereco" />
-
+  
       <label for="edit-imovel-status">Status:</label>
       <input type="text" id="edit-imovel-status" />
-
+  
+      <!-- Novos campos -->
+      <label for="edit-imovel-enel">Cliente ENEL:</label>
+      <input type="text" id="edit-imovel-enel" />
+  
+      <label for="edit-imovel-cagece">Cliente CAGECE:</label>
+      <input type="text" id="edit-imovel-cagece" />
+  
       <div class="modal-actions">
         <button id="btn-salvar-imovel" class="btn-primary">Salvar</button>
-        <button id="btn-excluir-imovel" class="btn-danger">Excluir Imóvel</button>
         <button id="btn-cancelar-edicao-imovel" class="btn-secondary">Cancelar</button>
       </div>
     </div>
