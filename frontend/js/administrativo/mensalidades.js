@@ -268,28 +268,7 @@ export async function carregarAVencer(page = 1, limit = 10) {
  * @param {number} total - Total de itens disponíveis.
  * @param {number} limit - Número de itens por página.
  */
-function atualizarPaginacao(tipo, page, total, limit) {
-  const paginacaoContainer = document.getElementById(`paginacao-${tipo}`);
-  if (!paginacaoContainer) return;
 
-  paginacaoContainer.innerHTML = ""; // Limpa a navegação existente.
-  const totalPages = Math.ceil(total / limit); // Calcula o total de páginas.
-
-  for (let i = 1; i <= totalPages; i++) {
-    const button = document.createElement("button");
-    button.classList.add("btn-paginacao");
-    button.textContent = i;
-    button.disabled = i === page; // Desativa o botão da página atual.
-
-    // Adiciona evento de clique para mudar de página.
-    button.addEventListener("click", () => {
-      if (tipo === "atraso") carregarEmAtraso(i, limit);
-      if (tipo === "vencer") carregarAVencer(i, limit);
-    });
-
-    paginacaoContainer.appendChild(button); // Adiciona o botão à navegação.
-  }
-}
 
 /**
  * Atualiza o status de uma mensalidade para "em dias".

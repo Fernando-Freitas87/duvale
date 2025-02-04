@@ -66,10 +66,17 @@ export async function carregarClientes() {
   }
 }
 
-function editarClienteModal(cliente) {
+function editarClienteModal(clienteId) {
   const modal = document.getElementById("modal-editar-cliente");
   if (!modal) return;
   modal.style.display = "block";
+
+  // Obtenha os dados do cliente pelo ID
+  const cliente = clientesVisiveis.find(cli => cli.id === clienteId);
+  if (!cliente) {
+    alert("Cliente não encontrado!");
+    return;
+  }
 
   document.getElementById("edit-cliente-nome").value = cliente.nome || "";
   document.getElementById("edit-cliente-cpf").value = cliente.cpf || "";
@@ -77,11 +84,8 @@ function editarClienteModal(cliente) {
   document.getElementById("edit-cliente-pin").value = cliente.pin || "";
   document.getElementById("edit-cliente-observacoes").value = cliente.observacoes || "";
 
-  document.getElementById("btn-salvar-cliente").onclick = () => salvarEdicaoCliente(cliente.id);
-  document.getElementById("btn-excluir-cliente").onclick = () => {
-    if (!confirm(`Deseja realmente excluir o cliente ID: ${cliente.id}?`)) return;
-    excluirCliente(cliente.id);
-  };
+  // Salve o ID no botão de salvar para ser usado na próxima ação
+  document.getElementById("btn-salvar-cliente").onclick = () => salvarEdicaoCliente(clienteId);
   document.getElementById("btn-cancelar-edicao-cliente").onclick = () => {
     modal.style.display = "none";
   };
@@ -89,6 +93,8 @@ function editarClienteModal(cliente) {
 
 async function salvarEdicaoCliente(clienteId) {
   try {
+    if (!clienteId) throw new Error("ID do cliente não fornecido.");
+
     const nome = document.getElementById("edit-cliente-nome").value;
     const cpf = document.getElementById("edit-cliente-cpf").value;
     const telefone = document.getElementById("edit-cliente-telefone").value;
@@ -98,16 +104,15 @@ async function salvarEdicaoCliente(clienteId) {
     const response = await fetch(`${apiBaseUrl}/api/clientes/${clienteId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome, cpf, telefone, pin, observacoes })
+      body: JSON.stringify({ nome, cpf, telefone, pin, observacoes }),
     });
 
     if (!response.ok) throw new Error(`Erro ao editar cliente. Status: ${response.status}`);
-
     alert("Cliente atualizado com sucesso!");
     document.getElementById("modal-editar-cliente").style.display = "none";
-    carregarClientes();
+    carregarClientes(); // Atualiza a lista de clientes
   } catch (error) {
-    console.error("Erro ao editar cliente:", error);
+    console.error("Erro ao salvar edição do cliente:", error);
     alert("Não foi possível editar o cliente.");
   }
 }
