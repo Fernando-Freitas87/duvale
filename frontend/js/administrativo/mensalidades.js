@@ -82,7 +82,7 @@ export function atualizarTabela(tabelaId, dados) {
     const tr = document.createElement("tr");
     const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.    
     const imovel = item.imovel || item.imovel_descricao || "N/A";
-    const vencimento = item.vencimento
+    const vencimento = item.vencimento 
       ? new Date(item.vencimento).toLocaleDateString("pt-BR")
       : "Data Inválida";
     const valor = item.valor

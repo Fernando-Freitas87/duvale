@@ -149,7 +149,7 @@ async function editarClienteModal(clienteId) {
     if (!response.ok) {
       const errorText = await response.text(); // Obtém detalhes do erro do backend
       console.error(`Erro ao buscar detalhes do cliente. Status: ${response.status}, Detalhes: ${errorText}`);
-      throw new Error("Erro ao buscar detalhes do cliente.");
+      throw new Error("Erro ao buscar detalhes do cliente."); 
     }
 
     // Converte a resposta em JSON
