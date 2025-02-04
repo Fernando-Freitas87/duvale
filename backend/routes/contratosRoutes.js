@@ -7,6 +7,9 @@ const contratosController = require('../controllers/contratosController');
 // GET /api/contratos - Lista todos os contratos
 router.get('/', contratosController.listarContratos);
 
+// GET /api/contratos/:id - Busca contrato por ID
+router.get('/:id', contratosController.obterContratoPorId);
+
 // POST /api/contratos - Cria um novo contrato
 router.post('/', contratosController.criarContrato);
 
