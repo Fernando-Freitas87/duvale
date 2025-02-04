@@ -308,6 +308,48 @@ export async function carregarContratos() {
   }
 }
 
+async function editarContrato(contratoId) {
+  try {
+    if (!contratoId) {
+      throw new Error("ID do contrato não fornecido.");
+    }
+
+    const modal = document.getElementById("modal-editar-contrato");
+    if (!modal) {
+      console.error("Modal de edição de contrato não encontrado.");
+      return;
+    }
+
+    modal.style.display = "block";
+
+    // Busca os dados do contrato na API
+    const response = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}`);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Erro ao buscar contrato. Status: ${response.status}, Detalhes: ${errorText}`);
+    }
+
+    const contrato = await response.json();
+
+    // Preenche os campos do modal com os dados do contrato
+    document.getElementById("edit-total-meses").value = contrato.total_meses || "";
+    document.getElementById("edit-valor-aluguel").value = contrato.valor_aluguel || "";
+    document.getElementById("edit-dia-vencimento").value = contrato.dia_vencimento || "";
+    document.getElementById("edit-data-inicio").value = contrato.data_inicio || "";
+
+    // Define evento para salvar alterações
+    document.getElementById("btn-salvar-contrato").onclick = () => salvarEdicaoContrato(contratoId);
+
+    // Define evento para cancelar edição
+    document.getElementById("btn-cancelar-edicao-contrato").onclick = () => {
+      modal.style.display = "none";
+    };
+  } catch (error) {
+    console.error("Erro ao editar contrato:", error.message);
+    alert(`Erro ao editar contrato: ${error.message}`);
+  }
+}
+
 /**
  * Função para baixar o contrato gerado pelo backend.
  * @param {number} contratoId - ID do contrato a ser baixado.

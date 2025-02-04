@@ -80,8 +80,7 @@ export function atualizarTabela(tabelaId, dados) {
 
   dados.forEach(item => {
     const tr = document.createElement("tr");
-    const inquilino = item.inquilino || item.cliente_nome || "N/A";
-    const imovel = item.imovel || item.imovel_descricao || "N/A";
+    const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.    const imovel = item.imovel || item.imovel_descricao || "N/A";
     const vencimento = item.vencimento
       ? new Date(item.vencimento).toLocaleDateString("pt-BR")
       : "Data Inválida";
@@ -143,8 +142,7 @@ export async function carregarEmAtraso(page = 1, limit = 10) {
 
     // Renderiza as linhas da tabela para cada item recebido da API.
     data.forEach((item) => {
-      const clienteNome = item.cliente_nome || "N/A"; // Nome do cliente ou "N/A".
-      const imovelDescricao = item.imovel_descricao || "N/A"; // Descrição do imóvel ou "N/A".
+      const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.      const imovelDescricao = item.imovel_descricao || "N/A"; // Descrição do imóvel ou "N/A".
       const dataVencimento = item.data_vencimento
         ? new Date(item.data_vencimento).toLocaleDateString("pt-BR") // Formata a data no padrão brasileiro.
         : "Data Inválida"; // Exibe mensagem de data inválida caso não exista.
@@ -217,8 +215,7 @@ export async function carregarAVencer(page = 1, limit = 10) {
 
     // Renderiza cada item na tabela.
     data.forEach((item) => {
-      const clienteNome = item.cliente_nome || "N/A"; // Nome do cliente ou "N/A".
-      const imovelDescricao = item.imovel_descricao || "N/A"; // Descrição do imóvel ou "N/A".
+      const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.      const imovelDescricao = item.imovel_descricao || "N/A"; // Descrição do imóvel ou "N/A".
       const dataVencimento = item.data_vencimento
         ? new Date(item.data_vencimento).toLocaleDateString("pt-BR") // Formata a data no padrão brasileiro.
         : "Data Inválida"; // Exibe mensagem de data inválida caso não exista.
@@ -311,7 +308,45 @@ async function atualizarStatusMensalidade(mensalidadeId, novoStatus, valor) {
 
 // Disponibiliza a função globalmente para ser utilizada em eventos de clique ou outros módulos
 window.atualizarStatusMensalidade = atualizarStatusMensalidade;
+function atualizarPaginacaoAvisos(page, total, limit) {
+  const paginacaoContainer = document.getElementById("paginacao-avisos");
+  if (!paginacaoContainer) return;
 
+  paginacaoContainer.innerHTML = ""; // Limpa a navegação existente.
+  const totalPages = Math.ceil(total / limit); // Calcula o total de páginas.
+
+  // Determina os limites para exibir os botões.
+  const startPage = Math.max(1, page - 1);
+  const endPage = Math.min(totalPages, page + 1);
+
+  // Botão "Anterior".
+  if (page > 1) {
+    const prevButton = document.createElement("button");
+    prevButton.classList.add("btn-paginacao");
+    prevButton.textContent = "Anterior";
+    prevButton.addEventListener("click", () => carregarAvisos(page - 1, limit, true));
+    paginacaoContainer.appendChild(prevButton);
+  }
+
+  // Botões de páginas.
+  for (let i = startPage; i <= endPage; i++) {
+    const button = document.createElement("button");
+    button.classList.add("btn-paginacao");
+    button.textContent = i;
+    button.disabled = i === page; // Desativa o botão da página atual.
+    button.addEventListener("click", () => carregarAvisos(i, limit, true));
+    paginacaoContainer.appendChild(button);
+  }
+
+  // Botão "Próximo".
+  if (page < totalPages) {
+    const nextButton = document.createElement("button");
+    nextButton.classList.add("btn-paginacao");
+    nextButton.textContent = "Próximo";
+    nextButton.addEventListener("click", () => carregarAvisos(page + 1, limit, true));
+    paginacaoContainer.appendChild(nextButton);
+  }
+}
 /**
  * Se tiver avisos gerenciais no mesmo endpoint, pode colocar aqui também
  */
