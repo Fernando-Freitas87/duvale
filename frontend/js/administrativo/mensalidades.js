@@ -80,7 +80,8 @@ export function atualizarTabela(tabelaId, dados) {
 
   dados.forEach(item => {
     const tr = document.createElement("tr");
-    const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.    const imovel = item.imovel || item.imovel_descricao || "N/A";
+    const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.    
+    const imovel = item.imovel || item.imovel_descricao || "N/A";
     const vencimento = item.vencimento
       ? new Date(item.vencimento).toLocaleDateString("pt-BR")
       : "Data Inválida";
@@ -142,7 +143,8 @@ export async function carregarEmAtraso(page = 1, limit = 10) {
 
     // Renderiza as linhas da tabela para cada item recebido da API.
     data.forEach((item) => {
-      const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.      const imovelDescricao = item.imovel_descricao || "N/A"; // Descrição do imóvel ou "N/A".
+      const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.      
+      const imovelDescricao = item.imovel_descricao || "N/A"; // Descrição do imóvel ou "N/A".
       const dataVencimento = item.data_vencimento
         ? new Date(item.data_vencimento).toLocaleDateString("pt-BR") // Formata a data no padrão brasileiro.
         : "Data Inválida"; // Exibe mensagem de data inválida caso não exista.
