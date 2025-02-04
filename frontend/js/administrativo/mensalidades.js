@@ -383,21 +383,51 @@ function atualizarAvisosContainer(avisos) {
 /**
  * Exemplo de paginação para avisos
  */
-function atualizarPaginacaoAvisos(page, total, limit) {
-  const paginationContainer = document.getElementById("avisos-pagination");
-  if (!paginationContainer) return;
+function atualizarPaginacao(tipo, page, total, limit) {
+  const paginacaoContainer = document.getElementById(`paginacao-${tipo}`);
+  if (!paginacaoContainer) return;
 
-  paginationContainer.innerHTML = "";
-  const totalPages = Math.ceil(total / limit);
+  paginacaoContainer.innerHTML = ""; // Limpa a navegação existente.
+  const totalPages = Math.ceil(total / limit); // Calcula o total de páginas.
 
-  for (let i = 1; i <= totalPages; i++) {
-    const button = document.createElement("button");
-    button.textContent = i;
-    button.disabled = (i === page);
-    button.classList.add("btn-paginacao");
-    button.addEventListener("click", () => {
-      carregarAvisos(i, limit, true);
+  // Determina os limites para exibir os botões
+  const startPage = Math.max(1, page - 1);
+  const endPage = Math.min(totalPages, page + 1);
+
+  // Botão "Anterior"
+  if (page > 1) {
+    const prevButton = document.createElement("button");
+    prevButton.classList.add("btn-paginacao");
+    prevButton.textContent = "Anterior";
+    prevButton.addEventListener("click", () => {
+      if (tipo === "atraso") carregarEmAtraso(page - 1, limit);
+      if (tipo === "vencer") carregarAVencer(page - 1, limit);
     });
-    paginationContainer.appendChild(button);
+    paginacaoContainer.appendChild(prevButton);
+  }
+
+  // Botões das páginas
+  for (let i = startPage; i <= endPage; i++) {
+    const button = document.createElement("button");
+    button.classList.add("btn-paginacao");
+    button.textContent = i;
+    button.disabled = i === page; // Desativa o botão da página atual.
+    button.addEventListener("click", () => {
+      if (tipo === "atraso") carregarEmAtraso(i, limit);
+      if (tipo === "vencer") carregarAVencer(i, limit);
+    });
+    paginacaoContainer.appendChild(button);
+  }
+
+  // Botão "Próximo"
+  if (page < totalPages) {
+    const nextButton = document.createElement("button");
+    nextButton.classList.add("btn-paginacao");
+    nextButton.textContent = "Próximo";
+    nextButton.addEventListener("click", () => {
+      if (tipo === "atraso") carregarEmAtraso(page + 1, limit);
+      if (tipo === "vencer") carregarAVencer(page + 1, limit);
+    });
+    paginacaoContainer.appendChild(nextButton);
   }
 }

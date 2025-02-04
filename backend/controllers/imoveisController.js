@@ -26,6 +26,7 @@ exports.listarImoveis = async (req, res) => {
     console.error('Erro ao listar imóveis:', error.message);
     res.status(500).json({ error: 'Erro ao buscar imóveis.' });
   }
+
 };
 
 /**
