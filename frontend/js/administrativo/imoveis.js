@@ -21,8 +21,8 @@ export async function carregarImoveis() {
       tr.innerHTML = `
         <td>${imovel.descricao || "Sem descrição"}</td>
         <td>${imovel.endereco || "Endereço não informado"}</td>
-        <td>${imovel.clienteEnel || "N/A"}</td> <!-- Dados de Cliente ENEL -->
-        <td>${imovel.clienteCagece || "N/A"}</td> <!-- Dados de Cliente CAGECE -->
+        <td>${imovel.enel || "N/A"}</td> <!-- Dados de Cliente ENEL -->
+        <td>${imovel.cagece || "N/A"}</td> <!-- Dados de Cliente CAGECE -->
         <td>${imovel.status || "Indefinido"}</td>
 
         <td class="coluna-acoes">
@@ -68,10 +68,10 @@ function editarImovelModal(imovel) {
 
   // Preencher os novos campos Cliente ENEL e Cliente CAGECE
   if (document.getElementById("edit-imovel-enel")) {
-    document.getElementById("edit-imovel-enel").value = imovel.clienteEnel || "";
+    document.getElementById("edit-imovel-enel").value = imovel.enel || "";
   }
   if (document.getElementById("edit-imovel-cagece")) {
-    document.getElementById("edit-imovel-cagece").value = imovel.clienteCagece || "";
+    document.getElementById("edit-imovel-cagece").value = imovel.cagece || "";
   }
 
   // Configurar botões de ação
@@ -88,13 +88,13 @@ async function salvarEdicaoImovel(imovelId) {
     const descricao = document.getElementById("edit-imovel-descricao").value;
     const endereco  = document.getElementById("edit-imovel-endereco").value;
     const status    = document.getElementById("edit-imovel-status").value;
-    const clienteEnel = document.getElementById("edit-imovel-enel").value; // Novo campo
-    const clienteCagece = document.getElementById("edit-imovel-cagece").value; // Novo campo
+    const enel = document.getElementById("edit-imovel-enel").value; // Novo campo
+    const cagece = document.getElementById("edit-imovel-cagece").value; // Novo campo
 
     const response = await fetch(`${apiBaseUrl}/api/imoveis/${imovelId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ descricao, endereco, status, clienteEnel, clienteCagece })
+      body: JSON.stringify({ descricao, endereco, status, enel, cagece })
     });
 
     if (!response.ok) {

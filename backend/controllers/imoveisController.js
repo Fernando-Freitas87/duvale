@@ -15,8 +15,8 @@ exports.listarImoveis = async (req, res) => {
         descricao,
         endereco,
         status,
-        clienteEnel,   -- Novo campo
-        clienteCagece  -- Novo campo
+        enel,   -- Novo campo
+        cagece  -- Novo campo
       FROM imoveis
       ORDER BY id DESC
     `);
@@ -38,16 +38,16 @@ exports.listarImoveis = async (req, res) => {
  */
 exports.criarImovel = async (req, res) => {
   try {
-    const { descricao, endereco, status, clienteEnel, clienteCagece } = req.body;
+    const { descricao, endereco, status, enel, cagece } = req.body;
     
     if (!descricao || !endereco) {
       return res.status(400).json({ error: 'Informe ao menos descrição e endereço do imóvel.' });
     }
 
     const [result] = await db.query(`
-      INSERT INTO imoveis (descricao, endereco, status, clienteEnel, clienteCagece)
+      INSERT INTO imoveis (descricao, endereco, status, enel, cagece)
       VALUES (?, ?, ?, ?, ?)
-    `, [descricao, endereco, status || 'disponível', clienteEnel || '', clienteCagece || '']);
+    `, [descricao, endereco, status || 'disponível', enel || '', cagece || '']);
 
     res.status(201).json({ 
       message: 'Imóvel criado com sucesso!',
@@ -66,17 +66,17 @@ exports.criarImovel = async (req, res) => {
 exports.atualizarImovel = async (req, res) => {
   try {
     const { id } = req.params;
-    const { descricao, endereco, status, clienteEnel, clienteCagece } = req.body;
+    const { descricao, endereco, status, enel, cagece } = req.body;
 
     const [result] = await db.query(`
       UPDATE imoveis
       SET descricao = ?, 
           endereco = ?, 
           status = ?, 
-          clienteEnel = ?, 
-          clienteCagece = ?
+          enel = ?, 
+          cagece = ?
       WHERE id = ?
-    `, [descricao, endereco, status, clienteEnel, clienteCagece, id]);
+    `, [descricao, endereco, status, enel, cagece, id]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Imóvel não encontrado.' });
