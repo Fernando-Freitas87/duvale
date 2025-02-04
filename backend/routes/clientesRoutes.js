@@ -10,6 +10,7 @@ const clientesController = require('../controllers/clientesController'); // Cont
 // 1. Obter informações do usuário autenticado
 // Endpoint: GET /api/clientes/info
 router.get('/info', authenticateToken, clientesController.getUserInfo);
+router.get('/:id', authenticateToken, clientesController.obterClientePorId);
 
 // 2. Buscar avisos do cliente autenticado
 // Endpoint: GET /api/clientes/avisos
