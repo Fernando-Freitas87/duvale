@@ -3,6 +3,9 @@
 // 1) CLIENTES
 const apiBaseUrl = "https://duvale-production.up.railway.app";
 
+/**
+ * Carrega os clientes do banco de dados e exibe na tabela do painel gerencial.
+ */
 export async function carregarClientes() {
   try {
     const response = await fetch(`${apiBaseUrl}/api/clientes`, {
@@ -10,6 +13,7 @@ export async function carregarClientes() {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
     });
+
     if (!response.ok) {
       throw new Error(`Erro ao buscar clientes. Status: ${response.status}`);
     }
@@ -19,7 +23,10 @@ export async function carregarClientes() {
     if (!tbody) return;
 
     tbody.innerHTML = "";
+
+    // Filtra apenas os clientes que não são administradores
     const clientesVisiveis = lista.filter(cli => cli.tipo_usuario !== "administrador");
+
     if (clientesVisiveis.length === 0) {
       const tr = document.createElement("tr");
       tr.innerHTML = `<td colspan="6" style="text-align:center;font-weight:bold;">Nenhum cliente encontrado.</td>`;
@@ -27,6 +34,7 @@ export async function carregarClientes() {
       return;
     }
 
+    // Adiciona clientes na tabela
     clientesVisiveis.forEach(cliente => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -39,24 +47,14 @@ export async function carregarClientes() {
         <a href="#" class="btn-icone-editar" data-id="${cliente.id}" title="Editar Cliente">
           <i class="fas fa-edit"></i>
         </a>
-        <a href="#" class="btn-icone-excluir" data-id="${cliente.id}" title="Excluir Cliente">
-          <i class="fas fa-trash-alt"></i>
-        </a>
       </td>
     `;
-    
-    // Evento para o ícone de editar cliente
-    tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
-      const clienteId = event.currentTarget.getAttribute("data-id");
-      editarClienteModal(clienteId);
-    });
-    
-    // Evento para o ícone de excluir cliente
-    tr.querySelector(".btn-icone-excluir").addEventListener("click", (event) => {
-      const clienteId = event.currentTarget.getAttribute("data-id");
-      if (!confirm(`Deseja realmente excluir o cliente ID: ${clienteId}?`)) return;
-      excluirCliente(clienteId);
-    });
+
+      // Evento para abrir o modal de edição do cliente
+      tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
+        const clienteId = event.currentTarget.getAttribute("data-id");
+        editarClienteModal(clienteId);
+      });
 
       tbody.appendChild(tr);
     });
@@ -66,70 +64,90 @@ export async function carregarClientes() {
   }
 }
 
-function editarClienteModal(clienteId) {
+/**
+ * Abre o modal de edição e preenche os campos com os dados do cliente.
+ */
+async function editarClienteModal(clienteId) {
   const modal = document.getElementById("modal-editar-cliente");
   if (!modal) return;
   modal.style.display = "block";
 
-  // Obtenha os dados do cliente pelo ID
-  const cliente = clientesVisiveis.find(cli => cli.id === clienteId);
-  if (!cliente) {
-    alert("Cliente não encontrado!");
-    return;
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/clientes/${clienteId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+    });
+
+    if (!response.ok) throw new Error("Erro ao buscar detalhes do cliente.");
+
+    const cliente = await response.json();
+
+    // Preenche os campos do modal
+    document.getElementById("edit-cliente-nome").value = cliente.nome || "";
+    document.getElementById("edit-cliente-cpf").value = cliente.cpf || "";
+    document.getElementById("edit-cliente-telefone").value = cliente.telefone || "";
+    document.getElementById("edit-cliente-pin").value = cliente.pin || "";
+    document.getElementById("edit-cliente-observacoes").value = cliente.observacoes || "";
+    document.getElementById("edit-cliente-nacionalidade").value = cliente.nacionalidade || "";
+    document.getElementById("edit-cliente-data-nascimento").value = cliente.data_nascimento || "";
+    document.getElementById("edit-cliente-documento-identidade").value = cliente.documento_identidade || "";
+    document.getElementById("edit-cliente-numero-documento").value = cliente.numero_documento_identidade || "";
+
+    // Evento para salvar alterações
+    document.getElementById("btn-salvar-cliente").onclick = () => salvarEdicaoCliente(clienteId);
+
+    // Evento para fechar o modal sem salvar
+    document.getElementById("btn-cancelar-edicao-cliente").onclick = () => {
+      modal.style.display = "none";
+    };
+  } catch (error) {
+    console.error("Erro ao carregar cliente:", error);
+    alert("Erro ao carregar dados do cliente.");
   }
-
-  document.getElementById("edit-cliente-nome").value = cliente.nome || "";
-  document.getElementById("edit-cliente-cpf").value = cliente.cpf || "";
-  document.getElementById("edit-cliente-telefone").value = cliente.telefone || "";
-  document.getElementById("edit-cliente-pin").value = cliente.pin || "";
-  document.getElementById("edit-cliente-observacoes").value = cliente.observacoes || "";
-
-  // Salve o ID no botão de salvar para ser usado na próxima ação
-  document.getElementById("btn-salvar-cliente").onclick = () => salvarEdicaoCliente(clienteId);
-  document.getElementById("btn-cancelar-edicao-cliente").onclick = () => {
-    modal.style.display = "none";
-  };
 }
 
+/**
+ * Salva a edição do cliente enviando os dados para a API.
+ */
 async function salvarEdicaoCliente(clienteId) {
   try {
     if (!clienteId) throw new Error("ID do cliente não fornecido.");
 
+    // Coleta os valores dos campos do modal
     const nome = document.getElementById("edit-cliente-nome").value;
     const cpf = document.getElementById("edit-cliente-cpf").value;
     const telefone = document.getElementById("edit-cliente-telefone").value;
     const pin = document.getElementById("edit-cliente-pin").value;
     const observacoes = document.getElementById("edit-cliente-observacoes").value;
+    const nacionalidade = document.getElementById("edit-cliente-nacionalidade").value;
+    const dataNascimento = document.getElementById("edit-cliente-data-nascimento").value;
+    const documentoIdentidade = document.getElementById("edit-cliente-documento-identidade").value;
+    const numeroDocumento = document.getElementById("edit-cliente-numero-documento").value;
 
+    // Envia os dados para o backend
     const response = await fetch(`${apiBaseUrl}/api/clientes/${clienteId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome, cpf, telefone, pin, observacoes }),
+      body: JSON.stringify({
+        nome,
+        cpf,
+        telefone,
+        pin,
+        observacoes,
+        nacionalidade,
+        data_nascimento: dataNascimento,
+        documento_identidade: documentoIdentidade,
+        numero_documento_identidade: numeroDocumento,
+      }),
     });
 
     if (!response.ok) throw new Error(`Erro ao editar cliente. Status: ${response.status}`);
+
     alert("Cliente atualizado com sucesso!");
     document.getElementById("modal-editar-cliente").style.display = "none";
     carregarClientes(); // Atualiza a lista de clientes
   } catch (error) {
     console.error("Erro ao salvar edição do cliente:", error);
     alert("Não foi possível editar o cliente.");
-  }
-}
-
-async function excluirCliente(clienteId) {
-  try {
-    const response = await fetch(`${apiBaseUrl}/api/clientes/${clienteId}`, {
-      method: "DELETE"
-    });
-    if (!response.ok) throw new Error(`Erro ao excluir cliente. Status: ${response.status}`);
-
-    alert("Cliente excluído com sucesso!");
-    document.getElementById("modal-editar-cliente").style.display = "none";
-    carregarClientes();
-  } catch (error) {
-    console.error("Erro ao excluir cliente:", error);
-    alert("Não foi possível excluir o cliente.");
   }
 }
 
