@@ -215,7 +215,8 @@ export async function carregarAVencer(page = 1, limit = 10) {
 
     // Renderiza cada item na tabela.
     data.forEach((item) => {
-      const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.      const imovelDescricao = item.imovel_descricao || "N/A"; // Descrição do imóvel ou "N/A".
+      const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.       
+      const imovelDescricao = item.imovel_descricao || "N/A"; // Descrição do imóvel ou "N/A".
       const dataVencimento = item.data_vencimento
         ? new Date(item.data_vencimento).toLocaleDateString("pt-BR") // Formata a data no padrão brasileiro.
         : "Data Inválida"; // Exibe mensagem de data inválida caso não exista.

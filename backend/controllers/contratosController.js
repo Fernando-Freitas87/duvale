@@ -301,3 +301,17 @@ exports.deletarContrato = async (req, res) => {
     res.status(500).json({ error: 'Erro ao remover (inativar) contrato.' });
   } // Aqui finaliza o bloco try-catch corretamente
 };
+
+exports.obterContratoPorId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [rows] = await db.query("SELECT * FROM contratos WHERE id = ?", [id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Contrato não encontrado." });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    console.error("Erro ao buscar contrato:", error.message);
+    res.status(500).json({ error: "Erro ao buscar contrato." });
+  }
+};
