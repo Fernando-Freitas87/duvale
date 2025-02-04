@@ -9,7 +9,7 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-image: url('/img/fundo1.png'); /* Caminho correto da imagem */
+    background-image: url('/duvale/frontend/img/fundo1.png'); /* Caminho correto da imagem */
     background-size: cover;                  /* Faz a imagem cobrir toda a tela */
     background-position: center;             /* Centraliza a imagem */
     background-repeat: no-repeat;            /* Impede repetição */
