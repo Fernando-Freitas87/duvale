@@ -93,9 +93,9 @@ export function atualizarTabela(tabelaId, dados) {
     tr.innerHTML = `
     <td>${clienteNome}</td>
     <td>${imovel}</td>
-    <td>${dataVencimento}</td>
+    <td>${vencimento}</td>
     <td>${valor}</td>
-    <td>${dias_atraso}</td>
+    <td>${dias}</td>
     <td>
         <a href="#" class="btn-icone-baixar" data-id="${item.id}" title="Baixar Pagamento">
           <i class="fas fa-download"></i>
