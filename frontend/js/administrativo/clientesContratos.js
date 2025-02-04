@@ -1,6 +1,8 @@
 /**
  * Carrega os clientes do banco de dados e exibe na tabela do painel gerencial.
  */
+const apiBaseUrl = "https://duvale-production.up.railway.app";
+
 export async function carregarClientes() {
   try {
     // Faz a requisição para obter os clientes
