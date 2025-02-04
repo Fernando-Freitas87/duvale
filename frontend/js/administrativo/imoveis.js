@@ -44,8 +44,9 @@ export async function carregarImoveis() {
       });
 
       // Evento para ícone de "Editar"
-      tr.querySelector(".btn-icone-editar").addEventListener("click", () => {
-        editarImovelModal(imovel);
+      tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
+        event.preventDefault(); // Previne o comportamento padrão do link
+        editarImovelModal(imovel); // Chama a função para abrir o modal
       });
 
       tbody.appendChild(tr);

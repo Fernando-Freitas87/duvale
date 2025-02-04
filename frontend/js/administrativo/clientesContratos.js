@@ -226,8 +226,6 @@ async function salvarEdicaoCliente(clienteId) {
   }
 }
 
-// clientesContratos.js
-
 /**
  * Carrega a lista de contratos e preenche a tabela no frontend.
  */
@@ -290,8 +288,9 @@ export async function carregarContratos() {
     
     // Evento para o ícone de editar contrato
     tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
-      const contratoId = event.currentTarget.getAttribute("data-id");
-      editarContrato(contratoId);
+      event.preventDefault(); // Previne o comportamento padrão do link
+      const clienteId = event.currentTarget.getAttribute("data-id");
+      editarClienteModal(clienteId); // Chama a função para abrir o modal
     });
     
     // Evento para o ícone de excluir contrato
