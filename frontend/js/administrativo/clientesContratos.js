@@ -142,7 +142,9 @@ async function editarClienteModal(clienteId) {
 
     // Faz a requisição para buscar os dados do cliente
     const response = await fetch(`${apiBaseUrl}/api/clientes/${clienteId}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
     });
 
     // Verifica se a requisição foi bem-sucedida

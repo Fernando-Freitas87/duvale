@@ -45,8 +45,9 @@ export async function carregarImoveis() {
 
       // Evento para ícone de "Editar"
       tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
-        event.preventDefault(); // Previne o comportamento padrão do link
-        editarImovelModal(imovel); // Chama a função para abrir o modal
+        event.preventDefault(); 
+        const imovelId = event.currentTarget.getAttribute("data-id");
+        editarImovelModal(imovel);
       });
 
       tbody.appendChild(tr);
@@ -66,14 +67,9 @@ function editarImovelModal(imovel) {
   document.getElementById("edit-imovel-descricao").value = imovel.descricao || "";
   document.getElementById("edit-imovel-endereco").value = imovel.endereco || "";
   document.getElementById("edit-imovel-status").value = imovel.status || "";
-
-  // Preencher os novos campos Cliente ENEL e Cliente CAGECE
-  if (document.getElementById("edit-imovel-enel")) {
-    document.getElementById("edit-imovel-enel").value = imovel.enel || "";
-  }
-  if (document.getElementById("edit-imovel-cagece")) {
-    document.getElementById("edit-imovel-cagece").value = imovel.cagece || "";
-  }
+  document.getElementById("edit-imovel-enel").value = imovel.enel || "";
+  document.getElementById("edit-imovel-cagece").value = imovel.cagece || "";
+  
 
   // Configurar botões de ação
   document.getElementById("btn-salvar-imovel").onclick = () => {
