@@ -92,7 +92,7 @@ export function atualizarTabela(tabelaId, dados) {
 
     tr.innerHTML = `
     <td>${clienteNome}</td>
-    <td>${imovelDescricao}</td>
+    <td>${imovel}</td>
     <td>${dataVencimento}</td>
     <td>${valor}</td>
     <td>${dias_atraso}</td>
