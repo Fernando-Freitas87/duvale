@@ -62,8 +62,8 @@ export async function carregarClientes() {
 
       // Evento para abrir o modal de edição do cliente
       tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
-        const clienteId = event.currentTarget.getAttribute("data-id");
-        editarClienteModal(clienteId); // Função para editar o cliente
+        const clienteId = event.currentTarget.getAttribute("data-id"); // Certifique-se de que está pegando o ID do cliente
+        editarClienteModal(clienteId); // Função correta para editar cliente
       });
 
       // Evento para excluir o cliente
@@ -288,12 +288,12 @@ export async function carregarContratos() {
       baixarContrato(contratoId);
     });
     
-    // Evento para o ícone de editar contrato
-    tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
-      event.preventDefault(); // Previne o comportamento padrão do link
-      const clienteId = event.currentTarget.getAttribute("data-id");
-      editarClienteModal(clienteId); // Chama a função para abrir o modal
-    });
+// Evento para o ícone de editar contrato
+tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
+  event.preventDefault(); // Previne o comportamento padrão do link
+  const contratoId = event.currentTarget.getAttribute("data-id"); // Isso está pegando o ID do contrato
+  editarContrato(contratoId); // Certifique-se de usar a função correta
+});
     
     // Evento para o ícone de excluir contrato
     tr.querySelector(".btn-icone-excluir").addEventListener("click", (event) => {
