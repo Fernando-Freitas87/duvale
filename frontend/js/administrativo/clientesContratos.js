@@ -1,8 +1,3 @@
-// clientesContratos.js
-
-// 1) CLIENTES
-const apiBaseUrl = "https://duvale-production.up.railway.app";
-
 /**
  * Carrega os clientes do banco de dados e exibe na tabela do painel gerencial.
  */
@@ -17,7 +12,8 @@ export async function carregarClientes() {
 
     // Verifica se a requisição foi bem-sucedida
     if (!response.ok) {
-      throw new Error(`Erro ao buscar clientes. Status: ${response.status}`);
+      const errorText = await response.text(); // Detalhes do erro (se fornecido pelo backend)
+      throw new Error(`Erro ao buscar clientes. Status: ${response.status}. Detalhes: ${errorText}`);
     }
 
     // Obtém a lista de clientes do JSON retornado
@@ -25,61 +21,109 @@ export async function carregarClientes() {
 
     // Seleciona o corpo da tabela no DOM
     const tbody = document.getElementById("clientes-corpo");
-    if (!tbody) return;
+    if (!tbody) {
+      console.error("Elemento tbody para clientes não encontrado no DOM.");
+      return;
+    }
 
     // Limpa a tabela antes de adicionar novos dados
     tbody.innerHTML = "";
 
     // Filtra apenas os clientes que não são administradores
-    const clientesVisiveis = lista.filter(cli => cli.tipo_usuario !== "administrador");
+    const clientesVisiveis = lista.filter((cli) => cli.tipo_usuario !== "administrador");
 
     // Caso não haja clientes visíveis, exibe uma mensagem padrão
     if (clientesVisiveis.length === 0) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td colspan="6" style="text-align:center;font-weight:bold;">Nenhum cliente encontrado.</td>`;
-      tbody.appendChild(tr);
+      exibirMensagemNenhumCliente(tbody);
       return;
     }
 
     // Adiciona cada cliente na tabela
-    clientesVisiveis.forEach(cliente => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-      <td>${cliente.nome || "Sem nome"}</td>
-      <td>${cliente.cpf || "Sem CPF"}</td>
-      <td>${cliente.telefone || "Sem telefone"}</td>
-      <td>${cliente.pin || "Sem PIN"}</td>
-      <td>${cliente.observacoes || "Sem observações"}</td>
-      <td class="coluna-acoes">
-        <a href="#" class="btn-icone-editar" data-id="${cliente.id}" title="Editar Cliente">
-          <i class="fas fa-edit"></i>
-        </a>
-        <a href="#" class="btn-icone-excluir" data-id="${cliente.id}" title="Excluir Cliente">
-          <i class="fas fa-trash-alt"></i>
-        </a>
-      </td>
-      `;
-
-      // Evento para abrir o modal de edição do cliente
-      tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
-        const clienteId = event.currentTarget.getAttribute("data-id"); // Certifique-se de que está pegando o ID do cliente
-        editarClienteModal(clienteId); // Função correta para editar cliente
-      });
-
-      // Evento para excluir o cliente
-      tr.querySelector(".btn-icone-excluir").addEventListener("click", (event) => {
-        const clienteId = event.currentTarget.getAttribute("data-id");
-        if (confirm(`Deseja realmente excluir o cliente ID: ${clienteId}?`)) {
-          excluirCliente(clienteId); // Função para excluir o cliente
-        }
-      });
-
-      tbody.appendChild(tr);
-    });
+    clientesVisiveis.forEach((cliente) => adicionarClienteNaTabela(cliente, tbody));
   } catch (error) {
     // Loga o erro no console e exibe uma mensagem ao usuário
-    console.error("Erro ao carregar clientes:", error);
-    alert("Não foi possível carregar clientes.");
+    console.error("Erro ao carregar clientes:", error.message || error);
+    alert("Erro ao carregar clientes. Verifique sua conexão ou tente novamente.");
+  }
+}
+
+/**
+ * Exibe uma mensagem de "Nenhum cliente encontrado" na tabela.
+ * @param {HTMLElement} tbody - Corpo da tabela onde a mensagem será exibida.
+ */
+function exibirMensagemNenhumCliente(tbody) {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td colspan="6" style="text-align:center;font-weight:bold;">
+      Nenhum cliente encontrado.
+    </td>`;
+  tbody.appendChild(tr);
+}
+
+/**
+ * Adiciona um cliente como uma linha na tabela.
+ * @param {object} cliente - Dados do cliente.
+ * @param {HTMLElement} tbody - Corpo da tabela onde o cliente será adicionado.
+ */
+function adicionarClienteNaTabela(cliente, tbody) {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${cliente.nome || "Sem nome"}</td>
+    <td>${cliente.cpf || "Sem CPF"}</td>
+    <td>${cliente.telefone || "Sem telefone"}</td>
+    <td>${cliente.pin || "Sem PIN"}</td>
+    <td>${cliente.observacoes || "Sem observações"}</td>
+    <td class="coluna-acoes">
+      <a href="#" class="btn-icone-editar" data-id="${cliente.id}" title="Editar Cliente">
+        <i class="fas fa-edit"></i>
+      </a>
+      <a href="#" class="btn-icone-excluir" data-id="${cliente.id}" title="Excluir Cliente">
+        <i class="fas fa-trash-alt"></i>
+      </a>
+    </td>
+  `;
+
+  // Adiciona eventos aos botões de ação
+  configurarEventosDeAcoes(tr, cliente.id);
+
+  tbody.appendChild(tr);
+}
+
+/**
+ * Configura os eventos de ação (editar/excluir) para os botões em uma linha da tabela.
+ * @param {HTMLElement} tr - Linha da tabela onde os eventos serão configurados.
+ * @param {number} clienteId - ID do cliente associado à linha.
+ */
+function configurarEventosDeAcoes(tr, clienteId) {
+  const btnEditar = tr.querySelector(".btn-icone-editar");
+  const btnExcluir = tr.querySelector(".btn-icone-excluir");
+
+  if (btnEditar) {
+    btnEditar.addEventListener("click", (event) => {
+      event.preventDefault(); // Previne comportamento padrão do link
+      if (clienteId) {
+        editarClienteModal(clienteId); // Função para editar cliente
+      } else {
+        console.error("ID do cliente não encontrado no botão de edição.");
+      }
+    });
+  } else {
+    console.error("Botão de edição não encontrado na linha da tabela.");
+  }
+
+  if (btnExcluir) {
+    btnExcluir.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (clienteId) {
+        if (confirm(`Deseja realmente excluir o cliente ID: ${clienteId}?`)) {
+          excluirCliente(clienteId); // Função para excluir cliente
+        }
+      } else {
+        console.error("ID do cliente não encontrado no botão de exclusão.");
+      }
+    });
+  } else {
+    console.error("Botão de exclusão não encontrado na linha da tabela.");
   }
 }
 
@@ -122,21 +166,18 @@ async function excluirCliente(clienteId) {
  * @param {number} clienteId - ID do cliente a ser editado.
  */
 async function editarClienteModal(clienteId) {
-  // Obtém o modal de edição pelo ID
-  const modal = document.getElementById("modal-editar-cliente");
-  if (!modal) {
-    console.error("Modal de edição de cliente não encontrado.");
-    return;
-  }
-
-  // Exibe o modal
-  modal.style.display = "block";
-
   try {
-    // Valida o clienteId
+    // Verifica se o ID do cliente foi fornecido
     if (!clienteId) {
       console.error("ID do cliente não fornecido.");
-      alert("Erro ao abrir modal: ID do cliente não fornecido.");
+      alert("Erro: ID do cliente não fornecido.");
+      return;
+    }
+
+    // Obtém o modal de edição pelo ID
+    const modal = document.getElementById("modal-editar-cliente");
+    if (!modal) {
+      console.error("Modal de edição de cliente não encontrado no DOM.");
       return;
     }
 
@@ -149,36 +190,67 @@ async function editarClienteModal(clienteId) {
 
     // Verifica se a requisição foi bem-sucedida
     if (!response.ok) {
-      const errorText = await response.text(); // Obtém detalhes do erro do backend
+      const errorText = await response.text(); // Detalhes do erro do backend
       console.error(`Erro ao buscar detalhes do cliente. Status: ${response.status}, Detalhes: ${errorText}`);
-      throw new Error("Erro ao buscar detalhes do cliente."); 
+      alert("Erro ao carregar os dados do cliente.");
+      return;
     }
 
     // Converte a resposta em JSON
     const cliente = await response.json();
 
     // Preenche os campos do modal com os dados do cliente
-    document.getElementById("edit-cliente-nome").value = cliente.nome || "";
-    document.getElementById("edit-cliente-cpf").value = cliente.cpf || "";
-    document.getElementById("edit-cliente-telefone").value = cliente.telefone || "";
-    document.getElementById("edit-cliente-pin").value = cliente.pin || "";
-    document.getElementById("edit-cliente-observacoes").value = cliente.observacoes || "";
-    document.getElementById("edit-cliente-nacionalidade").value = cliente.nacionalidade || "";
-    document.getElementById("edit-cliente-data-nascimento").value = cliente.data_nascimento || "";
-    document.getElementById("edit-cliente-documento-identidade").value = cliente.documento_identidade || "";
-    document.getElementById("edit-cliente-numero-documento").value = cliente.numero_documento_identidade || "";
+    preencherCamposDoModal(cliente);
 
-    // Define o evento do botão "Salvar" para salvar as alterações
-    document.getElementById("btn-salvar-cliente").onclick = () => salvarEdicaoCliente(clienteId);
+    // Exibe o modal
+    modal.style.display = "block";
 
-    // Define o evento do botão "Cancelar" para fechar o modal sem salvar
-    document.getElementById("btn-cancelar-edicao-cliente").onclick = () => {
+    // Define os eventos dos botões do modal
+    configurarEventosDoModal(clienteId, modal);
+  } catch (error) {
+    console.error("Erro ao carregar cliente:", error.message || error);
+    alert("Erro ao carregar os dados do cliente.");
+  }
+}
+
+/**
+ * Preenche os campos do modal com os dados do cliente.
+ * @param {object} cliente - Dados do cliente retornados pela API.
+ */
+function preencherCamposDoModal(cliente) {
+  document.getElementById("edit-cliente-nome").value = cliente.nome || "";
+  document.getElementById("edit-cliente-cpf").value = cliente.cpf || "";
+  document.getElementById("edit-cliente-telefone").value = cliente.telefone || "";
+  document.getElementById("edit-cliente-pin").value = cliente.pin || "";
+  document.getElementById("edit-cliente-observacoes").value = cliente.observacoes || "";
+  document.getElementById("edit-cliente-nacionalidade").value = cliente.nacionalidade || "";
+  document.getElementById("edit-cliente-data-nascimento").value = cliente.data_nascimento || "";
+  document.getElementById("edit-cliente-documento-identidade").value = cliente.documento_identidade || "";
+  document.getElementById("edit-cliente-numero-documento").value = cliente.numero_documento_identidade || "";
+}
+
+/**
+ * Configura os eventos dos botões "Salvar" e "Cancelar" no modal.
+ * @param {number} clienteId - ID do cliente sendo editado.
+ * @param {HTMLElement} modal - Referência ao modal de edição.
+ */
+function configurarEventosDoModal(clienteId, modal) {
+  // Evento para salvar alterações
+  const btnSalvar = document.getElementById("btn-salvar-cliente");
+  if (btnSalvar) {
+    btnSalvar.onclick = () => salvarEdicaoCliente(clienteId);
+  } else {
+    console.error("Botão 'Salvar' não encontrado no modal.");
+  }
+
+  // Evento para cancelar edição e fechar o modal
+  const btnCancelar = document.getElementById("btn-cancelar-edicao-cliente");
+  if (btnCancelar) {
+    btnCancelar.onclick = () => {
       modal.style.display = "none";
     };
-  } catch (error) {
-    // Trata erros na requisição ou na lógica
-    console.error("Erro ao carregar cliente:", error);
-    alert("Erro ao carregar dados do cliente.");
+  } else {
+    console.error("Botão 'Cancelar' não encontrado no modal.");
   }
 }
 
