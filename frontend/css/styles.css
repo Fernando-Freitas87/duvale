@@ -87,6 +87,20 @@ h1 {
     transform: scale(1.1);
 }
 
+/* Ajustes para telas menores */
+@media (max-width: 480px) {
+    .pin-container {
+        gap: 8px; /* Ajusta o espaçamento para telas pequenas */
+    }
+
+    .pin-box {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem; /* Ajusta o tamanho da fonte */
+    }
+}
+
+
 /* Mensagem de erro ou sucesso */
 .message {
     margin-top: 15px;
