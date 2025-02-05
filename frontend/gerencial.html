@@ -9,6 +9,7 @@
   <script type="module" src="js/administrativo/imoveis.js"></script>
   <script type="module" src="js/administrativo/clientesContratos.js"></script>
   <script type="module" src="js/administrativo/dashboard.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link rel="stylesheet" href="css/gerencial.css" />
@@ -22,7 +23,7 @@
     </div>
     <ul class="menu">
         <li><a href="gerencial.html" class="active"><i class="fas fa-chart-line"></i> Administrativo</a></li>
-        <li><a href="financeiro.html"><i class="fas fa-cogs"></i> Financeiro</a></li>
+        <li><a href="financeiro.html" aria-label="Ir para Financeiro"><i class="fas fa-wallet"></i> Financeiro</a></li>
         <li><a href="cadastro.html"><i class="fas fa-user-plus"></i> Cadastro</a></li>
         <li><a href="index.html" id="sair"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
     </ul>
@@ -35,7 +36,9 @@
   <main class="main-container">
     <!-- Filtros e Pesquisa -->
     <section class="planilhas-header">
-    <h1 class="animate__animated animate__bounce">Painel Administrativo</h1>
+      <h1 class="h1">
+        <i class="fas fa-chart-line"></i> Painel Administrativo
+      </h1>
     </section>
     <hr class="divider" />
     <!-- Cards Dinâmicos -->
@@ -82,8 +85,24 @@
 </section>
 <br />
 
+<section id="charts-section">
+  <h2>Relatórios Trimestrais</h2>
+  <div class="charts-container">
+      <!-- Gráfico de Inadimplência -->
+      <div class="chart-box">
+          <h3>Inadimplência de Pagamentos</h3>
+          <div id="chart-inadimplencia"></div>
+      </div>
+      <!-- Gráfico de Ocupação -->
+      <div class="chart-box">
+          <h3>Status de Ocupação</h3>
+          <div id="chart-ocupacao"></div>
+      </div>
+  </div>
+</section>
+
 <!-- Seção: Em Atraso -->
-<section id="em-atraso-section" style="display: block;">
+<section id="em-atraso-section" style="display: none;">
   <h2>Em atraso</h2>
   <table class="table table-red">
     <thead>
@@ -104,7 +123,7 @@
 </section>
 
 <!-- Seção: Próximos a Vencer -->
-<section id="a-vencer-section" style="display: none;">
+<section id="a-vencer-section" style="display: block;">
   <h2>Próximos a vencer</h2>
   <table class="table table-green">
     <thead>

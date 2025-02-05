@@ -754,3 +754,43 @@ color: #28a745;   /* Verde no hover */
 .btn-submit:hover {
   background-color: #45a049;
 }
+
+/***************************************************************
+* [17] stilo para os graficos (EXEMPLO)
+***************************************************************/
+#charts-section {
+  margin: 30px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#charts-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #222;
+}
+
+.charts-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.chart-box {
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+/***************************************************************
+* [17] stilo para os icones no h1 (EXEMPLO)
+***************************************************************/
+.planilhas-header h1 i {
+  margin-right: 10px; /* Espaço entre o ícone e o texto */
+  font-size: 1.2em;   /* Ajuste o tamanho do ícone */
+  color: #004085;     /* Cor do ícone (igual à navbar) */
+}
