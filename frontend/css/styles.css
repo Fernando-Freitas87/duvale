@@ -4,52 +4,58 @@ body, h1, p {
     padding: 0;
 }
 
-/* Define o estilo para o fundo da página */
+/* Configuração geral do body */
 body {
-    margin: 0; /* Remove margens padrão */
-    padding: 0; /* Remove espaçamento interno padrão */
-    background: url('/duvale/frontend/img/fundo2.png') no-repeat center center fixed; /* Imagem centralizada e fixa */
-    background-size: cover; /* Ajusta para cobrir toda a área sem distorção */
-    height: 100vh; /* Garante altura total da janela */
-    font-family: Arial, sans-serif; /* Fonte padrão */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda a altura da tela */
+    font-family: Arial, sans-serif;
+    background: url('../img/fundo2.png') no-repeat center center fixed;
+    background-size: cover;
 }
 
-/* Centraliza e ajusta o contêiner principal */
+/* Wrapper principal para centralizar o conteúdo */
 .login-wrapper {
     display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    height: 100vh; /* Altura total da tela */
-    overflow: hidden; /* Impede que rolagem extra apareça */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    padding: 20px; /* Garante espaço em telas pequenas */
+    box-sizing: border-box;
 }
 
-/* Estiliza o contêiner de login */
+/* Container do login com melhorias na responsividade */
 .login-container {
-    background-color: rgba(255, 255, 255, 0.9); /* Fundo branco com transparência */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para destaque */
-    max-width: 400px; /* Largura máxima */
-    width: 90%; /* Responsivo para telas pequenas */
-    text-align: center; /* Centraliza conteúdo */
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%; /* Ajusta ao tamanho da tela */
+    text-align: center;
+    transition: all 0.3s ease;
 }
 
+/* Estiliza o logo */
 .logo {
-    max-width: 180px;
-    margin-bottom: 20px;
+    max-width: 150px;
+    margin-bottom: 15px;
 }
 
+/* Estilização do título */
 h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #222; /* Texto mais escuro */
+    font-size: 1.8rem;
+    color: #222;
     margin-bottom: 10px;
 }
 
+/* Instruções do login */
 .login-instructions {
     font-size: 1rem;
-    color: #555; /* Subtítulo com contraste maior */
-    margin-bottom: 20px;
+    color: #555;
+    margin-bottom: 15px;
 }
 
 /* Container dos campos de PIN */
@@ -57,52 +63,31 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8px; /* Espaçamento maior entre os campos */
-    margin: 20px 0;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap; /* Permite ajuste automático em telas menores */
 }
 
+/* Caixa do PIN otimizada para mobile */
 .pin-box {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     text-align: center;
     font-size: 1.5rem;
-    border: 2px solid #ccc; /* Borda mais visível */
+    border: 2px solid #ccc;
     border-radius: 8px;
     background-color: #fff;
     color: #333;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil nos campos */
-    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .pin-box:focus {
-    border-color: #3498db; /* Azul para indicar foco */
+    border-color: #3498db;
+    transform: scale(1.1);
 }
 
-.pin-box:focus-visible {
-    border-color: #4170c9; /* Verde mais visível */
-    box-shadow: 0 0 8px rgba(46, 204, 113, 0.5);
-}
-
-.pin-box.error {
-    border-color: #e74c3c;
-    animation: shake 0.3s ease;
-}
-
-@media (max-width: 768px) {
-    .pin-box {
-        width: 45px;
-        height: 45px;
-        font-size: 1.2rem;
-    }
-}
-
-/* Animação de erro */
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
+/* Mensagem de erro ou sucesso */
 .message {
     margin-top: 15px;
     font-size: 1rem;
@@ -111,25 +96,24 @@ h1 {
     transition: opacity 0.3s;
 }
 
-
 .message.error {
-    color: #e74c3c; /* Vermelho para erros */
+    color: #e74c3c;
 }
 
 .message.success {
-    color: #27ae60; /* Verde para sucesso */
+    color: #27ae60;
 }
 
-/* Botão para solicitar PIN */
+/* Link para solicitar PIN */
 .request-pin-link {
     font-size: 1rem;
-    color: #3498db; /* Azul para destaque */
+    color: #3498db;
     text-decoration: none;
     font-weight: bold;
 }
 
 .request-pin-link:hover {
-    color: #1f78b4; /* Azul mais escuro no hover */
+    color: #1f78b4;
 }
 
 /* Rodapé */
@@ -139,35 +123,29 @@ h1 {
     color: #777;
 }
 
-.footer a {
-    color: #1abc9c;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.footer a:hover {
-    color: #16a085;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
+/* Ajustes para telas menores */
+@media (max-width: 480px) {
     .login-container {
-        width: 95%;
-        padding: 20px 25px;
+        width: 90%; /* Aumenta a largura disponível em telas menores */
+        padding: 20px;
     }
 
     .pin-box {
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
         font-size: 1.2rem;
     }
 
     h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
+}
 
-    .footer {
-        font-size: 0.7rem;
+/* Ajustes para tablets */
+@media (max-width: 768px) {
+    .pin-box {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
     }
 }
