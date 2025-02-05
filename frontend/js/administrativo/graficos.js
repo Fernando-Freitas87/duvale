@@ -15,17 +15,20 @@ function drawCharts() {
 function drawInadimplenciaChart() {
     // Dados fictícios para o gráfico
     const data = google.visualization.arrayToDataTable([
-        ['Trimestre', 'Atrasados', 'Pago', 'Pendente'],
-        ['Q1', 300, 500, 200],
-        ['Q2', 250, 600, 150],
-        ['Q3', 350, 550, 250],
-        ['Q4', 400, 450, 300],
+        ['Simestre', 'Atrasados', 'Pago', 'Pendente'],
+        ['Janeiro', 300, 500, 200],
+        ['Fevereiro', 250, 600, 150],
+        ['Março', 350, 550, 250],
+        ['Abril', 400, 450, 300],
+        ['Maio', 390, 250, 330],
+        ['Junho', 420, 350, 290],
+
     ]);
 
     // Configurações do gráfico
     const options = {
         title: 'Inadimplência de Pagamentos',
-        hAxis: { title: 'Trimestre' },
+        hAxis: { title: 'Simestre' },
         vAxis: { title: 'Valores' },
         bars: 'vertical',
         colors: ['#e74c3c', '#27ae60', '#f1c40f'], // Vermelho, Verde, Amarelo
@@ -43,17 +46,19 @@ function drawInadimplenciaChart() {
 function drawOcupacaoChart() {
     // Dados fictícios para o gráfico
     const data = google.visualization.arrayToDataTable([
-        ['Trimestre', 'Imóveis Alugados', 'Disponíveis', 'Indisponíveis'],
-        ['Q1', 120, 80, 50],
-        ['Q2', 150, 70, 40],
-        ['Q3', 130, 90, 30],
-        ['Q4', 140, 60, 70],
+        ['Simestre', 'Imóveis Alugados', 'Disponíveis', 'Indisponíveis'],
+        ['Janeiro', 30, 10, 7],
+        ['Fevereiro', 29, 11, 7],
+        ['Março', 32, 12, 5],
+        ['Abril', 31, 12, 6],
+        ['Maio', 29, 13, 7],
+        ['Junho', 30, 13, 8],
     ]);
 
     // Configurações do gráfico
     const options = {
         title: 'Status de Ocupação',
-        hAxis: { title: 'Trimestre' },
+        hAxis: { title: 'Simestre' },
         vAxis: { title: 'Quantidade' },
         bars: 'vertical',
         colors: ['#3498db', '#2ecc71', '#e67e22'], // Azul, Verde, Laranja
