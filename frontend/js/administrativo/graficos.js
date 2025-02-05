@@ -27,7 +27,6 @@ function drawInadimplenciaChart() {
 
     // Configurações do gráfico
     const options = {
-        title: 'Inadimplência de Pagamentos',
         hAxis: { title: 'Simestre' },
         vAxis: { title: 'Valores' },
         bars: 'vertical',
@@ -57,7 +56,6 @@ function drawOcupacaoChart() {
 
     // Configurações do gráfico
     const options = {
-        title: 'Status de Ocupação',
         hAxis: { title: 'Simestre' },
         vAxis: { title: 'Quantidade' },
         bars: 'vertical',
