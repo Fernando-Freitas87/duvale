@@ -17,15 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
    * Atualiza data e hora no elemento apropriado (a cada segundo).
    */
   function updateDatetime() {
-    const now = new Date();
-    const dayNames = [
-      'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira',
-      'Quinta-feira', 'Sexta-feira', 'Sábado',
-    ];
-    datetimeElement.textContent =
-      `${dayNames[now.getDay()]}, ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+    try {
+      const now = new Date();
+      const dayNames = [
+        'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira',
+        'Quinta-feira', 'Sexta-feira', 'Sábado',
+      ];
+      datetimeElement.textContent =
+        `${dayNames[now.getDay()]}, ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+    } catch (error) {
+      console.error('Erro ao atualizar data e hora:', error);
+    }
   }
-  setInterval(updateDatetime, 1000); // Atualiza a cada segundo
+  setInterval(updateDatetime, 1000);
   updateDatetime();
 
   /**
@@ -87,24 +91,31 @@ document.addEventListener('DOMContentLoaded', () => {
   /**
    * Valida o PIN digitado e realiza login no sistema.
    */
+  let attempts = 0;
+  const MAX_ATTEMPTS = 5;
+  
   async function validatePin(pin) {
     if (pin.length !== 6) {
       displayMessage('O PIN deve conter 6 dígitos.', 'error');
       resetPinFields();
       return;
     }
-
+  
+    if (attempts >= MAX_ATTEMPTS) {
+      displayMessage('Muitas tentativas falhas. Tente novamente mais tarde.', 'error');
+      return;
+    }
+  
     try {
       const response = await fetch('https://duvale-production.up.railway.app/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('authToken', data.token);
-
         if (data.type === 'cliente') {
           window.location.href = 'cliente.html';
         } else if (data.type === 'administrador') {
@@ -113,7 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
           displayMessage('Tipo de usuário inválido.', 'error');
         }
       } else {
-        displayMessage('PIN inválido.', 'error');
+        attempts++; // Incrementa tentativa
+        displayMessage(`PIN inválido. Tentativa ${attempts} de ${MAX_ATTEMPTS}.`, 'error');
         resetPinFields();
       }
     } catch (error) {
@@ -129,6 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (message) {
       message.textContent = text;
       message.className = `message ${type}`;
+      setTimeout(() => {
+        message.textContent = '';
+        message.className = 'message';
+      }, 3000); // Remove após 3 segundos
     }
   }
 

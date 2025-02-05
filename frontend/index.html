@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura para responsividade -->
 
     <!-- Título da página -->
-    <title>Login - DuVale</title>
+    <title>Login - Imobiliaria DuVale</title>
 
     <!-- Importação de estilos -->
     <link rel="stylesheet" href="./css/styles.css"> <!-- Estilos personalizados -->
@@ -31,29 +31,29 @@
             <p class="login-instructions">Digite seu PIN de 6 dígitos para acessar</p>
 
             <!-- Campo de entrada do PIN -->
-            <div class="pin-container">
-                <!-- Cada input representa um dígito do PIN -->
-                <input type="password" maxlength="1" class="pin-box" id="pin-1">
-                <input type="password" maxlength="1" class="pin-box" id="pin-2">
-                <input type="password" maxlength="1" class="pin-box" id="pin-3">
-                <span>-</span> <!-- Separador visual -->
-                <input type="password" maxlength="1" class="pin-box" id="pin-4">
-                <input type="password" maxlength="1" class="pin-box" id="pin-5">
-                <input type="password" maxlength="1" class="pin-box" id="pin-6">
-            </div>
+            <form id="login-form" action="javascript:void(0);">
+                <div class="pin-container">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-1">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-2">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-3">
+                    <span>-</span>
+                    <input type="password" maxlength="1" class="pin-box" id="pin-4">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-5">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-6">
+                </div>
+            </form>
 
             <!-- Texto de instrução para solicitar PIN -->
             <p id="pin-instructions">Caso não tenha um PIN, solicite o acesso.</p>
 
             <!-- Link para solicitar PIN -->
-            <div class="request-pin">
-                <a href="https://wa.me/5588981202539" class="request-pin-link">Solicitar PIN</a>
+            <div class="tooltip">
+                <a href="https://wa.me/5588981202539" target="_blank" class="request-pin-link">Solicitar PIN</a>
+                <span class="tooltiptext">Estamos disponíveis para ajudar! Horário de atendimento: Segunda a Sexta, das 8h às 18h.</span>
             </div>
 
             <!-- Mensagem de erro exibida dinamicamente -->
-            <div id="message" class="message error">
-                Erro ao conectar ao servidor. Verifique sua conexão.
-            </div>
+            <div id="message" class="message"></div>
 
             <!-- Local onde será exibida a data e hora -->
             <p id="datetime">Carregando...</p>
@@ -63,7 +63,7 @@
 
             <!-- Rodapé -->
             <footer class="footer">
-                <p>Setta Software Solutions. Todos os direitos reservados.</p>
+                <p>Setta Software Solutions. Direitos reservados.</p>
                 <p>Desenvolvido por Fernando Freitas | &copy; 2024</p>
             </footer>
         </div>
