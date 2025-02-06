@@ -46,13 +46,13 @@ function configurarModalTransacao() {
 
   // Fechar o modal ao clicar no botão de fechar
   closeModal.addEventListener("click", () => {
-    modal.style.display = "none";
+    modal.classList.remove("show");
   });
 
   // Fechar o modal ao clicar fora do conteúdo
   window.addEventListener("click", (event) => {
-    if (event.target === modal) {
-      modal.style.display = "none";
+    if (!document.querySelector(".modal-content").contains(event.target)) {
+      modal.classList.remove("show");
     }
   });
 
@@ -103,7 +103,7 @@ function configurarModalTransacao() {
       alert("Transação registrada com sucesso!");
 
       // Fechar modal corretamente
-      modal.style.display = "none";
+      document.getElementById("modalTransacao").classList.remove("show");
 
       // Atualiza o saldo e histórico do caixa
       await carregarCaixa();
