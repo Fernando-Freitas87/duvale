@@ -260,75 +260,123 @@ async function carregarImoveis() {
   }
 }
 
-  /***************************************************************
-   * [7] SUBMISSÃO DE FORMULÁRIOS
-   ***************************************************************/
+ /***************************************************************
+ * [7] SUBMISSÃO DE FORMULÁRIOS
+ ***************************************************************/
 
-  const formCliente = document.getElementById("cadastro-cliente");
+const formCliente = document.getElementById("cadastro-cliente");
 
-  if (formCliente) {
-      formCliente.addEventListener("submit", async (e) => {
-          e.preventDefault();
-  
-          const botaoSubmit = formCliente.querySelector("button[type='submit']");
-          botaoSubmit.disabled = true;
-  
-          const cliente = {
-              nome: document.getElementById("nome-cliente").value.trim(),
-              cpf: document.getElementById("cpf-cliente").value.replace(/[^\d]/g, ""), // Remove pontuação
-              telefone: document.getElementById("telefone-cliente").value.trim(),
-              pin: document.getElementById("pin-cliente").value.trim(),
-              tipo_usuario: "cliente", // Mantém fixo
-              observacoes: document.getElementById("observacoes-cliente").value.trim(),
-              nacionalidade: document.getElementById("nacionalidade-cliente").value.trim(),
-              data_nascimento: document.getElementById("data-nascimento-cliente").value,
-              documento_identidade: document.getElementById("documento-identidade-cliente").value.trim(),
-              numero_documento_identidade: document.getElementById("numero-documento-cliente").value.trim(),
-          };
-  
-          // ✅ Validações antes do envio
-          if (!validarCPF(cliente.cpf)) {
-              showAlert("CPF inválido. Verifique e tente novamente.", "error");
-              botaoSubmit.disabled = false;
-              return;
-          }
-  
-          if (!/^\d{6}$/.test(cliente.pin)) {
-              showAlert("O PIN deve conter exatamente 6 números.", "error");
-              botaoSubmit.disabled = false;
-              return;
-          }
-  
-          if (!validarTelefone(cliente.telefone)) {
-              showAlert("Número de telefone inválido. Use o formato (XX) XXXXX-XXXX.", "error");
-              botaoSubmit.disabled = false;
-              return;
-          }
-  
-          try {
-              showLoading("Cadastrando cliente...");
-              const response = await fetch(`${apiBaseUrl}/api/cadastro/clientes`, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(cliente),
-              });
-  
-              if (!response.ok) {
-                  const errorText = await response.json().catch(() => ({ message: "Erro desconhecido" }));
-                  throw new Error(errorText.message || "Erro ao cadastrar cliente.");
-              }
-  
-              showAlert("Cliente cadastrado com sucesso!", "success");
-              formCliente.reset();
-          } catch (error) {
-              console.error("Erro ao cadastrar cliente:", error.message);
-              showAlert(`Erro ao cadastrar cliente: ${error.message}`, "error");
-          } finally {
-              hideLoading();
-              botaoSubmit.disabled = false;
-          }
+if (formCliente) {
+  formCliente.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const botaoSubmit = formCliente.querySelector("button[type='submit']");
+    botaoSubmit.disabled = true;
+
+    const cpfInput = document.getElementById("cpf-cliente");
+    const cliente = {
+      nome: document.getElementById("nome-cliente").value.trim(),
+      cpf: cpfInput.value.replace(/[^\d]/g, ""), // Remove pontuação
+      telefone: document.getElementById("telefone-cliente").value.trim(),
+      pin: document.getElementById("pin-cliente").value.trim(),
+      tipo_usuario: "cliente", // Mantém fixo
+      observacoes: document.getElementById("observacoes-cliente").value.trim(),
+      nacionalidade: document.getElementById("nacionalidade-cliente").value.trim(),
+      data_nascimento: document.getElementById("data-nascimento-cliente").value,
+      documento_identidade: document.getElementById("documento-identidade-cliente").value.trim(),
+      numero_documento_identidade: document.getElementById("numero-documento-cliente").value.trim(),
+    };
+
+    // ✅ Validação do CPF
+    if (!validarCPF(cliente.cpf)) {
+      cpfInput.classList.add("input-error"); // Adiciona classe de erro visual
+      showAlert("CPF inválido. Verifique e tente novamente.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    } else {
+      cpfInput.classList.remove("input-error"); // Remove classe de erro visual, se presente
+    }
+
+    // ✅ Validação do PIN
+    if (!/^\d{6}$/.test(cliente.pin)) {
+      showAlert("O PIN deve conter exatamente 6 números.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+
+    // ✅ Validação do Telefone
+    if (!validarTelefone(cliente.telefone)) {
+      showAlert("Número de telefone inválido. Use o formato (XX) XXXXX-XXXX.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+
+    try {
+      showLoading("Cadastrando cliente...");
+      const response = await fetch(`${apiBaseUrl}/api/cadastro/clientes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cliente),
       });
+
+      if (!response.ok) {
+        const errorText = await response.json().catch(() => ({ message: "Erro desconhecido" }));
+        throw new Error(errorText.message || "Erro ao cadastrar cliente.");
+      }
+
+      showAlert("Cliente cadastrado com sucesso!", "success");
+      formCliente.reset();
+    } catch (error) {
+      console.error("Erro ao cadastrar cliente:", error.message);
+      showAlert(`Erro ao cadastrar cliente: ${error.message}`, "error");
+    } finally {
+      hideLoading();
+      botaoSubmit.disabled = false;
+    }
+  });
+}
+
+/**
+ * Valida um CPF com base na regra de dígitos verificadores
+ * @param {string} cpf - CPF a ser validado
+ * @returns {boolean} - Retorna true se o CPF for válido
+ */
+function validarCPF(cpf) {
+  if (!cpf || typeof cpf !== "string") return false;
+
+  // Remove caracteres não numéricos
+  cpf = cpf.replace(/\D/g, "");
+
+  // Verifica se tem 11 dígitos ou se todos os dígitos são iguais
+  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+
+  let soma = 0, resto;
+
+  // Valida o primeiro dígito verificador
+  for (let i = 1; i <= 9; i++) {
+    soma += parseInt(cpf[i - 1]) * (11 - i);
   }
+  resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+  if (resto !== parseInt(cpf[9])) return false;
+
+  soma = 0;
+
+  // Valida o segundo dígito verificador
+  for (let i = 1; i <= 10; i++) {
+    soma += parseInt(cpf[i - 1]) * (12 - i);
+  }
+  resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+  if (resto !== parseInt(cpf[10])) return false;
+
+  return true;
+}
+
+function validarTelefone(telefone) {
+  const telefoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/;
+  return telefoneRegex.test(telefone);
+}
 
 
 /* b) Cadastro de Imóveis */
@@ -441,6 +489,23 @@ if (formContrato) {
 
     if (!dataInicio) {
       showAlert("Informe a data de início do contrato.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+    if (!validarCPF(cliente.cpf)) {
+      showAlert("CPF inválido. Verifique e tente novamente.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+    
+    if (!validarTelefone(cliente.telefone)) {
+      showAlert("Número de telefone inválido. Use o formato (XX) XXXXX-XXXX.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+    
+    if (!/^\d{6}$/.test(cliente.pin)) {
+      showAlert("O PIN deve conter exatamente 6 números.", "error");
       botaoSubmit.disabled = false;
       return;
     }
@@ -565,5 +630,7 @@ async function baixarContrato(contratoId) {
   carregarImoveis(); // Carrega imóveis disponíveis para contratos
   carregarUsuario(); // Carrega e exibe o nome do usuário logado
   exibirNomeUsuario();  // Exibe o nome do usuário logado 
+  validarCPF(); // Validação do CPF
+  validarTelefone(); // Validação do Telefone
 
 });
