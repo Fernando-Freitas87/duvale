@@ -46,64 +46,76 @@ function configurarModalTransacao() {
 
   // Fechar o modal ao clicar no botão de fechar
   closeModal.addEventListener("click", () => {
-    modal.style.display = "none";
+    modal.classList.remove("show");
   });
 
   // Fechar o modal ao clicar fora do conteúdo
   window.addEventListener("click", (event) => {
-    if (event.target === modal) {
-      modal.style.display = "none";
+    if (!document.querySelector(".modal-content").contains(event.target)) {
+      modal.classList.remove("show");
     }
   });
 
-  // Registrar a transação ao enviar o formulário
-  formTransacao.addEventListener("submit", async (event) => {
-    event.preventDefault();
-  
-    const tipo = document.getElementById("tipoTransacao").value;
-    const valor = parseFloat(document.getElementById("valorTransacao").value);
-    const descricao = document.getElementById("descricaoTransacao").value.trim();
-    const usuario = localStorage.getItem("userName");
-  
-    // Validações básicas
-    if (!tipo) {
-      alert("Selecione o tipo de transação!");
-      return;
+// Registrar a transação ao enviar o formulário
+formTransacao.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const tipo = document.getElementById("tipoTransacao").value;
+  const valor = parseFloat(document.getElementById("valorTransacao").value);
+  const descricao = document.getElementById("descricaoTransacao").value.trim();
+  const usuario = localStorage.getItem("userName");
+  const botaoRegistrar = document.querySelector(".btn-submit");
+
+  // Validações básicas
+  if (!tipo) {
+    alert("Selecione o tipo de transação!");
+    return;
+  }
+  if (!valor || valor <= 0 || isNaN(valor)) {
+    alert("Insira um valor válido!");
+    return;
+  }
+  if (!descricao) {
+    alert("A descrição não pode estar vazia!");
+    return;
+  }
+  if (!usuario) {
+    alert("Usuário não autenticado! Faça login novamente.");
+    window.location.href = "index.html";
+    return;
+  }
+
+  // Desabilita o botão para evitar múltiplos cliques
+  botaoRegistrar.disabled = true;
+  botaoRegistrar.textContent = "Registrando...";
+
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/caixa`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tipo, valor, descricao, usuario }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao registrar transação.");
     }
-    if (!valor || valor <= 0) {
-      alert("Insira um valor válido!");
-      return;
-    }
-    if (!descricao) {
-      alert("A descrição não pode estar vazia!");
-      return;
-    }
-    if (!usuario) {
-      alert("Usuário não autenticado! Faça login novamente.");
-      window.location.href = "index.html";
-      return;
-    }
-  
-    try {
-      const response = await fetch(`${apiBaseUrl}/api/caixa`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tipo, valor, descricao, usuario }),
-      });
-  
-      if (!response.ok) {
-        throw new Error("Erro ao registrar transação.");
-      }
-  
-      alert("Transação registrada com sucesso!");
-      modal.style.display = "none";
-      await carregarCaixa(); // Atualiza o saldo e histórico
-    } catch (error) {
-      console.error("Erro ao registrar transação:", error.message);
-      alert("Não foi possível registrar a transação.");
-    }
-  });
-}
+
+    alert("Transação registrada com sucesso!");
+
+    // Fechar modal corretamente
+    document.getElementById("modalTransacao").classList.remove("show");
+
+    // Atualiza o saldo e histórico do caixa
+    await carregarCaixa();
+  } catch (error) {
+    console.error("Erro ao registrar transação:", error.message);
+    alert("Não foi possível registrar a transação.");
+  } finally {
+    // Reativa o botão após a requisição
+    botaoRegistrar.disabled = false;
+    botaoRegistrar.textContent = "Registrar";
+  }
+});
 
 /**
  * Carrega o saldo atual e as transações do caixa.

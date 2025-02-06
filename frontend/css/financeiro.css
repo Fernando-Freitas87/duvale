@@ -138,4 +138,116 @@
 .linha-saida {
     background-color: rgba(255, 0, 0, 0.1);
 }
+/***************************************************************
+* [MODAL] ESTILIZAÇÃO PARA REGISTRAR MOVIMENTO AVULSO NO CAIXA
+***************************************************************/
 
+/* Modal Container */
+#modalTransacao {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Ativação do Modal */
+#modalTransacao.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Modal Content */
+#modalTransacao .modal-content {
+  background-color: #ffffff;
+  width: 400px;
+  max-width: 90%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animação */
+@keyframes fadeIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Título */
+#modalTransacao h2 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #004085;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Fechar Modal */
+#modalTransacao .close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+}
+
+#modalTransacao .close-button:hover {
+  color: #333;
+}
+
+/* Formulário */
+#modalTransacao form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Inputs e Select */
+#modalTransacao input,
+#modalTransacao select,
+#modalTransacao textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Botão */
+#modalTransacao .btn-submit {
+  background-color: #004085;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#modalTransacao .btn-submit:hover {
+  background-color: #00346b;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  #modalTransacao .modal-content {
+    width: 90%;
+  }
+}
