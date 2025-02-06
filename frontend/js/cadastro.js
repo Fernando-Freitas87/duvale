@@ -39,68 +39,106 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+/***************************************************************
+ * [3] CARREGAR E EXIBIR NOME DO USUÁRIO LOGADO
+ ***************************************************************/
+async function carregarUsuario() {
+  try {
+    const token = localStorage.getItem('authToken');
 
-  /***************************************************************
-   * [3] CARREGAR E EXIBIR NOME DO USUÁRIO LOGADO
-   ***************************************************************/
-  async function carregarUsuario() {
-    try {
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-        console.warn('Token de autenticação não encontrado. Nome padrão será exibido.');
-        exibirNomeUsuario('Usuário');
-        return;
-      }
-
-      const response = await fetch(`${apiBaseUrl}/api/usuario`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      if (!response.ok) {
-        console.warn(`Erro ao carregar o usuário: ${response.status}`);
-        exibirNomeUsuario('Usuário');
-        return;
-      }
-
-      const usuario = await response.json();
-      exibirNomeUsuario(usuario.nome || 'Usuário');
-    } catch (error) {
-      console.error('Erro ao carregar o nome do usuário:', error);
+    // Verifica se o token é válido antes de continuar
+    if (!token || token.trim() === '') {
+      console.warn('Token inválido ou ausente. Exibindo nome padrão.');
       exibirNomeUsuario('Usuário');
+      return;
     }
-  }
 
-  function exibirNomeUsuario(nome) {
-    const userNameElement = document.getElementById('user-name');
-    if (userNameElement) {
-      userNameElement.textContent = nome;
-    } else {
-      console.error('Elemento com ID "user-name" não encontrado no DOM.');
+    // Requisição para buscar os dados do usuário logado
+    const response = await fetch(`${apiBaseUrl}/api/usuario`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    // Verifica se a resposta é válida
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        console.warn('Token expirado ou inválido. Redirecionando para login...');
+        localStorage.removeItem('authToken');
+        window.location.href = '/login.html'; // Redireciona para o login
+      } else {
+        console.warn(`Erro ao carregar usuário (${response.status}): ${response.statusText}`);
+      }
+      exibirNomeUsuario('Usuário');
+      return;
     }
+
+    // Verifica se a resposta da API contém um objeto válido
+    const usuario = await response.json();
+    if (!usuario || typeof usuario !== 'object') {
+      console.warn('Resposta da API inválida.');
+      exibirNomeUsuario('Usuário');
+      return;
+    }
+
+    // Atualiza a interface com o nome do usuário
+    exibirNomeUsuario(usuario.nome || 'Usuário');
+  } catch (error) {
+    console.error('Erro ao carregar o nome do usuário:', error.message, error.stack);
+    exibirNomeUsuario('Usuário');
   }
+}
 
-  /***************************************************************
-   * [4] FUNÇÕES DE FEEDBACK VISUAL (LOADING E ALERTS)
-   ***************************************************************/
-  const showLoading = (message) => {
-    const loadingDiv = document.createElement("div");
-    loadingDiv.id = "loading";
-    loadingDiv.textContent = message;
-    document.body.appendChild(loadingDiv);
-  };
+/**
+ * Atualiza o nome do usuário na interface
+ * @param {string} nome Nome do usuário a ser exibido
+ */
+function exibirNomeUsuario(nome) {
+  const userNameElement = document.getElementById('user-name');
+  if (userNameElement) {
+    userNameElement.textContent = nome;
+  } else {
+    console.error('Elemento com ID "user-name" não encontrado no DOM.');
+  }
+}
 
-  const hideLoading = () => {
-    const loadingDiv = document.getElementById("loading");
-    if (loadingDiv) loadingDiv.remove();
-  };
+/***************************************************************
+ * [4] FUNÇÕES DE FEEDBACK VISUAL (LOADING E ALERTS)
+ ***************************************************************/
 
-  const showAlert = (message, type = "success") => {
-    const alertDiv = document.createElement("div");
-    alertDiv.className = `alert ${type}`;
-    alertDiv.textContent = message;
-    document.body.appendChild(alertDiv);
-    setTimeout(() => alertDiv.remove(), 3000);
-  };
+/**
+ * Exibe um indicador de carregamento na tela.
+ * Evita a criação de múltiplas instâncias simultâneas.
+ */
+const showLoading = (message) => {
+  if (document.getElementById("loading")) return; // Previne múltiplas instâncias
+  
+  const loadingDiv = document.createElement("div");
+  loadingDiv.id = "loading";
+  loadingDiv.innerHTML = `<span class="loader"></span> ${message}`;
+  document.body.appendChild(loadingDiv);
+};
+
+/**
+ * Remove o indicador de carregamento da tela.
+ */
+const hideLoading = () => {
+  const loadingDiv = document.getElementById("loading");
+  if (loadingDiv) loadingDiv.remove();
+};
+
+/**
+ * Exibe um alerta na tela e remove automaticamente após 3 segundos.
+ * Evita acúmulo de alertas.
+ */
+const showAlert = (message, type = "success") => {
+  const existingAlert = document.querySelector(".alert");
+  if (existingAlert) existingAlert.remove(); // Remove alerta anterior antes de exibir outro
+
+  const alertDiv = document.createElement("div");
+  alertDiv.className = `alert ${type}`;
+  alertDiv.textContent = message;
+  document.body.appendChild(alertDiv);
+  setTimeout(() => alertDiv.remove(), 3000);
+};
 
   /***************************************************************
    * [5] MÁSCARAS DE CAMPOS (CPF, TELEFONE)
@@ -129,6 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   }
+
 
   /***************************************************************
    * [6] CARREGAR CLIENTES E IMÓVEIS (PARA CONTRATOS)
@@ -203,81 +242,133 @@ document.addEventListener("DOMContentLoaded", () => {
    * [7] SUBMISSÃO DE FORMULÁRIOS
    ***************************************************************/
 
-  /* a) Cadastro de Clientes */
   const formCliente = document.getElementById("cadastro-cliente");
+
   if (formCliente) {
-    formCliente.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const cliente = {
-        nome: document.getElementById("nome-cliente").value.trim(),
-        cpf: document
-          .getElementById("cpf-cliente")
-          .value.replace(/[^\d]/g, ""), // Remove pontuação
-        telefone: document.getElementById("telefone-cliente").value.trim(),
-        pin: document.getElementById("pin-cliente").value.trim(),
-        tipo_usuario: "cliente", // Mantém fixo
-        observacoes: document
-          .getElementById("observacoes-cliente")
-          .value.trim(),
-        nacionalidade: document
-          .getElementById("nacionalidade-cliente")
-          .value.trim(),
-        data_nascimento: document.getElementById("data-nascimento-cliente").value,
-        documento_identidade: document
-          .getElementById("documento-identidade-cliente")
-          .value.trim(),
-        numero_documento_identidade: document
-          .getElementById("numero-documento-cliente")
-          .value.trim(),
-      };
-
-      try {
-        showLoading("Cadastrando cliente...");
-        const response = await fetch(`${apiBaseUrl}/api/cadastro/clientes`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(cliente),
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(errorText || "Erro ao cadastrar cliente.");
-        }
-
-        showAlert("Cliente cadastrado com sucesso!", "success");
-        formCliente.reset();
-      } catch (error) {
-        console.error("Erro ao cadastrar cliente:", error.message);
-        showAlert(`Erro ao cadastrar cliente: ${error.message}`, "error");
-      } finally {
-        hideLoading();
-      }
-    });
+      formCliente.addEventListener("submit", async (e) => {
+          e.preventDefault();
+  
+          const botaoSubmit = formCliente.querySelector("button[type='submit']");
+          botaoSubmit.disabled = true;
+  
+          const cliente = {
+              nome: document.getElementById("nome-cliente").value.trim(),
+              cpf: document.getElementById("cpf-cliente").value.replace(/[^\d]/g, ""), // Remove pontuação
+              telefone: document.getElementById("telefone-cliente").value.trim(),
+              pin: document.getElementById("pin-cliente").value.trim(),
+              tipo_usuario: "cliente", // Mantém fixo
+              observacoes: document.getElementById("observacoes-cliente").value.trim(),
+              nacionalidade: document.getElementById("nacionalidade-cliente").value.trim(),
+              data_nascimento: document.getElementById("data-nascimento-cliente").value,
+              documento_identidade: document.getElementById("documento-identidade-cliente").value.trim(),
+              numero_documento_identidade: document.getElementById("numero-documento-cliente").value.trim(),
+          };
+  
+          // ✅ Validações antes do envio
+          if (!validarCPF(cliente.cpf)) {
+              showAlert("CPF inválido. Verifique e tente novamente.", "error");
+              botaoSubmit.disabled = false;
+              return;
+          }
+  
+          if (!/^\d{6}$/.test(cliente.pin)) {
+              showAlert("O PIN deve conter exatamente 6 números.", "error");
+              botaoSubmit.disabled = false;
+              return;
+          }
+  
+          if (!validarTelefone(cliente.telefone)) {
+              showAlert("Número de telefone inválido. Use o formato (XX) XXXXX-XXXX.", "error");
+              botaoSubmit.disabled = false;
+              return;
+          }
+  
+          try {
+              showLoading("Cadastrando cliente...");
+              const response = await fetch(`${apiBaseUrl}/api/cadastro/clientes`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(cliente),
+              });
+  
+              if (!response.ok) {
+                  const errorText = await response.json().catch(() => ({ message: "Erro desconhecido" }));
+                  throw new Error(errorText.message || "Erro ao cadastrar cliente.");
+              }
+  
+              showAlert("Cliente cadastrado com sucesso!", "success");
+              formCliente.reset();
+          } catch (error) {
+              console.error("Erro ao cadastrar cliente:", error.message);
+              showAlert(`Erro ao cadastrar cliente: ${error.message}`, "error");
+          } finally {
+              hideLoading();
+              botaoSubmit.disabled = false;
+          }
+      });
+  }
+  
+  /** Função para validar CPF */
+  function validarCPF(cpf) {
+      cpf = cpf.replace(/\D/g, '');
+      if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+  
+      let soma = 0, resto;
+      for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
+      resto = (soma * 10) % 11;
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(cpf[9])) return false;
+  
+      soma = 0;
+      for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
+      resto = (soma * 10) % 11;
+      return resto === parseInt(cpf[10]);
+  }
+  
+  /** Função para validar telefone */
+  function validarTelefone(telefone) {
+      return /^\(\d{2}\) \d{4,5}-\d{4}$/.test(telefone);
   }
 
 /* b) Cadastro de Imóveis */
 const formImovel = document.getElementById("cadastro-imovel");
+
 if (formImovel) {
   formImovel.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Lê o valor do radio "tipo-imovel" selecionado
-    const tipoValue = document.querySelector('input[name="tipo-imovel"]:checked').value;
-    // Lê o valor do radio "status-imovel" selecionado
-    const statusValue = document.querySelector('input[name="status-imovel"]:checked').value;
+    const botaoSubmit = formImovel.querySelector("button[type='submit']");
+    botaoSubmit.disabled = true;
+
+    // Lê os valores dos radio buttons
+    const tipoInput = document.querySelector('input[name="tipo-imovel"]:checked');
+    const statusInput = document.querySelector('input[name="status-imovel"]:checked');
+
+    if (!tipoInput || !statusInput) {
+      showAlert("Selecione o tipo e o status do imóvel.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
 
     const imovel = {
       descricao: document.getElementById("descricao-imovel").value.trim(),
       endereco: document.getElementById("endereco-imovel").value.trim(),
-      tipo: tipoValue.trim(),
-      status: statusValue.trim(),
+      tipo: tipoInput.value.trim(),
+      status: statusInput.value.trim(),
       enel: document.getElementById("enel-imovel").value.trim(),
       cagece: document.getElementById("cagece-imovel").value.trim(),
     };
 
+    // Verifica se todos os campos obrigatórios foram preenchidos
+    if (!imovel.descricao || !imovel.endereco || !imovel.enel || !imovel.cagece) {
+      showAlert("Todos os campos são obrigatórios.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+
     try {
       showLoading("Cadastrando imóvel...");
+      
       const response = await fetch(`${apiBaseUrl}/api/cadastro/imoveis`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -285,8 +376,13 @@ if (formImovel) {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || "Erro ao cadastrar imóvel.");
+        let errorText;
+        try {
+          errorText = await response.json();
+        } catch {
+          errorText = { message: "Erro desconhecido ao cadastrar imóvel." };
+        }
+        throw new Error(errorText.message || "Erro ao cadastrar imóvel.");
       }
 
       showAlert("Imóvel cadastrado com sucesso!", "success");
@@ -296,87 +392,165 @@ if (formImovel) {
       showAlert(`Erro ao cadastrar imóvel: ${error.message}`, "error");
     } finally {
       hideLoading();
+      botaoSubmit.disabled = false;
     }
   });
 }
 
-  /* c) Cadastro de Contratos */
-  const formContrato = document.getElementById("cadastro-contrato");
-  if (formContrato) {
-    // Primeira parte: Cadastrar Contrato
-    formContrato.addEventListener("submit", async (e) => {
-      e.preventDefault();
+ /* c) Cadastro de Contratos */
+const formContrato = document.getElementById("cadastro-contrato");
 
-      const clienteId = document.getElementById("cliente-contrato").value;
-      const imovelId = document.getElementById("imovel-contrato").value;
+if (formContrato) {
+  formContrato.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      if (!clienteId || !imovelId) {
-        showAlert("Selecione um cliente e um imóvel antes de continuar.", "error");
-        return;
+    const botaoSubmit = formContrato.querySelector("button[type='submit']");
+    botaoSubmit.disabled = true;
+
+    const clienteId = document.getElementById("cliente-contrato").value;
+    const imovelId = document.getElementById("imovel-contrato").value;
+    const totalMeses = parseInt(document.getElementById("total-meses").value.trim(), 10);
+    const valorAluguel = parseFloat(document.getElementById("valor-aluguel").value.trim());
+    const diaVencimento = parseInt(document.getElementById("dia-vencimento").value.trim(), 10);
+    const dataInicio = new Date(document.getElementById("data-inicio").value);
+    
+    if (!clienteId || !imovelId) {
+      showAlert("Selecione um cliente e um imóvel antes de continuar.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+
+    if (!totalMeses || totalMeses <= 0) {
+      showAlert("Informe um número válido de meses.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+
+    if (!valorAluguel || isNaN(valorAluguel) || valorAluguel <= 0) {
+      showAlert("Informe um valor válido para o aluguel.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+
+    if (!diaVencimento || diaVencimento < new Date().getDate()) {
+      showAlert("O dia de vencimento deve ser igual ou posterior ao dia de hoje.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+
+    if (!dataInicio) {
+      showAlert("Informe a data de início do contrato.", "error");
+      botaoSubmit.disabled = false;
+      return;
+    }
+
+    // Calcula a data de término automaticamente
+    const dataFim = new Date(dataInicio);
+    dataFim.setMonth(dataFim.getMonth() + totalMeses);
+    document.getElementById("data-fim").value = dataFim.toISOString().split("T")[0];
+
+    const contrato = {
+      cliente_id: clienteId,
+      imovel_id: imovelId,
+      total_meses: totalMeses,
+      valor_aluguel: valorAluguel,
+      dia_vencimento: diaVencimento,
+      data_inicio: dataInicio.toISOString().split("T")[0],
+      data_fim: dataFim.toISOString().split("T")[0],
+      parcelas: gerarParcelas(diaVencimento, totalMeses, valorAluguel, dataInicio),
+    };
+
+    try {
+      showLoading("Cadastrando contrato...");
+
+      const response = await fetch(`${apiBaseUrl}/api/cadastro/contratos`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(contrato),
+      });
+
+      if (!response.ok) {
+        let errorText;
+        try {
+          errorText = await response.json();
+        } catch {
+          errorText = { message: "Erro desconhecido ao cadastrar contrato." };
+        }
+        throw new Error(errorText.message || "Erro ao cadastrar contrato.");
       }
 
-      const contrato = {
-        cliente_id: clienteId,
-        imovel_id: imovelId,
-        total_meses: document.getElementById("total-meses").value.trim(),
-        valor_aluguel: document.getElementById("valor-aluguel").value.trim(),
-        dia_vencimento: document.getElementById("dia-vencimento").value.trim(),
-        data_inicio: document.getElementById("data-inicio").value,
-        data_fim: document.getElementById("data-fim").value,
-      };
-
-      try {
-        showLoading("Cadastrando contrato...");
-        const response = await fetch(`${apiBaseUrl}/api/cadastro/contratos`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(contrato),
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(errorText || "Erro ao cadastrar contrato.");
-        }
-
-        // Segunda parte: gerar e baixar contrato
-        const { contratoId } = await response.json();
+      const { contratoId } = await response.json();
+      if (contratoId) {
         await baixarContrato(contratoId);
         showAlert("Contrato cadastrado e contrato gerado com sucesso!", "success");
-        formContrato.reset();
-      } catch (error) {
-        console.error("Erro ao cadastrar contrato:", error.message);
-        showAlert("Erro ao cadastrar contrato: " + error.message, "error");
-      } finally {
-        hideLoading();
+      } else {
+        showAlert("Contrato cadastrado, mas não foi possível gerar o PDF.", "warning");
       }
-    });
-  }
 
-  /**
-   * Função auxiliar para gerar e baixar o contrato PDF
-   * @param {number} contratoId ID do contrato recém-criado
-   */
-  async function baixarContrato(contratoId) {
-    try {
-      const response = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}/gerar-pdf`);
-      if (!response.ok) {
-        throw new Error("Erro ao gerar PDF do contrato.");
-      }
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      // Cria um link para forçar o download do PDF
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `contrato_${contratoId}.pdf`;
-      link.click();
-
-      // Libera o objeto do PDF
-      window.URL.revokeObjectURL(url);
+      formContrato.reset();
     } catch (error) {
-      showAlert(`Erro ao gerar PDF: ${error.message}`, "error");
+      console.error("Erro ao cadastrar contrato:", error.message);
+      showAlert("Erro ao cadastrar contrato: " + error.message, "error");
+    } finally {
+      hideLoading();
+      botaoSubmit.disabled = false;
     }
+  });
+}
+
+/**
+ * Função para gerar as parcelas do contrato
+ * @param {number} diaVencimento Dia do vencimento da primeira parcela
+ * @param {number} totalMeses Número total de parcelas
+ * @param {number} valorAluguel Valor de cada parcela
+ * @param {Date} dataInicio Data de início do contrato
+ * @returns {Array} Lista de parcelas com datas e valores
+ */
+function gerarParcelas(diaVencimento, totalMeses, valorAluguel, dataInicio) {
+  let parcelas = [];
+  let dataParcela = new Date(dataInicio);
+  dataParcela.setDate(diaVencimento);
+
+  for (let i = 0; i < totalMeses; i++) {
+    parcelas.push({
+      numero: i + 1,
+      data_vencimento: dataParcela.toISOString().split("T")[0],
+      valor: valorAluguel.toFixed(2),
+    });
+    dataParcela.setMonth(dataParcela.getMonth() + 1);
   }
+  return parcelas;
+}
+
+/**
+ * Função auxiliar para gerar e baixar o contrato PDF
+ * @param {number} contratoId ID do contrato recém-criado
+ */
+async function baixarContrato(contratoId) {
+  if (!contratoId) {
+    showAlert("Erro ao gerar o contrato. ID inválido.", "error");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}/gerar-pdf`);
+    if (!response.ok) {
+      throw new Error("Erro ao gerar PDF do contrato.");
+    }
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `contrato_${contratoId}.pdf`;
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    showAlert(`Erro ao gerar PDF: ${error.message}`, "error");
+  }
+}
+
 
   /***************************************************************
    * [8] INICIALIZAÇÕES GERAIS
@@ -386,6 +560,7 @@ if (formImovel) {
 
   aplicarMascaraCPF();
   aplicarMascaraTelefone();
+  validarCPF();
 
   carregarClientes();
   carregarImoveis();

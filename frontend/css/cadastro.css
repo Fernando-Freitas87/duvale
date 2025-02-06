@@ -308,6 +308,14 @@ h2 {
     z-index: 1000;
 }
 
+input:invalid {
+    border-color: red;
+}
+
+input:valid {
+    border-color: green;
+}
+
 /*********************************************************
  *                 [9] RODAPÉ (FOOTER)
  *********************************************************/
@@ -491,4 +499,73 @@ h2 {
   
   .form-group {
     flex: 1; /* Cada .form-group ocupa metade do container */
+  }
+
+  .alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease-in-out, fadeOut 0.3s ease-in-out 2.7s;
+  }
+  
+  .alert.success {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .alert.error {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .alert.warning {
+    background-color: #ffc107;
+    color: black;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+  
+  @keyframes fadeOut {
+    from { opacity: 1; transform: translateX(-50%) translateY(0); }
+    to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+  }
+
+  #loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #loading::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    border: 3px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
