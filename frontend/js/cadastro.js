@@ -307,38 +307,7 @@ const showAlert = (message, type = "success") => {
           }
       });
   }
-  const cpfInput = document.getElementById("cpf-cliente").value;
-if (!cpfInput || cpfInput.trim() === "") {
-  showAlert("O campo CPF está vazio.", "error");
-  return;
-}
 
-if (!validarCPF(cpfInput)) {
-  showAlert("CPF inválido. Verifique e tente novamente.", "error");
-  return;
-}
-  /** Função para validar CPF */
-  function validarCPF(cpf) {
-    if (!cpf || typeof cpf !== "string") return false; // Certifica que cpf é uma string válida
-    cpf = cpf.replace(/\D/g, "");
-    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-  
-    let soma = 0, resto;
-    for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf[9])) return false;
-  
-    soma = 0;
-    for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
-    resto = (soma * 10) % 11;
-    return resto === parseInt(cpf[10]);
-  }
-  
-  /** Função para validar telefone */
-  function validarTelefone(telefone) {
-      return /^\(\d{2}\) \d{4,5}-\d{4}$/.test(telefone);
-  }
 
 /* b) Cadastro de Imóveis */
 const formImovel = document.getElementById("cadastro-imovel");
