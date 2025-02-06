@@ -229,8 +229,8 @@ export async function carregarAVencer(page = 1, limit = 10) {
     
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${endereco}</td>
         <td>${imovelDescricao}</td>
+        <td>${endereco}</td>
         <td>${dataVencimento}</td>
         <td>${valor}</td>
         <td>${dias_atraso}</td>
