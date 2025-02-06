@@ -539,7 +539,6 @@ async function baixarContrato(contratoId) {
 
   aplicarMascaraCPF();
   aplicarMascaraTelefone();
-  validarCPF();
 
   carregarClientes();
   carregarImoveis();
