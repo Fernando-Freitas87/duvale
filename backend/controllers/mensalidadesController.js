@@ -204,8 +204,8 @@ exports.getAVencer = async (req, res) => {
     const query = `
       SELECT 
         m.id AS id, 
-        c.nome AS cliente_nome,
         i.descricao AS imovel_descricao,
+        i.endereco,
         DATE_FORMAT(m.data_vencimento, '%Y-%m-%d') AS data_vencimento,
         m.valor,
         DATEDIFF(m.data_vencimento, CURDATE()) AS dias_atraso
