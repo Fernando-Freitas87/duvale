@@ -152,7 +152,7 @@ export async function carregarEmAtraso(page = 1, limit = 10) {
         ? `R$ ${parseFloat(item.valor).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}` // Formata o valor no padrão monetário brasileiro.
         : "R$ 0,00"; // Valor padrão caso não exista.
       const dias_atraso = item.dias_atraso !== undefined
-        ? `${item.dias_atraso} dias` // Dias de atraso ou "N/A".
+        ? `${item.dias_atraso} dias de atraso` // Dias de atraso ou "N/A".
         : "N/A";
 
       // Cria uma linha para cada item.
@@ -217,17 +217,16 @@ export async function carregarAVencer(page = 1, limit = 10) {
 
     // Renderiza cada item na tabela.
     data.forEach((item) => {
-      const clienteNome = item.inquilino || item.cliente_nome || "N/A"; // Ajuste com base nos dados do backend.       
-      const imovelDescricao = item.imovel_descricao || "N/A"; // Descrição do imóvel ou "N/A".
+      const clienteNome = item.inquilino || item.cliente_nome || "N/A";
+      const imovelDescricao = item.imovel_descricao || "N/A";
       const dataVencimento = item.data_vencimento
-        ? new Date(item.data_vencimento).toLocaleDateString("pt-BR") // Formata a data no padrão brasileiro.
-        : "Data Inválida"; // Exibe mensagem de data inválida caso não exista.
+        ? new Date(item.data_vencimento).toLocaleDateString("pt-BR")
+        : "Data Inválida";
       const valor = item.valor
-        ? `R$ ${parseFloat(item.valor).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}` // Formata o valor no padrão monetário brasileiro.
-        : "R$ 0,00"; // Valor padrão caso não exista.
-      const dias_atraso = item.dias_atraso || 0; // Dias de atraso ou 0 se não houver atraso.
-
-      // Cria uma linha da tabela com os dados formatados.
+        ? `R$ ${parseFloat(item.valor).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
+        : "R$ 0,00";
+      const dias_atraso = `${item.dias_atraso || 0} dias para vencer`;
+    
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${clienteNome}</td>
@@ -241,15 +240,14 @@ export async function carregarAVencer(page = 1, limit = 10) {
           </a>
         </td>
       `;
-
-      // Adiciona evento ao ícone de "Baixar Pagamento".
+    
       tr.querySelector(".btn-icone-baixar").addEventListener("click", (event) => {
-        event.preventDefault(); // Evita o comportamento padrão do link.
+        event.preventDefault();
         const mensalidadeId = event.currentTarget.getAttribute("data-id");
-        atualizarStatusMensalidade(mensalidadeId, "em dias", parseFloat(item.valor)); // Atualiza o status da mensalidade.
+        atualizarStatusMensalidade(mensalidadeId, "em dias", parseFloat(item.valor));
       });
-
-      tbody.appendChild(tr); // Adiciona a linha na tabela.
+    
+      tbody.appendChild(tr);
     });
 
     // Atualiza a paginação com os novos dados.
