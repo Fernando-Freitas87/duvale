@@ -218,8 +218,7 @@ export async function carregarAVencer(page = 1, limit = 10) {
     // Renderiza cada item na tabela.
     data.forEach((item) => {
       const imovelDescricao = item.imovel_descricao || "N/A"; // Descrição do imóvel ou "N/A".
-      const endereco = item.imovel?.endereco || "Endereço não informado"; // Endereço do imóvel.
-      const dataVencimento = item.data_vencimento
+      const endereco = item.endereco || "Endereço não informado";      const dataVencimento = item.data_vencimento
         ? new Date(item.data_vencimento).toLocaleDateString("pt-BR")
         : "Data Inválida";
       const valor = item.valor
