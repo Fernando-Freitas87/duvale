@@ -169,74 +169,96 @@ const showAlert = (message, type = "success") => {
   }
 
 
-  /***************************************************************
-   * [6] CARREGAR CLIENTES E IMÓVEIS (PARA CONTRATOS)
-   ***************************************************************/
-  async function carregarClientes() {
-    try {
-      showLoading("Carregando clientes...");
-      const response = await fetch(`${apiBaseUrl}/api/cadastro/clientes`);
-      if (!response.ok) {
-        if (response.status === 404) throw new Error("Nenhum cliente encontrado.");
-        throw new Error("Erro ao carregar clientes.");
-      }
+/***************************************************************
+ * [6] CARREGAR CLIENTES E IMÓVEIS (PARA CONTRATOS)
+ ***************************************************************/
 
-      const clientes = await response.json();
-      const selectClienteContrato = document.getElementById("cliente-contrato");
-
-      if (selectClienteContrato) {
-        if (clientes.length === 0) {
-          selectClienteContrato.innerHTML = '<option value="">Nenhum cliente disponível</option>';
-        } else {
-          selectClienteContrato.innerHTML = '<option value="">Selecione um cliente</option>';
-          clientes.forEach((cliente) => {
-            const option = document.createElement("option");
-            option.value = cliente.id;
-            option.textContent = cliente.nome;
-            selectClienteContrato.appendChild(option);
-          });
-        }
-      }
-    } catch (error) {
-      console.error("Erro ao carregar clientes:", error.message);
-      showAlert("Erro ao carregar clientes: " + error.message, "error");
-    } finally {
-      hideLoading();
-    }
+/**
+ * Atualiza dinamicamente um elemento <select> com os itens fornecidos.
+ * @param {HTMLElement} selectElement O elemento <select> a ser atualizado.
+ * @param {Array} items Lista de objetos com `id` e `nome` ou `descricao`.
+ * @param {string} defaultOption Texto padrão para a primeira opção.
+ */
+function atualizarSelect(selectElement, items, defaultOption) {
+  if (!selectElement) {
+    console.error("Elemento <select> não encontrado.");
+    return;
   }
 
-  async function carregarImoveis() {
-    try {
-      showLoading("Carregando imóveis...");
-      const response = await fetch(`${apiBaseUrl}/api/cadastro/imoveis/disponiveis`);
-      if (!response.ok) {
-        if (response.status === 404) throw new Error("Nenhum imóvel disponível.");
-        throw new Error("Erro ao carregar imóveis.");
-      }
+  selectElement.innerHTML = `<option value="">${defaultOption}</option>`;
+  items.forEach((item) => {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = item.nome || item.descricao;
+    selectElement.appendChild(option);
+  });
+}
 
-      const imoveis = await response.json();
-      const selectImovelContrato = document.getElementById("imovel-contrato");
+/**
+ * Carrega a lista de clientes e atualiza o <select>.
+ */
+async function carregarClientes() {
+  try {
+    showLoading("Carregando clientes...");
+    const response = await fetch(`${apiBaseUrl}/api/cadastro/clientes`);
 
-      if (selectImovelContrato) {
-        if (imoveis.length === 0) {
-          selectImovelContrato.innerHTML = '<option value="">Nenhum imóvel disponível</option>';
-        } else {
-          selectImovelContrato.innerHTML = '<option value="">Selecione um imóvel</option>';
-          imoveis.forEach((imovel) => {
-            const option = document.createElement("option");
-            option.value = imovel.id;
-            option.textContent = imovel.descricao;
-            selectImovelContrato.appendChild(option);
-          });
-        }
+    if (!response.ok) {
+      if (response.status === 401) {
+        showAlert("Sessão expirada. Faça login novamente.", "error");
+        window.location.href = "/login.html";
+        return;
       }
-    } catch (error) {
-      console.error("Erro ao carregar imóveis:", error.message);
-      showAlert("Erro ao carregar imóveis: " + error.message, "error");
-    } finally {
-      hideLoading();
+      if (response.status === 404) throw new Error("Nenhum cliente encontrado.");
+      throw new Error("Erro ao carregar clientes.");
     }
+
+    const clientes = await response.json();
+    if (!Array.isArray(clientes) || clientes.length === 0) {
+      throw new Error("Nenhum cliente disponível.");
+    }
+
+    const selectClienteContrato = document.getElementById("cliente-contrato");
+    atualizarSelect(selectClienteContrato, clientes, "Selecione um cliente");
+  } catch (error) {
+    console.error("Erro ao carregar clientes:", error.message);
+    showAlert("Erro ao carregar clientes: " + error.message, "error");
+  } finally {
+    hideLoading();
   }
+}
+
+/**
+ * Carrega a lista de imóveis e atualiza o <select>.
+ */
+async function carregarImoveis() {
+  try {
+    showLoading("Carregando imóveis...");
+    const response = await fetch(`${apiBaseUrl}/api/cadastro/imoveis/disponiveis`);
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        showAlert("Sessão expirada. Faça login novamente.", "error");
+        window.location.href = "/login.html";
+        return;
+      }
+      if (response.status === 404) throw new Error("Nenhum imóvel disponível.");
+      throw new Error("Erro ao carregar imóveis.");
+    }
+
+    const imoveis = await response.json();
+    if (!Array.isArray(imoveis) || imoveis.length === 0) {
+      throw new Error("Nenhum imóvel disponível.");
+    }
+
+    const selectImovelContrato = document.getElementById("imovel-contrato");
+    atualizarSelect(selectImovelContrato, imoveis, "Selecione um imóvel");
+  } catch (error) {
+    console.error("Erro ao carregar imóveis:", error.message);
+    showAlert("Erro ao carregar imóveis: " + error.message, "error");
+  } finally {
+    hideLoading();
+  }
+}
 
   /***************************************************************
    * [7] SUBMISSÃO DE FORMULÁRIOS
@@ -535,13 +557,13 @@ async function baixarContrato(contratoId) {
    * [8] INICIALIZAÇÕES GERAIS
    ***************************************************************/
   setupRadioNavigation();  // Vincula a navegação dos rádios
+  atualizarSelect();       // Atualiza os <select> de clientes
   updateFormDisplay();     // Exibe o formulário inicial
+  aplicarMascaraCPF(); // Aplica a máscara de CPF
+  aplicarMascaraTelefone(); // Aplica a máscara de telefone
+  carregarClientes(); // Carrega clientes disponíveis para contratos
+  carregarImoveis(); // Carrega imóveis disponíveis para contratos
+  carregarUsuario(); // Carrega e exibe o nome do usuário logado
+  exibirNomeUsuario();  // Exibe o nome do usuário logado 
 
-  aplicarMascaraCPF();
-  aplicarMascaraTelefone();
-
-  carregarClientes();
-  carregarImoveis();
-  carregarUsuario();
-  exibirNomeUsuario();
 });
