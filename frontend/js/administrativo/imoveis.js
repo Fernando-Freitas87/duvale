@@ -21,10 +21,10 @@ export async function carregarImoveis() {
       tr.innerHTML = `
         <td>${imovel.descricao || "Sem descrição"}</td>
         <td>${imovel.endereco || "Endereço não informado"}</td>
-        <td>${imovel.enel || "N/A"}</td> <!-- Dados de Cliente ENEL -->
-        <td>${imovel.cagece || "N/A"}</td> <!-- Dados de Cliente CAGECE -->
+        <td>${imovel.enel || "N/A"}</td>
+        <td>${imovel.cagece || "N/A"}</td>
+        <td>${imovel.tipo || "residencial"}</td> <!-- Novo campo -->
         <td>${imovel.status || "Indefinido"}</td>
-
         <td class="coluna-acoes">
           <a href="#" class="btn-icone-excluir" data-id="${imovel.id}" title="Excluir Imóvel">
             <i class="fas fa-trash-alt"></i>
@@ -47,7 +47,12 @@ export async function carregarImoveis() {
       tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
         event.preventDefault(); 
         const imovelId = event.currentTarget.getAttribute("data-id");
-        editarImovelModal(imovel);
+        const imovelSelecionado = lista.find(imovel => imovel.id == imovelId); // Correção aplicada
+        if (imovelSelecionado) {
+          editarImovelModal(imovelSelecionado);
+        } else {
+          console.warn(`Imóvel ID ${imovelId} não encontrado na lista.`);
+        }
       });
 
       tbody.appendChild(tr);
@@ -69,7 +74,7 @@ function editarImovelModal(imovel) {
   document.getElementById("edit-imovel-status").value = imovel.status || "";
   document.getElementById("edit-imovel-enel").value = imovel.enel || "";
   document.getElementById("edit-imovel-cagece").value = imovel.cagece || "";
-  
+  document.getElementById("edit-imovel-tipo").value = imovel.tipo || "residencial";  
 
   // Configurar botões de ação
   document.getElementById("btn-salvar-imovel").onclick = () => {
@@ -85,13 +90,14 @@ async function salvarEdicaoImovel(imovelId) {
     const descricao = document.getElementById("edit-imovel-descricao").value;
     const endereco  = document.getElementById("edit-imovel-endereco").value;
     const status    = document.getElementById("edit-imovel-status").value;
-    const enel = document.getElementById("edit-imovel-enel").value; // Novo campo
-    const cagece = document.getElementById("edit-imovel-cagece").value; // Novo campo
+    const enel = document.getElementById("edit-imovel-enel").value;
+    const cagece = document.getElementById("edit-imovel-cagece").value;
+    const tipo = document.getElementById("edit-imovel-tipo").value; // Adicionando o campo tipo
 
     const response = await fetch(`${apiBaseUrl}/api/imoveis/${imovelId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ descricao, endereco, status, enel, cagece })
+      body: JSON.stringify({ descricao, endereco, status, enel, cagece, tipo }) // Incluindo o tipo
     });
 
     if (!response.ok) {

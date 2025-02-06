@@ -15,18 +15,17 @@ exports.listarImoveis = async (req, res) => {
         descricao,
         endereco,
         status,
-        enel,   -- Novo campo
-        cagece  -- Novo campo
+        enel,
+        cagece,
+        tipo  -- Novo campo
       FROM imoveis
       ORDER BY id DESC
     `);
-    // Retorna os imóveis incluindo os novos campos
     res.json(rows);
   } catch (error) {
     console.error('Erro ao listar imóveis:', error.message);
     res.status(500).json({ error: 'Erro ao buscar imóveis.' });
   }
-
 };
 
 /**
@@ -39,16 +38,16 @@ exports.listarImoveis = async (req, res) => {
  */
 exports.criarImovel = async (req, res) => {
   try {
-    const { descricao, endereco, status, enel, cagece } = req.body;
-    
+    const { descricao, endereco, status, enel, cagece, tipo } = req.body;
+
     if (!descricao || !endereco) {
       return res.status(400).json({ error: 'Informe ao menos descrição e endereço do imóvel.' });
     }
 
     const [result] = await db.query(`
-      INSERT INTO imoveis (descricao, endereco, status, enel, cagece)
-      VALUES (?, ?, ?, ?, ?)
-    `, [descricao, endereco, status || 'disponível', enel || '', cagece || '']);
+      INSERT INTO imoveis (descricao, endereco, status, enel, cagece, tipo)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `, [descricao, endereco, status || 'disponível', enel || '', cagece || '', tipo || 'residencial']);
 
     res.status(201).json({ 
       message: 'Imóvel criado com sucesso!',
@@ -67,7 +66,11 @@ exports.criarImovel = async (req, res) => {
 exports.atualizarImovel = async (req, res) => {
   try {
     const { id } = req.params;
-    const { descricao, endereco, status, enel, cagece } = req.body;
+    const { descricao, endereco, status, enel, cagece, tipo } = req.body;
+
+    if (!["residencial", "comercial"].includes(tipo)) {
+      return res.status(400).json({ error: 'Tipo de imóvel inválido. Escolha entre "residencial" ou "comercial".' });
+    }
 
     const [result] = await db.query(`
       UPDATE imoveis
@@ -75,9 +78,10 @@ exports.atualizarImovel = async (req, res) => {
           endereco = ?, 
           status = ?, 
           enel = ?, 
-          cagece = ?
+          cagece = ?, 
+          tipo = ?
       WHERE id = ?
-    `, [descricao, endereco, status, enel, cagece, id]);
+    `, [descricao, endereco, status, enel, cagece, tipo, id]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Imóvel não encontrado.' });
