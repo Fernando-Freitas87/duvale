@@ -401,64 +401,78 @@ tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
   }
 }
 
+/**
+ * Função para carregar os dados de um contrato e preencher os campos no modal de edição.
+ * @param {number} contratoId - ID do contrato a ser editado.
+ */
 async function editarContrato(contratoId) {
   try {
     // Verifica se o ID do contrato foi fornecido
     if (!contratoId) {
-      throw new Error("ID do contrato não fornecido.");
+      throw new Error("ID do contrato não foi fornecido.");
     }
 
-    // Obtém o modal pelo ID
+    // Obtém o modal de edição de contrato
     const modal = document.getElementById("modal-editar-contrato");
     if (!modal) {
       console.error("Modal de edição de contrato não encontrado.");
-      return; // Sai da função se o modal não for encontrado
+      return;
     }
 
-    // Exibe o modal na tela
+    // Exibe o modal antes de carregar os dados
     modal.style.display = "block";
+
+    // Obtém o token de autenticação
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      throw new Error("Token de autenticação ausente. Faça login novamente.");
+    }
 
     // Faz a requisição para buscar os dados do contrato
     const response = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("authToken")}` // Adiciona o token de autenticação
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    // Verifica se a resposta foi bem-sucedida
+    // Verifica se a requisição foi bem-sucedida
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Erro ao buscar contrato. Status: ${response.status}. Detalhes: ${errorText}`);
     }
 
-    // Converte a resposta em JSON
+    // Converte a resposta para JSON
     const contrato = await response.json();
 
-    // Preenche os campos do modal com os dados do contrato
+    // Obtém os elementos do modal
     const totalMesesInput = document.getElementById("edit-total-meses");
     const valorAluguelInput = document.getElementById("edit-valor-aluguel");
     const diaVencimentoInput = document.getElementById("edit-dia-vencimento");
-    const dataInicioInput = document.getElementById("edit-data-inicio");
+    const dataInicioInput = document.getElementById("edit-contrato-data-inicio"); // Corrigido ID do input de data
 
+    // Verifica se os elementos do formulário existem antes de atribuir valores
     if (!totalMesesInput || !valorAluguelInput || !diaVencimentoInput || !dataInicioInput) {
-      throw new Error("Um ou mais elementos do formulário não foram encontrados.");
+      throw new Error("Um ou mais elementos do formulário não foram encontrados no DOM.");
     }
 
+    // Preenche os campos do modal com os dados do contrato
     totalMesesInput.value = contrato.total_meses || "";
     valorAluguelInput.value = contrato.valor_aluguel || "";
     diaVencimentoInput.value = contrato.dia_vencimento || "";
-    dataInicioInput.value = contrato.data_inicio || "";
+    dataInicioInput.value = contrato.data_inicio ? contrato.data_inicio.split("T")[0] : ""; // Formata a data corretamente
 
-    // Define evento para salvar as alterações
-    const btnSalvar = document.getElementById("btn-salvar-contrato");
+    // Obtém os botões do modal
+    const btnSalvar = document.getElementById("btn-contrato-salvar");
+    const btnCancelar = document.getElementById("btn-contrato-cancelar");
+
+    // Configura evento de salvar contrato
     if (btnSalvar) {
       btnSalvar.onclick = () => salvarEdicaoContrato(contratoId);
     } else {
       console.error("Botão 'Salvar' não encontrado no modal.");
     }
 
-    // Define evento para cancelar e fechar o modal
-    const btnCancelar = document.getElementById("btn-cancelar-edicao-contrato");
+    // Configura evento para fechar o modal ao cancelar
     if (btnCancelar) {
       btnCancelar.onclick = () => {
         modal.style.display = "none";
@@ -466,11 +480,24 @@ async function editarContrato(contratoId) {
     } else {
       console.error("Botão 'Cancelar' não encontrado no modal.");
     }
+
   } catch (error) {
-    // Exibe o erro no console e alerta o usuário
+    // Loga erro no console e exibe um alerta ao usuário
     console.error("Erro ao editar contrato:", error.message || error);
     alert(`Erro ao editar contrato: ${error.message || "Erro desconhecido"}`);
   }
+}
+
+function preencherCamposContrato(contrato) {
+  const totalMesesInput = document.getElementById("edit-total-meses");
+  const valorAluguelInput = document.getElementById("edit-valor-aluguel");
+  const diaVencimentoInput = document.getElementById("edit-dia-vencimento");
+  const dataInicioInput = document.getElementById("edit-data-inicio");
+
+  if (totalMesesInput) totalMesesInput.value = contrato.total_meses || "";
+  if (valorAluguelInput) valorAluguelInput.value = contrato.valor_aluguel || "";
+  if (diaVencimentoInput) diaVencimentoInput.value = contrato.dia_vencimento || "";
+  if (dataInicioInput) dataInicioInput.value = contrato.data_inicio || "";
 }
 
 /**
