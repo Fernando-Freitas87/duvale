@@ -1,5 +1,17 @@
 const apiBaseUrl = "https://duvale-production.up.railway.app";
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM completamente carregado e analisado.");
+
+  try {
+    aplicarMascaraCPF(); // Aplica a máscara de CPF
+    aplicarMascaraTelefone(); // Aplica a máscara de telefone
+    carregarClientes(); // Carrega clientes disponíveis
+    carregarImoveis(); // Carrega imóveis disponíveis
+    carregarUsuario(); // Carrega o nome do usuário logado
+  } catch (error) {
+    console.error("Erro durante a inicialização do DOMContentLoaded:", error.message);
+  }
+
   /***************************************************************
    * [1] VARIÁVEIS E ELEMENTOS PRINCIPAIS
    ***************************************************************/
