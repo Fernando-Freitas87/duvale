@@ -29,18 +29,19 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM completamente carregado e analisado.");
 
   try {
-    aplicarMascaraCPF(); // Aplica a máscara de CPF
-    aplicarMascaraTelefone(); // Aplica a máscara de telefone
-    carregarClientes(); // Carrega clientes disponíveis
-    carregarImoveis(); // Carrega imóveis disponíveis
-    carregarUsuario(); // Carrega o nome do usuário logado
-    updateFormDisplay(); // Exibe o formulário inicial
-    setupRadioNavigation(); // Vincula a navegação dos rádios
-    atualizarSelect(); // Atualiza os <select> de clientes
-    baixarContrato(); // Baixa o contrato em PDF
-    gerarParcelas(); // Gera as parcelas do contrato
-    validarCPF(); // Validação do CPF
-    validarTelefone(); // Validação do Telefone
+    // Configurações iniciais
+    aplicarMascaraCPF();
+    aplicarMascaraTelefone();
+    setupRadioNavigation();
+    updateFormDisplay();
+
+    // Carregamento de dados
+    carregarClientes(); // Atualiza o <select> de clientes
+    carregarImoveis(); // Atualiza o <select> de imóveis
+    carregarUsuario(); // Mostra o nome do usuário logado
+
+    // Nota: Funções como baixarContrato, gerarParcelas e validações
+    // são chamadas em momentos específicos e não aqui.
   } catch (error) {
     console.error("Erro durante a inicialização do DOMContentLoaded:", error.message);
   }
