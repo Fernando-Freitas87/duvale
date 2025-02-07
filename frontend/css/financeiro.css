@@ -142,7 +142,6 @@
 * [MODAL] ESTILIZAÇÃO PARA REGISTRAR MOVIMENTO AVULSO NO CAIXA
 ***************************************************************/
 
-/* Modal Container */
 #modalTransacao {
   position: fixed;
   top: 0;
@@ -159,7 +158,6 @@
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* Ativação do Modal */
 #modalTransacao.show {
   opacity: 1;
   visibility: visible;

@@ -28,30 +28,29 @@ document.addEventListener("DOMContentLoaded", async () => {
 function configurarModalTransacao() {
   const modal = document.getElementById("modalTransacao");
   const closeModal = document.getElementById("closeModal");
-  const formTransacao = document.getElementById("formTransacao");
 
   // Abrir o modal para registrar entrada
   document.getElementById("entrada-caixa").addEventListener("click", () => {
     document.getElementById("modalTitulo").textContent = "Registrar Entrada";
     document.getElementById("tipoTransacao").value = "entrada";
-    modal.style.display = "flex";
+    modal.classList.add("show"); // Adiciona a classe 'show' para exibir o modal
   });
 
   // Abrir o modal para registrar saída
   document.getElementById("saida-caixa").addEventListener("click", () => {
     document.getElementById("modalTitulo").textContent = "Registrar Saída";
     document.getElementById("tipoTransacao").value = "saida";
-    modal.style.display = "flex";
+    modal.classList.add("show"); // Adiciona a classe 'show' para exibir o modal
   });
 
   // Fechar o modal ao clicar no botão de fechar
   closeModal.addEventListener("click", () => {
-    modal.classList.remove("show");
+    modal.classList.remove("show"); // Remove a classe 'show' para esconder o modal
   });
 
   // Fechar o modal ao clicar fora do conteúdo
   window.addEventListener("click", (event) => {
-    if (!document.querySelector(".modal-content").contains(event.target)) {
+    if (event.target === modal) {
       modal.classList.remove("show");
     }
   });
