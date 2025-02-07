@@ -48,84 +48,77 @@
     </section>
     <hr class="divider" />
 
-    <!-- Seção do Caixa -->
-    <section id="caixa-section">
-      <!-- Informações do Saldo -->
-      <div class="caixa-container">
-        <p class="saldo-text">Saldo atual: <span id="saldo-atual">R$ 0,00</span></p>
+            <!-- Caixa -->
+            <section id="caixa-section">
+              <div class="caixa-container">
+                <p class="saldo-text">Saldo atual: <span id="saldo-atual">R$ 0,00</span></p>
 
-        <!-- Botões de Registro -->
-        <div class="botoes-caixa">
-          <button id="entrada-caixa" class="btn">
-            <i class="fas fa-arrow-up"></i> Registrar Entrada
-          </button>
-          <button id="saida-caixa" class="btn-saida">
-            <i class="fas fa-arrow-down"></i> Registrar Saída
-          </button>
+                <!-- Adicionar Botões de Registro no HTML -->
+                <div class="botoes-caixa">
+                  <button id="entrada-caixa" class="btn">
+                    <i class="fas fa-arrow-up"></i> Registrar Entrada
+                  </button>
+                  <button id="saida-caixa" class="btn-saida">
+                    <i class="fas fa-arrow-down"></i> Registrar Saída
+                  </button>
+                </div>
+              </div>
+              <div class="transacoes">
+                <h3>Histórico de Transações</h3>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Data</th>
+                      <th>Tipo</th>
+                      <th>Valor</th>
+                      <th>Descrição</th>
+                      <th>Usuário</th>
+                    </tr>
+                  </thead>
+                  <tbody id="transacoes-corpo">
+                    <!-- Transações serão carregadas aqui -->
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            
+      <!-- Modal para Registro de Entradas e Saídas -->
+      <div id="modalTransacao" class="modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-button" id="closeModal">&times;</span>
+          <h2 id="modalTitulo">Registrar Transação</h2>
+
+          <form id="formTransacao">
+            <div class="form-group">
+              <!--<label for="tipoTransacao">Tipo de Transação </label>-->
+              <select id="tipoTransacao" name="tipoTransacao" required>
+                <option value="entrada">Entrada</option>
+                <option value="saida">Saída</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="valorTransacao">Valor</label>
+              <input type="number" id="valorTransacao" name="valorTransacao" step="0.01" min="0" required />
+            </div>
+
+            <div class="form-group">
+              <label for="descricaoTransacao">Descrição</label>
+              <textarea id="descricaoTransacao" name="descricaoTransacao" rows="3" required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Registrar</button>
+          </form>
         </div>
       </div>
-
-      <!-- Histórico de Transações -->
-      <div class="transacoes">
-        <h3>Histórico de Transações</h3>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>Tipo</th>
-              <th>Valor</th>
-              <th>Descrição</th>
-              <th>Usuário</th>
-            </tr>
-          </thead>
-          <tbody id="transacoes-corpo">
-            <!-- Transações dinâmicas serão carregadas aqui -->
-            <tr>
-              <td colspan="5" style="text-align: center;">Carregando...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Modal para Registrar Entradas e Saídas -->
-    <div id="modalTransacao" class="modal" style="display: none;">
-      <div class="modal-content">
-        <span class="close-button" id="closeModal">&times;</span>
-        <h2 id="modalTitulo">Registrar Transação</h2>
-
-        <!-- Formulário do Modal -->
-        <form id="formTransacao">
-          <div class="form-group">
-            <label for="tipoTransacao">Tipo de Transação</label>
-            <select id="tipoTransacao" name="tipoTransacao" required>
-              <option value="entrada">Entrada</option>
-              <option value="saida">Saída</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="valorTransacao">Valor</label>
-            <input type="number" id="valorTransacao" name="valorTransacao" step="0.01" min="0.01" placeholder="Ex: 100.00" required />
-          </div>
-
-          <div class="form-group">
-            <label for="descricaoTransacao">Descrição</label>
-            <textarea id="descricaoTransacao" name="descricaoTransacao" rows="3" maxlength="200" placeholder="Máximo 200 caracteres" required></textarea>
-          </div>
-
-          <button type="submit" class="btn-submit">Registrar</button>
-        </form>
-      </div>
-    </div>
 
   </main>
 
   <!-- Footer -->
   <footer class="footer">
-    <p>Setta Software Solutions. Todos os direitos reservados.</p>
-    <p>Desenvolvido por Fernando Freitas | &copy; 2025</p>
-    <a href="https://wa.me/5588981202539" class="contact-link">Fale Conosco!</a>
+    <p>Setta Software Solutions| &copy; 2025 </p>
+    <p> Todos os direitos reservados.</p>
+    <a href="https://wa.me/5588981202539" class="contact-link">Suporte Tecnico!</a>
   </footer>
 
 </body>
