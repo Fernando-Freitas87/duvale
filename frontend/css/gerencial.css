@@ -471,7 +471,7 @@ color: #28a745;   /* Verde no hover */
   left: 0;
   width: 100%; 
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Fundo transparente */
+  background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente */
   display: flex;
   align-items: center; 
   justify-content: center;
@@ -482,47 +482,112 @@ color: #28a745;   /* Verde no hover */
   background-color: #fff;
   width: 400px;
   max-width: 90%;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 25px;
+  border-radius: 10px; /* Bordas mais suaves */
   position: relative;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra mais definida */
 }
 
+/* Título do modal */
 .modal-content h3 {
   margin-top: 0;
+  margin-bottom: 20px;
   color: #004085; /* Azul-escuro */
+  font-size: 1.5rem; /* Aumenta o tamanho */
+  text-align: center; /* Centraliza o texto */
+  font-weight: bold;
 }
 
+/* Estilos para os labels */
 .modal-content label {
   display: block;
-  margin: 10px 0 5px;
-  font-weight: 600;
+  margin: 12px 0 6px; /* Espaçamento mais consistente */
+  font-weight: bold;
+  font-size: 14px; /* Um pouco maior para legibilidade */
+  color: #333;
 }
 
-.modal-content input[type="text"] {
+/* Inputs de texto */
+.modal-content input[type="text"],
+.modal-content select {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
   border: 1px solid #ccc;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
 }
 
+/* Ações do modal */
 .modal-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  align-items: center;
+  gap: 10px; /* Adiciona espaço entre os botões */
 }
 
-/* Botões dentro do modal (reutiliza .btn-primary, .btn-secondary, .btn-danger) */
+/* Botões dentro do modal */
+.btn-primary {
+  background-color: #004085;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: #00346b;
+}
+
+.btn-secondary {
+  background-color: #ddd;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-secondary:hover {
+  background-color: #bbb;
+}
+
 .btn-danger {
   background-color: #dc3545; /* Vermelho Bootstrap */
   color: #fff;
   border: none;
   padding: 8px 16px;
   border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 .btn-danger:hover {
   background-color: #c82333;
+}
+
+/* Responsividade do modal para telas menores */
+@media (max-width: 480px) {
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 10px; /* Ajusta o espaço entre os botões no modo empilhado */
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%; /* Botões ocupam toda a largura */
+  }
 }
 
 /***************************************************************

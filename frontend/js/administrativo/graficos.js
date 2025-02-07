@@ -27,7 +27,7 @@ function drawInadimplenciaChart() {
 
     // Configurações do gráfico
     const options = {
-        hAxis: { title: 'Simestre' },
+        hAxis: { title: '' },
         vAxis: { title: 'Valores' },
         bars: 'vertical',
         colors: ['#e74c3c', '#27ae60', '#f1c40f'], // Vermelho, Verde, Amarelo
@@ -56,7 +56,7 @@ function drawOcupacaoChart() {
 
     // Configurações do gráfico
     const options = {
-        hAxis: { title: 'Simestre' },
+        hAxis: { title: '' },
         vAxis: { title: 'Quantidade' },
         bars: 'vertical',
         colors: ['#3498db', '#2ecc71', '#e67e22'], // Azul, Verde, Laranja
