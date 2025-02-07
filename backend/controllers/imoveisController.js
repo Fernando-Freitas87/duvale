@@ -9,6 +9,13 @@ const db = require('../db');
  */
 exports.listarImoveis = async (req, res) => {
   try {
+    // Obtém os parâmetros de paginação (se não fornecidos, define valores padrão)
+    let { page = 1, limit = 10 } = req.query; 
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const offset = (page - 1) * limit; // Cálculo do deslocamento
+
+    // Consulta SQL com LIMIT e OFFSET para paginação
     const [rows] = await db.query(`
       SELECT 
         id,
@@ -20,8 +27,19 @@ exports.listarImoveis = async (req, res) => {
         tipo  -- Novo campo
       FROM imoveis
       ORDER BY id DESC
-    `);
-    res.json(rows);
+      LIMIT ? OFFSET ?
+    `, [limit, offset]);
+
+    // Consulta para contar o total de registros
+    const [[{ total }]] = await db.query(`SELECT COUNT(*) AS total FROM imoveis`);
+
+    // Retorna os imóveis junto com informações de paginação
+    res.json({
+      imoveis: rows,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error) {
     console.error('Erro ao listar imóveis:', error.message);
     res.status(500).json({ error: 'Erro ao buscar imóveis.' });

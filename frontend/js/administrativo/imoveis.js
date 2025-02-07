@@ -1,14 +1,16 @@
 // imoveis.js
 const apiBaseUrl = "https://duvale-production.up.railway.app";
+let paginaAtual = 1; // Página inicial
+const limitePorPagina = 5; // Quantidade de registros por página
 
-export async function carregarImoveis() {
+export async function carregarImoveis(page = 1) {
   try {
-    const response = await fetch(`${apiBaseUrl}/api/imoveis`);
+    const response = await fetch(`${apiBaseUrl}/api/imoveis?page=${page}&limit=${limitePorPagina}`);
     if (!response.ok) {
       throw new Error(`Erro ao buscar imóveis. Status: ${response.status}`);
     }
 
-    const lista = await response.json();
+    const { imoveis, total, totalPages } = await response.json();
     const tbody = document.getElementById("imoveis-corpo");
     if (!tbody) {
       console.warn('Elemento <tbody> com id="imoveis-corpo" não encontrado no DOM.');
@@ -16,14 +18,14 @@ export async function carregarImoveis() {
     }
 
     tbody.innerHTML = "";
-    lista.forEach((imovel) => {
+    imoveis.forEach((imovel) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${imovel.descricao || "Sem descrição"}</td>
         <td>${imovel.endereco || "Endereço não informado"}</td>
         <td>${imovel.enel || "N/A"}</td>
         <td>${imovel.cagece || "N/A"}</td>
-        <td>${imovel.tipo || "residencial"}</td> <!-- Novo campo -->
+        <td>${imovel.tipo || "residencial"}</td>
         <td>${imovel.status || "Indefinido"}</td>
         <td class="coluna-acoes">
           <a href="#" class="btn-icone-excluir" data-id="${imovel.id}" title="Excluir Imóvel">
@@ -35,7 +37,7 @@ export async function carregarImoveis() {
         </td>
       `;
 
-      // Evento para ícone de "Excluir"
+      // Evento para excluir imóvel
       tr.querySelector(".btn-icone-excluir").addEventListener("click", (event) => {
         event.preventDefault();
         const imovelId = event.currentTarget.getAttribute("data-id");
@@ -43,11 +45,11 @@ export async function carregarImoveis() {
         excluirImovel(imovelId);
       });
 
-      // Evento para ícone de "Editar"
+      // Evento para editar imóvel
       tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
         const imovelId = event.currentTarget.getAttribute("data-id");
-        const imovelSelecionado = lista.find(imovel => imovel.id == imovelId); // Correção aplicada
+        const imovelSelecionado = imoveis.find(imovel => imovel.id == imovelId);
         if (imovelSelecionado) {
           editarImovelModal(imovelSelecionado);
         } else {
@@ -57,9 +59,34 @@ export async function carregarImoveis() {
 
       tbody.appendChild(tr);
     });
+
+    // Atualiza os botões de paginação
+    atualizarPaginacao(totalPages);
   } catch (error) {
     console.error("Erro ao carregar imóveis:", error);
     alert("Não foi possível carregar a lista de imóveis. Verifique o console.");
+  }
+}
+
+/**
+ * Atualiza os botões de paginação
+ */
+function atualizarPaginacao(totalPages) {
+  const paginacaoDiv = document.getElementById("paginacao-imoveis");
+  paginacaoDiv.innerHTML = "";
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.innerText = i;
+    btn.classList.add("btn-paginacao");
+    if (i === paginaAtual) {
+      btn.classList.add("active");
+    }
+    btn.addEventListener("click", () => {
+      paginaAtual = i;
+      carregarImoveis(paginaAtual);
+    });
+    paginacaoDiv.appendChild(btn);
   }
 }
 
