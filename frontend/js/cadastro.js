@@ -1,4 +1,30 @@
+// Definição de variáveis globais
 const apiBaseUrl = "https://duvale-production.up.railway.app";
+
+// Definição de showLoading e hideLoading
+const showLoading = (message) => {
+  if (document.getElementById("loading")) return;
+  const loadingDiv = document.createElement("div");
+  loadingDiv.id = "loading";
+  loadingDiv.innerHTML = `<span class="loader"></span> ${message}`;
+  loadingDiv.style.position = "fixed";
+  loadingDiv.style.top = "50%";
+  loadingDiv.style.left = "50%";
+  loadingDiv.style.transform = "translate(-50%, -50%)";
+  loadingDiv.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+  loadingDiv.style.color = "white";
+  loadingDiv.style.padding = "20px";
+  loadingDiv.style.borderRadius = "8px";
+  loadingDiv.style.zIndex = "1000";
+  document.body.appendChild(loadingDiv);
+};
+
+const hideLoading = () => {
+  const loadingDiv = document.getElementById("loading");
+  if (loadingDiv) loadingDiv.remove();
+};
+
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM completamente carregado e analisado.");
 
@@ -8,6 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarClientes(); // Carrega clientes disponíveis
     carregarImoveis(); // Carrega imóveis disponíveis
     carregarUsuario(); // Carrega o nome do usuário logado
+    updateFormDisplay(); // Exibe o formulário inicial
+    setupRadioNavigation(); // Vincula a navegação dos rádios
+    atualizarSelect(); // Atualiza os <select> de clientes
+    baixarContrato(); // Baixa o contrato em PDF
+    gerarParcelas(); // Gera as parcelas do contrato
+    validarCPF(); // Validação do CPF
+    validarTelefone(); // Validação do Telefone
   } catch (error) {
     console.error("Erro durante a inicialização do DOMContentLoaded:", error.message);
   }
@@ -113,34 +146,8 @@ function exibirNomeUsuario(nome) {
 }
 
 /***************************************************************
- * [4] FUNÇÕES DE FEEDBACK VISUAL (LOADING E ALERTS)
+ * [4] (ALERTS)
  ***************************************************************/
-
-/**
- * Exibe um indicador de carregamento na tela.
- * Evita a criação de múltiplas instâncias simultâneas.
- */
-const showLoading = (message) => {
-  if (document.getElementById("loading")) return; // Previne múltiplas instâncias
-  
-  const loadingDiv = document.createElement("div");
-  loadingDiv.id = "loading";
-  loadingDiv.innerHTML = `<span class="loader"></span> ${message}`;
-  document.body.appendChild(loadingDiv);
-};
-
-/**
- * Remove o indicador de carregamento da tela.
- */
-const hideLoading = () => {
-  const loadingDiv = document.getElementById("loading");
-  if (loadingDiv) loadingDiv.remove();
-};
-
-/**
- * Exibe um alerta na tela e remove automaticamente após 3 segundos.
- * Evita acúmulo de alertas.
- */
 const showAlert = (message, type = "success") => {
   const existingAlert = document.querySelector(".alert");
   if (existingAlert) existingAlert.remove(); // Remove alerta anterior antes de exibir outro
@@ -149,7 +156,7 @@ const showAlert = (message, type = "success") => {
   alertDiv.className = `alert ${type}`;
   alertDiv.textContent = message;
   document.body.appendChild(alertDiv);
-  setTimeout(() => alertDiv.remove(), 3000);
+  setTimeout(() => alertDiv.remove(), 2000);
 };
 
   /***************************************************************
@@ -300,14 +307,14 @@ if (formCliente) {
     };
 
     // ✅ Validação do CPF
-    if (!validarCPF(cliente.cpf)) {
+    /*if (!validarCPF(cliente.cpf)) {
       cpfInput.classList.add("input-error"); // Adiciona classe de erro visual
       showAlert("CPF inválido. Verifique e tente novamente.", "error");
       botaoSubmit.disabled = false;
       return;
     } else {
       cpfInput.classList.remove("input-error"); // Remove classe de erro visual, se presente
-    }
+    } 
 
     // ✅ Validação do PIN
     if (!/^\d{6}$/.test(cliente.pin)) {
@@ -321,7 +328,7 @@ if (formCliente) {
       showAlert("Número de telefone inválido. Use o formato (XX) XXXXX-XXXX.", "error");
       botaoSubmit.disabled = false;
       return;
-    }
+    }*/
 
     try {
       showLoading("Cadastrando cliente...");
@@ -629,20 +636,5 @@ async function baixarContrato(contratoId) {
   }
 }
 
-
-  /***************************************************************
-   * [8] INICIALIZAÇÕES GERAIS
-   ***************************************************************/
-  setupRadioNavigation();  // Vincula a navegação dos rádios
-  atualizarSelect();       // Atualiza os <select> de clientes
-  updateFormDisplay();     // Exibe o formulário inicial
-  aplicarMascaraCPF(); // Aplica a máscara de CPF
-  aplicarMascaraTelefone(); // Aplica a máscara de telefone
-  carregarClientes(); // Carrega clientes disponíveis para contratos
-  carregarImoveis(); // Carrega imóveis disponíveis para contratos
-  carregarUsuario(); // Carrega e exibe o nome do usuário logado
-  exibirNomeUsuario();  // Exibe o nome do usuário logado 
-  validarCPF(); // Validação do CPF
-  validarTelefone(); // Validação do Telefone
 
 });
