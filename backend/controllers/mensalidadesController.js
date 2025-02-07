@@ -125,6 +125,54 @@ exports.atualizarStatusMensalidade = async (req, res) => {
 };
 
 /**
+ * Atualiza as mensalidades de um contrato.
+ * Remove as mensalidades existentes e recalcula novas mensalidades com base nas alterações no contrato.
+ * @route PUT /api/mensalidades/atualizar/:contratoId
+ */
+exports.atualizarMensalidades = async (req, res) => {
+  try {
+    const { contratoId } = req.params;
+    const { totalMeses, valorAluguel, diaVencimento, dataInicio } = req.body;
+
+    if (!contratoId || !totalMeses || !valorAluguel || !diaVencimento || !dataInicio) {
+      return res.status(400).json({ error: "Todos os campos são obrigatórios." });
+    }
+
+    // Remove mensalidades existentes para o contrato
+    await db.query("DELETE FROM mensalidades WHERE contrato_id = ?", [contratoId]);
+
+    // Recalcula as mensalidades
+    const mensalidades = [];
+    const dataInicioDate = new Date(dataInicio);
+
+    for (let i = 0; i < totalMeses; i++) {
+      const vencimento = new Date(dataInicioDate);
+      vencimento.setMonth(vencimento.getMonth() + i);
+      vencimento.setDate(diaVencimento);
+
+      mensalidades.push([
+        contratoId,
+        valorAluguel,
+        vencimento.toISOString().split("T")[0], // Formato YYYY-MM-DD
+        "pendente" // Status inicial das mensalidades
+      ]);
+    }
+
+    // Insere as novas mensalidades
+    await db.query(
+      "INSERT INTO mensalidades (contrato_id, valor, data_vencimento, status) VALUES ?",
+      [mensalidades]
+    );
+
+    logger.info(`Mensalidades atualizadas para o contrato ${contratoId}`);
+    res.json({ message: "Mensalidades atualizadas com sucesso!" });
+  } catch (error) {
+    logger.error(`Erro ao atualizar mensalidades: ${error.message}`);
+    res.status(500).json({ error: "Erro ao atualizar mensalidades." });
+  }
+};
+
+/**
  * Obtém mensalidades em atraso paginadas (sem filtro de data).
  * A rota é /api/mensalidades/em-atraso?page=...&limit=...
  */

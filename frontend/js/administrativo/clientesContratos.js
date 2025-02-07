@@ -551,29 +551,62 @@ async function baixarContrato(contratoId) {
  */
 async function salvarEdicaoContrato(contratoId) {
   try {
-    const totalMeses = document.getElementById("edit-total-meses").value;
-    const valorAluguel = document.getElementById("edit-valor-aluguel").value;
-    const diaVencimento = document.getElementById("edit-dia-vencimento").value;
-    const dataInicio = document.getElementById("edit-data-inicio").value;
+    // Captura os campos do formulário
+    const totalMesesInput = document.getElementById("edit-total-meses");
+    const valorAluguelInput = document.getElementById("edit-valor-aluguel");
+    const diaVencimentoInput = document.getElementById("edit-dia-vencimento");
+    const dataInicioInput = document.getElementById("edit-data-inicio");
 
+    // Verifica se os elementos do formulário existem
+    if (!totalMesesInput || !valorAluguelInput || !diaVencimentoInput || !dataInicioInput) {
+      throw new Error("Um ou mais elementos necessários para salvar o contrato não foram encontrados no DOM.");
+    }
+
+    // Obtém os valores atuais
+    const totalMeses = totalMesesInput.value;
+    const valorAluguel = valorAluguelInput.value;
+    const diaVencimento = diaVencimentoInput.value;
+    const dataInicio = dataInicioInput.value;
+
+    // Verifica se algum dos campos críticos foi alterado
+    const contratoAtual = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+    }).then((res) => res.json());
+
+    const mensalidadesDevemSerAtualizadas =
+      totalMeses !== contratoAtual.total_meses ||
+      valorAluguel !== contratoAtual.valor_aluguel ||
+      diaVencimento !== contratoAtual.dia_vencimento;
+
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      throw new Error("Token de autenticação ausente. Faça login novamente.");
+    }
+
+    // Envia a atualização para o backend
     const response = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         total_meses: totalMeses,
         valor_aluguel: valorAluguel,
         dia_vencimento: diaVencimento,
         data_inicio: dataInicio,
+        atualizar_mensalidades: mensalidadesDevemSerAtualizadas, // Indica ao backend se deve atualizar as mensalidades
       }),
     });
+
     if (!response.ok) throw new Error(`Erro ao editar contrato. Status: ${response.status}`);
 
     alert("Contrato atualizado com sucesso!");
     document.getElementById("modal-editar-contrato").style.display = "none";
-    carregarContratos(); // Atualiza a tabela
+    carregarContratos(); // Atualiza a tabela de contratos
   } catch (error) {
     console.error("Erro ao salvar edição do contrato:", error);
-    alert("Não foi possível editar o contrato.");
+    alert(`Não foi possível editar o contrato: ${error.message}`);
   }
 }
 
