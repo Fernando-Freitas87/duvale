@@ -403,43 +403,73 @@ tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
 
 async function editarContrato(contratoId) {
   try {
+    // Verifica se o ID do contrato foi fornecido
     if (!contratoId) {
       throw new Error("ID do contrato não fornecido.");
     }
 
+    // Obtém o modal pelo ID
     const modal = document.getElementById("modal-editar-contrato");
     if (!modal) {
       console.error("Modal de edição de contrato não encontrado.");
-      return;
+      return; // Sai da função se o modal não for encontrado
     }
 
+    // Exibe o modal na tela
     modal.style.display = "block";
 
-    // Busca os dados do contrato na API
-    const response = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}`);
+    // Faz a requisição para buscar os dados do contrato
+    const response = await fetch(`${apiBaseUrl}/api/contratos/${contratoId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}` // Adiciona o token de autenticação
+      },
+    });
+
+    // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Erro ao buscar contrato. Status: ${response.status}, Detalhes: ${errorText}`);
+      throw new Error(`Erro ao buscar contrato. Status: ${response.status}. Detalhes: ${errorText}`);
     }
 
+    // Converte a resposta em JSON
     const contrato = await response.json();
 
     // Preenche os campos do modal com os dados do contrato
-    document.getElementById("edit-total-meses").value = contrato.total_meses || "";
-    document.getElementById("edit-valor-aluguel").value = contrato.valor_aluguel || "";
-    document.getElementById("edit-dia-vencimento").value = contrato.dia_vencimento || "";
-    document.getElementById("edit-data-inicio").value = contrato.data_inicio || "";
+    const totalMesesInput = document.getElementById("edit-total-meses");
+    const valorAluguelInput = document.getElementById("edit-valor-aluguel");
+    const diaVencimentoInput = document.getElementById("edit-dia-vencimento");
+    const dataInicioInput = document.getElementById("edit-data-inicio");
 
-    // Define evento para salvar alterações
-    document.getElementById("btn-salvar-contrato").onclick = () => salvarEdicaoContrato(contratoId);
+    if (!totalMesesInput || !valorAluguelInput || !diaVencimentoInput || !dataInicioInput) {
+      throw new Error("Um ou mais elementos do formulário não foram encontrados.");
+    }
 
-    // Define evento para cancelar edição
-    document.getElementById("btn-cancelar-edicao-contrato").onclick = () => {
-      modal.style.display = "none";
-    };
+    totalMesesInput.value = contrato.total_meses || "";
+    valorAluguelInput.value = contrato.valor_aluguel || "";
+    diaVencimentoInput.value = contrato.dia_vencimento || "";
+    dataInicioInput.value = contrato.data_inicio || "";
+
+    // Define evento para salvar as alterações
+    const btnSalvar = document.getElementById("btn-salvar-contrato");
+    if (btnSalvar) {
+      btnSalvar.onclick = () => salvarEdicaoContrato(contratoId);
+    } else {
+      console.error("Botão 'Salvar' não encontrado no modal.");
+    }
+
+    // Define evento para cancelar e fechar o modal
+    const btnCancelar = document.getElementById("btn-cancelar-edicao-contrato");
+    if (btnCancelar) {
+      btnCancelar.onclick = () => {
+        modal.style.display = "none";
+      };
+    } else {
+      console.error("Botão 'Cancelar' não encontrado no modal.");
+    }
   } catch (error) {
-    console.error("Erro ao editar contrato:", error.message);
-    alert(`Erro ao editar contrato: ${error.message}`);
+    // Exibe o erro no console e alerta o usuário
+    console.error("Erro ao editar contrato:", error.message || error);
+    alert(`Erro ao editar contrato: ${error.message || "Erro desconhecido"}`);
   }
 }
 
