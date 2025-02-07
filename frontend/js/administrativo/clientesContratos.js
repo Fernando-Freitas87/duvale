@@ -292,10 +292,17 @@ async function salvarEdicaoCliente(clienteId) {
     const documentoIdentidade = document.getElementById("edit-cliente-documento-identidade").value;
     const numeroDocumento = document.getElementById("edit-cliente-numero-documento").value;
 
+    // Obtém o token de autenticação do localStorage
+    const token = localStorage.getItem("authToken");
+    if (!token) throw new Error("Token de autenticação ausente. Faça login novamente.");
+
     // Envia os dados para o backend
     const response = await fetch(`${apiBaseUrl}/api/clientes/${clienteId}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Adiciona o cabeçalho de autorização
+      },
       body: JSON.stringify({
         nome,
         cpf,
@@ -316,7 +323,7 @@ async function salvarEdicaoCliente(clienteId) {
     carregarClientes(); // Atualiza a lista de clientes
   } catch (error) {
     console.error("Erro ao salvar edição do cliente:", error);
-    alert("Não foi possível editar o cliente.");
+    alert(`Não foi possível editar o cliente: ${error.message}`);
   }
 }
 
