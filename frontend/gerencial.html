@@ -208,43 +208,42 @@
   <div id="paginacao-clientes" class="pagination"></div>
 
 <!-- Modal: Editar Cliente -->
-<div id="modal-editar-cliente" class="modal" style="display: none;">
+<div id="modal-editar-cliente" class="modal">
   <div class="modal-content">
     <h3>Editar Cliente</h3>
     
-    <!-- Campos existentes -->
+    <!-- Campos com classes específicas -->
     <label for="edit-cliente-nome">Nome:</label>
-    <input type="text" id="edit-cliente-nome" required />
+    <input type="text" id="edit-cliente-nome" />
 
     <label for="edit-cliente-cpf">CPF:</label>
-    <input type="text" id="edit-cliente-cpf" placeholder="000.000.000-00" required />
+    <input type="text" id="edit-cliente-cpf" />
 
     <label for="edit-cliente-telefone">Telefone:</label>
-    <input type="tel" id="edit-cliente-telefone" placeholder="(00) 00000-0000" required />
+    <input type="tel" id="edit-cliente-telefone" />
 
     <label for="edit-cliente-pin">PIN:</label>
-    <input type="text" id="edit-cliente-pin" placeholder="6 dígitos" required />
+    <input type="number" id="edit-cliente-pin" class="campo-number" />
 
     <label for="edit-cliente-observacoes">Observações:</label>
-    <textarea id="edit-cliente-observacoes" rows="3"></textarea>
+    <textarea id="edit-cliente-observacoes" class="campo-textarea"></textarea>
 
-    <!-- Novos campos adicionados --> 
     <label for="edit-cliente-nacionalidade">Nacionalidade:</label>
-    <input type="text" id="edit-cliente-nacionalidade" placeholder="Nacionalidade" />
+    <input type="text" id="edit-cliente-nacionalidade" />
 
-    <label for="edit-cliente-documento-identidade">Tipo do Documento:</label>
-    <input type="text" id="edit-cliente-documento-identidade" placeholder="Documento de Identidade" />
+    <label for="edit-cliente-documento">Tipo do Documento:</label>
+    <input type="text" id="edit-cliente-documento" />
 
     <label for="edit-cliente-numero-documento">Número do Documento:</label>
-    <input type="text" id="edit-cliente-numero-documento" placeholder="Número do Documento" />
+    <input type="number" id="edit-cliente-numero-documento" class="campo-number" />
 
     <label for="edit-cliente-data-nascimento">Data de Nascimento:</label>
-    <input type="date" id="edit-cliente-data-nascimento" />
+    <input type="date" id="edit-cliente-data-nascimento" class="campo-data" />
 
-    <!-- Ações do modal -->
+    <!-- Botões do modal -->
     <div class="modal-actions">
       <button id="btn-salvar-cliente" class="btn-primary">Salvar</button>
-      <button id="btn-cancelar-edicao-cliente" class="btn-secondary">Cancelar</button>
+      <button id="btn-cancelar-cliente" class="btn-secondary">Cancelar</button>
     </div>
   </div>
 </div>
@@ -274,26 +273,27 @@
   <div id="paginacao-contratos" class="pagination"></div>
 
   <!-- Modal: Editar Contrato -->
-  <div id="modal-editar-contrato" class="modal" style="display: none;">
-    <div class="modal-content">
-      <h3>Editar Contrato</h3>
-      <label for="edit-total-meses">Total de Meses:</label>
-      <input type="number" id="edit-total-meses" min="1" />
-
-      <label for="edit-valor-aluguel">Valor do Aluguel:</label>
-      <input type="number" step="0.01" id="edit-valor-aluguel" />
-
-      <label for="edit-dia-vencimento">Dia de Vencimento:</label>
-      <input type="number" min="1" max="31" id="edit-dia-vencimento" />
-
-      <label for="edit-data-inicio">Data de Início:</label>
-      <input type="date" id="edit-data-inicio" />
-
-      <div class="modal-actions">
-        <button id="btn-salvar-contrato" class="btn-primary">Salvar</button>
-        <button id="btn-cancelar-edicao-contrato" class="btn-secondary">Cancelar</button>   
+  <div id="modal-editar-contrato" class="modal-contrato" style="display: none;">
+    <div class="modal-contrato-content">
+      <h3 class="modal-contrato-title">Editar Contrato</h3>
+      
+      <label for="edit-contrato-total-meses" class="modal-contrato-label">Total de Meses:</label>
+      <input type="number" id="edit-contrato-total-meses" class="modal-contrato-input" min="1" />
+  
+      <label for="edit-contrato-valor-aluguel" class="modal-contrato-label">Valor do Aluguel:</label>
+      <input type="number" step="0.01" id="edit-contrato-valor-aluguel" class="modal-contrato-input" />
+  
+      <label for="edit-contrato-dia-vencimento" class="modal-contrato-label">Dia de Vencimento:</label>
+      <input type="number" min="1" max="31" id="edit-contrato-dia-vencimento" class="modal-contrato-input" />
+  
+      <label for="edit-contrato-data-inicio" class="modal-contrato-label">Data de Início:</label>
+      <input type="date" id="edit-contrato-data-inicio" class="modal-contrato-input modal-contrato-input-date" />
+  
+      <div class="modal-contrato-actions">
+        <button id="btn-contrato-salvar" class="btn-contrato-save">Salvar</button>
+        <button id="btn-contrato-cancelar" class="btn-contrato-cancel">Cancelar</button>   
       </div>
-
+  
     </div>
   </div>
 </section>
