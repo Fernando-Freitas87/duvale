@@ -5,19 +5,32 @@ const limitePorPagina = 5; // Quantidade de registros por página
 
 export async function carregarImoveis(page = 1) {
   try {
+    // Faz a requisição para a API
     const response = await fetch(`${apiBaseUrl}/api/imoveis?page=${page}&limit=${limitePorPagina}`);
     if (!response.ok) {
       throw new Error(`Erro ao buscar imóveis. Status: ${response.status}`);
     }
 
-    const { imoveis, total, totalPages } = await response.json();
+    // Obtém os dados retornados pela API
+    const data = await response.json();
+    const { imoveis, total, totalPages } = data;
+
+    // Verifica se "imoveis" é uma lista válida
+    if (!Array.isArray(imoveis)) {
+      throw new Error("A estrutura retornada pela API não é uma lista válida de imóveis.");
+    }
+
+    // Seleciona o elemento <tbody> onde os imóveis serão listados
     const tbody = document.getElementById("imoveis-corpo");
     if (!tbody) {
       console.warn('Elemento <tbody> com id="imoveis-corpo" não encontrado no DOM.');
       return;
     }
 
+    // Limpa o conteúdo atual da tabela
     tbody.innerHTML = "";
+
+    // Itera sobre os imóveis e cria as linhas na tabela
     imoveis.forEach((imovel) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -57,13 +70,15 @@ export async function carregarImoveis(page = 1) {
         }
       });
 
+      // Adiciona a linha na tabela
       tbody.appendChild(tr);
     });
 
     // Atualiza os botões de paginação
     atualizarPaginacao(totalPages);
   } catch (error) {
-    console.error("Erro ao carregar imóveis:", error);
+    // Exibe o erro no console e alerta o usuário
+    console.error("Erro ao carregar imóveis:", error.message || error);
     alert("Não foi possível carregar a lista de imóveis. Verifique o console.");
   }
 }
