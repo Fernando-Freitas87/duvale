@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     alertDiv.className = `alert ${type}`;
     alertDiv.textContent = message;
     document.body.appendChild(alertDiv);
-    setTimeout(() => alertDiv.remove(), 3000);
+    setTimeout(() => alertDiv.remove(), 2000);
   };
 
   /***************************************************************
