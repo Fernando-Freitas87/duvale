@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 // Script para Gerenciamento do Caixa com Modal para Transações
 // ----------------------------------------------------------------------
-
+const apiBaseUrl = "https://duvale-production.up.railway.app";
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     // Recupera o token de autenticação do localStorage
@@ -85,7 +85,7 @@ function configurarModalTransacao() {
     }
   
     try {
-      const response = await fetch("http://localhost:3000/api/caixa", {
+      const response = await fetch(`${apiBaseUrl}/api/caixa`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ tipo, valor, descricao, usuario }),
@@ -110,7 +110,7 @@ function configurarModalTransacao() {
  */
 async function carregarCaixa() {
   try {
-    const response = await fetch("http://localhost:3000/api/caixa");
+    const response = await fetch(`${apiBaseUrl}/api/caixa`);
     if (!response.ok) throw new Error("Erro ao carregar caixa.");
 
     const { saldo, transacoes } = await response.json();
