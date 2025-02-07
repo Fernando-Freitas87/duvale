@@ -3,49 +3,67 @@
  */
 const apiBaseUrl = "https://duvale-production.up.railway.app";
 
+
+/**
+ * Verifica se o token de autenticação está presente no localStorage.
+ * Caso contrário, redireciona o usuário para a página de login.
+ */
+function verificarTokenAutenticacao() {
+  const token = localStorage.getItem("authToken"); // Obtém o token de autenticação do localStorage
+  if (!token) {
+    console.error("Token de autenticação ausente. Redirecionando para a página de login."); // Loga um erro no console
+    alert("Sua sessão expirou. Por favor, faça login novamente."); // Alerta ao usuário
+    window.location.href = "index.html"; // Redireciona para a página de login
+  }
+  return token; // Retorna o token, caso exista
+}
+
+/**
+ * Função assíncrona para carregar os clientes do banco de dados
+ * e exibi-los na tabela do painel gerencial.
+ */
 export async function carregarClientes() {
   try {
-    // Faz a requisição para obter os clientes
+    const token = verificarTokenAutenticacao(); // Verifica e obtém o token de autenticação
+
+    // Faz a requisição para a API de clientes
     const response = await fetch(`${apiBaseUrl}/api/clientes`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho de autorização
       },
     });
 
-    // Verifica se a requisição foi bem-sucedida
+    // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
-      const errorText = await response.text(); // Detalhes do erro (se fornecido pelo backend)
+      const errorText = await response.text(); // Obtém detalhes do erro, se fornecido pelo backend
       throw new Error(`Erro ao buscar clientes. Status: ${response.status}. Detalhes: ${errorText}`);
     }
 
-    // Obtém a lista de clientes do JSON retornado
-    const lista = await response.json();
+    const lista = await response.json(); // Converte a resposta em JSON
 
-    // Seleciona o corpo da tabela no DOM
+    // Seleciona o corpo da tabela onde os clientes serão exibidos
     const tbody = document.getElementById("clientes-corpo");
     if (!tbody) {
-      console.error("Elemento tbody para clientes não encontrado no DOM.");
+      console.error("Elemento tbody para clientes não encontrado no DOM."); // Loga um erro se o elemento não for encontrado
       return;
     }
 
-    // Limpa a tabela antes de adicionar novos dados
-    tbody.innerHTML = "";
+    tbody.innerHTML = ""; // Limpa a tabela antes de adicionar novos dados
 
-    // Filtra apenas os clientes que não são administradores
+    // Filtra a lista para exibir apenas os clientes que não são administradores
     const clientesVisiveis = lista.filter((cli) => cli.tipo_usuario !== "administrador");
 
     // Caso não haja clientes visíveis, exibe uma mensagem padrão
     if (clientesVisiveis.length === 0) {
-      exibirMensagemNenhumCliente(tbody);
+      exibirMensagemNenhumCliente(tbody); // Chama a função para exibir a mensagem
       return;
     }
 
-    // Adiciona cada cliente na tabela
+    // Adiciona cada cliente visível na tabela
     clientesVisiveis.forEach((cliente) => adicionarClienteNaTabela(cliente, tbody));
   } catch (error) {
-    // Loga o erro no console e exibe uma mensagem ao usuário
-    console.error("Erro ao carregar clientes:", error.message || error);
-    alert("Erro ao carregar clientes. Verifique sua conexão ou tente novamente.");
+    console.error("Erro ao carregar clientes:", error.message || error); // Loga o erro no console
+    alert("Erro ao carregar clientes. Verifique sua conexão ou tente novamente."); // Notifica o usuário
   }
 }
 
@@ -54,12 +72,12 @@ export async function carregarClientes() {
  * @param {HTMLElement} tbody - Corpo da tabela onde a mensagem será exibida.
  */
 function exibirMensagemNenhumCliente(tbody) {
-  const tr = document.createElement("tr");
+  const tr = document.createElement("tr"); // Cria uma nova linha na tabela
   tr.innerHTML = `
     <td colspan="6" style="text-align:center;font-weight:bold;">
       Nenhum cliente encontrado.
-    </td>`;
-  tbody.appendChild(tr);
+    </td>`; // Preenche a linha com a mensagem
+  tbody.appendChild(tr); // Adiciona a linha ao corpo da tabela
 }
 
 /**
@@ -246,7 +264,7 @@ function configurarEventosDoModal(clienteId, modal) {
   }
 
   // Evento para cancelar edição e fechar o modal
-  const btnCancelar = document.getElementById("btn-cancelar-edicao-cliente");
+  const btnCancelar = document.getElementById("btn-cancelar-cliente");
   if (btnCancelar) {
     btnCancelar.onclick = () => {
       modal.style.display = "none";
