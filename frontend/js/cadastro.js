@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cpfInput = document.getElementById("cpf-cliente");
     if (cpfInput) {
       cpfInput.addEventListener("input", () => {
-        let cpf = cpfInput.value.replace(/\D/g, "");
+        let cpf = cpfInput.value.replace(/\D/g, ""); // Remove tudo que não é número
         cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
         cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
         cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
@@ -203,59 +203,99 @@ document.addEventListener("DOMContentLoaded", () => {
    * [7] SUBMISSÃO DE FORMULÁRIOS
    ***************************************************************/
 
-  /* a) Cadastro de Clientes */
-  const formCliente = document.getElementById("cadastro-cliente");
-  if (formCliente) {
-    formCliente.addEventListener("submit", async (e) => {
-      e.preventDefault();
+/* a) Cadastro de Clientes */
+const formCliente = document.getElementById("cadastro-cliente");
 
-      const cliente = {
-        nome: document.getElementById("nome-cliente").value.trim(),
-        cpf: document
-          .getElementById("cpf-cliente")
-          .value.replace(/[^\d]/g, ""), // Remove pontuação
-        telefone: document.getElementById("telefone-cliente").value.trim(),
-        pin: document.getElementById("pin-cliente").value.trim(),
-        tipo_usuario: "cliente", // Mantém fixo
-        observacoes: document
-          .getElementById("observacoes-cliente")
-          .value.trim(),
-        nacionalidade: document
-          .getElementById("nacionalidade-cliente")
-          .value.trim(),
-        data_nascimento: document.getElementById("data-nascimento-cliente").value,
-        documento_identidade: document
-          .getElementById("documento-identidade-cliente")
-          .value.trim(),
-        numero_documento_identidade: document
-          .getElementById("numero-documento-cliente")
-          .value.trim(),
-      };
+if (formCliente) {
+  formCliente.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      try {
-        showLoading("Cadastrando cliente...");
-        const response = await fetch(`${apiBaseUrl}/api/cadastro/clientes`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(cliente),
-        });
+    // Obtenção dos dados do formulário
+    const cliente = {
+      nome: document.getElementById("nome-cliente").value.trim(),
+      cpf: document.getElementById("cpf-cliente").value.replace(/\D/g, ""), // Remove pontuação
+      telefone: document.getElementById("telefone-cliente").value.trim(),
+      pin: document.getElementById("pin-cliente").value.trim(),
+      tipo_usuario: "cliente",
+      observacoes: document.getElementById("observacoes-cliente").value.trim(),
+      nacionalidade: document.getElementById("nacionalidade-cliente").value.trim(),
+      data_nascimento: document.getElementById("data-nascimento-cliente").value,
+      documento_identidade: document.getElementById("documento-identidade-cliente").value.trim(),
+      numero_documento_identidade: document.getElementById("numero-documento-cliente").value.trim(),
+    };
 
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(errorText || "Erro ao cadastrar cliente.");
-        }
+    // Validações no JavaScript
+    if (!validarCPF(cliente.cpf)) {
+      exibirErro("cpf-cliente", "CPF inválido. O formato correto é 000.000.000-00.");
+      return;
+    }
 
-        showAlert("Cliente cadastrado com sucesso!", "success");
-        formCliente.reset();
-      } catch (error) {
-        console.error("Erro ao cadastrar cliente:", error.message);
-        showAlert(`Erro ao cadastrar cliente: ${error.message}`, "error");
-      } finally {
-        hideLoading();
+    if (!validarTelefone(cliente.telefone)) {
+      exibirErro("telefone-cliente", "Telefone inválido. O formato correto é (XX) XXXXX-XXXX.");
+      return;
+    }
+
+    if (cliente.pin.length !== 6 || !/^\d{6}$/.test(cliente.pin)) {
+      exibirErro("pin-cliente", "PIN deve conter exatamente 6 dígitos numéricos.");
+      return;
+    }
+
+    // Envio dos dados ao servidor
+    try {
+      showLoading("Cadastrando cliente...");
+      const response = await fetch(`${apiBaseUrl}/api/cadastro/clientes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cliente),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Erro ao cadastrar cliente.");
       }
-    });
-  }
 
+      showAlert("Cliente cadastrado com sucesso!", "success");
+      formCliente.reset();
+    } catch (error) {
+      console.error("Erro ao cadastrar cliente:", error.message);
+      showAlert(`Erro ao cadastrar cliente: ${error.message}`, "error");
+    } finally {
+      hideLoading();
+    }
+  });
+}
+
+// Funções de validação
+function validarCPF(cpf) {
+  cpf = cpf.replace(/\D/g, "");
+  if (!cpf || cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+
+  let soma = 0, resto;
+  for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+  resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+  if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+  soma = 0;
+  for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+  resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+  return resto === parseInt(cpf.substring(10, 11));
+}
+
+function validarTelefone(telefone) {
+  const telefoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/;
+  return telefoneRegex.test(telefone);
+}
+
+// Função para exibir erro no campo
+function exibirErro(campoId, mensagem) {
+  const campo = document.getElementById(campoId);
+  campo.classList.add("input-error");
+  showAlert(mensagem, "error");
+  campo.focus();
+  setTimeout(() => campo.classList.remove("input-error"), 3000);
+}
 /* b) Cadastro de Imóveis */
 const formImovel = document.getElementById("cadastro-imovel");
 if (formImovel) {

@@ -1,494 +1,571 @@
 /*********************************************************
- *                 [1] RESET & CONFIGURAĆ‡Ć•ES GERAIS
+ *                 [1] RESET & CONFIGURAÇÕES GERAIS
  *********************************************************/
  * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  background-image: url('/img/fundo1.png'); /* Caminho correto da imagem */
-  background-size: cover;                  /* Faz a imagem cobrir toda a tela */
-  background-position: center;             /* Centraliza a imagem */
-  background-repeat: no-repeat;            /* Impede repetiĆ§Ć£o */
-  background-attachment: fixed;            /* MantĆ©m o fundo fixo */
-  min-height: 100vh;                       /* Garante altura mĆ­nima */
+    font-family: 'Roboto', sans-serif;
+    background-image: url('/duvale/frontend/img/fundo1.png'); /* Caminho correto da imagem */
+    background-size: cover;                  /* Faz a imagem cobrir toda a tela */
+    background-position: center;             /* Centraliza a imagem */
+    background-repeat: no-repeat;            /* Impede repetição */
+    background-attachment: fixed;            /* Mantém o fundo fixo */
+    min-height: 100vh;                       /* Garante altura mínima */
 }
 
 /*********************************************************
-*                 [2] NAVBAR
-*********************************************************/
+ *                 [2] NAVBAR
+ *********************************************************/
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #004085;
-  color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #004085;
+    color: white;
 }
 
 .navbar .logo img {
-  height: 40px;
+    height: 40px;
 }
 
 .navbar .menu {
-  list-style: none;
-  display: flex;
-  gap: 20px;
+    list-style: none;
+    display: flex;
+    gap: 20px;
 }
 
 .navbar .menu li a {
-  text-decoration: none;
-  color: white;
-  font-size: 16px;
-  transition: color 0.3s;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: color 0.3s;
 }
 
 .navbar .menu li a:hover,
 .navbar .menu li a.active {
-  color: #ffcc00;
+    color: #ffcc00;
 }
 
 .navbar .user-info {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 /*********************************************************
-*                 [3] CONTAINER PRINCIPAL
-*********************************************************/
+ *                 [3] CONTAINER PRINCIPAL
+ *********************************************************/
 .main-container {
-  background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  margin: 30px auto;
-  max-width: 1200px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 1200px;
 }
 
 h1 {
-  text-align: center;
-  color: #004085;
+    text-align: center;
+    color: #004085;
 }
 
 h2 {
-  color: #004085;
-  font-size: 20px;
-  margin-bottom: 15px;
+    color: #004085;
+    font-size: 20px;
+    margin-bottom: 15px;
 }
 
 .divider {
-  border: 1px solid #004085;
-  margin: 10px 0 20px;
+    border: 1px solid #004085;
+    margin: 10px 0 20px;
 }
 
 /*********************************************************
-*                 [4] CAROUSEL (CARROSSEL)
-*********************************************************/
+ *                 [4] CAROUSEL (CARROSSEL)
+ *********************************************************/
 .carousel-wrapper {
-  max-width: 600px;
-  margin: 30px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .carousel {
-  position: relative;
-  overflow: hidden; /* caso queira animar com slide */
+    position: relative;
+    overflow: hidden; /* caso queira animar com slide */
 }
 
 .carousel-item {
-  display: none;
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease;
-  opacity: 0;
-  transform: translateX(50px);
+    display: none;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease;
+    opacity: 0;
+    transform: translateX(50px);
 }
 
 .carousel-item.active {
-  display: block;
-  opacity: 1;
-  transform: translateX(0);
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
 }
 
-/* AnimaĆ§Ćµes de entrada/saĆ­da (fade) */
+/* Animações de entrada/saída (fade) */
 .fade-in {
-  animation: fadeIn 0.5s forwards;
+    animation: fadeIn 0.5s forwards;
 }
 .fade-out {
-  animation: fadeOut 0.5s forwards;
+    animation: fadeOut 0.5s forwards;
 }
 
 @keyframes fadeIn {
-  0%   { opacity: 0; transform: translateX(50px); }
-  100% { opacity: 1; transform: translateX(0); }
+    0%   { opacity: 0; transform: translateX(50px); }
+    100% { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes fadeOut {
-  0%   { opacity: 1; transform: translateX(0); }
-  100% { opacity: 0; transform: translateX(-50px); }
+    0%   { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(-50px); }
 }
 
 /*********************************************************
-*                 [5] INDICADOR DE ETAPAS
-*********************************************************/
-.steps-indicator {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  position: relative;
+ *                 [5] INDICADOR DE ETAPAS
+ *********************************************************/
+ .steps-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 .step {
-  text-align: center;
-  flex: 1;
-  position: relative;
-  cursor: pointer;
+    text-align: center;
+    flex: 1;
+    position: relative;
+    cursor: pointer;
 }
 
-/* CĆ­rculo padrĆ£o (cinza) */
+/* Círculo padrão (cinza) */
 .step span {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  line-height: 32px;
-  background-color: #ccc;   /* cinza claro */
-  color: #fff;
-  border-radius: 50%;
-  font-size: 16px;
-  margin-bottom: 5px;
-  font-weight: bold;
-  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    background-color: #ccc;   /* cinza claro */
+    color: #fff;
+    border-radius: 50%;
+    font-size: 16px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
 }
 
-/* Passo ativo (sĆ³ o cĆ­rculo) */
+/* Passo ativo (só o círculo) */
 .step.active span {
-  background-color: #ffcc00; /* Azul principal */
-  color: #030303;
-  transform: scale(1.1);
-  position: relative; /* NecessĆ�rio para controlar z-index no span */
-  z-index: 2;         /* MantĆ©m o cĆ­rculo acima da barra */
-}
+    background-color: #ffcc00; /* Azul principal */
+    color: #030303;
+    transform: scale(1.1);
+    position: relative; /* Necessário para controlar z-index no span */
+    z-index: 2;         /* Mantém o círculo acima da barra */
+  }
 
-/* Passo concluĆ­do (anterior) => Cinza mais escuro */
+/* Passo concluído (anterior) => Cinza mais escuro */
 .step span.completed {
-  background-color: #999;
-  color: #fff;
+    background-color: #999;
+    color: #fff;
 }
 
-/* TĆ­tulo pequeno (descriĆ§Ć£o do passo) */
+/* Título pequeno (descrição do passo) */
 .step p {
-  font-size: 13px;
-  color: #666;
+    font-size: 13px;
+    color: #666;
 }
 
-/* Barra padrĆ£o entre os steps (cinza claro) */
+/* Barra padrão entre os steps (cinza claro) */
 .step::after {
-  content: '';
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  width: 100%;
-  height: 3px;
-  background-color: #ccc;
-  z-index: -1;
-  transform: translateX(-50%);
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 100%;
+    height: 3px;
+    background-color: #ccc;
+    z-index: -1;
+    transform: translateX(-50%);
 }
 
-/* Barra do passo concluĆ­do (cinza escuro) */
+/* Barra do passo concluído (cinza escuro) */
 .step.completed::after {
-  background-color: #999;
+    background-color: #999;
 }
 
-/* Barra do passo ativo (azul sĆ³lido) */
+/* Barra do passo ativo (azul sólido) */
 .step.active::after {
-  background-color: #ffcc00;
-  opacity: 1;         /* Garante que nĆ£o fique transparente */
-  z-index: 1;         /* Coloca a barra acima do fundo, mas abaixo do cĆ­rculo */
-}
+    background-color: #ffcc00;
+    opacity: 1;         /* Garante que não fique transparente */
+    z-index: 1;         /* Coloca a barra acima do fundo, mas abaixo do círculo */
+  }
 
 /*********************************************************
-*                 [6] FORMULĆRIOS GERAIS
-*********************************************************/
+ *                 [6] FORMULÁRIOS GERAIS
+ *********************************************************/
 .cadastro-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .cadastro-form label {
-  font-weight: 500;
-  color: #444;
+    font-weight: 500;
+    color: #444;
 }
 
 .cadastro-form input,
 .cadastro-form textarea,
 .cadastro-form select {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .cadastro-form input:focus,
 .cadastro-form textarea:focus,
 .cadastro-form select:focus {
-  border-color: #004085;
-  outline: none;
-  box-shadow: 0 0 4px rgba(0, 64, 133, 0.657);
+    border-color: #004085;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 64, 133, 0.657);
 }
 
 /*********************************************************
-*                 [7] BOTĆ•ES
-*********************************************************/
+ *                 [7] BOTÕES
+ *********************************************************/
 .btn-form {
-  background-color: #004085;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+    background-color: #004085;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .btn-form:hover {
-  background-color: #00274d;
-  transform: scale(1.03);
+    background-color: #00274d;
+    transform: scale(1.03);
 }
 
 .form-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 /*********************************************************
-*                 [8] FEEDBACK VISUAL (ALERTS / LOADING)
-*********************************************************/
+ *                 [8] FEEDBACK VISUAL (ALERTS / LOADING)
+ *********************************************************/
 .alert {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 14px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  opacity: 0.95;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0.95;
 }
 
 .alert.success {
-  background-color: #28a745;
-  color: white;
+    background-color: #28a745;
+    color: white;
 }
 
 .alert.error {
-  background-color: #dc3545;
-  color: white;
+    background-color: #dc3545;
+    color: white;
 }
 
 #loading {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #004085;
-  color: white;
-  padding: 15px 30px;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  z-index: 1000;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #004085;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+input:invalid {
+    border-color: red;
+}
+
+input:valid {
+    border-color: green;
 }
 
 /*********************************************************
-*                 [9] RODAPĆ‰ (FOOTER)
-*********************************************************/
+ *                 [9] RODAPÉ (FOOTER)
+ *********************************************************/
 .footer {
-  text-align: center;
-  padding: 20px;
-  background-color: #004085;
-  color: white;
-  font-size: 14px;
-  margin-top: 30px;
+    text-align: center;
+    padding: 20px;
+    background-color: #004085;
+    color: white;
+    font-size: 14px;
+    margin-top: 30px;
 }
 
 .footer a {
-  color: #00c853;
-  text-decoration: none;
-  font-weight: bold;
+    color: #00c853;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .footer a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 /*********************************************************
-*                 [10] RESPONSIVIDADE
-*********************************************************/
+ *                 [10] RESPONSIVIDADE
+ *********************************************************/
 @media (max-width: 768px) {
-  .main-container {
-      margin: 20px 10px;
-      padding: 15px;
-      /* Alinha o fundo para o topo em telas menores */
-  }
-  
-  .navbar {
-      flex-wrap: wrap;
-  }
-  
-  .navbar .menu {
-      flex-direction: column;
-      gap: 10px;
-  }
-  
-  .carousel-wrapper {
-      margin: 20px;
-  }
+    .main-container {
+        margin: 20px 10px;
+        padding: 15px;
+        /* Alinha o fundo para o topo em telas menores */
+    }
+    
+    .navbar {
+        flex-wrap: wrap;
+    }
+    
+    .navbar .menu {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .carousel-wrapper {
+        margin: 20px;
+    }
 }
 
 /***************************************************************
-* [RADIO INPUTS DE ETAPAS] Adaptado de Uiverse.io (by Yaya12085)
-***************************************************************/
-.radio-inputs {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  /* Removida a largura fixa (300px) para maior flexibilidade */
-  /* Caso queira limitar, use max-width */
-  max-width: 400px;
-  margin: 0 auto; /* Centraliza o bloco, se desejado */
+ * [RADIO INPUTS DE ETAPAS] Adaptado de Uiverse.io (by Yaya12085)
+ ***************************************************************/
+ .radio-inputs {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    /* Removida a largura fixa (300px) para maior flexibilidade */
+    /* Caso queira limitar, use max-width */
+    max-width: 400px;
+    margin: 0 auto; /* Centraliza o bloco, se desejado */
+    
+    border-radius: 0.5rem;
+    background-color: #f2f2f2; /* Tom neutro, antes era #EEE */
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    font-size: 14px;
+  }
   
-  border-radius: 0.5rem;
-  background-color: #f2f2f2; /* Tom neutro, antes era #EEE */
-  box-sizing: border-box;
-  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
-  padding: 0.25rem;
-  font-size: 14px;
-}
-
-.radio-inputs .radio {
-  flex: 1 1 auto;
-  text-align: center;
-}
-
-/* Esconde o input radio visualmente */
-.radio-inputs .radio input {
-  display: none;
-}
-
-/* Span que representa o "botĆ£o" clicĆ�vel */
-.radio-inputs .radio .name {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: none;
-  padding: 0.5rem 0;
+  .radio-inputs .radio {
+    flex: 1 1 auto;
+    text-align: center;
+  }
   
-  /* Texto cinza escuro (antes era rgba(51,65,85,1)) */
-  color: #333;
-  background-color: transparent;
+  /* Esconde o input radio visualmente */
+  .radio-inputs .radio input {
+    display: none;
+  }
   
-  transition: all 0.15s ease-in-out;
-}
+  /* Span que representa o "botão" clicável */
+  .radio-inputs .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.5rem 0;
+    
+    /* Texto cinza escuro (antes era rgba(51,65,85,1)) */
+    color: #333;
+    background-color: transparent;
+    
+    transition: all 0.15s ease-in-out;
+  }
+  
+  /* Quando marcado (etapa ativa), fica em destaque */
+  .radio-inputs .radio input:checked + .name {
+    background-color: #004085; /* Cor de destaque (era #fff) */
+    color: #fff;              /* Texto preto para bom contraste */
+    font-weight: 600;
+  }
 
-/* Quando marcado (etapa ativa), fica em destaque */
-.radio-inputs .radio input:checked + .name {
-  background-color: #004085; /* Cor de destaque (era #fff) */
-  color: #fff;              /* Texto preto para bom contraste */
-  font-weight: 600;
-}
-
-/* From Uiverse.io by gharsh11032000 */
+  /* From Uiverse.io by gharsh11032000 */
 .radio-buttons-container {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 1rem; /* opcional para espaĆ§ar do campo seguinte */
-}
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 1rem; /* opcional para espaçar do campo seguinte */
+  }
+  
+  .radio-button {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .radio-button__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .radio-button__label {
+    display: inline-block;
+    padding-left: 30px;
+    margin-bottom: 10px; 
+    position: relative;
+    font-size: 16px;
+    color: #fff; /* Ajuste se quiser outra cor */
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+  
+  /* Círculo custom (a "borda" do radio) */
+  .radio-button__custom {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #555;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+  
+  /* Quando marcado */
+  .radio-button__input:checked + .radio-button__label .radio-button__custom {
+    transform: translateY(-50%) scale(0.9);
+    border: 5px solid #4c8bf5; /* Cor principal do "preenchido" */
+    color: #4c8bf5;
+  }
+  
+  /* Muda a cor do texto quando marcado */
+  .radio-button__input:checked + .radio-button__label {
+    color: #4c8bf5;
+  }
+  
+  /* Efeito hover */
+  .radio-button__label:hover .radio-button__custom {
+    transform: translateY(-50%) scale(1.2);
+    border-color: #4c8bf5;
+    box-shadow: 0 0 10px #4c8bf580;
+  }
 
-.radio-button {
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-}
-
-.radio-button__input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.radio-button__label {
-  display: inline-block;
-  padding-left: 30px;
-  margin-bottom: 10px; 
-  position: relative;
-  font-size: 16px;
-  color: #fff; /* Ajuste se quiser outra cor */
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-}
-
-/* CĆ­rculo custom (a "borda" do radio) */
-.radio-button__custom {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid #555;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-}
-
-/* Quando marcado */
-.radio-button__input:checked + .radio-button__label .radio-button__custom {
-  transform: translateY(-50%) scale(0.9);
-  border: 5px solid #4c8bf5; /* Cor principal do "preenchido" */
-  color: #4c8bf5;
-}
-
-/* Muda a cor do texto quando marcado */
-.radio-button__input:checked + .radio-button__label {
-  color: #4c8bf5;
-}
-
-/* Efeito hover */
-.radio-button__label:hover .radio-button__custom {
-  transform: translateY(-50%) scale(1.2);
-  border-color: #4c8bf5;
-  box-shadow: 0 0 10px #4c8bf580;
-}
-
-/* Ajusta o espaĆ§amento entre o label e o container de radios */
+  /* Ajusta o espaçamento entre o label e o container de radios */
 .form-group label {
-  display: inline-block;  /* Para poder aplicar margin de forma confiĆ�vel */
-  margin-bottom: 8px;     /* EspaĆ§o abaixo do texto "Tipo" ou "Status" */
-}
+    display: inline-block;  /* Para poder aplicar margin de forma confiável */
+    margin-bottom: 8px;     /* Espaço abaixo do texto "Tipo" ou "Status" */
+  }
+  
+  .radio-buttons-container {
+    margin-top: 4px;        /* Caso queira ainda mais espaço entre label e radios */
+    gap: 32px;              /* Aumenta o espaçamento horizontal entre os radios */
+  }
 
-.radio-buttons-container {
-  margin-top: 4px;        /* Caso queira ainda mais espaĆ§o entre label e radios */
-  gap: 32px;              /* Aumenta o espaĆ§amento horizontal entre os radios */
-}
+  .form-row {
+    display: flex;
+    gap: 20px; /* Espaço horizontal entre Tipo e Status */
+    flex-wrap: wrap; /* Caso a tela fique muito pequena, eles quebram linha */
+  }
+  
+  .form-group {
+    flex: 1; /* Cada .form-group ocupa metade do container */
+  }
 
-.form-row {
-  display: flex;
-  gap: 20px; /* EspaĆ§o horizontal entre Tipo e Status */
-  flex-wrap: wrap; /* Caso a tela fique muito pequena, eles quebram linha */
-}
+  .alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease-in-out, fadeOut 0.3s ease-in-out 2.7s;
+  }
+  
+  .alert.success {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .alert.error {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .alert.warning {
+    background-color: #ffc107;
+    color: black;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+  
+  @keyframes fadeOut {
+    from { opacity: 1; transform: translateX(-50%) translateY(0); }
+    to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+  }
 
-.form-group {
-  flex: 1; /* Cada .form-group ocupa metade do container */
-}
+  #loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #loading::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    border: 3px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
