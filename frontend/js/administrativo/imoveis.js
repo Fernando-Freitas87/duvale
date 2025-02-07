@@ -1,7 +1,7 @@
 // imoveis.js
 const apiBaseUrl = "https://duvale-production.up.railway.app";
 let paginaAtual = 1; // Página inicial
-const limitePorPagina = 5; // Quantidade de registros por página
+const limitePorPagina = 10; // Quantidade de registros por página
 
   export async function carregarImoveis(page = 1) {
     try {
