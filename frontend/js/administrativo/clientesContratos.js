@@ -455,7 +455,7 @@ async function editarContrato(contratoId) {
     const totalMesesInput = document.getElementById("edit-total-meses");
     const valorAluguelInput = document.getElementById("edit-valor-aluguel");
     const diaVencimentoInput = document.getElementById("edit-dia-vencimento");
-    const dataInicioInput = document.getElementById("edit-contrato-data-inicio"); // Corrigido ID do input de data
+    const dataInicioInput = document.getElementById("edit-data-inicio"); // Corrigido ID do input de data
 
     // Verifica se os elementos do formulário existem antes de atribuir valores
     if (!totalMesesInput || !valorAluguelInput || !diaVencimentoInput || !dataInicioInput) {
