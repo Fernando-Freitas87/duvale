@@ -3,84 +3,60 @@ const apiBaseUrl = "https://duvale-production.up.railway.app";
 let paginaAtual = 1; // Página inicial
 const limitePorPagina = 5; // Quantidade de registros por página
 
-export async function carregarImoveis(page = 1) {
-  try {
-    // Faz a requisição para a API
-    const response = await fetch(`${apiBaseUrl}/api/imoveis?page=${page}&limit=${limitePorPagina}`);
-    if (!response.ok) {
-      throw new Error(`Erro ao buscar imóveis. Status: ${response.status}`);
+  export async function carregarImoveis(page = 1) {
+    try {
+        const response = await fetch(`${apiBaseUrl}/api/imoveis?page=${page}&limit=${limitePorPagina}`);
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar imóveis. Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Dados recebidos:", data);
+
+        const { imoveis, total, totalPages } = data;
+
+        if (!Array.isArray(imoveis)) {
+            throw new Error("Estrutura inesperada: 'imoveis' não é uma lista.");
+        }
+
+        // Atualize a tabela e a paginação
+        atualizarTabelaImoveis(imoveis);
+        atualizarPaginacao(totalPages);
+    } catch (error) {
+        console.error("Erro ao carregar imóveis:", error.message || error);
+        alert("Erro ao carregar a lista de imóveis. Verifique sua conexão ou tente novamente.");
     }
+}
 
-    // Obtém os dados retornados pela API
-    const data = await response.json();
-    const { imoveis, total, totalPages } = data;
-
-    // Verifica se "imoveis" é uma lista válida
-    if (!Array.isArray(imoveis)) {
-      throw new Error("A estrutura retornada pela API não é uma lista válida de imóveis.");
-    }
-
-    // Seleciona o elemento <tbody> onde os imóveis serão listados
+function atualizarTabelaImoveis(imoveis) {
     const tbody = document.getElementById("imoveis-corpo");
     if (!tbody) {
-      console.warn('Elemento <tbody> com id="imoveis-corpo" não encontrado no DOM.');
-      return;
+        console.warn("Elemento <tbody> com id='imoveis-corpo' não encontrado.");
+        return;
     }
 
-    // Limpa o conteúdo atual da tabela
-    tbody.innerHTML = "";
+    tbody.innerHTML = ""; // Limpa a tabela antes de atualizar
 
-    // Itera sobre os imóveis e cria as linhas na tabela
-    imoveis.forEach((imovel) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${imovel.descricao || "Sem descrição"}</td>
-        <td>${imovel.endereco || "Endereço não informado"}</td>
-        <td>${imovel.enel || "N/A"}</td>
-        <td>${imovel.cagece || "N/A"}</td>
-        <td>${imovel.tipo || "residencial"}</td>
-        <td>${imovel.status || "Indefinido"}</td>
-        <td class="coluna-acoes">
-          <a href="#" class="btn-icone-excluir" data-id="${imovel.id}" title="Excluir Imóvel">
-            <i class="fas fa-trash-alt"></i>
-          </a>
-          <a href="#" class="btn-icone-editar" data-id="${imovel.id}" title="Editar Imóvel">
-            <i class="fas fa-edit"></i>
-          </a>
-        </td>
-      `;
-
-      // Evento para excluir imóvel
-      tr.querySelector(".btn-icone-excluir").addEventListener("click", (event) => {
-        event.preventDefault();
-        const imovelId = event.currentTarget.getAttribute("data-id");
-        if (!confirm(`Deseja realmente excluir o imóvel ID ${imovelId}?`)) return;
-        excluirImovel(imovelId);
-      });
-
-      // Evento para editar imóvel
-      tr.querySelector(".btn-icone-editar").addEventListener("click", (event) => {
-        event.preventDefault();
-        const imovelId = event.currentTarget.getAttribute("data-id");
-        const imovelSelecionado = imoveis.find(imovel => imovel.id == imovelId);
-        if (imovelSelecionado) {
-          editarImovelModal(imovelSelecionado);
-        } else {
-          console.warn(`Imóvel ID ${imovelId} não encontrado na lista.`);
-        }
-      });
-
-      // Adiciona a linha na tabela
-      tbody.appendChild(tr);
+    imoveis.forEach(imovel => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${imovel.descricao || "Sem descrição"}</td>
+            <td>${imovel.endereco || "Endereço não informado"}</td>
+            <td>${imovel.enel || "N/A"}</td>
+            <td>${imovel.cagece || "N/A"}</td>
+            <td>${imovel.tipo || "residencial"}</td>
+            <td>${imovel.status || "Indefinido"}</td>
+            <td class="coluna-acoes">
+                <a href="#" class="btn-icone-excluir" data-id="${imovel.id}" title="Excluir Imóvel">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+                <a href="#" class="btn-icone-editar" data-id="${imovel.id}" title="Editar Imóvel">
+                    <i class="fas fa-edit"></i>
+                </a>
+            </td>
+        `;
+        tbody.appendChild(tr);
     });
-
-    // Atualiza os botões de paginação
-    atualizarPaginacao(totalPages);
-  } catch (error) {
-    // Exibe o erro no console e alerta o usuário
-    console.error("Erro ao carregar imóveis:", error.message || error);
-    alert("Não foi possível carregar a lista de imóveis. Verifique o console.");
-  }
 }
 
 /**
