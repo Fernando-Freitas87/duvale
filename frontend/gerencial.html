@@ -16,7 +16,7 @@
 </head>
 
 <body class="background">
-  <!-- Navbar -->
+  <!-- Navbar 
   <nav class="navbar">
     <div class="logo">
         <img src="img/duvaleb.png" alt="Logo">
@@ -30,7 +30,9 @@
     <div class="user-info">
         <p>Bem-vindo, <span id="user-name">Usuário</span> !</p>
     </div>
-  </nav>
+  </nav> -->
+  <div id="navbar-container"></div>
+
 
   <!-- Conteúdo Principal -->
   <main class="main-container">
@@ -336,6 +338,16 @@
     <p id="datetime"></p>
     <a href="https://wa.me/5588981202539" class="contact-link">Fale Conosco!</a>
   </footer>
+  <!--carrega menu-->
   <script type="text/javascript" src="js/administrativo/graficos.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('navbar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('navbar-container').innerHTML = data;
+        });
+    });
+  </script>
 </body>
 </html>
