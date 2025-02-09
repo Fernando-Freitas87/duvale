@@ -1,171 +1,259 @@
-/* --------------------------------
-   RESET BÁSICO
-   -------------------------------- */
-   * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; /* Inclui bordas e padding no cálculo do tamanho dos elementos */
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa; /* Fundo neutro para o site */
-  }
+/* ============================= */
+/* 🌙 Definição de Variáveis CSS */
+/* ============================= */
+:root {
+  --sidebar-bg: #004085; /* Cor do fundo do menu */
+  --text-color: #ffffff; /* Cor dos textos e ícones */
+}
 
-  /* Centraliza a coluna do menu vertical */
-.navbar-container {
-    display: flex;
-    flex-direction: column; /* Configura como coluna */
-    align-items: center; /* Centraliza horizontalmente */
-    justify-content: center; /* Centraliza verticalmente */
-    height: 100vh; /* Garante que ocupa toda a altura da tela */
-    position: fixed; /* Fixa a posição do menu */
-    left: 0; /* Alinha o menu à esquerda */
-    top: 0; /* Começa do topo */
-    width: 4rem; /* Define a largura padrão */
-    background-color: #ffffff; /* Fundo branco */
-    border-right: 1px solid #d1d5db; /* Adiciona uma borda ao lado direito */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
-  }
-  
-  /* --------------------------------
-     UTILITÁRIOS GERAIS
-     -------------------------------- */
-  
-  /* Classes de Flexbox para reutilização */
-  .flex {
-    display: flex;
-  }
-  
-  .flex-col {
-    flex-direction: column; /* Disposição dos filhos em coluna */
-  }
-  
-  .justify-center {
-    justify-content: center; /* Centraliza o conteúdo horizontalmente */
-  }
-  
-  .items-center {
-    align-items: center; /* Centraliza o conteúdo verticalmente */
-  }
-  
-  /* Transição padrão */
-  .transition-all {
-    transition: all 0.45s ease-in-out; /* Animações suaves */
-  }
-  
-  /* Largura do menu */
-  .w-16 {
-    width: 4rem; /* Define a largura padrão para o menu vertical */
-  }
-  
-  .relative {
-    position: relative; /* Posição relativa para controle interno */
-  }
-  
-  /* --------------------------------
-     ESTILO DO ARTIGO (MENU)
-     -------------------------------- */
-  article {
-    border: 1px solid #d1d5db; /* Borda cinza clara */
-    border-radius: 1rem; /* Borda arredondada */
-    background-color: #ffffff; /* Fundo branco */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Sombra suave */
-    transition: box-shadow 0.3s ease-in-out; /* Suaviza a transição da sombra */
-  }
-  
-  article:hover {
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* Sombra mais forte ao passar o mouse */
-  }
-  
-  /* --------------------------------
-     LABELS (ITENS DO MENU)
-     -------------------------------- */
-  label {
-    width: 100%; /* Largura total do menu */
-    height: 4rem; /* Altura padrão */
-    padding: 1rem; /* Espaçamento interno */
-    display: flex; /* Usa flexbox para centralizar conteúdo */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    gap: 0.5rem; /* Espaço entre ícones e texto */
-    text-align: center;
-    cursor: pointer; /* Mostra o cursor de interação */
-    border-bottom: 1px solid #e5e7eb; /* Separador entre os itens */
-    transition: background-color 0.3s, transform 0.3s; /* Transições para hover */
-  }
-  
-  label:hover {
-    background-color: #f3f4f6; /* Cor de fundo ao passar o mouse */
-    transform: scale(1.05); /* Efeito de aumento ao passar o mouse */
-  }
-  
-  label:last-child {
-    border-bottom: none; /* Remove a borda do último item */
-  }
-  
-  label .text-black {
-    color: #111827; /* Cor padrão do texto */
-  }
-  
-  /* --------------------------------
-     ÍCONES SVG
-     -------------------------------- */
-  svg {
-    width: 2rem; /* Largura padrão dos ícones */
-    height: 2rem; /* Altura padrão dos ícones */
-    fill: #4b5563; /* Cor inicial dos ícones */
-    transition: fill 0.3s, transform 0.3s; /* Transições de cor e tamanho */
-  }
-  
-  label:hover svg,
-  label:focus svg {
-    fill: #2563eb; /* Cor azul ao passar o mouse */
-    transform: scale(1.2); /* Aumenta o tamanho do ícone */
-  }
-  
-  /* --------------------------------
-     ESTILO PARA ITEM SELECIONADO
-     -------------------------------- */
-  input:checked + label {
-    background-color: #2563eb; /* Fundo azul */
-    color: #ffffff; /* Texto branco */
-  }
-  
-  input:checked + label svg {
-    fill: #ffffff; /* Ícone branco */
-  }
-  
-  /* Links dentro dos labels */
-  label a {
-    text-decoration: none; /* Remove o sublinhado dos links */
-    color: inherit; /* Herda a cor atual */
-  }
-  
-  label:hover a {
-    color: #2563eb; /* Cor azul ao passar o mouse */
-  }
-  
-  /* --------------------------------
-     AJUSTES PARA TELAS PEQUENAS
-     -------------------------------- */
-  @media (max-width: 768px) {
-    .w-16 {
-      width: 3.5rem; /* Reduz a largura do menu em telas menores */
-    }
-  
-    svg {
-      width: 1.5rem; /* Reduz o tamanho dos ícones */
-      height: 1.5rem; /* Reduz a altura dos ícones */
-    }
-  }
+body.dark {
+  --sidebar-bg: #004085;
+  --text-color: #ffffff;
+}
 
-  @media (max-width: 768px) {
-    .navbar-container {
-      width: 3.5rem; /* Reduz a largura do menu em telas menores */
-    }
-  
-    .navbar-container i {
-      font-size: 1.5rem; /* Reduz o tamanho dos ícones */
-    }
-  }
+/* ============================= */
+/* 🔹 Reset e Configuração Geral */
+/* ============================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: url("../img/fundo1.png") no-repeat center center fixed;
+  background-size: cover;
+  font-family: sans-serif;
+}
+
+/* ============================= */
+/* 📌 Estilização do Menu Lateral */
+/* ============================= */
+.menu {
+  position: absolute;
+  width: 60px;
+  max-height: 90vh;
+  background-color: var(--sidebar-bg);
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  margin: auto;
+  border-radius: .8rem;
+  transition: width 0.3s ease 0.15s;
+}
+
+.menu.open {
+  width: 180px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: var(--text-color); /* Garante que os links também fiquem brancos */
+}
+
+/* ============================= */
+/* 🔹 Barra de Ações (Topo do Menu) */
+/* ============================= */
+.menu .actionBar {
+  width: 100%;
+  height: 10%;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: .5rem;
+  transition: .3s ease;
+}
+
+.menu .actionBar button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-radius: .5rem;
+  color: var(--text-color);
+  width: 45px;
+  height: 45px;
+  transition: .3s ease;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.menu .actionBar button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================= */
+/* 🔹 Barra de Opções do Menu */
+/* ============================= */
+.menu .optionsBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 60%;
+  padding: 0 0.5rem;
+  overflow: hidden;
+}
+
+.menu .optionsBar .menuItem {
+  width: 100%;
+  height: 45px;
+  margin: 0.3rem;
+}
+
+.menu .optionsBar .menuItem .menuOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  font-size: 1rem;
+  border: none;
+  background-color: transparent;
+  color: var(--text-color);
+  border-radius: .5rem;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.menu .optionsBar .menuItem .menuOption i {
+  width: 45px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.menu .optionsBar .menuItem .menuOption h5 {
+  width: calc(100% - 45px);
+  color: var(--text-color);
+}
+
+.menu .optionsBar .menuItem .menuOption:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================= */
+/* 🔹 Estilização do Texto do Menu */
+/* ============================= */
+.menuText {
+  color: var(--text-color);
+  transform: translateX(-100px);
+  opacity: 0;
+  transition: transform .3s ease, opacity .3s ease;
+}
+
+.menuText.open2 {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============================= */
+/* 🔹 Linha Separadora no Menu */
+/* ============================= */
+.menu .menuBreak {
+  width: 100%;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu .menuBreak hr {
+  width: 50%;
+  height: 3px;
+  background-color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+}
+
+/* ============================= */
+/* 🔹 Estilização do Usuário no Menu */
+/* ============================= */
+.menuUser {
+  position: absolute;
+  bottom: 0;
+  width: 70%;
+  padding: 1rem 0;
+  background-color: var(--sidebar-bg); /* Mantém o fundo do menu */
+  text-align: center;
+}
+
+.menu .menuUser a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+  text-decoration: none;
+  padding: 0.5rem;
+  position: relative;
+  color: var(--text-color);
+}
+
+.menu .menuUser a div {
+  width: 45px;
+  height: 45px;
+  border-radius: .5rem;
+}
+
+.menu .menuUser a div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: .5rem;
+}
+
+.menu .menuUser a .username {
+  width: calc(70% - 45px);
+  color: var(--text-color);
+}
+
+.menu .menuUser a p {
+  width: calc(30% - 45px);
+  color: var(--text-color);
+}
+
+.menu .menuUser a:hover p {
+  animation: animArrow .3s ease 2;
+}
+
+@keyframes animArrow {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+/* ============================= */
+/* 🔹 Estilização do Botão de Tema */
+/* ============================= */
+.menu .themeBar {
+  overflow: hidden;
+  width: 100%;
+  height: 10%;
+  padding: .5rem;
+}
+
+.menu .themeBar div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: .5rem;
+  transition: .3s ease;
+}
+
+.menu .themeBar div button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-radius: .5rem;
+  color: var(--text-color);
+  width: 100%;
+  height: 45px;
+  transition: .3s ease;
+  font-size: 1rem;
+}
+
+.menu .themeBar div button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
