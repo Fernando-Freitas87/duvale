@@ -61,7 +61,7 @@ async function validatePin(pin) {
         if (data.type === 'cliente') {
             window.location.href = 'cliente.html';
         } else if (data.type === 'administrador') {
-            window.location.href = 'gerencial.html';
+            window.location.href = 'Inicial.html';
         } else {
             alert('Tipo de usuário inválido.');
         }
