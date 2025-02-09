@@ -80,8 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
               const avisoElement = document.createElement("div");
               avisoElement.classList.add("aviso-item");
               avisoElement.innerHTML = `
-                <p><strong>${aviso.imovel_descricao || "Imóvel não identificado"}</strong></p>
-                <p><strong>Endereço:</strong> ${aviso.imovel_endereco || "Não informado"}</p>
+                <p>${aviso.imovel_descricao || "Imóvel não identificado"}</p>
+                <p>${aviso.imovel_endereco || "Não informado"}</p>
                 <p>${aviso.aviso || "Sem detalhes disponíveis."}</p>
               `;
               modalBodyAviso.appendChild(avisoElement);
