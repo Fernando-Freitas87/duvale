@@ -21,6 +21,8 @@ body.dark {
 }
 
 body {
+  display: flex;
+  height: 100vh; /* Ocupa toda a altura da tela */
   background: url("../img/fundo1.png") no-repeat center center fixed;
   background-size: cover;
   font-family: sans-serif;
@@ -30,26 +32,52 @@ body {
 /* 📌 Estilização do Menu Lateral */
 /* ============================= */
 .menu {
-  position: absolute;
+  position: fixed;
   width: 60px;
-  max-height: 90vh;
+  height: calc(100vh - 10px);
   background-color: var(--sidebar-bg);
   z-index: 2;
-  top: 0;
-  bottom: 0;
-  left: 10px;
-  margin: auto;
-  border-radius: .8rem;
-  transition: width 0.3s ease 0.15s;
+  top: 5px;
+  left: 5px;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .menu.open {
   width: 180px;
 }
 
+/* Links dentro do menu */
 .menu a {
   text-decoration: none;
-  color: var(--text-color); /* Garante que os links também fiquem brancos */
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+  transition: background 0.3s ease;
+}
+
+.menu a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Ajuste do Conteúdo Principal */
+main {
+  flex: 1;
+  margin-left: 70px;
+  padding: 1rem;
+  overflow-y: auto;
+  transition: margin-left 0.3s ease;
+}
+
+.menu.open + main {
+  margin-left: 160px; /* Corrigido o erro (antes: 16x0px) */
 }
 
 /* ============================= */
@@ -62,19 +90,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border-radius: .5rem;
-  transition: .3s ease;
+  border-radius: 0.5rem;
+  transition: 0.3s ease;
 }
 
 .menu .actionBar button {
   background-color: transparent;
   outline: none;
   border: none;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   color: var(--text-color);
   width: 45px;
   height: 45px;
-  transition: .3s ease;
+  transition: 0.3s ease;
   font-size: 1rem;
   cursor: pointer;
 }
@@ -105,14 +133,14 @@ body {
 .menu .optionsBar .menuItem .menuOption {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
   font-size: 1rem;
   border: none;
   background-color: transparent;
   color: var(--text-color);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
@@ -120,12 +148,10 @@ body {
 .menu .optionsBar .menuItem .menuOption i {
   width: 45px;
   text-align: center;
-  color: var(--text-color);
 }
 
 .menu .optionsBar .menuItem .menuOption h5 {
   width: calc(100% - 45px);
-  color: var(--text-color);
 }
 
 .menu .optionsBar .menuItem .menuOption:hover {
@@ -139,7 +165,7 @@ body {
   color: var(--text-color);
   transform: translateX(-100px);
   opacity: 0;
-  transition: transform .3s ease, opacity .3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .menuText.open2 {
@@ -147,6 +173,28 @@ body {
   transform: translateX(0);
 }
 
+/* ============================= */
+/* 🔹 Estilização do Usuário no Menu */
+/* ============================= */
+.menuUser {
+  position: absolute;
+  bottom: 0;
+  width: 60%;
+  padding: 1rem 0;
+  background-color: var(--sidebar-bg); /* Mantém o fundo do menu */
+  text-align: center;
+}
+
+.menu .menuUser a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  text-decoration: none;
+  padding: 0.5rem;
+  position: relative;
+  color: var(--text-color);
+}
 /* ============================= */
 /* 🔹 Linha Separadora no Menu */
 /* ============================= */
@@ -164,96 +212,4 @@ body {
   background-color: var(--text-color);
   border: none;
   border-radius: 5px;
-}
-
-/* ============================= */
-/* 🔹 Estilização do Usuário no Menu */
-/* ============================= */
-.menuUser {
-  position: absolute;
-  bottom: 0;
-  width: 70%;
-  padding: 1rem 0;
-  background-color: var(--sidebar-bg); /* Mantém o fundo do menu */
-  text-align: center;
-}
-
-.menu .menuUser a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 70%;
-  text-decoration: none;
-  padding: 0.5rem;
-  position: relative;
-  color: var(--text-color);
-}
-
-.menu .menuUser a div {
-  width: 45px;
-  height: 45px;
-  border-radius: .5rem;
-}
-
-.menu .menuUser a div img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: .5rem;
-}
-
-.menu .menuUser a .username {
-  width: calc(70% - 45px);
-  color: var(--text-color);
-}
-
-.menu .menuUser a p {
-  width: calc(30% - 45px);
-  color: var(--text-color);
-}
-
-.menu .menuUser a:hover p {
-  animation: animArrow .3s ease 2;
-}
-
-@keyframes animArrow {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(5px); }
-  100% { transform: translateX(0); }
-}
-
-/* ============================= */
-/* 🔹 Estilização do Botão de Tema */
-/* ============================= */
-.menu .themeBar {
-  overflow: hidden;
-  width: 100%;
-  height: 10%;
-  padding: .5rem;
-}
-
-.menu .themeBar div {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  border-radius: .5rem;
-  transition: .3s ease;
-}
-
-.menu .themeBar div button {
-  background-color: transparent;
-  outline: none;
-  border: none;
-  border-radius: .5rem;
-  color: var(--text-color);
-  width: 100%;
-  height: 45px;
-  transition: .3s ease;
-  font-size: 1rem;
-}
-
-.menu .themeBar div button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
 }
