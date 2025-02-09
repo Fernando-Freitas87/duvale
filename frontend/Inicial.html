@@ -81,16 +81,16 @@
             </li>
         </ul>
         <!--modal avisos-->
-        <div id="modalAviso" class="modal hidden">
-          <div class="modalContent">
-              <span id="closeModalAviso" class="close">&times;</span>
-              <h2>📢 Avisos</h2>
-              <div id="avisos-container">
-                  <!-- Avisos serão adicionados dinamicamente -->
-                  <p>Nenhum aviso disponível no momento.</p>
-              </div>
+        <div id="modalAviso" class="modal">
+          <div class="modal-content">
+              <span id="closeModalAviso" class="close-btn">&times;</span>
+              <h2>Avisos</h2>
+              <div id="modalBodyAviso"></div>
           </div>
       </div>
+      <button id="btnAviso">Abrir Avisos</button>
+      <div id="iconAviso" class="icon"></div>
+      <div id="indicatorAviso" class="indicator"></div>
 
         <!-- Informações do Usuário (Agora melhor estruturado) -->
       <div class="menuUser">

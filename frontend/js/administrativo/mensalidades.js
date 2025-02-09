@@ -53,7 +53,7 @@ export function atualizarTabela(tabelaId, dados) {
   tabelaCorpo.innerHTML = "";
 
   if (!dados || dados.length === 0) {
-    tabelaCorpo.innerHTML = `<tr><td colspan="6" style="text-align: center;">Nenhum dado encontrado.</td></tr>`;
+    tabelaCorpo.innerHTML = `<tr><td colspan="6" style="text-align: center;"> Nenhum dado encontrado.</td></tr>`;
     return;
   }
 
@@ -82,7 +82,7 @@ export function atualizarTabela(tabelaId, dados) {
  */
 export async function carregarEmAtraso(page = 1, limit = 10) {
   try {
-    const response = await fetch(`${apiBaseUrl}/api/mensalidades/em-atraso?page=${limit}`);
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/em-atraso?page=${page}&limit=${limit}`);
     if (!response.ok) throw new Error(`Erro ao carregar mensalidades em atraso: ${response.status}`);
 
     const { data, total } = await response.json();
