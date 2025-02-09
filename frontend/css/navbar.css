@@ -11,6 +11,22 @@
     font-family: Arial, sans-serif;
     background-color: #f8f9fa; /* Fundo neutro para o site */
   }
+
+  /* Centraliza a coluna do menu vertical */
+.navbar-container {
+    display: flex;
+    flex-direction: column; /* Configura como coluna */
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente */
+    height: 100vh; /* Garante que ocupa toda a altura da tela */
+    position: fixed; /* Fixa a posição do menu */
+    left: 0; /* Alinha o menu à esquerda */
+    top: 0; /* Começa do topo */
+    width: 4rem; /* Define a largura padrão */
+    background-color: #ffffff; /* Fundo branco */
+    border-right: 1px solid #d1d5db; /* Adiciona uma borda ao lado direito */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
+  }
   
   /* --------------------------------
      UTILITÁRIOS GERAIS
@@ -141,5 +157,15 @@
     svg {
       width: 1.5rem; /* Reduz o tamanho dos ícones */
       height: 1.5rem; /* Reduz a altura dos ícones */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .navbar-container {
+      width: 3.5rem; /* Reduz a largura do menu em telas menores */
+    }
+  
+    .navbar-container i {
+      font-size: 1.5rem; /* Reduz o tamanho dos ícones */
     }
   }
