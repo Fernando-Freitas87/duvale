@@ -67,26 +67,27 @@ document.addEventListener("DOMContentLoaded", () => {
         modalAviso.style.display = "flex"; // Exibe o modal
         indicatorAviso.classList.remove("show"); // Remove o indicador de aviso
         iconAviso.classList.remove("icon-shake"); // Remove a animação do ícone
-
+    
         try {
             // 🚀 Carrega os avisos da API
             const avisos = await carregarAvisos();
-
-            // 🔄 Atualiza o modal com os avisos recebidos
+    
+            // 🔄 Valida se avisos é um array antes de processá-lo
             modalBodyAviso.innerHTML = ""; // Limpa o conteúdo antes de atualizar
-
-            if (avisos.length === 0) {
+            if (!Array.isArray(avisos) || avisos.length === 0) {
                 modalBodyAviso.innerHTML = "<p>Nada novo por aqui, qualquer coisa te aviso! </p>";
-            } else {
-                avisos.forEach((aviso) => {
-                    const avisoElement = document.createElement("p");
-                    avisoElement.innerHTML = `
-                        <strong>${aviso.imovel_descricao || "Imóvel não identificado"}:</strong> 
-                        ${aviso.aviso || "Sem detalhes disponíveis"}
-                    `;
-                    modalBodyAviso.appendChild(avisoElement);
-                });
+                return;
             }
+    
+            // Itera sobre os avisos e atualiza o modal
+            avisos.forEach((aviso) => {
+                const avisoElement = document.createElement("p");
+                avisoElement.innerHTML = `
+                    <strong>${aviso.imovel_descricao || "Imóvel não identificado"}:</strong> 
+                    ${aviso.aviso || "Sem detalhes disponíveis"}
+                `;
+                modalBodyAviso.appendChild(avisoElement);
+            });
         } catch (error) {
             console.error("Erro ao carregar avisos:", error);
             modalBodyAviso.innerHTML = "<p>Erro ao carregar avisos. Tente novamente.</p>";

@@ -350,29 +350,18 @@ function atualizarPaginacaoAvisos(page, total, limit) {
 /**
  * Se tiver avisos gerenciais no mesmo endpoint, pode colocar aqui também
  */
-export async function carregarAvisos(page = 1, limit = 5, usarPaginacao = false) {
+export async function carregarAvisos() {
   try {
-      let url = `${apiBaseUrl}/api/mensalidades/avisos`;
-      if (usarPaginacao) {
-          url += `?page=${page}&limit=${limit}`;
-      }
-      const response = await fetch(url);
+      const response = await fetch(`${apiBaseUrl}/api/mensalidades/avisos`);
       if (!response.ok) throw new Error("Erro ao carregar avisos.");
-      
-      const resposta = await response.json();
 
-      // Verifica se resposta e resposta.data existem
-      const avisos = Array.isArray(resposta?.data) ? resposta.data : [];
-      const total = resposta?.total || avisos.length;
+      const data = await response.json();
 
-      atualizarAvisosContainer(avisos);
-
-      if (usarPaginacao) {
-          atualizarPaginacaoAvisos(page, total, limit);
-      }
+      // Garante que `data` e `data.avisos` sejam arrays
+      return Array.isArray(data?.avisos) ? data.avisos : [];
   } catch (error) {
       console.error("Erro ao carregar avisos:", error);
-      atualizarAvisosContainer([]); // Exibe mensagem padrão no modal
+      return []; // Retorna um array vazio em caso de erro
   }
 }
 
