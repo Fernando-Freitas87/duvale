@@ -137,7 +137,7 @@ async function atualizarStatusMensalidade(id, novoStatus, valor) {
  */
 export async function carregarAvisos() {
   try {
-    const response = await fetch(`${apiBaseUrl}/avisos`);
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/avisos`);
     if (!response.ok) throw new Error("Erro ao carregar avisos.");
 
     const avisos = await response.json();
