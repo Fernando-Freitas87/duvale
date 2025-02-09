@@ -305,21 +305,21 @@ main {
 /* ============================= */
 /* 🔹 Estilo do Footer */
 /* ============================= */
-.footer {
-  margin-top: 20px;
-  font-size: 0.8rem;
-  color: #777;
+/* Estilização do Footer */
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background: transparent;
+  color: #777; /* Cor discreta */
+  font-size: 12px;
+  padding: 5px 0;
+  border-top: 1px solid #ddd; /* Linha sutil */
 }
 
-.footer a {
-  color: #1abc9c;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s;
-}
-
-.footer a:hover {
-  color: #16a085;
+body {
+  margin-bottom: 30px; /* Espaço para o footer não sobrepor conteúdo */
 }
 
 /* Responsividade */
