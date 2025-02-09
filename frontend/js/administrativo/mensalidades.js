@@ -133,17 +133,25 @@ async function atualizarStatusMensalidade(id, novoStatus, valor) {
 }
 
 /**
- * Carrega os avisos e atualiza o container no DOM.
+ * Carrega os avisos e retorna os dados.
  */
 export async function carregarAvisos() {
   try {
     const response = await fetch(`${apiBaseUrl}/api/mensalidades/avisos`);
     if (!response.ok) throw new Error("Erro ao carregar avisos.");
 
-    const avisos = await response.json();
-    atualizarAvisosContainer(avisos);
+    const data = await response.json();
+
+    // Valida se 'data' é um array antes de retorná-lo
+    if (!data || !Array.isArray(data)) {
+      console.error("Formato de resposta inválido:", data);
+      return [];
+    }
+
+    return data; // Retorna os avisos corretamente
   } catch (error) {
     console.error("Erro ao carregar avisos:", error);
+    return []; // Retorna um array vazio em caso de erro
   }
 }
 
