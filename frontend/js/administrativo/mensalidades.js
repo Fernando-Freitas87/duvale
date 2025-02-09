@@ -7,7 +7,7 @@ const apiBaseUrl = "https://duvale-production.up.railway.app";
  */
 export async function carregarResumo() {
   try {
-    const response = await fetch(`${apiBaseUrl}/api/resumo`);
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/resumo`);
     if (!response.ok) throw new Error("Erro ao carregar resumo.");
 
     const data = await response.json();
