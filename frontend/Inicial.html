@@ -35,55 +35,64 @@
 
     <!-- Opções do Menu -->
     <ul class="optionsBar">
-
-<!-- Administrativo -->
-<li class="menuItem">
-    <a href="gerencial.html" class="menuOption" title="Administrativo">
-        <i class="fas fa-chart-line"></i><h5 class="menuText">Administrativo</h5>
-    </a>
-</li>
-
-<!-- Financeiro -->
-<li class="menuItem">
-    <a href="financeiro.html" class="menuOption" title="Financeiro">
-        <i class="fa-solid fa-wallet"></i><h5 class="menuText">Financeiro</h5>
-    </a>
-</li>
-
-<!-- Cadastro -->
-<li class="menuItem">
-    <a href="cadastro.html" class="menuOption" title="Cadastro">
-        <i class="fa-solid fa-user-plus"></i><h5 class="menuText">Cadastro</h5>
-    </a>
-</li>
-
-<!-- Suporte -->
-<li class="menuItem">
-    <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer" class="menuOption" title="Suporte">
-        <i class="fa-solid fa-headset"></i><h5 class="menuText">Suporte</h5>
-    </a>
-</li>
-
-<!-- Sair -->
-<li class="menuItem">
-    <a href="index.html" id="sair" class="menuOption" title="Sair">
-        <i class="fa-solid fa-sign-out-alt"></i><h5 class="menuText">Sair</h5>
-    </a>
-</li>
-
-    <!-- Informações do Usuário -->
-    <div class="menuUser">
-        <li class="menuBreak">
-            <hr>
+        <!-- Administrativo -->
+        <li class="menuItem">
+            <a href="inicial.html" class="menuOption" title="Administrativo">
+                <i class="fas fa-chart-line"></i><h5 class="menuText">Administrativo</h5>
+            </a>
         </li>
-        <a href="#">
-            <div class="menuItem">
-                <i class="fa-solid fa-user-circle"></i> <!-- Ícone de usuário -->
-            </div>
-            <h5 class="menuText"><span id="user-name">Usuário</span></h5>
-            <p class="menuItem"><i class="fa-solid fa-chevron-right"></i></p>
-        </a>
-    </div>
+
+        <!-- Financeiro -->
+        <li class="menuItem">
+            <a href="financeiro.html" class="menuOption" title="Financeiro">
+                <i class="fa-solid fa-wallet"></i><h5 class="menuText">Financeiro</h5>
+            </a>
+        </li>
+
+        <!-- Cadastro -->
+        <li class="menuItem">
+            <a href="cadastro.html" class="menuOption" title="Cadastro">
+                <i class="fa-solid fa-user-plus"></i><h5 class="menuText">Cadastro</h5>
+            </a>
+        </li>
+
+        <!-- Suporte -->
+        <li class="menuItem">
+            <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer" class="menuOption" title="Suporte">
+                <i class="fa-solid fa-headset"></i><h5 class="menuText">Suporte</h5>
+            </a>
+        </li>
+
+        <!-- Avisos -->
+        <li class="menuItem">
+            <a href="#" class="menuOption" title="Avisos">
+                <i class="fa-solid fa-bell" style="color: #ffffff;"></i>
+                <h5 class="menuText">Avisos</h5>
+            </a>
+        </li>
+
+        <!-- Sair -->
+        <li class="menuItem">
+            <a href="index.html" id="sair" class="menuOption" title="Sair">
+                <i class="fa-solid fa-sign-out-alt"></i><h5 class="menuText">Sair</h5>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Informações do Usuário (Agora melhor estruturado) -->
+  <div class="menuUser">
+    <!-- Linha divisória -->
+      <li class="menuBreak">
+        <hr>
+      </li>
+  
+      <a href="#" class="menuOption" title="Usuario">
+        <div class="menuItem">
+          <i class="fa-solid fa-user-circle" style="color: #ffffff;"  > </i> <!-- Ícone de usuário -->
+        </div>
+        <h5 class="menuText"><span id="user-name">Usuário</span></h5>
+      </a>
+  </div>
 </nav>
 
   <!-- Conteúdo Principal -->
