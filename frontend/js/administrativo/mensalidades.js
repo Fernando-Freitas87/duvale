@@ -174,27 +174,38 @@ export function atualizarAvisosContainer({ avisos = [], mensalidadesAtrasadas = 
  */
 export async function carregarAvisos() {
   try {
-    const [avisosResponse, mensalidadesAtrasadas, contratosProximos] = await Promise.all([
+    // Faz as requisições simultaneamente usando Promise.all
+    const [avisosResponse, mensalidadesAtrasadasResponse, contratosProximosResponse] = await Promise.all([
       fetch(`${apiBaseUrl}/api/mensalidades/avisos`),
       fetch(`${apiBaseUrl}/api/avisos/mensalidades/atraso`),
       fetch(`${apiBaseUrl}/api/avisos/contratos/vencimentos`),
     ]);
 
-    if (!avisosResponse.ok || !mensalidadesAtrasadas.ok || !contratosProximos.ok) {
-      throw new Error("Erro ao carregar um ou mais conjuntos de dados.");
+    // Verifica se todas as respostas são válidas
+    if (!avisosResponse.ok) {
+      throw new Error(`Erro ao carregar avisos: ${avisosResponse.status}`);
+    }
+    if (!mensalidadesAtrasadasResponse.ok) {
+      throw new Error(`Erro ao carregar mensalidades atrasadas: ${mensalidadesAtrasadasResponse.status}`);
+    }
+    if (!contratosProximosResponse.ok) {
+      throw new Error(`Erro ao carregar contratos próximos: ${contratosProximosResponse.status}`);
     }
 
+    // Converte as respostas em JSON
     const avisos = await avisosResponse.json();
-    const atrasos = await mensalidadesAtrasadas.json();
-    const proximos = await contratosProximos.json();
+    const atrasos = await mensalidadesAtrasadasResponse.json();
+    const proximos = await contratosProximosResponse.json();
 
+    // Retorna os dados estruturados
     return {
       avisos: Array.isArray(avisos?.avisos) ? avisos.avisos : [],
-      mensalidadesAtrasadas: atrasos,
-      contratosProximos: proximos,
+      mensalidadesAtrasadas: Array.isArray(atrasos) ? atrasos : [],
+      contratosProximos: Array.isArray(proximos) ? proximos : [],
     };
   } catch (error) {
-    console.error("Erro ao carregar avisos:", error);
+    // Loga o erro e retorna valores padrão
+    console.error("Erro ao carregar avisos:", error.message);
     return {
       avisos: [],
       mensalidadesAtrasadas: [],
@@ -437,40 +448,7 @@ function atualizarPaginacaoAvisos(page, total, limit) {
     paginacaoContainer.appendChild(nextButton);
   }
 }
-export async function carregarAvisos() {
-  try {
-    // Faz múltiplas requisições paralelas
-    const [avisosResponse, mensalidadesAtrasadas, contratosProximos] = await Promise.all([
-      fetch(`${apiBaseUrl}/api/mensalidades/avisos`),
-      fetch(`${apiBaseUrl}/api/avisos/mensalidades/atraso`),
-      fetch(`${apiBaseUrl}/api/avisos/contratos/vencimentos`),
-    ]);
 
-    // Valida cada resposta
-    if (!avisosResponse.ok || !mensalidadesAtrasadas.ok || !contratosProximos.ok) {
-      throw new Error("Erro ao carregar um ou mais conjuntos de dados.");
-    }
-
-    // Processa os dados retornados
-    const avisos = await avisosResponse.json();
-    const atrasos = await mensalidadesAtrasadas.json();
-    const proximos = await contratosProximos.json();
-
-    // Retorna os dados organizados
-    return {
-      avisos: Array.isArray(avisos?.avisos) ? avisos.avisos : [],
-      mensalidadesAtrasadas: atrasos,
-      contratosProximos: proximos,
-    };
-  } catch (error) {
-    console.error("Erro ao carregar avisos:", error);
-    return {
-      avisos: [],
-      mensalidadesAtrasadas: [],
-      contratosProximos: [],
-    };
-  }
-}
 
 function atualizarAvisosContainer({ avisos = [], mensalidadesAtrasadas = [], contratosProximos = [] }) {
   const avisosContainer = document.getElementById("avisos-container");

@@ -1,5 +1,5 @@
 // Importa a função carregarAvisos do mensalidades.js
-import { carregarAvisos } from "../mensalidades.js"; // Ajuste o caminho conforme necessário
+import { carregarAvisos } from "./mensalidades.js"; // Ajuste o caminho conforme necessário
 import { atualizarAvisosContainer } from "./mensalidades.js";
 
 // Aguarda o carregamento completo do DOM
@@ -71,17 +71,17 @@ document.addEventListener("DOMContentLoaded", () => {
         modalBodyAviso.innerHTML = "<p>Carregando avisos...</p>"; // Mensagem de carregamento
         indicatorAviso.classList.remove("show"); // Remove o indicador visual
         iconAviso.classList.remove("icon-shake"); // Remove a animação do ícone
-
+    
         try {
             const avisos = await carregarAvisos(); // Faz a chamada à API para carregar os avisos
             modalBodyAviso.innerHTML = ""; // Limpa a mensagem de carregamento
-
+    
             // Valida se os avisos são um array e contém elementos
             if (!Array.isArray(avisos) || avisos.length === 0) {
                 modalBodyAviso.innerHTML = "<p>Nenhum aviso disponível no momento.</p>";
                 return;
             }
-
+    
             // Itera pelos avisos e os adiciona ao corpo do modal
             avisos.forEach((aviso) => {
                 const avisoElement = document.createElement("div");
@@ -93,8 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 modalBodyAviso.appendChild(avisoElement);
             });
         } catch (error) {
-            console.error("Erro ao carregar avisos:", error);
-            modalBodyAviso.innerHTML = "<p>Erro ao carregar avisos. Tente novamente.</p>"; // Mensagem de erro amigável
+            console.error("Erro ao carregar avisos:", error); // Loga o erro no console
+            modalBodyAviso.innerHTML = `<p>Erro ao carregar avisos. Tente novamente mais tarde.<br>Detalhes: ${error.message}</p>`;
         }
     });
 
