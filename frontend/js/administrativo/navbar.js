@@ -1,11 +1,8 @@
 // Importa a função carregarAvisos do mensalidades.js
 import { carregarAvisos } from "./mensalidades.js"; // Ajuste o caminho conforme necessário
-import { atualizarAvisosContainer } from "./mensalidades.js";
 
 // Aguarda o carregamento completo do DOM
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM totalmente carregado."); // Log para verificar o carregamento do DOM
-
     // ================================
     // Configuração do Menu Lateral
     // ================================
@@ -52,61 +49,65 @@ document.addEventListener("DOMContentLoaded", () => {
     // ================================
 
     // Seleciona os elementos do modal de aviso
-    const btnAviso = document.getElementById("btnAviso"); // Botão que abre o modal de avisos
-    const modalAviso = document.getElementById("modalAviso"); // Modal que contém os avisos
-    const closeModalAviso = document.getElementById("closeModalAviso"); // Botão para fechar o modal
-    const iconAviso = document.getElementById("iconAviso"); // Ícone de aviso no botão
-    const indicatorAviso = document.getElementById("indicatorAviso"); // Indicador visual de aviso
-    const modalBodyAviso = document.getElementById("modalBodyAviso"); // Corpo do modal onde os avisos serão exibidos
+    const btnAviso = document.getElementById("btnAviso");
+    const modalAviso = document.getElementById("modalAviso");
+    const closeModalAviso = document.getElementById("closeModalAviso");
+    const iconAviso = document.getElementById("iconAviso");
+    const indicatorAviso = document.getElementById("indicatorAviso");
+    const modalBodyAviso = document.getElementById("modalBodyAviso");
 
-    // Verifica se todos os elementos necessários existem
+    // Verifica se os elementos do aviso existem
     if (!btnAviso || !modalAviso || !closeModalAviso || !iconAviso || !indicatorAviso || !modalBodyAviso) {
         console.error("Elementos do aviso não encontrados!");
         return;
     }
 
-    // Evento: Exibe o modal de aviso ao clicar no botão de aviso
+    // Exibe o modal de aviso ao clicar no botão de aviso
     btnAviso.addEventListener("click", async () => {
         modalAviso.style.display = "flex"; // Exibe o modal
-        modalBodyAviso.innerHTML = "<p>Carregando avisos...</p>"; // Mensagem de carregamento
-        indicatorAviso.classList.remove("show"); // Remove o indicador visual
+        indicatorAviso.classList.remove("show"); // Remove o indicador de aviso
         iconAviso.classList.remove("icon-shake"); // Remove a animação do ícone
-    
+
         try {
-            const avisos = await carregarAvisos(); // Faz a chamada à API para carregar os avisos
-            modalBodyAviso.innerHTML = ""; // Limpa a mensagem de carregamento
-    
-            // Valida se os avisos são um array e contém elementos
-            if (!Array.isArray(avisos) || avisos.length === 0) {
-                modalBodyAviso.innerHTML = "<p>Nenhum aviso disponível no momento.</p>";
-                return;
+            // 🚀 Carrega os avisos da API
+            const avisos = await carregarAvisos();
+
+            // 🔄 Atualiza o modal com os avisos recebidos
+            modalBodyAviso.innerHTML = ""; // Limpa o conteúdo antes de atualizar
+
+            if (avisos.length === 0) {
+                modalBodyAviso.innerHTML = "<p>Nenhum aviso disponível.</p>";
+            } else {
+                avisos.forEach((aviso) => {
+                    const avisoElement = document.createElement("p");
+                    avisoElement.innerHTML = `
+                        <strong>${aviso.imovel_descricao || "Imóvel não identificado"}:</strong> 
+                        ${aviso.aviso || "Sem detalhes disponíveis"}
+                    `;
+                    modalBodyAviso.appendChild(avisoElement);
+                });
             }
-    
-            // Itera pelos avisos e os adiciona ao corpo do modal
-            avisos.forEach((aviso) => {
-                const avisoElement = document.createElement("div");
-                avisoElement.classList.add("aviso");
-                avisoElement.innerHTML = `
-                    <strong>${aviso.imovel_descricao || "Imóvel não identificado"}:</strong>
-                    ${aviso.aviso || "Sem detalhes disponíveis"}
-                `;
-                modalBodyAviso.appendChild(avisoElement);
-            });
         } catch (error) {
-            console.error("Erro ao carregar avisos:", error); // Loga o erro no console
-            modalBodyAviso.innerHTML = `<p>Erro ao carregar avisos. Tente novamente mais tarde.<br>Detalhes: ${error.message}</p>`;
+            console.error("Erro ao carregar avisos:", error);
+            modalBodyAviso.innerHTML = "<p>Erro ao carregar avisos. Tente novamente.</p>";
         }
     });
 
-    // Evento: Fecha o modal ao clicar no botão de fechamento
+    // Fecha o modal ao clicar no botão de fechamento
     closeModalAviso.addEventListener("click", () => {
-        modalAviso.style.display = "none"; // Oculta o modal
+        modalAviso.style.display = "none";
     });
 
-    // Evento: Fecha o modal ao clicar fora dele
+    // Fecha o modal ao clicar fora dele
     window.addEventListener("click", (event) => {
-        if (event.target === modalAviso) { // Verifica se o clique foi fora do modal
-            modalAviso.style.display = "none"; // Oculta o modal
+        if (event.target === modalAviso) {
+            modalAviso.style.display = "none";
         }
     });
+
+    // Simulação: Indicador de novos avisos
+    setTimeout(() => {
+        indicatorAviso.classList.add("show");
+        iconAviso.classList.add("icon-shake");
+    }, 2000);
 });
