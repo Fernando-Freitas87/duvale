@@ -562,3 +562,24 @@ function atualizarPaginacao(tipo, page, total, limit) {
     paginacaoContainer.appendChild(nextButton);
   }
 }
+/**
+ * Inicializa os avisos e atualiza o DOM com os dados carregados.
+ */
+export async function inicializarAvisos() {
+  try {
+    // Carrega os dados de avisos, mensalidades atrasadas e contratos próximos
+    const { avisos, mensalidadesAtrasadas, contratosProximos } = await carregarAvisos();
+
+    // Atualiza o container de avisos no DOM
+    atualizarAvisosContainer({ avisos, mensalidadesAtrasadas, contratosProximos });
+
+    console.log("Avisos inicializados com sucesso.");
+  } catch (error) {
+    console.error("Erro ao inicializar avisos:", error);
+  }
+}
+
+// Aguarda o carregamento completo do DOM
+document.addEventListener("DOMContentLoaded", () => {
+  inicializarAvisos(); // Chama a função de inicialização
+});
