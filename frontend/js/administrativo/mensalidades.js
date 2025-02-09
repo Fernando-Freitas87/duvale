@@ -352,45 +352,47 @@ function atualizarPaginacaoAvisos(page, total, limit) {
  */
 export async function carregarAvisos(page = 1, limit = 5, usarPaginacao = false) {
   try {
-    let url = `${apiBaseUrl}/api/mensalidades/avisos`;
-    if (usarPaginacao) {
-      url += `?page=${page}&limit=${limit}`;
-    }
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Erro ao carregar avisos.");
-    const resposta = await response.json();
-    const avisos = resposta.data || [];
-    const total = resposta.total || avisos.length;
+      let url = `${apiBaseUrl}/api/mensalidades/avisos`;
+      if (usarPaginacao) {
+          url += `?page=${page}&limit=${limit}`;
+      }
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Erro ao carregar avisos.");
+      const resposta = await response.json();
+      const avisos = resposta.data || []; // Garante que avisos será um array
+      const total = resposta.total || avisos.length;
 
-    atualizarAvisosContainer(avisos);
+      atualizarAvisosContainer(avisos);
 
-    if (usarPaginacao) {
-      atualizarPaginacaoAvisos(page, total, limit);
-    }
+      if (usarPaginacao) {
+          atualizarPaginacaoAvisos(page, total, limit);
+      }
   } catch (error) {
-    console.error("Erro ao carregar avisos:", error);
+      console.error("Erro ao carregar avisos:", error);
+      atualizarAvisosContainer([]); // Adiciona fallback para evitar o erro
   }
 }
 
 function atualizarAvisosContainer(avisos) {
   const avisosContainer = document.getElementById("avisos-container");
   if (!avisosContainer) return;
+
   avisosContainer.innerHTML = "";
 
   if (!avisos || avisos.length === 0) {
-    avisosContainer.innerHTML = "<p>Nenhum aviso disponível.</p>";
-    return;
+      avisosContainer.innerHTML = "<p>Nenhum aviso disponível.</p>";
+      return;
   }
 
   avisos.forEach((aviso) => {
-    const div = document.createElement("div");
-    div.classList.add("aviso");
-    div.innerHTML = `
-      <h3>${aviso.imovel_descricao || "Descrição não disponível"}</h3>
-      <p><strong>Endereço:</strong> ${aviso.imovel_endereco || "Endereço não informado"}</p>
-      <p><strong>Aviso:</strong> ${aviso.aviso || "Sem detalhes"}</p>
-    `;
-    avisosContainer.appendChild(div);
+      const div = document.createElement("div");
+      div.classList.add("aviso");
+      div.innerHTML = `
+          <h3>${aviso.imovel_descricao || "Descrição não disponível"}</h3>
+          <p><strong>Endereço:</strong> ${aviso.imovel_endereco || "Endereço não informado"}</p>
+          <p><strong>Aviso:</strong> ${aviso.aviso || "Sem detalhes"}</p>
+      `;
+      avisosContainer.appendChild(div);
   });
 }
 
