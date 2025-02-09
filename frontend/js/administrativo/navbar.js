@@ -93,6 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    
+
     // Fecha o modal ao clicar no botão de fechamento
     closeModalAviso.addEventListener("click", () => {
         modalAviso.style.display = "none";

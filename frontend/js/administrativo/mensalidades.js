@@ -358,9 +358,12 @@ export async function carregarAvisos(page = 1, limit = 5, usarPaginacao = false)
       }
       const response = await fetch(url);
       if (!response.ok) throw new Error("Erro ao carregar avisos.");
+      
       const resposta = await response.json();
-      const avisos = resposta.data || []; // Garante que avisos será um array
-      const total = resposta.total || avisos.length;
+
+      // Verifica se resposta e resposta.data existem
+      const avisos = Array.isArray(resposta?.data) ? resposta.data : [];
+      const total = resposta?.total || avisos.length;
 
       atualizarAvisosContainer(avisos);
 
@@ -369,7 +372,7 @@ export async function carregarAvisos(page = 1, limit = 5, usarPaginacao = false)
       }
   } catch (error) {
       console.error("Erro ao carregar avisos:", error);
-      atualizarAvisosContainer([]); // Adiciona fallback para evitar o erro
+      atualizarAvisosContainer([]); // Exibe mensagem padrão no modal
   }
 }
 
