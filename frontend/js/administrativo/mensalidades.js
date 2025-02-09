@@ -131,21 +131,19 @@ async function atualizarStatusMensalidade(id, novoStatus, valor) {
     alert("Erro ao atualizar status da mensalidade.");
   }
 }
-
 /**
  * Carrega os avisos e retorna os dados.
  */
 export async function carregarAvisos() {
   try {
     const response = await fetch(`${apiBaseUrl}/api/mensalidades/avisos`);
-    if (!response.ok) throw new Error("Erro ao carregar avisos.");
+    if (!response.ok) throw new Error(`Erro ao carregar avisos: ${response.statusText}`);
 
-    const data = await response.json();
+    const { data } = await response.json();
 
-    // Valida se 'data' é um array antes de retorná-lo
+    // Valida se 'data' é um array
     if (!data || !Array.isArray(data)) {
-      console.error("Formato de resposta inválido:", data);
-      return [];
+      throw new Error("Formato de resposta inválido: dados não são um array.");
     }
 
     return data; // Retorna os avisos corretamente

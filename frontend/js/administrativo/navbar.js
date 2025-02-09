@@ -67,31 +67,33 @@ document.addEventListener("DOMContentLoaded", () => {
         modalAviso.style.display = "flex"; // Exibe o modal
         indicatorAviso.classList.remove("show"); // Remove o indicador de aviso
         iconAviso.classList.remove("icon-shake"); // Remove a animação do ícone
-
+      
         try {
-            // 🚀 Carrega os avisos da API
-            const avisos = await carregarAvisos();
-
-            // 🔄 Atualiza o modal com os avisos recebidos
-            modalBodyAviso.innerHTML = ""; // Limpa o conteúdo antes de atualizar
-
-            if (avisos.length === 0) {
-                modalBodyAviso.innerHTML = "<p>Nenhum aviso disponível.</p>";
-            } else {
-                avisos.forEach((aviso) => {
-                    const avisoElement = document.createElement("p");
-                    avisoElement.innerHTML = `
-                        <strong>${aviso.imovel_descricao || "Imóvel não identificado"}:</strong> 
-                        ${aviso.aviso || "Sem detalhes disponíveis"}
-                    `;
-                    modalBodyAviso.appendChild(avisoElement);
-                });
-            }
+          const avisos = await carregarAvisos();
+      
+          modalBodyAviso.innerHTML = ""; // Limpa o conteúdo antes de atualizar
+      
+          if (!avisos || avisos.length === 0) {
+            modalBodyAviso.innerHTML = "<p>Nenhum aviso disponível.</p>";
+          } else {
+            avisos.forEach((aviso) => {
+              const avisoElement = document.createElement("div");
+              avisoElement.classList.add("aviso-item");
+              avisoElement.innerHTML = `
+                <p><strong>${aviso.imovel_descricao || "Imóvel não identificado"}</strong></p>
+                <p><strong>Endereço:</strong> ${aviso.imovel_endereco || "Não informado"}</p>
+                <p>${aviso.aviso || "Sem detalhes disponíveis."}</p>
+              `;
+              modalBodyAviso.appendChild(avisoElement);
+            });
+          }
         } catch (error) {
-            console.error("Erro ao carregar avisos:", error);
-            modalBodyAviso.innerHTML = "<p>Erro ao carregar avisos. Tente novamente.</p>";
+          console.error("Erro ao carregar avisos:", error);
+          modalBodyAviso.innerHTML = `
+            <p style="color: red;">Erro ao carregar avisos. Tente novamente mais tarde.</p>
+          `;
         }
-    });
+      });
 
     // Fecha o modal ao clicar no botão de fechamento
     closeModalAviso.addEventListener("click", () => {
