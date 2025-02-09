@@ -114,6 +114,96 @@ export function atualizarTabela(tabelaId, dados) {
 }
 
 /**
+ * Atualiza o container de avisos e exibe os dados no modal.
+ */
+export function atualizarAvisosContainer({ avisos = [], mensalidadesAtrasadas = [], contratosProximos = [] }) {
+  const avisosContainer = document.getElementById("avisos-container");
+  if (!avisosContainer) {
+    console.error("Elemento 'avisos-container' não encontrado.");
+    return;
+  }
+
+  avisosContainer.innerHTML = ""; // Limpa o conteúdo existente no container
+
+  if (avisos.length > 0) {
+    avisosContainer.innerHTML += "<h3>Avisos Gerais</h3>";
+    avisos.forEach(aviso => {
+      avisosContainer.innerHTML += `
+        <div class="aviso">
+          <h4>${aviso.imovel_descricao || "Descrição não disponível"}</h4>
+          <p>${aviso.aviso || "Sem detalhes disponíveis"}</p>
+        </div>
+      `;
+    });
+  } else {
+    avisosContainer.innerHTML += "<p>Nenhum aviso geral disponível.</p>";
+  }
+
+  if (mensalidadesAtrasadas.length > 0) {
+    avisosContainer.innerHTML += "<h3>Mensalidades Atrasadas</h3>";
+    mensalidadesAtrasadas.forEach(mensalidade => {
+      avisosContainer.innerHTML += `
+        <div class="mensalidade-atrasada">
+          <p><strong>Cliente:</strong> ${mensalidade.cliente_nome || "N/A"}</p>
+          <p><strong>Atraso:</strong> ${mensalidade.dias_atraso || "0"} dias</p>
+          <p><strong>Valor:</strong> R$ ${parseFloat(mensalidade.valor || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</p>
+        </div>
+      `;
+    });
+  } else {
+    avisosContainer.innerHTML += "<p>Nenhuma mensalidade atrasada.</p>";
+  }
+
+  if (contratosProximos.length > 0) {
+    avisosContainer.innerHTML += "<h3>Contratos Próximos do Vencimento</h3>";
+    contratosProximos.forEach(contrato => {
+      avisosContainer.innerHTML += `
+        <div class="contrato-proximo">
+          <p><strong>Cliente:</strong> ${contrato.cliente_nome || "N/A"}</p>
+          <p><strong>Faltam:</strong> ${contrato.dias_restantes || "0"} dias</p>
+        </div>
+      `;
+    });
+  } else {
+    avisosContainer.innerHTML += "<p>Nenhum contrato próximo ao vencimento.</p>";
+  }
+}
+
+/**
+ * Carrega avisos gerais, mensalidades atrasadas e contratos próximos.
+ */
+export async function carregarAvisos() {
+  try {
+    const [avisosResponse, mensalidadesAtrasadas, contratosProximos] = await Promise.all([
+      fetch(`${apiBaseUrl}/api/mensalidades/avisos`),
+      fetch(`${apiBaseUrl}/api/avisos/mensalidades/atraso`),
+      fetch(`${apiBaseUrl}/api/avisos/contratos/vencimentos`),
+    ]);
+
+    if (!avisosResponse.ok || !mensalidadesAtrasadas.ok || !contratosProximos.ok) {
+      throw new Error("Erro ao carregar um ou mais conjuntos de dados.");
+    }
+
+    const avisos = await avisosResponse.json();
+    const atrasos = await mensalidadesAtrasadas.json();
+    const proximos = await contratosProximos.json();
+
+    return {
+      avisos: Array.isArray(avisos?.avisos) ? avisos.avisos : [],
+      mensalidadesAtrasadas: atrasos,
+      contratosProximos: proximos,
+    };
+  } catch (error) {
+    console.error("Erro ao carregar avisos:", error);
+    return {
+      avisos: [],
+      mensalidadesAtrasadas: [],
+      contratosProximos: [],
+    };
+  }
+}
+
+/**
  * Carrega mensalidades em atraso de forma paginada.
  * @param {number} page - Página atual da listagem (default: 1).
  * @param {number} limit - Número de itens por página (default: 10).
@@ -382,28 +472,84 @@ export async function carregarAvisos() {
   }
 }
 
-function atualizarAvisosContainer({ avisos, mensalidadesAtrasadas, contratosProximos }) {
+function atualizarAvisosContainer({ avisos = [], mensalidadesAtrasadas = [], contratosProximos = [] }) {
   const avisosContainer = document.getElementById("avisos-container");
-  if (!avisosContainer) return;
+  if (!avisosContainer) {
+    console.error("Elemento 'avisos-container' não encontrado.");
+    return;
+  }
 
-  avisosContainer.innerHTML = "";
+  avisosContainer.innerHTML = ""; // Limpa o conteúdo existente no container
 
   // Exibe avisos gerais
   if (avisos.length > 0) {
-    avisosContainer.innerHTML += "<h3>Avisos Gerais</h3>";
+    const avisosGeraisHeader = document.createElement("h3");
+    avisosGeraisHeader.textContent = "Avisos Gerais";
+    avisosContainer.appendChild(avisosGeraisHeader);
+
     avisos.forEach((aviso) => {
       const div = document.createElement("div");
       div.classList.add("aviso");
       div.innerHTML = `
-        <h3>${aviso.imovel_descricao || "Descrição não disponível"}</h3>
+        <h4>${aviso.imovel_descricao || "Descrição não disponível"}</h4>
         <p><strong>Endereço:</strong> ${aviso.imovel_endereco || "Endereço não informado"}</p>
         <p><strong>Aviso:</strong> ${aviso.aviso || "Sem detalhes"}</p>
       `;
       avisosContainer.appendChild(div);
     });
   } else {
-    avisosContainer.innerHTML += "<p>Nenhum aviso geral disponível.</p>";
+    const noAvisosMsg = document.createElement("p");
+    noAvisosMsg.textContent = "Nenhum aviso geral disponível.";
+    avisosContainer.appendChild(noAvisosMsg);
   }
+
+  // Exibe mensalidades atrasadas
+  if (mensalidadesAtrasadas.length > 0) {
+    const mensalidadesHeader = document.createElement("h3");
+    mensalidadesHeader.textContent = "Mensalidades Atrasadas";
+    avisosContainer.appendChild(mensalidadesHeader);
+
+    mensalidadesAtrasadas.forEach((mensalidade) => {
+      const div = document.createElement("div");
+      div.classList.add("mensalidade-atrasada");
+      div.innerHTML = `
+        <p><strong>Cliente:</strong> ${mensalidade.cliente_nome || "N/A"}</p>
+        <p><strong>Imóvel:</strong> ${mensalidade.imovel_descricao || "N/A"}</p>
+        <p><strong>Atraso:</strong> ${mensalidade.dias_atraso || 0} dias</p>
+        <p><strong>Valor:</strong> R$ ${parseFloat(mensalidade.valor || 0).toLocaleString("pt-BR", {
+          minimumFractionDigits: 2,
+        })}</p>
+      `;
+      avisosContainer.appendChild(div);
+    });
+  } else {
+    const noMensalidadesMsg = document.createElement("p");
+    noMensalidadesMsg.textContent = "Nenhuma mensalidade atrasada.";
+    avisosContainer.appendChild(noMensalidadesMsg);
+  }
+
+  // Exibe contratos próximos do vencimento
+  if (contratosProximos.length > 0) {
+    const contratosHeader = document.createElement("h3");
+    contratosHeader.textContent = "Contratos Próximos do Vencimento";
+    avisosContainer.appendChild(contratosHeader);
+
+    contratosProximos.forEach((contrato) => {
+      const div = document.createElement("div");
+      div.classList.add("contrato-proximo");
+      div.innerHTML = `
+        <p><strong>Cliente:</strong> ${contrato.cliente_nome || "N/A"}</p>
+        <p><strong>Imóvel:</strong> ${contrato.imovel_descricao || "N/A"}</p>
+        <p><strong>Faltam:</strong> ${contrato.dias_restantes || 0} dias</p>
+      `;
+      avisosContainer.appendChild(div);
+    });
+  } else {
+    const noContratosMsg = document.createElement("p");
+    noContratosMsg.textContent = "Nenhum contrato próximo ao vencimento.";
+    avisosContainer.appendChild(noContratosMsg);
+  }
+}
 
   // Exibe mensalidades atrasadas
   if (mensalidadesAtrasadas.length > 0) {
@@ -439,7 +585,7 @@ function atualizarAvisosContainer({ avisos, mensalidadesAtrasadas, contratosProx
   } else {
     avisosContainer.innerHTML += "<p>Nenhum contrato próximo ao vencimento.</p>";
   }
-}
+
 
 /**
  * Exemplo de paginação para avisos
