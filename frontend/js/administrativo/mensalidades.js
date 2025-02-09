@@ -7,7 +7,7 @@ const apiBaseUrl = "https://duvale-production.up.railway.app";
  */
 export async function carregarResumo() {
   try {
-    const response = await fetch(`${apiBaseUrl}/resumo`);
+    const response = await fetch(`${apiBaseUrl}/api/resumo`);
     if (!response.ok) throw new Error("Erro ao carregar resumo.");
 
     const data = await response.json();
@@ -82,7 +82,7 @@ export function atualizarTabela(tabelaId, dados) {
  */
 export async function carregarEmAtraso(page = 1, limit = 10) {
   try {
-    const response = await fetch(`${apiBaseUrl}/em-atraso?page=${page}&limit=${limit}`);
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/em-atraso?page=${limit}`);
     if (!response.ok) throw new Error(`Erro ao carregar mensalidades em atraso: ${response.status}`);
 
     const { data, total } = await response.json();
@@ -99,7 +99,7 @@ export async function carregarEmAtraso(page = 1, limit = 10) {
  */
 export async function carregarAVencer(page = 1, limit = 10) {
   try {
-    const response = await fetch(`${apiBaseUrl}/a-vencer?page=${page}&limit=${limit}`);
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/a-vencer?page=${page}&limit=${limit}`);
     if (!response.ok) throw new Error(`Erro ao carregar mensalidades a vencer: ${response.status}`);
 
     const { data, total } = await response.json();
@@ -116,7 +116,7 @@ export async function carregarAVencer(page = 1, limit = 10) {
  */
 async function atualizarStatusMensalidade(id, novoStatus, valor) {
   try {
-    const response = await fetch(`${apiBaseUrl}/${id}/status`, {
+    const response = await fetch(`${apiBaseUrl}/${id}/api/mensalidades/status`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: novoStatus, valor }),
