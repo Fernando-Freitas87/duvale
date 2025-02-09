@@ -2,14 +2,19 @@
 /* 🌙 Definição de Variáveis CSS */
 /* ============================= */
 :root {
-  --sidebar-bg: #004085; /* Cor do fundo do menu */
+  --sidebar-bg: #004085; /* Cor de fundo da barra lateral */
   --text-color: #ffffff; /* Cor dos textos e ícones */
+  --modal-bg: #ffffff; /* Cor de fundo do modal */
+  --modal-overlay: rgba(0, 0, 0, 0.5); /* Sobreposição do modal */
+  --menu-hover-bg: rgba(255, 255, 255, 0.2); /* Cor de fundo ao passar o mouse */
 }
 
+/* Tema escuro */
 body.dark {
   --sidebar-bg: #004085;
   --text-color: #ffffff;
 }
+
 
 /* ============================= */
 /* 🔹 Reset e Configuração Geral */
@@ -212,4 +217,129 @@ main {
   background-color: var(--text-color);
   border: none;
   border-radius: 5px;
+}
+
+/* ============================= */
+/* 🔹 Modal de Avisos */
+/* ============================= */
+.modal {
+  display: none; /* Oculta o modal por padrão */
+  position: fixed; /* Fixa na tela */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ocupa toda a largura */
+  height: 100%; /* Ocupa toda a altura */
+  background-color: var(--modal-overlay); /* Fundo translúcido */
+  z-index: 1000; /* Sobrepõe outros elementos */
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: var(--modal-bg); /* Fundo branco */
+  border-radius: 10px; /* Cantos arredondados */
+  width: 90%;
+  max-width: 500px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: modalEnter 0.3s ease;
+}
+
+.modalContent .close {
+  position: absolute; /* Posiciona no canto superior direito */
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* ============================= */
+/* 🔹 Indicador de Aviso ao Lado do Ícone */
+/* ============================= */
+.indicator {
+  position: absolute; /* Posiciona em relação ao ícone */
+  top: 50%; /* Centraliza verticalmente em relação ao ícone */
+  right: -5px; /* Coloca o indicador ao lado direito do ícone */
+  transform: translateY(-50%); /* Ajusta para o centro vertical */
+  width: 10px; /* Define a largura do indicador */
+  height: 10px; /* Define a altura do indicador */
+  background: red; /* Cor do indicador (vermelho) */
+  border-radius: 50%; /* Torna o indicador circular */
+  display: inline-block; /* Garante que o indicador seja exibido */
+  visibility: hidden; /* Invisível por padrão */
+}
+
+/* Torna o indicador visível quando necessário */
+.indicator.show {
+  visibility: visible;
+}
+
+/* ============================= */
+/* 🔹 Ajuste para o Contêiner do Ícone */
+/* ============================= */
+.menu .menuItem {
+  position: relative; /* Garante que o indicador seja posicionado em relação ao ícone */
+  display: flex; /* Alinha o ícone e o texto horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+}
+
+/* ============================= */
+/* 🔹 Animação do Ícone de Aviso */
+/* ============================= */
+@keyframes shake {
+  0%, 100% {
+      transform: rotate(0);
+  }
+  25% {
+      transform: rotate(-15deg);
+  }
+  75% {
+      transform: rotate(15deg);
+  }
+}
+
+.icon-shake {
+  animation: shake 0.5s ease;
+}
+
+/* ============================= */
+/* 🔹 Estilo do Footer */
+/* ============================= */
+.footer {
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.footer a {
+  color: #1abc9c;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.footer a:hover {
+  color: #16a085;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .login-container {
+      width: 95%;
+      padding: 20px 25px;
+  }
+
+  .pin-box {
+      width: 45px;
+      height: 45px;
+      font-size: 1.2rem;
+  }
+
+  h1 {
+      font-size: 1.8rem;
+  }
+
+  .footer {
+      font-size: 0.7rem;
+  }
 }

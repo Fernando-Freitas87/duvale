@@ -1,377 +1,377 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Painel Administrativo</title>
-    <!-- Importação de Scripts e CSS -->
-    <script type="module" src="js/administrativo/auth.js"></script>
-    <script type="module" src="js/administrativo/mensalidades.js"></script>
-    <script type="module" src="js/administrativo/imoveis.js"></script>
-    <script type="module" src="js/administrativo/clientesContratos.js"></script>
-    <script type="module" src="js/administrativo/dashboard.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="css/gerencial.css" />
-    <link rel="stylesheet" href="css/navbar.css">
-</head>
-<body>
-<!-- Menu Lateral -->
-<nav id="menu" class="menu">
-    <!-- Botão de abrir/fechar o menu -->
-    <div class="actionBar">
-        <div>
-            <button id="menuBtn" type="button">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+  <!--Importacoes JS e CSS-->
+  <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Painel Administrativo</title>
+      <!-- Importação de Scripts e CSS -->
+      <script type="module" src="js/administrativo/auth.js"></script>
+      <script type="module" src="js/administrativo/mensalidades.js"></script>
+      <script type="module" src="js/administrativo/imoveis.js"></script>
+      <script type="module" src="js/administrativo/clientesContratos.js"></script>
+      <script type="module" src="js/administrativo/dashboard.js"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+      <link rel="stylesheet" href="css/gerencial.css" />
+      <link rel="stylesheet" href="css/navbar.css">
+  </head>
+  <!--todo o conteudo da pagina-->
+  <body>
+    <!-- Menu Lateral -->
+    <nav id="menu" class="menu">
+        <!-- Botão de abrir/fechar o menu -->
+        <div class="actionBar">
+            <div>
+                <button id="menuBtn" type="button">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </div>
-    </div>
 
-    <!-- Linha divisória -->
-    <li class="menuBreak">
-        <hr>
-    </li>
-
-    <!-- Opções do Menu -->
-    <ul class="optionsBar">
-        <!-- Administrativo -->
-        <li class="menuItem">
-            <a href="inicial.html" class="menuOption" title="Administrativo">
-                <i class="fas fa-chart-line"></i><h5 class="menuText">Administrativo</h5>
-            </a>
+        <!-- Linha divisória -->
+        <li class="menuBreak">
+            <hr>
         </li>
 
-        <!-- Financeiro -->
-        <li class="menuItem">
-            <a href="financeiro.html" class="menuOption" title="Financeiro">
-                <i class="fa-solid fa-wallet"></i><h5 class="menuText">Financeiro</h5>
-            </a>
-        </li>
+        <!-- Opções do Menu -->
+        <ul class="optionsBar">
+            <!-- Administrativo -->
+            <li class="menuItem">
+                <a href="Inicial.html" class="menuOption" title="Administrativo">
+                    <i class="fas fa-chart-line"></i><h5 class="menuText">Administrativo</h5>
+                </a>
+            </li>
 
-        <!-- Cadastro -->
-        <li class="menuItem">
-            <a href="cadastro.html" class="menuOption" title="Cadastro">
-                <i class="fa-solid fa-user-plus"></i><h5 class="menuText">Cadastro</h5>
-            </a>
-        </li>
+            <!-- Financeiro -->
+            <li class="menuItem">
+                <a href="financeiro.html" class="menuOption" title="Financeiro">
+                    <i class="fa-solid fa-wallet"></i><h5 class="menuText">Financeiro</h5>
+                </a>
+            </li>
 
-        <!-- Suporte -->
-        <li class="menuItem">
-            <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer" class="menuOption" title="Suporte">
-                <i class="fa-solid fa-headset"></i><h5 class="menuText">Suporte</h5>
-            </a>
-        </li>
+            <!-- Cadastro -->
+            <li class="menuItem">
+                <a href="cadastro.html" class="menuOption" title="Cadastro">
+                    <i class="fa-solid fa-user-plus"></i><h5 class="menuText">Cadastro</h5>
+                </a>
+            </li>
 
-        <!-- Avisos -->
-        <li class="menuItem">
-            <a href="#" class="menuOption" title="Avisos">
-                <i class="fa-solid fa-bell" style="color: #ffffff;"></i>
-                <h5 class="menuText">Avisos</h5>
-            </a>
-        </li>
+            <!-- Suporte -->
+            <li class="menuItem">
+                <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer" class="menuOption" title="Suporte">
+                    <i class="fa-solid fa-headset"></i><h5 class="menuText">Suporte</h5>
+                </a>
+            </li>
 
-        <!-- Sair -->
-        <li class="menuItem">
-            <a href="index.html" id="sair" class="menuOption" title="Sair">
-                <i class="fa-solid fa-sign-out-alt"></i><h5 class="menuText">Sair</h5>
-            </a>
-        </li>
-    </ul>
+            <!-- Botão de aviso no menu -->
+            <li class="menuItem">
+              <a href="#" class="menuOption" id="btnAviso" title="Avisos">
+                  <i class="fa-solid fa-bell" id="iconAviso"></i>
+                  <span class="indicator" id="indicatorAviso"></span>
+                  <h5 class="menuText">Avisos</h5>
+              </a>
+          </li>
 
-    <!-- Informações do Usuário (Agora melhor estruturado) -->
-  <div class="menuUser">
-    <!-- Linha divisória -->
-      <li class="menuBreak">
-        <hr>
-      </li>
-  
-      <a href="#" class="menuOption" title="Usuario">
-        <div class="menuItem">
-          <i class="fa-solid fa-user-circle" style="color: #ffffff;"  > </i> <!-- Ícone de usuário -->
-        </div>
-        <h5 class="menuText"><span id="user-name">Usuário</span></h5>
-      </a>
-  </div>
-</nav>
+            <!-- Sair -->
+            <li class="menuItem">
+                <a href="index.html" id="sair" class="menuOption" title="Sair">
+                    <i class="fa-solid fa-sign-out-alt"></i><h5 class="menuText">Sair</h5>
+                </a>
+            </li>
+        </ul>
 
-  <!-- Conteúdo Principal -->
-  <main class="main-container">
-    
-    <!-- titulo da pagina -->
-    <section class="planilhas-header">
-      <h1 class="h1">
-        <i class="fas fa-chart-line"></i> Painel Administrativo
-      </h1>
-    </section>
-    <hr class="divider" />
+            <!-- Modal de Avisos -->
+            <div id="modalAviso" class="modal hidden">
+                  <div class="modalContent">
+                      <span id="closeModalAviso" class="close">&times;</span>
+                      <h2>📢 Avisos</h2>
+                      <div id="modalBodyAviso">
+                          <!-- Avisos serão adicionados dinamicamente -->
+                          <p>Nenhum aviso disponível no momento.</p>
+                      </div>
+                  </div>
+            </div>
 
-    <!-- Cards Dinâmicos -->
-<section class="overview">
-  <div class="cards">
-    <!-- Card: Imóveis Cadastrados -->
-    <div class="card" id="card-imoveis-cadastrados">
-      <div class="card-header">
-        <h3>Imóveis</h3>
-      </div>
-      <hr class="divider" />
-      <p id="card-imoveis-cadastrados-valor">7</p>
-    </div>
-
-    <!-- Card: Contratos Ativos -->
-    <div class="card" id="card-contratos-ativos">
-      <div class="card-header">
-        <h3>Contratos Ativos</h3>
-      </div>
-      <hr class="divider" />
-      <p id="card-contratos-ativos-valor">2</p>
-    </div>
-
-    <!-- Card: Total a Vencer -->
-    <div class="card" id="card-a-vencer">
-      <div class="card-header">
-        <h3>Total a Vencer</h3>
-      </div>
-      <hr class="divider" />
-      <p id="card-a-receber">R$ 4.950,00</p>
-    </div>
-
-    <!-- Card: Total em Atraso -->
-    <div class="card" id="card-total-em-atraso">
-      <div class="card-header">
-        <h3>Total em Atraso</h3>
-      </div>
-      <hr class="divider" />
-      <p id="card-total-em-atraso-valor">R$ 0,00</p>
-    </div>
-  </div>
-</section>
-<br />
-
-
-
-<!-- Seção: Em Atraso -->
-<section id="em-atraso-section" style="display: none;">
-  <h2>Em atraso</h2>
-  <table class="table table-red">
-    <thead>
-      <tr>
-        <th>Inquilino</th>
-        <th>Imóvel</th>
-        <th>Vencimento</th>
-        <th>Valor</th>
-        <th>Vencido a:</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody id="tabela-atraso-corpo">
-      <!-- Linhas dinâmicas via JavaScript -->
-    </tbody>
-  </table>
-  <div id="paginacao-atraso" class="pagination"></div>
-</section>
-
-<!-- Seção: Próximos a Vencer -->
-<section id="a-vencer-section" style="display: block;">
-  <h2>Próximos a vencer</h2>
-  <table class="table table-green">
-    <thead>
-      <tr>
-        <th>Imóvel</th>
-        <th>Endereço</th>
-        <th>Vencimento</th>
-        <th>Valor</th>
-        <th>Vence em:</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody id="tabela-vencer-corpo">
-      <!-- Linhas dinâmicas via JavaScript -->
-    </tbody>
-  </table>
-  <div id="paginacao-vencer" class="pagination"></div>
-</section>
-<br />
-
-<!-- Seção: Gerenciamento de Imóveis -->
-<section id="gerenciar-imoveis-section" style="display: none;">
-  <h2>Gerenciamento de Imóveis</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Descrição</th>
-        <th>Endereço</th>
-        <th>Nº Cliente ENEL</th> <!-- Nova Coluna -->
-        <th>Nº Cliente CAGECE</th> <!-- Nova Coluna -->
-        <th>Tipo</th>
-        <th>Status</th>
-        <th>Ações</th>
-
-      </tr>
-    </thead>
-    <tbody id="imoveis-corpo">
-      <!-- Linhas dinâmicas via JavaScript -->
-    </tbody>
-  </table>
-  <div id="paginacao-imoveis" class="pagination"></div>
-  <!-- Modal: Editar Imóvel -->
-  <div id="modal-editar-imovel" class="modal" style="display: none;">
-    <div class="modal-content">
-      <h3>Editar Imóvel</h3>
-      <label for="edit-imovel-descricao">Descrição:</label>
-      <input type="text" id="edit-imovel-descricao" />
-  
-      <label for="edit-imovel-endereco">Endereço:</label>
-      <input type="text" id="edit-imovel-endereco" />
-  
-      <label for="edit-imovel-status">Status:</label>
-      <input type="text" id="edit-imovel-status" />
-  
-      <!-- Novos campos -->
-      <label for="edit-imovel-enel">Cliente ENEL:</label>
-      <input type="text" id="edit-imovel-enel" />
-  
-      <label for="edit-imovel-cagece">Cliente CAGECE:</label>
-      <input type="text" id="edit-imovel-cagece" />
-
-      <label for="edit-imovel-tipo">Tipo:</label>
-      <select id="edit-imovel-tipo">
-        <option value="residencial">Residencial</option>
-        <option value="comercial">Comercial</option>
-      </select>
-  
-      <div class="modal-actions">
-        <button id="btn-salvar-imovel" class="btn-primary">Salvar</button>
-        <button id="btn-cancelar-edicao-imovel" class="btn-secondary">Cancelar</button>
-      </div>
-    </div>
-  </div>
-</section>
-<br />
-
-<!-- Seção: Gerenciamento de Clientes -->
-<section id="gerenciar-clientes-section" style="display: none;">
-  <h2>Gerenciamento de Clientes</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>CPF</th>
-        <th>Telefone</th>
-        <th>Pin</th>
-        <th>Observações</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody id="clientes-corpo">
-      <!-- Linhas dinâmicas via JavaScript -->
-    </tbody>
-  </table>
-  <div id="paginacao-clientes" class="pagination"></div>
-
-<!-- Modal: Editar Cliente -->
-<div id="modal-editar-cliente" class="modal" style="display: none;">
-  <div class="modal-content">
-    <h3>Editar Cliente</h3>
-    
-    <!-- Campos com classes específicas -->
-    <label for="edit-cliente-nome">Nome:</label>
-    <input type="text" id="edit-cliente-nome" />
-
-    <label for="edit-cliente-cpf">CPF:</label>
-    <input type="text" id="edit-cliente-cpf" />
-
-    <label for="edit-cliente-telefone">Telefone:</label>
-    <input type="tel" id="edit-cliente-telefone" />
-
-    <label for="edit-cliente-pin">PIN:</label>
-    <input type="number" id="edit-cliente-pin" class="campo-number" />
-
-    <label for="edit-cliente-observacoes">Observações:</label>
-    <textarea id="edit-cliente-observacoes" class="campo-textarea"></textarea>
-
-    <label for="edit-cliente-nacionalidade">Nacionalidade:</label>
-    <input type="text" id="edit-cliente-nacionalidade" />
-
-    <label for="edit-cliente-documento">Tipo do Documento:</label>
-    <input type="text" id="edit-cliente-documento-identidade" />
-
-    <label for="edit-cliente-numero-documento">Número do Documento:</label>
-    <input type="number" id="edit-cliente-numero-documento" class="campo-number" />
-
-    <label for="edit-cliente-data-nascimento">Data de Nascimento:</label>
-    <input type="date" id="edit-cliente-data-nascimento" class="campo-data" />
-
-    <!-- Botões do modal -->
-    <div class="modal-actions">
-      <button id="btn-salvar-cliente" class="btn-primary">Salvar</button>
-      <button id="btn-cancelar-cliente" class="btn-secondary">Cancelar</button>
-    </div>
-  </div>
-</div>
-</section>
-<br />
-
-<!-- Seção: Gerenciamento de Contratos -->
-<section id="gerenciar-contratos-section" style="display: none;">
-  <h2>Contratos</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Cliente</th>
-        <th>Imóvel</th>
-        <th>Total de Meses</th>
-        <th>Valor do Aluguel</th>
-        <th>Vencimento</th>
-        <th>Início</th>
-        <th>Fim</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody id="contratos-corpo">
-      <!-- Linhas dinâmicas via JavaScript -->
-    </tbody>
-  </table>
-  <div id="paginacao-contratos" class="pagination"></div>
-
-  <!-- Modal: Editar Contrato -->
-  <div id="modal-editar-contrato" class="modal-contrato" style="display: none;">
-    <div class="modal-contrato-content">
-      <h3 class="modal-contrato-title">Editar Contrato</h3>
+        <!-- Informações do Usuário (Agora melhor estruturado) -->
+      <div class="menuUser">
+        <!-- Linha divisória -->
+          <li class="menuBreak">
+            <hr>
+          </li>
       
-      <label for="edit-contrato-total-meses" class="modal-contrato-label">Total de Meses:</label>
-      <input type="number" id="edit-total-meses" class="modal-contrato-input" min="1" />
+          <a href="#" class="menuOption" title="Usuario">
+            <div class="menuItem">
+              <i class="fa-solid fa-user-circle" style="color: #ffffff;"  > </i> <!-- Ícone de usuário -->
+            </div>
+            <h5 class="menuText"><span id="user-name">Usuário</span></h5>
+          </a>
+      </div>
+    </nav>
+    <!-- Conteúdo Principal -->
+    <main class="main-container">
+        
+        <!-- titulo da pagina -->
+        <section class="planilhas-header">
+          <h1 class="h1">
+            <i class="fas fa-chart-line"></i> Painel Administrativo
+          </h1>
+        </section>
+        <hr class="divider" />
+        <!-- Cards Dinâmicos -->
+        <section class="overview">
+          <div class="cards">
+            <!-- Card: Imóveis Cadastrados -->
+            <div class="card" id="card-imoveis-cadastrados">
+              <div class="card-header">
+                <h3>Imóveis</h3>
+              </div>
+              <hr class="divider" />
+              <p id="card-imoveis-cadastrados-valor">7</p>
+            </div>
 
-      <label for="edit-valor-aluguel">Valor do Aluguel:</label>
-      <input type="number" id="edit-valor-aluguel" class="modal-contrato-input" />
-  
-      <label for="edit-dia-vencimento">Dia de Vencimento:</label>
-      <input type="number" id="edit-dia-vencimento" min="1" max="30" class="modal-contrato-input" />
-  
-      <label for="edit-data-inicio" class="modal-contrato-label">Data de Início:</label>
-      <input type="date" id="edit-data-inicio" class="modal-contrato-input modal-contrato-input-date" />
-  
-      <div class="modal-contrato-actions">
-        <button id="btn-contrato-salvar" class="btn-contrato-save">Salvar</button>
-        <button id="btn-contrato-cancelar" class="btn-contrato-cancel">Cancelar</button>   
-      </div>
-  
-    </div>
-  </div>
-</section>
-<br />
-    <!-- Avisos -->
-    <section class="avisos">
-      <h2>Avisos</h2>
-      <hr class="divider" />
-      <div id="avisos-container">
-        <!-- Avisos serão inseridos aqui -->
-      </div>
-      <div id="avisos-pagination" class="pagination">
-        <!-- Botões de paginação serão inseridos dinamicamente -->
-      </div>
-    </section>
-  </main>
-    <script src="js/navbar.js"></script>
-</body>
+            <!-- Card: Contratos Ativos -->
+            <div class="card" id="card-contratos-ativos">
+              <div class="card-header">
+                <h3>Contratos Ativos</h3>
+              </div>
+              <hr class="divider" />
+              <p id="card-contratos-ativos-valor">2</p>
+            </div>
+
+            <!-- Card: Total a Vencer -->
+            <div class="card" id="card-a-vencer">
+              <div class="card-header">
+                <h3>Total a Vencer</h3>
+              </div>
+              <hr class="divider" />
+              <p id="card-a-receber">R$ 4.950,00</p>
+            </div>
+
+            <!-- Card: Total em Atraso -->
+            <div class="card" id="card-total-em-atraso">
+              <div class="card-header">
+                <h3>Total em Atraso</h3>
+              </div>
+              <hr class="divider" />
+              <p id="card-total-em-atraso-valor">R$ 0,00</p>
+            </div>
+          </div>
+        </section>
+        <br />
+        <!-- Seção: Em Atraso -->
+        <section id="em-atraso-section" style="display: none;">
+          <h2>Em atraso</h2>
+          <table class="table table-red">
+            <thead>
+              <tr>
+                <th>Inquilino</th>
+                <th>Imóvel</th>
+                <th>Vencimento</th>
+                <th>Valor</th>
+                <th>Vencido a:</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-atraso-corpo">
+              <!-- Linhas dinâmicas via JavaScript -->
+            </tbody>
+          </table>
+          <div id="paginacao-atraso" class="pagination"></div>
+        </section>
+        <br />
+        <!-- Seção: Próximos a Vencer -->
+        <section id="a-vencer-section" style="display: block;">
+            <h2>Próximos a vencer</h2>
+            <table class="table table-green">
+              <thead>
+                <tr>
+                  <th>Imóvel</th>
+                  <th>Endereço</th>
+                  <th>Vencimento</th>
+                  <th>Valor</th>
+                  <th>Vence em:</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabela-vencer-corpo">
+                <!-- Linhas dinâmicas via JavaScript -->
+              </tbody>
+            </table>
+            <div id="paginacao-vencer" class="pagination"></div>
+        </section>
+        <br />
+        <!-- Seção: Gerenciamento de Imóveis -->
+        <section id="gerenciar-imoveis-section" style="display: none;">
+            <h2>Gerenciamento de Imóveis</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Descrição</th>
+                  <th>Endereço</th>
+                  <th>Nº Cliente ENEL</th> <!-- Nova Coluna -->
+                  <th>Nº Cliente CAGECE</th> <!-- Nova Coluna -->
+                  <th>Tipo</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+
+                </tr>
+              </thead>
+              <tbody id="imoveis-corpo">
+                <!-- Linhas dinâmicas via JavaScript -->
+              </tbody>
+            </table>
+            <div id="paginacao-imoveis" class="pagination"></div>
+            <!-- Modal: Editar Imóvel -->
+            <div id="modal-editar-imovel" class="modal" style="display: none;">
+              <div class="modal-content">
+                <h3>Editar Imóvel</h3>
+                <label for="edit-imovel-descricao">Descrição:</label>
+                <input type="text" id="edit-imovel-descricao" />
+            
+                <label for="edit-imovel-endereco">Endereço:</label>
+                <input type="text" id="edit-imovel-endereco" />
+            
+                <label for="edit-imovel-status">Status:</label>
+                <input type="text" id="edit-imovel-status" />
+            
+                <!-- Novos campos -->
+                <label for="edit-imovel-enel">Cliente ENEL:</label>
+                <input type="text" id="edit-imovel-enel" />
+            
+                <label for="edit-imovel-cagece">Cliente CAGECE:</label>
+                <input type="text" id="edit-imovel-cagece" />
+
+                <label for="edit-imovel-tipo">Tipo:</label>
+                <select id="edit-imovel-tipo">
+                  <option value="residencial">Residencial</option>
+                  <option value="comercial">Comercial</option>
+                </select>
+            
+                <div class="modal-actions">
+                  <button id="btn-salvar-imovel" class="btn-primary">Salvar</button>
+                  <button id="btn-cancelar-edicao-imovel" class="btn-secondary">Cancelar</button>
+                </div>
+              </div>
+            </div>
+        </section>
+        <br />
+          <!-- Seção: Gerenciamento de Clientes -->
+        <section id="gerenciar-clientes-section" style="display: none;">
+            <h2>Gerenciamento de Clientes</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>CPF</th>
+                  <th>Telefone</th>
+                  <th>Pin</th>
+                  <th>Observações</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="clientes-corpo">
+                <!-- Linhas dinâmicas via JavaScript -->
+              </tbody>
+            </table>
+            <div id="paginacao-clientes" class="pagination"></div>
+
+          <!-- Modal: Editar Cliente -->
+          <div id="modal-editar-cliente" class="modal" style="display: none;">
+            <div class="modal-content">
+              <h3>Editar Cliente</h3>
+              
+              <!-- Campos com classes específicas -->
+              <label for="edit-cliente-nome">Nome:</label>
+              <input type="text" id="edit-cliente-nome" />
+
+              <label for="edit-cliente-cpf">CPF:</label>
+              <input type="text" id="edit-cliente-cpf" />
+
+              <label for="edit-cliente-telefone">Telefone:</label>
+              <input type="tel" id="edit-cliente-telefone" />
+
+              <label for="edit-cliente-pin">PIN:</label>
+              <input type="number" id="edit-cliente-pin" class="campo-number" />
+
+              <label for="edit-cliente-observacoes">Observações:</label>
+              <textarea id="edit-cliente-observacoes" class="campo-textarea"></textarea>
+
+              <label for="edit-cliente-nacionalidade">Nacionalidade:</label>
+              <input type="text" id="edit-cliente-nacionalidade" />
+
+              <label for="edit-cliente-documento">Tipo do Documento:</label>
+              <input type="text" id="edit-cliente-documento-identidade" />
+
+              <label for="edit-cliente-numero-documento">Número do Documento:</label>
+              <input type="number" id="edit-cliente-numero-documento" class="campo-number" />
+
+              <label for="edit-cliente-data-nascimento">Data de Nascimento:</label>
+              <input type="date" id="edit-cliente-data-nascimento" class="campo-data" />
+
+              <!-- Botões do modal -->
+              <div class="modal-actions">
+                <button id="btn-salvar-cliente" class="btn-primary">Salvar</button>
+                <button id="btn-cancelar-cliente" class="btn-secondary">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <br />
+        <!-- Seção: Gerenciamento de Contratos -->
+        <section id="gerenciar-contratos-section" style="display: none;">
+            <h2>Contratos</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Imóvel</th>
+                  <th>Total de Meses</th>
+                  <th>Valor do Aluguel</th>
+                  <th>Vencimento</th>
+                  <th>Início</th>
+                  <th>Fim</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="contratos-corpo">
+                <!-- Linhas dinâmicas via JavaScript -->
+              </tbody>
+            </table>
+            <div id="paginacao-contratos" class="pagination"></div>
+
+            <!-- Modal: Editar Contrato -->
+            <div id="modal-editar-contrato" class="modal-contrato" style="display: none;">
+              <div class="modal-contrato-content">
+                <h3 class="modal-contrato-title">Editar Contrato</h3>
+                
+                <label for="edit-contrato-total-meses" class="modal-contrato-label">Total de Meses:</label>
+                <input type="number" id="edit-total-meses" class="modal-contrato-input" min="1" />
+
+                <label for="edit-valor-aluguel">Valor do Aluguel:</label>
+                <input type="number" id="edit-valor-aluguel" class="modal-contrato-input" />
+            
+                <label for="edit-dia-vencimento">Dia de Vencimento:</label>
+                <input type="number" id="edit-dia-vencimento" min="1" max="30" class="modal-contrato-input" />
+            
+                <label for="edit-data-inicio" class="modal-contrato-label">Data de Início:</label>
+                <input type="date" id="edit-data-inicio" class="modal-contrato-input modal-contrato-input-date" />
+            
+                <div class="modal-contrato-actions">
+                  <button id="btn-contrato-salvar" class="btn-contrato-save">Salvar</button>
+                  <button id="btn-contrato-cancelar" class="btn-contrato-cancel">Cancelar</button>   
+                </div>
+            
+              </div>
+            </div>
+            <footer class="footer">
+              <p>Setta Software Solutions. Todos os direitos reservados.</p>
+              <p>Desenvolvido por Fernando Freitas | &copy; 2024</p>
+            </footer>
+        </section>
+    </main>
+  </body>
+  <!--Modulo js-->
+  <script type="module" src="js/administrativo/navbar.js"></script></body>
 </html>
