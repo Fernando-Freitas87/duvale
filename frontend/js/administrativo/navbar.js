@@ -49,62 +49,62 @@ document.addEventListener("DOMContentLoaded", () => {
     // ================================
 
     // Seleciona os elementos do modal de aviso
-    const btnAviso = document.getElementById("btnAviso");
-    const modalAviso = document.getElementById("modalAviso");
-    const closeModalAviso = document.getElementById("closeModalAviso");
-    const iconAviso = document.getElementById("iconAviso");
-    const indicatorAviso = document.getElementById("indicatorAviso");
-    const modalBodyAviso = document.getElementById("modalBodyAviso");
+    const btnAviso = document.getElementById("btnAviso"); // Botão que abre o modal de avisos
+    const modalAviso = document.getElementById("modalAviso"); // Modal que contém os avisos
+    const closeModalAviso = document.getElementById("closeModalAviso"); // Botão para fechar o modal
+    const iconAviso = document.getElementById("iconAviso"); // Ícone de aviso no botão
+    const indicatorAviso = document.getElementById("indicatorAviso"); // Indicador visual de aviso
+    const modalBodyAviso = document.getElementById("modalBodyAviso"); // Corpo do modal onde os avisos serão exibidos
 
-    // Verifica se os elementos do aviso existem
+    // Verifica se todos os elementos necessários existem
     if (!btnAviso || !modalAviso || !closeModalAviso || !iconAviso || !indicatorAviso || !modalBodyAviso) {
-        console.error("Elementos do aviso não encontrados!");
-        return;
+        console.error("Elementos do aviso não encontrados!"); // Log de erro para elementos ausentes
+        return; // Interrompe a execução se os elementos não forem encontrados
     }
 
-    // Exibe o modal de aviso ao clicar no botão de aviso
+    // Evento: Exibe o modal de aviso ao clicar no botão de aviso
     btnAviso.addEventListener("click", async () => {
         modalAviso.style.display = "flex"; // Exibe o modal
-        indicatorAviso.classList.remove("show"); // Remove o indicador de aviso
+        indicatorAviso.classList.remove("show"); // Remove o indicador de aviso visual
         iconAviso.classList.remove("icon-shake"); // Remove a animação do ícone
-    
+
         try {
-            // 🚀 Carrega os avisos da API
+            // 🚀 Faz a chamada à API para carregar os avisos
             const avisos = await carregarAvisos();
-    
-            // 🔄 Valida se avisos é um array antes de processá-lo
-            modalBodyAviso.innerHTML = ""; // Limpa o conteúdo antes de atualizar
+
+            // 🔄 Limpa o conteúdo anterior do modal
+            modalBodyAviso.innerHTML = "";
+
+            // Valida se os avisos são um array e contém elementos
             if (!Array.isArray(avisos) || avisos.length === 0) {
-                modalBodyAviso.innerHTML = "<p>Nada novo por aqui, qualquer coisa te aviso! </p>";
-                return;
+                modalBodyAviso.innerHTML = "<p>Nada novo por aqui, qualquer coisa te aviso! </p>"; // Exibe mensagem padrão
+                return; // Encerra se não houver avisos
             }
-    
-            // Itera sobre os avisos e atualiza o modal
+
+            // Itera pelos avisos e os adiciona ao corpo do modal
             avisos.forEach((aviso) => {
-                const avisoElement = document.createElement("p");
+                const avisoElement = document.createElement("p"); // Cria um elemento <p> para cada aviso
                 avisoElement.innerHTML = `
                     <strong>${aviso.imovel_descricao || "Imóvel não identificado"}:</strong> 
                     ${aviso.aviso || "Sem detalhes disponíveis"}
                 `;
-                modalBodyAviso.appendChild(avisoElement);
+                modalBodyAviso.appendChild(avisoElement); // Adiciona o elemento ao modal
             });
         } catch (error) {
-            console.error("Erro ao carregar avisos:", error);
-            modalBodyAviso.innerHTML = "<p>Erro ao carregar avisos. Tente novamente.</p>";
+            console.error("Erro ao carregar avisos:", error); // Loga o erro no console
+            modalBodyAviso.innerHTML = "<p>Erro ao carregar avisos. Tente novamente.</p>"; // Exibe mensagem de erro ao usuário
         }
     });
 
-    
-
-    // Fecha o modal ao clicar no botão de fechamento
+    // Evento: Fecha o modal ao clicar no botão de fechamento
     closeModalAviso.addEventListener("click", () => {
-        modalAviso.style.display = "none";
+        modalAviso.style.display = "none"; // Oculta o modal
     });
 
-    // Fecha o modal ao clicar fora dele
+    // Evento: Fecha o modal ao clicar fora dele
     window.addEventListener("click", (event) => {
-        if (event.target === modalAviso) {
-            modalAviso.style.display = "none";
+        if (event.target === modalAviso) { // Verifica se o clique foi fora do modal
+            modalAviso.style.display = "none"; // Oculta o modal
         }
     });
 });

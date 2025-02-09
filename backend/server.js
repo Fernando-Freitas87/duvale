@@ -23,6 +23,7 @@ const allowedOrigins = ['https://fernando-freitas87.github.io'];
 /**
  * Importação de Controllers e Rotas
  */
+const avisosRoutes = require("./routes/avisos.routes");
 const loginRoutes = require('./routes/login');
 const usuarioController = require('./controllers/usuarioController');
 const clientesRoutes = require('./routes/clientesRoutes');
@@ -68,6 +69,7 @@ db.query('SELECT 1')
 /**
  * Registro de Rotas
  */
+app.use("/api/avisos", avisosRoutes);
 app.use('/api/login', loginRoutes);                    // Rotas de autenticação (PIN)
 app.use('/api/clientes', clientesRoutes);              // Rotas para operações com clientes
 app.use('/api/gerencial', gerencialRoutes);            // Rotas para painel gerencial

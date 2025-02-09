@@ -347,45 +347,98 @@ function atualizarPaginacaoAvisos(page, total, limit) {
     paginacaoContainer.appendChild(nextButton);
   }
 }
-/**
- * Se tiver avisos gerenciais no mesmo endpoint, pode colocar aqui também
- */
 export async function carregarAvisos() {
   try {
-      const response = await fetch(`${apiBaseUrl}/api/mensalidades/avisos`);
-      if (!response.ok) throw new Error("Erro ao carregar avisos.");
+    // Faz múltiplas requisições paralelas
+    const [avisosResponse, mensalidadesAtrasadas, contratosProximos] = await Promise.all([
+      fetch(`${apiBaseUrl}/api/mensalidades/avisos`),
+      fetch(`${apiBaseUrl}/api/avisos/mensalidades/atraso`),
+      fetch(`${apiBaseUrl}/api/avisos/contratos/vencimentos`),
+    ]);
 
-      const data = await response.json();
+    // Valida cada resposta
+    if (!avisosResponse.ok || !mensalidadesAtrasadas.ok || !contratosProximos.ok) {
+      throw new Error("Erro ao carregar um ou mais conjuntos de dados.");
+    }
 
-      // Garante que `data` e `data.avisos` sejam arrays
-      return Array.isArray(data?.avisos) ? data.avisos : [];
+    // Processa os dados retornados
+    const avisos = await avisosResponse.json();
+    const atrasos = await mensalidadesAtrasadas.json();
+    const proximos = await contratosProximos.json();
+
+    // Retorna os dados organizados
+    return {
+      avisos: Array.isArray(avisos?.avisos) ? avisos.avisos : [],
+      mensalidadesAtrasadas: atrasos,
+      contratosProximos: proximos,
+    };
   } catch (error) {
-      console.error("Erro ao carregar avisos:", error);
-      return []; // Retorna um array vazio em caso de erro
+    console.error("Erro ao carregar avisos:", error);
+    return {
+      avisos: [],
+      mensalidadesAtrasadas: [],
+      contratosProximos: [],
+    };
   }
 }
 
-function atualizarAvisosContainer(avisos) {
+function atualizarAvisosContainer({ avisos, mensalidadesAtrasadas, contratosProximos }) {
   const avisosContainer = document.getElementById("avisos-container");
   if (!avisosContainer) return;
 
   avisosContainer.innerHTML = "";
 
-  if (!avisos || avisos.length === 0) {
-      avisosContainer.innerHTML = "<p>Nenhum aviso disponível.</p>";
-      return;
-  }
-
-  avisos.forEach((aviso) => {
+  // Exibe avisos gerais
+  if (avisos.length > 0) {
+    avisosContainer.innerHTML += "<h3>Avisos Gerais</h3>";
+    avisos.forEach((aviso) => {
       const div = document.createElement("div");
       div.classList.add("aviso");
       div.innerHTML = `
-          <h3>${aviso.imovel_descricao || "Descrição não disponível"}</h3>
-          <p><strong>Endereço:</strong> ${aviso.imovel_endereco || "Endereço não informado"}</p>
-          <p><strong>Aviso:</strong> ${aviso.aviso || "Sem detalhes"}</p>
+        <h3>${aviso.imovel_descricao || "Descrição não disponível"}</h3>
+        <p><strong>Endereço:</strong> ${aviso.imovel_endereco || "Endereço não informado"}</p>
+        <p><strong>Aviso:</strong> ${aviso.aviso || "Sem detalhes"}</p>
       `;
       avisosContainer.appendChild(div);
-  });
+    });
+  } else {
+    avisosContainer.innerHTML += "<p>Nenhum aviso geral disponível.</p>";
+  }
+
+  // Exibe mensalidades atrasadas
+  if (mensalidadesAtrasadas.length > 0) {
+    avisosContainer.innerHTML += "<h3>Mensalidades Atrasadas</h3>";
+    mensalidadesAtrasadas.forEach((mensalidade) => {
+      const div = document.createElement("div");
+      div.classList.add("mensalidade-atrasada");
+      div.innerHTML = `
+        <p><strong>Cliente:</strong> ${mensalidade.cliente_nome || "N/A"}</p>
+        <p><strong>Imóvel:</strong> ${mensalidade.imovel_descricao || "N/A"}</p>
+        <p><strong>Atraso:</strong> ${mensalidade.dias_atraso || 0} dias</p>
+        <p><strong>Valor:</strong> R$ ${mensalidade.valor || "0,00"}</p>
+      `;
+      avisosContainer.appendChild(div);
+    });
+  } else {
+    avisosContainer.innerHTML += "<p>Nenhuma mensalidade atrasada.</p>";
+  }
+
+  // Exibe contratos próximos ao vencimento
+  if (contratosProximos.length > 0) {
+    avisosContainer.innerHTML += "<h3>Contratos Próximos do Vencimento</h3>";
+    contratosProximos.forEach((contrato) => {
+      const div = document.createElement("div");
+      div.classList.add("contrato-proximo");
+      div.innerHTML = `
+        <p><strong>Cliente:</strong> ${contrato.cliente_nome || "N/A"}</p>
+        <p><strong>Imóvel:</strong> ${contrato.imovel_descricao || "N/A"}</p>
+        <p><strong>Faltam:</strong> ${contrato.dias_restantes || 0} dias</p>
+      `;
+      avisosContainer.appendChild(div);
+    });
+  } else {
+    avisosContainer.innerHTML += "<p>Nenhum contrato próximo ao vencimento.</p>";
+  }
 }
 
 /**
