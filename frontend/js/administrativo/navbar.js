@@ -1,5 +1,5 @@
 // Importa a função carregarAvisos do mensalidades.js
-import { carregarAvisos } from "./mensalidades.js"; // Ajuste o caminho conforme necessário
+import { carregarAvisos } from "mensalidades.js"; // Ajuste o caminho conforme necessário
 
 // Aguarda o carregamento completo do DOM
 document.addEventListener("DOMContentLoaded", () => {
