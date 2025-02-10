@@ -234,9 +234,9 @@ function obterNomeDoMes(offset = 0) {
 }
 
 /**
- * Cria um gráfico de pizza usando Google Charts.
- * @param {Object} dados - Dados do gráfico (e.g., { em_dia: 5, atrasadas: 3, pendentes: 2 }).
- * @param {string} id - ID do elemento HTML onde o gráfico será renderizado.
+ * Cria um gráfico de pizza usando Google Charts, formatando valores em R$.
+ * @param {Object} dados - ex: { em_dia: 5, atrasadas: 3, pendentes: 2 }
+ * @param {string} id - ID do elemento HTML onde o gráfico será renderizado
  */
 function criarGraficoPizza(dados, id) {
   const graficoContainer = document.getElementById(id);
@@ -245,18 +245,32 @@ function criarGraficoPizza(dados, id) {
     return;
   }
 
-  // Converte os dados para o formato do Google Charts
+  // 1) Converte os dados para o formato do Google Charts
   const chartData = [["Status", "Valor"]];
   Object.keys(dados).forEach((status) => {
-    chartData.push([status, dados[status]]);
+    // Se quiser ter certeza de que é numérico, use parseFloat:
+    const valor = parseFloat(dados[status]) || 0;
+    chartData.push([status, valor]);
   });
 
   const data = google.visualization.arrayToDataTable(chartData);
 
+  // 2) Formatação de número em R$ (moeda brasileira)
+  const formatter = new google.visualization.NumberFormat({
+    prefix: "R$ ",
+    decimalSymbol: ",",
+    groupingSymbol: ".",
+    fractionDigits: 2,
+  });
+  // A coluna 1 (índice 1) é a de valores
+  formatter.format(data, 1);
+
+  // 3) Monta as opções do gráfico, destacando o mês no título
   const options = {
-    title: `${graficoContainer.dataset.mes}`,
-    pieHole: 0.4, // Gráfico de rosca
-    colors: ["#2F80ED", "#56CCF2", "#BB6BD9"], // Exemplo de paleta mais sutil
+    // Deixe o mês em maiúsculo para destacar, ou pode estilizar como preferir
+    title: `Mês de ${graficoContainer.dataset.mes.toUpperCase()}`,
+    pieHole: 0.4, // gráfico de rosca
+    colors: ["#2F80ED", "#56CCF2", "#BB6BD9"], // paleta suave de exemplo
     pieSliceText: "value",
     pieSliceTextStyle: {
       fontSize: 14,
@@ -264,7 +278,7 @@ function criarGraficoPizza(dados, id) {
       color: "#333",
     },
     tooltip: {
-      text: "value",
+      text: "value", // Mostra o valor em R$
     },
     legend: {
       position: "none", // Remove a legenda padrão
@@ -273,12 +287,19 @@ function criarGraficoPizza(dados, id) {
       width: "90%",
       height: "80%",
     },
+    // Se quiser deixar o título em negrito, adicione titleTextStyle:
+    titleTextStyle: {
+      fontSize: 16,
+      bold: true,
+      color: "#333"
+    },
   };
 
+  // 4) Desenha o gráfico
   const chart = new google.visualization.PieChart(graficoContainer);
   chart.draw(data, options);
 
-  // Criar a legenda personalizada abaixo do gráfico
+  // 5) Criar a legenda personalizada (caso queira manter)
   const legendaContainer = document.createElement("div");
   legendaContainer.classList.add("legenda-container");
 
@@ -291,17 +312,16 @@ function criarGraficoPizza(dados, id) {
     cor.style.backgroundColor = options.colors[index];
 
     const texto = document.createElement("span");
-    texto.textContent = status.replace("_", " "); // Formata os textos
+    texto.textContent = status.replace("_", " ");
 
     legendaItem.appendChild(cor);
     legendaItem.appendChild(texto);
     legendaContainer.appendChild(legendaItem);
   });
 
-  // Adicionar legenda abaixo do gráfico
+  // 6) Anexa a legenda abaixo do gráfico
   graficoContainer.parentNode.appendChild(legendaContainer);
 }
-
 /**
  * Carrega os dados dos gráficos de mensalidades e renderiza-os no DOM.
  */
