@@ -832,11 +832,12 @@ color: #28a745;   /* Verde no hover */
 
 .graficos-container {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap; /* Adiciona quebra de linha para responsividade */
-  gap: 20px; /* Espaçamento entre os gráficos */
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap; /* Permite quebra de linha para dispositivos menores */
+  gap: 30px; /* Espaçamento consistente entre os gráficos */
   margin-top: 20px;
+  padding: 20px; /* Adiciona espaçamento interno ao container */
 }
 
 .graficos-container div {
@@ -844,9 +845,41 @@ color: #28a745;   /* Verde no hover */
 }
 
 #grafico-anterior, #grafico-atual, #grafico-proximo {
-  background: #f9f9f9; /* Fundo claro para contraste */
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  background: #ffffff; /* Fundo branco para maior simplicidade */
+  border: 1px solid #e6e6e6; /* Borda leve para separação */
+  border-radius: 12px; /* Bordas mais suaves */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08); /* Sombra mais sutil */
+  padding: 15px; /* Espaçamento interno consistente */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transições para interação */
+  max-width: 280px; /* Tamanho máximo para manter consistência */
+  width: 100%; /* Adapta ao tamanho do container */
+}
+
+#grafico-anterior:hover, #grafico-atual:hover, #grafico-proximo:hover {
+  transform: translateY(-5px); /* Animação ao passar o mouse */
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.12); /* Sombra aumentada ao passar o mouse */
+}
+
+.graficos-container h3 {
+  font-size: 1rem; /* Tamanho menor e proporcional para o título */
+  color: #333; /* Cor neutra para os títulos */
+  margin-bottom: 10px; /* Espaçamento abaixo do título */
+  font-weight: 500; /* Negrito moderado para clareza */
+}
+
+.graficos-container p {
+  font-size: 0.875rem; /* Texto secundário menor */
+  color: #666; /* Cor secundária para legendas ou descrições */
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .graficos-container {
+    flex-direction: column; /* Empilha gráficos em telas menores */
+    align-items: center; /* Centraliza os itens */
+  }
+
+  #grafico-anterior, #grafico-atual, #grafico-proximo {
+    max-width: 100%; /* Ocupa toda a largura disponível em telas menores */
+  }
 }
