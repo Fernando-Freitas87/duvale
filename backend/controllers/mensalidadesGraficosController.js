@@ -9,8 +9,8 @@ const getMensalidadesGraficos = async (req, res) => {
     const query = `
       SELECT 
         CASE 
-          WHEN status = 'em_dia' THEN 'em_dia'
-          WHEN status = 'atrasada' THEN 'atrasada'
+          WHEN status = 'em dias' THEN 'em_dias'
+          WHEN status = 'em atraso' THEN 'em_atraso'
           WHEN status = 'pendente' THEN 'pendente'
           ELSE 'outros'
         END AS status,
@@ -27,9 +27,9 @@ const getMensalidadesGraficos = async (req, res) => {
 
     // Organiza os dados em um formato adequado para os gráficos
     const resultado = {
-      anterior: { em_dia: 0, atrasadas: 0, pendentes: 0 },
-      atual: { em_dia: 0, atrasadas: 0, pendentes: 0 },
-      proximo: { em_dia: 0, atrasadas: 0, pendentes: 0 },
+      anterior: { em_dias: 0, em_atraso: 0, pendente: 0 },
+      atual: { em_dias: 0, em_atraso: 0, pendente: 0 },
+      proximo: { em_dias: 0, em_atraso: 0, pendente: 0 },
     };
 
     rows.forEach((row) => {
