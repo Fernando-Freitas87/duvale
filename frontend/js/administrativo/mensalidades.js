@@ -201,7 +201,6 @@ function atualizarPaginacao(tipo, page, total, limit) {
     if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos");
 
     const data = await response.json();
-    console.log("Dados dos gráficos carregados:", data);
 
     const cores = {
       em_dia: "green",
@@ -216,27 +215,28 @@ function atualizarPaginacao(tipo, page, total, limit) {
         return;
       }
 
+      // Limpa o gráfico antes de recriar
+      grafico.innerHTML = "";
+
       Object.keys(dados).forEach((status, index) => {
         const li = document.createElement("li");
         li.style.borderColor = cores[status];
         li.style.transform = `rotate(${72 * index}deg)`; // Ajusta o ângulo com base nos dados
-        li.innerHTML = `<span>${dados[status]}</span>`;
+        li.innerHTML = `<span>${dados[status] || 0}</span>`;
         grafico.appendChild(li);
       });
     }
-    
+
     criarGrafico(data.anterior, "grafico-anterior");
     criarGrafico(data.atual, "grafico-atual");
     criarGrafico(data.proximo, "grafico-proximo");
   } catch (error) {
     console.error("Erro ao carregar os gráficos:", error);
 
-    // Exibe mensagem no DOM caso ocorra erro
+    // Exibe mensagem de erro no DOM
     const erroMensagem = document.createElement("p");
     erroMensagem.style.color = "red";
     erroMensagem.textContent = "Erro ao carregar os gráficos. Tente novamente mais tarde.";
     document.getElementById("graficos").appendChild(erroMensagem);
-    
   }
-
 })();
