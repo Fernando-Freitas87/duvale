@@ -208,15 +208,29 @@ google.charts.load("current", { packages: ["corechart"] });
 google.charts.setOnLoadCallback(carregarGraficos); // Chama a função ao carregar a biblioteca
 
 /**
- * Formata valores para o formato monetário "R$ 0.00"
- * @param {number} valor - Valor numérico a ser formatado.
- * @returns {string} - Valor formatado como "R$ 0.00".
+ * Obtém o nome dos meses correspondentes para o título dos gráficos.
+ * @param {number} offset - Offset relativo ao mês atual (e.g., -1 para mês anterior, 0 para mês atual, +1 para próximo mês).
+ * @returns {string} - Nome do mês correspondente.
  */
-function formatarValor(valor) {
-  return `R$ ${valor.toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
+function obterNomeDoMes(offset = 0) {
+  const meses = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
+  const dataAtual = new Date();
+  const mesAtual = dataAtual.getMonth();
+  const mesCalculado = (mesAtual + offset + 12) % 12; // Calcula o mês considerando os offsets
+  return meses[mesCalculado];
 }
 
 /**
@@ -240,7 +254,7 @@ function criarGraficoPizza(dados, id) {
   const data = google.visualization.arrayToDataTable(chartData);
 
   const options = {
-    title: "Distribuição de Mensalidades",
+    title: `Distribuição de Mensalidades (${graficoContainer.dataset.mes})`,
     pieHole: 0.4, // Gráfico de rosca
     colors: ["green", "red", "blue"], // Cores dos setores
     pieSliceText: "value", // Exibe os valores nas fatias
@@ -263,16 +277,7 @@ function criarGraficoPizza(dados, id) {
       width: "80%", // Ajusta o tamanho do gráfico
       height: "80%",
     },
-    slices: {
-      0: { offset: 0.1 }, // Realce no primeiro setor
-    },
   };
-
-  // Sobrescreve os valores do gráfico com o formato "R$ 0.00"
-  data.setColumnLabel(1, "Valor");
-  for (let i = 1; i < data.getNumberOfRows(); i++) {
-    data.setFormattedValue(i, 1, formatarValor(data.getValue(i, 1)));
-  }
 
   const chart = new google.visualization.PieChart(graficoContainer);
   chart.draw(data, options);
@@ -288,6 +293,11 @@ async function carregarGraficos() {
 
     const data = await response.json();
     console.log("Dados carregados:", data);
+
+    // Define os nomes dos meses dinamicamente nos containers
+    document.getElementById("grafico-anterior").dataset.mes = obterNomeDoMes(-1);
+    document.getElementById("grafico-atual").dataset.mes = obterNomeDoMes(0);
+    document.getElementById("grafico-proximo").dataset.mes = obterNomeDoMes(1);
 
     criarGraficoPizza(data.anterior, "grafico-anterior");
     criarGraficoPizza(data.atual, "grafico-atual");
