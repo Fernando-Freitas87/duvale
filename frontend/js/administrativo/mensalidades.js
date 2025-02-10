@@ -194,3 +194,49 @@ function atualizarPaginacao(tipo, page, total, limit) {
     });
   });
 }
+
+(async function carregarGraficos() {
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
+    if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos");
+
+    const data = await response.json();
+    console.log("Dados dos gráficos carregados:", data);
+
+    const cores = {
+      em_dia: "green",
+      atrasadas: "red",
+      pendentes: "blue",
+    };
+
+    function criarGrafico(dados, id) {
+      const grafico = document.getElementById(id);
+      if (!grafico) {
+        console.error(`Elemento com ID ${id} não encontrado.`);
+        return;
+      }
+
+      Object.keys(dados).forEach((status, index) => {
+        const li = document.createElement("li");
+        li.style.borderColor = cores[status];
+        li.style.transform = `rotate(${72 * index}deg)`; // Ajusta o ângulo com base nos dados
+        li.innerHTML = `<span>${dados[status]}</span>`;
+        grafico.appendChild(li);
+      });
+    }
+    
+    criarGrafico(data.anterior, "grafico-anterior");
+    criarGrafico(data.atual, "grafico-atual");
+    criarGrafico(data.proximo, "grafico-proximo");
+  } catch (error) {
+    console.error("Erro ao carregar os gráficos:", error);
+
+    // Exibe mensagem no DOM caso ocorra erro
+    const erroMensagem = document.createElement("p");
+    erroMensagem.style.color = "red";
+    erroMensagem.textContent = "Erro ao carregar os gráficos. Tente novamente mais tarde.";
+    document.getElementById("graficos").appendChild(erroMensagem);
+    
+  }
+
+})();

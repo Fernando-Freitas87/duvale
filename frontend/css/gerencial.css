@@ -386,37 +386,7 @@ color: #28a745;   /* Verde no hover */
   font-weight: bold;
 }
 
-/***************************************************************
-* [10] RODAPÉ (FOOTER)
-***************************************************************/
-.footer {
-  text-align: center;
-  padding: 20px;
-  background-color: #004085;
-  color: white;
-  font-size: 14px;
-  margin-top: 30px;
-}
 
-.footer a {
-  color: #00c853;
-  text-decoration: none;
-  font-weight: bold;
-}
-.footer a:hover {
-  text-decoration: underline;
-}
-
-/* Responsividade para footer e navbar */
-@media (max-width: 768px) {
-  .navbar {
-      flex-wrap: wrap;
-  }
-  .navbar .menu {
-      flex-direction: column;
-      gap: 10px;
-  }
-}
 
 /***************************************************************
 * [11] ESTILOS ESPECÍFICOS PARA GERENCIAMENTO (IMÓVEIS, CLIENTES, ETC.)
@@ -854,4 +824,39 @@ color: #28a745;   /* Verde no hover */
 }
 .btn-submit:hover {
   background-color: #45a049;
+}
+
+/*grafico mensalidade*/
+
+#grafico-anterior::before {
+  content: "Mês Anterior";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
+}
+
+#grafico-atual::before {
+  content: "Mês Atual";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
+}
+
+#grafico-proximo::before {
+  content: "Próximo Mês";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
 }

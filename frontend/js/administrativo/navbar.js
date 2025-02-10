@@ -117,3 +117,4 @@ document.addEventListener("DOMContentLoaded", () => {
         iconAviso.classList.add("icon-shake");
     }, 2000);
 });
+
