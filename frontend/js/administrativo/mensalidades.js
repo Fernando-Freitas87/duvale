@@ -204,76 +204,49 @@ function atualizarPaginacao(tipo, page, total, limit) {
 /**
  * Carrega os dados dos gráficos de mensalidades e renderiza-os no DOM.
  */
-(async function carregarGraficos() {
-  try {
-    // Faz a requisição para a API para obter os dados dos gráficos
-    const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
-    if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos"); // Verifica se a requisição foi bem-sucedida
 
-    const data = await response.json();
-
-    // Validação dos dados retornados
-    if (!data || typeof data !== "object") {
-      throw new Error("Dados inválidos retornados pela API.");
-    }
-
-    // Define as cores para cada status
-    const cores = {
-      em_dia: "green",
-      atrasadas: "red",
-      pendentes: "blue",
-    };
-
-    /**
-     * Cria um gráfico dinâmico.
-     * @param {Object} dados - Dados do gráfico (e.g., { em_dia: 5, atrasadas: 3 }).
-     * @param {string} id - ID do elemento HTML onde o gráfico será renderizado.
-     */
-    function criarGrafico(dados, id) {
-      const grafico = document.getElementById(id);
-      if (!grafico) {
-        console.error(`Elemento com ID ${id} não encontrado.`);
-        return;
-      }
-
-      grafico.innerHTML = ""; // Limpa o gráfico existente
-
-      const total = Object.values(dados).reduce((sum, val) => sum + val, 0); // Soma os valores totais
-      let startAngle = 0;
-
-      // Cria os segmentos do gráfico
-      Object.keys(dados).forEach((status) => {
-        const value = dados[status];
-        if (value > 0) {
-          const angle = (value / total) * 180; // Calcula a proporção do segmento (em graus)
-          const li = document.createElement("li");
-          li.style.borderColor = cores[status]; // Define a cor do segmento
-          li.style.transform = `rotate(${startAngle}deg)`; // Rotaciona o segmento no gráfico
-          li.innerHTML = `<span>${value}</span>`; // Insere o valor no segmento
-          grafico.appendChild(li);
-
-          startAngle += angle; // Atualiza o ângulo inicial para o próximo segmento
-        }
-      });
-    }
-
-    // Renderiza os gráficos para cada período
-    criarGrafico(data.anterior, "grafico-anterior");
-    criarGrafico(data.atual, "grafico-atual");
-    criarGrafico(data.proximo, "grafico-proximo");
-  } catch (error) {
-    console.error("Erro ao carregar os gráficos:", error);
-
-    // Exibe mensagens de erro nos elementos de gráficos
-    ["grafico-anterior", "grafico-atual", "grafico-proximo"].forEach((id) => {
-      const grafico = document.getElementById(id);
-      if (grafico) {
-        grafico.innerHTML = `<p style="color: red; text-align: center;">Erro ao carregar o gráfico.</p>`;
-      }
-    });
+/**
+ * Cria um gráfico dinâmico.
+ * @param {Object} dados - Dados do gráfico (e.g., { em_dia: 5, atrasadas: 3 }).
+ * @param {string} id - ID do elemento HTML onde o gráfico será renderizado.
+ */
+function criarGrafico(dados, id) {
+  const grafico = document.getElementById(id);
+  if (!grafico) {
+    console.error(`Elemento com ID ${id} não encontrado.`);
+    return;
   }
-})();
 
+  grafico.innerHTML = ""; // Limpa o gráfico existente
+
+  const total = Object.values(dados).reduce((sum, val) => sum + val, 0); // Soma os valores totais
+  let startAngle = 0;
+
+  // Cria os segmentos do gráfico
+  const cores = {
+    em_dia: "green",
+    atrasadas: "red",
+    pendentes: "blue",
+  };
+
+  Object.keys(dados).forEach((status) => {
+    const value = dados[status];
+    if (value > 0) {
+      const angle = (value / total) * 180; // Calcula a proporção do segmento (em graus)
+      const li = document.createElement("li");
+      li.style.borderColor = cores[status]; // Define a cor do segmento
+      li.style.transform = `rotate(${startAngle}deg)`; // Rotaciona o segmento no gráfico
+      li.innerHTML = `<span>${value}</span>`; // Insere o valor no segmento
+      grafico.appendChild(li);
+
+      startAngle += angle; // Atualiza o ângulo inicial para o próximo segmento
+    }
+  });
+}
+
+/**
+ * Carrega os dados dos gráficos de mensalidades e renderiza-os no DOM.
+ */
 (async function carregarGraficos() {
   try {
     const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
@@ -285,20 +258,14 @@ function atualizarPaginacao(tipo, page, total, limit) {
       throw new Error("Dados inválidos retornados pela API.");
     }
 
-    // Cores dos segmentos
-    const cores = {
-      em_dia: "green",
-      atrasadas: "red",
-      pendentes: "blue",
-    };
-
+    // Renderiza os gráficos para cada período
     criarGrafico(data.anterior, "grafico-anterior");
     criarGrafico(data.atual, "grafico-atual");
     criarGrafico(data.proximo, "grafico-proximo");
   } catch (error) {
     console.error("Erro ao carregar os gráficos:", error);
 
-    // Exibe mensagens de erro nos gráficos
+    // Exibe mensagens de erro nos elementos de gráficos
     ["grafico-anterior", "grafico-atual", "grafico-proximo"].forEach((id) => {
       const grafico = document.getElementById(id);
       if (grafico) {

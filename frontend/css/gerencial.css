@@ -827,20 +827,26 @@ color: #28a745;   /* Verde no hover */
 }
 
 /*grafico mensalidade*/
+.graficos-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .grafico {
-  position: relative;
-  width: 200px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   margin: 0 auto;
   list-style: none;
+  position: relative;
   padding: 0;
   overflow: hidden;
 }
 
 .grafico li {
   position: absolute;
-  width: 200px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border: 10px solid transparent;
   border-bottom: none;
   border-radius: 50%;
