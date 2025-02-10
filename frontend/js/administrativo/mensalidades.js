@@ -273,3 +273,37 @@ function atualizarPaginacao(tipo, page, total, limit) {
     });
   }
 })();
+
+(async function carregarGraficos() {
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
+    if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos");
+
+    const data = await response.json();
+
+    if (!data || typeof data !== "object") {
+      throw new Error("Dados inválidos retornados pela API.");
+    }
+
+    // Cores dos segmentos
+    const cores = {
+      em_dia: "green",
+      atrasadas: "red",
+      pendentes: "blue",
+    };
+
+    criarGrafico(data.anterior, "grafico-anterior");
+    criarGrafico(data.atual, "grafico-atual");
+    criarGrafico(data.proximo, "grafico-proximo");
+  } catch (error) {
+    console.error("Erro ao carregar os gráficos:", error);
+
+    // Exibe mensagens de erro nos gráficos
+    ["grafico-anterior", "grafico-atual", "grafico-proximo"].forEach((id) => {
+      const grafico = document.getElementById(id);
+      if (grafico) {
+        grafico.innerHTML = `<p style="color: red; text-align: center;">Erro ao carregar o gráfico.</p>`;
+      }
+    });
+  }
+})();
