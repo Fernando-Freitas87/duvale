@@ -826,74 +826,72 @@ color: #28a745;   /* Verde no hover */
   background-color: #45a049;
 }
 
-/***************************************************************
-* [16] grafico mensalidade 
-***************************************************************/
+/* Container geral dos gráficos */
 .graficos-container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
   flex-wrap: wrap;
-  gap: 20px; /* Mais espaçamento entre os gráficos */
+  gap: 20px;
+  justify-content: center; 
   margin-top: 20px;
-  padding: 15px;
 }
 
+/* Card para cada gráfico (opcional, caso queira agrupar) */
 .grafico-card {
-  background: #ffffff;
-  border: 1px solid #e6e6e6;
-  border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: #fff;  
+  border-radius: 6px;      /* Bordas mais suaves */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra leve */
   padding: 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  max-width: 300px; /* Ajuste da largura máxima */
+  max-width: 300px;
   width: 100%;
   text-align: center;
 }
 
-.grafico-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.12);
-}
-
+/* Título do gráfico */
 .grafico-card h3 {
-  font-size: 1.4rem; /* Destacando o mês */
-  font-weight: bold;
-  color: #333;
   margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;        /* Negrito moderado */
+  color: #333;
 }
 
+/* Área do gráfico em si */
 .grafico-container {
   width: 100%;
-  height: 280px; /* Melhor altura para gráficos proporcionais */
+  height: 250px;           /* Altura enxuta e proporcional */
 }
 
+/* Legenda customizada */
 .legenda-container {
   display: flex;
-  justify-content: center;
-  gap: 10px; /* Espaço entre os itens da legenda */
-  margin-top: 10px;
+  justify-content: center; 
+  gap: 8px;                /* Espaço entre cada item da legenda */
+  margin-top: 8px;
+  font-size: 0.9rem;       /* Texto um pouco menor */
+  color: #555;
 }
 
+/* Cada item da legenda */
 .legenda-item {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
+/* Bolinha de cor na legenda */
 .legenda-cor {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
 }
 
+/* Responsivo */
 @media (max-width: 768px) {
   .graficos-container {
     flex-direction: column;
     align-items: center;
   }
-
+  
   .grafico-card {
-    max-width: 90%; /* Ocupa maior parte da tela em dispositivos móveis */
+    max-width: 90%;
   }
 }

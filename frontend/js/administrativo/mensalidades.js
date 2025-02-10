@@ -256,7 +256,7 @@ function criarGraficoPizza(dados, id) {
   const options = {
     title: `${graficoContainer.dataset.mes}`,
     pieHole: 0.4, // Gráfico de rosca
-    colors: ["green", "red", "blue"], // Cores dos setores
+    colors: ["#2F80ED", "#56CCF2", "#BB6BD9"], // Exemplo de paleta mais sutil
     pieSliceText: "value",
     pieSliceTextStyle: {
       fontSize: 14,
