@@ -254,7 +254,7 @@ function criarGraficoPizza(dados, id) {
   const data = google.visualization.arrayToDataTable(chartData);
 
   const options = {
-    title: `Distribuição de Mensalidades (${graficoContainer.dataset.mes})`,
+    title: `${graficoContainer.dataset.mes}`,
     pieHole: 0.4, // Gráfico de rosca
     colors: ["green", "red", "blue"], // Cores dos setores
     pieSliceText: "value", // Exibe os valores nas fatias
