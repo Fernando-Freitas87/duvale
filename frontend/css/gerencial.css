@@ -835,9 +835,9 @@ color: #28a745;   /* Verde no hover */
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap; /* Permite quebra de linha para dispositivos menores */
-  gap: 30px; /* Espaçamento consistente entre os gráficos */
-  margin-top: 20px;
-  padding: 20px; /* Adiciona espaçamento interno ao container */
+  gap: 10px; /* Espaçamento consistente entre os gráficos */
+  margin-top: 10px;
+  padding: 10px; /* Adiciona espaçamento interno ao container */
 }
 
 .graficos-container div {
