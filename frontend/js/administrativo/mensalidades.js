@@ -257,30 +257,49 @@ function criarGraficoPizza(dados, id) {
     title: `${graficoContainer.dataset.mes}`,
     pieHole: 0.4, // Gráfico de rosca
     colors: ["green", "red", "blue"], // Cores dos setores
-    pieSliceText: "value", // Exibe os valores nas fatias
+    pieSliceText: "value",
     pieSliceTextStyle: {
-      fontSize: 12,
+      fontSize: 14,
       bold: true,
-      color: "#333", // Cor dos textos
+      color: "#333",
     },
     tooltip: {
-      text: "value", // Exibe apenas o valor no tooltip
+      text: "value",
     },
     legend: {
-      position: "right", // Legenda na lateral direita
-      textStyle: {
-        fontSize: 14,
-        color: "#555",
-      },
+      position: "none", // Remove a legenda padrão
     },
     chartArea: {
-      width: "80%", // Ajusta o tamanho do gráfico
+      width: "90%",
       height: "80%",
     },
   };
 
   const chart = new google.visualization.PieChart(graficoContainer);
   chart.draw(data, options);
+
+  // Criar a legenda personalizada abaixo do gráfico
+  const legendaContainer = document.createElement("div");
+  legendaContainer.classList.add("legenda-container");
+
+  Object.keys(dados).forEach((status, index) => {
+    const legendaItem = document.createElement("div");
+    legendaItem.classList.add("legenda-item");
+
+    const cor = document.createElement("span");
+    cor.classList.add("legenda-cor");
+    cor.style.backgroundColor = options.colors[index];
+
+    const texto = document.createElement("span");
+    texto.textContent = status.replace("_", " "); // Formata os textos
+
+    legendaItem.appendChild(cor);
+    legendaItem.appendChild(texto);
+    legendaContainer.appendChild(legendaItem);
+  });
+
+  // Adicionar legenda abaixo do gráfico
+  graficoContainer.parentNode.appendChild(legendaContainer);
 }
 
 /**

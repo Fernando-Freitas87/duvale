@@ -829,57 +829,71 @@ color: #28a745;   /* Verde no hover */
 /***************************************************************
 * [16] grafico mensalidade 
 ***************************************************************/
-
 .graficos-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-start;
-  flex-wrap: wrap; /* Permite quebra de linha para dispositivos menores */
-  gap: 10px; /* Espaçamento consistente entre os gráficos */
-  margin-top: 10px;
-  padding: 10px; /* Adiciona espaçamento interno ao container */
+  flex-wrap: wrap;
+  gap: 20px; /* Mais espaçamento entre os gráficos */
+  margin-top: 20px;
+  padding: 15px;
 }
 
-.graficos-container div {
+.grafico-card {
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 300px; /* Ajuste da largura máxima */
+  width: 100%;
   text-align: center;
 }
 
-#grafico-anterior, #grafico-atual, #grafico-proximo {
-  background: #ffffff; /* Fundo branco para maior simplicidade */
-  border: 1px solid #e6e6e6; /* Borda leve para separação */
-  border-radius: 12px; /* Bordas mais suaves */
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08); /* Sombra mais sutil */
-  padding: 15px; /* Espaçamento interno consistente */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transições para interação */
-  max-width: 280px; /* Tamanho máximo para manter consistência */
-  width: 100%; /* Adapta ao tamanho do container */
+.grafico-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.12);
 }
 
-#grafico-anterior:hover, #grafico-atual:hover, #grafico-proximo:hover {
-  transform: translateY(-5px); /* Animação ao passar o mouse */
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.12); /* Sombra aumentada ao passar o mouse */
+.grafico-card h3 {
+  font-size: 1.4rem; /* Destacando o mês */
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
 }
 
-.graficos-container h3 {
-  font-size: 1rem; /* Tamanho menor e proporcional para o título */
-  color: #333; /* Cor neutra para os títulos */
-  margin-bottom: 10px; /* Espaçamento abaixo do título */
-  font-weight: 500; /* Negrito moderado para clareza */
+.grafico-container {
+  width: 100%;
+  height: 280px; /* Melhor altura para gráficos proporcionais */
 }
 
-.graficos-container p {
-  font-size: 0.875rem; /* Texto secundário menor */
-  color: #666; /* Cor secundária para legendas ou descrições */
-  margin: 0;
+.legenda-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espaço entre os itens da legenda */
+  margin-top: 10px;
+}
+
+.legenda-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legenda-cor {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
 }
 
 @media (max-width: 768px) {
   .graficos-container {
-    flex-direction: column; /* Empilha gráficos em telas menores */
-    align-items: center; /* Centraliza os itens */
+    flex-direction: column;
+    align-items: center;
   }
 
-  #grafico-anterior, #grafico-atual, #grafico-proximo {
-    max-width: 100%; /* Ocupa toda a largura disponível em telas menores */
+  .grafico-card {
+    max-width: 90%; /* Ocupa maior parte da tela em dispositivos móveis */
   }
 }
