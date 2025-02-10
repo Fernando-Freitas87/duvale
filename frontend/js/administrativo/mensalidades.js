@@ -176,29 +176,39 @@ function atualizarAvisosContainer(avisos) {
 
 /**
  * Atualiza a paginação de uma tabela.
+ * @param {string} tipo - Identifica o tipo de tabela (e.g., "atraso" ou "vencer").
+ * @param {number} page - Página atual.
+ * @param {number} total - Número total de itens disponíveis.
+ * @param {number} limit - Número de itens por página.
  */
 function atualizarPaginacao(tipo, page, total, limit) {
   const paginacaoContainer = document.getElementById(`paginacao-${tipo}`);
-  if (!paginacaoContainer) return;
+  if (!paginacaoContainer) return; // Verifica se o container existe
 
-  const totalPages = Math.ceil(total / limit);
+  const totalPages = Math.ceil(total / limit); // Calcula o número total de páginas
   paginacaoContainer.innerHTML = Array.from({ length: totalPages }, (_, i) => {
-    const num = i + 1;
+    const num = i + 1; // Número da página (começa em 1)
+    // Cria botões de paginação, desabilitando o botão da página atual
     return `<button class="btn-paginacao" ${num === page ? "disabled" : ""}>${num}</button>`;
-  }).join("");
+  }).join(""); // Junta os botões em uma única string de HTML
 
+  // Adiciona eventos de clique para os botões
   paginacaoContainer.querySelectorAll("button").forEach((btn, i) => {
     btn.addEventListener("click", () => {
-      if (tipo === "atraso") carregarEmAtraso(i + 1, limit);
-      if (tipo === "vencer") carregarAVencer(i + 1, limit);
+      if (tipo === "atraso") carregarEmAtraso(i + 1, limit); // Chama a função para carregar dados em atraso
+      if (tipo === "vencer") carregarAVencer(i + 1, limit); // Chama a função para carregar dados a vencer
     });
   });
 }
 
+/**
+ * Carrega os dados dos gráficos de mensalidades e renderiza-os no DOM.
+ */
 (async function carregarGraficos() {
   try {
+    // Faz a requisição para a API para obter os dados dos gráficos
     const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
-    if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos");
+    if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos"); // Verifica se a requisição foi bem-sucedida
 
     const data = await response.json();
 
@@ -207,13 +217,18 @@ function atualizarPaginacao(tipo, page, total, limit) {
       throw new Error("Dados inválidos retornados pela API.");
     }
 
+    // Define as cores para cada status
     const cores = {
       em_dia: "green",
       atrasadas: "red",
       pendentes: "blue",
     };
 
-    // Função para criar gráficos dinâmicos
+    /**
+     * Cria um gráfico dinâmico.
+     * @param {Object} dados - Dados do gráfico (e.g., { em_dia: 5, atrasadas: 3 }).
+     * @param {string} id - ID do elemento HTML onde o gráfico será renderizado.
+     */
     function criarGrafico(dados, id) {
       const grafico = document.getElementById(id);
       if (!grafico) {
@@ -223,32 +238,33 @@ function atualizarPaginacao(tipo, page, total, limit) {
 
       grafico.innerHTML = ""; // Limpa o gráfico existente
 
-      const total = Object.values(dados).reduce((sum, val) => sum + val, 0);
+      const total = Object.values(dados).reduce((sum, val) => sum + val, 0); // Soma os valores totais
       let startAngle = 0;
 
+      // Cria os segmentos do gráfico
       Object.keys(dados).forEach((status) => {
         const value = dados[status];
         if (value > 0) {
-          const angle = (value / total) * 180; // Proporção do segmento
+          const angle = (value / total) * 180; // Calcula a proporção do segmento (em graus)
           const li = document.createElement("li");
-          li.style.borderColor = cores[status];
-          li.style.transform = `rotate(${startAngle}deg)`;
-          li.innerHTML = `<span>${value}</span>`;
+          li.style.borderColor = cores[status]; // Define a cor do segmento
+          li.style.transform = `rotate(${startAngle}deg)`; // Rotaciona o segmento no gráfico
+          li.innerHTML = `<span>${value}</span>`; // Insere o valor no segmento
           grafico.appendChild(li);
 
-          startAngle += angle; // Atualiza o ângulo inicial
+          startAngle += angle; // Atualiza o ângulo inicial para o próximo segmento
         }
       });
     }
 
-    // Renderiza os gráficos
+    // Renderiza os gráficos para cada período
     criarGrafico(data.anterior, "grafico-anterior");
     criarGrafico(data.atual, "grafico-atual");
     criarGrafico(data.proximo, "grafico-proximo");
   } catch (error) {
     console.error("Erro ao carregar os gráficos:", error);
 
-    // Exibe mensagens de erro nos gráficos
+    // Exibe mensagens de erro nos elementos de gráficos
     ["grafico-anterior", "grafico-atual", "grafico-proximo"].forEach((id) => {
       const grafico = document.getElementById(id);
       if (grafico) {
