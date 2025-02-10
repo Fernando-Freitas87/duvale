@@ -202,12 +202,18 @@ function atualizarPaginacao(tipo, page, total, limit) {
 
     const data = await response.json();
 
+    // Validação dos dados retornados
+    if (!data || typeof data !== "object") {
+      throw new Error("Dados inválidos retornados pela API.");
+    }
+
     const cores = {
       em_dia: "green",
       atrasadas: "red",
       pendentes: "blue",
     };
 
+    // Função para criar gráficos dinâmicos
     function criarGrafico(dados, id) {
       const grafico = document.getElementById(id);
       if (!grafico) {
@@ -215,28 +221,39 @@ function atualizarPaginacao(tipo, page, total, limit) {
         return;
       }
 
-      // Limpa o gráfico antes de recriar
-      grafico.innerHTML = "";
+      grafico.innerHTML = ""; // Limpa o gráfico existente
 
-      Object.keys(dados).forEach((status, index) => {
-        const li = document.createElement("li");
-        li.style.borderColor = cores[status];
-        li.style.transform = `rotate(${72 * index}deg)`; // Ajusta o ângulo com base nos dados
-        li.innerHTML = `<span>${dados[status] || 0}</span>`;
-        grafico.appendChild(li);
+      const total = Object.values(dados).reduce((sum, val) => sum + val, 0);
+      let startAngle = 0;
+
+      Object.keys(dados).forEach((status) => {
+        const value = dados[status];
+        if (value > 0) {
+          const angle = (value / total) * 180; // Proporção do segmento
+          const li = document.createElement("li");
+          li.style.borderColor = cores[status];
+          li.style.transform = `rotate(${startAngle}deg)`;
+          li.innerHTML = `<span>${value}</span>`;
+          grafico.appendChild(li);
+
+          startAngle += angle; // Atualiza o ângulo inicial
+        }
       });
     }
 
+    // Renderiza os gráficos
     criarGrafico(data.anterior, "grafico-anterior");
     criarGrafico(data.atual, "grafico-atual");
     criarGrafico(data.proximo, "grafico-proximo");
   } catch (error) {
     console.error("Erro ao carregar os gráficos:", error);
 
-    // Exibe mensagem de erro no DOM
-    const erroMensagem = document.createElement("p");
-    erroMensagem.style.color = "red";
-    erroMensagem.textContent = "Erro ao carregar os gráficos. Tente novamente mais tarde.";
-    document.getElementById("graficos").appendChild(erroMensagem);
+    // Exibe mensagens de erro nos gráficos
+    ["grafico-anterior", "grafico-atual", "grafico-proximo"].forEach((id) => {
+      const grafico = document.getElementById(id);
+      if (grafico) {
+        grafico.innerHTML = `<p style="color: red; text-align: center;">Erro ao carregar o gráfico.</p>`;
+      }
+    });
   }
 })();
