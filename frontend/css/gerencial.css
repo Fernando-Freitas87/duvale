@@ -831,6 +831,7 @@ color: #28a745;   /* Verde no hover */
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-top: 20px;
 }
 
 .grafico {

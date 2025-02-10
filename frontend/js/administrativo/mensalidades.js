@@ -249,28 +249,56 @@ function criarGrafico(dados, id) {
  */
 (async function carregarGraficos() {
   try {
-    const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
-    if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos");
+      const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
+      if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos");
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!data || typeof data !== "object") {
-      throw new Error("Dados inválidos retornados pela API.");
-    }
+      const cores = {
+          em_dia: "green",
+          atrasadas: "red",
+          pendentes: "blue",
+      };
 
-    // Renderiza os gráficos para cada período
-    criarGrafico(data.anterior, "grafico-anterior");
-    criarGrafico(data.atual, "grafico-atual");
-    criarGrafico(data.proximo, "grafico-proximo");
-  } catch (error) {
-    console.error("Erro ao carregar os gráficos:", error);
+      function criarGrafico(dados, id) {
+          const grafico = document.getElementById(id);
+          if (!grafico) {
+              console.error(`Elemento com ID ${id} não encontrado.`);
+              return;
+          }
 
-    // Exibe mensagens de erro nos elementos de gráficos
-    ["grafico-anterior", "grafico-atual", "grafico-proximo"].forEach((id) => {
-      const grafico = document.getElementById(id);
-      if (grafico) {
-        grafico.innerHTML = `<p style="color: red; text-align: center;">Erro ao carregar o gráfico.</p>`;
+          grafico.innerHTML = ""; // Limpa o gráfico existente
+
+          const total = Object.values(dados).reduce((sum, val) => sum + val, 0);
+          let startAngle = 0;
+
+          Object.keys(dados).forEach((status) => {
+              const value = dados[status];
+              if (value > 0) {
+                  const angle = (value / total) * 180; // Calcula o ângulo do segmento
+                  const li = document.createElement("li");
+                  li.style.borderColor = cores[status];
+                  li.style.transform = `rotate(${startAngle}deg)`;
+                  li.innerHTML = `<span>${value}</span>`;
+                  grafico.appendChild(li);
+
+                  startAngle += angle; // Atualiza o ângulo inicial
+              }
+          });
       }
-    });
+
+      criarGrafico(data.anterior, "grafico-anterior");
+      criarGrafico(data.atual, "grafico-atual");
+      criarGrafico(data.proximo, "grafico-proximo");
+  } catch (error) {
+      console.error("Erro ao carregar os gráficos:", error);
+
+      // Exibe mensagens de erro nos gráficos
+      ["grafico-anterior", "grafico-atual", "grafico-proximo"].forEach((id) => {
+          const grafico = document.getElementById(id);
+          if (grafico) {
+              grafico.innerHTML = `<p style="color: red; text-align: center;">Erro ao carregar o gráfico.</p>`;
+          }
+      });
   }
 })();
