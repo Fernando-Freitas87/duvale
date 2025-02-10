@@ -202,22 +202,23 @@ function atualizarPaginacao(tipo, page, total, limit) {
 }
 
 /**
- * Carrega os dados dos gráficos de mensalidades e renderiza-os no DOM.
+ * Carrega os dados dos gráficos de mensalidades
  */
 
 /**
  * Cria um gráfico dinâmico.
  * @param {Object} dados - Dados do gráfico (e.g., { em_dia: 5, atrasadas: 3 }).
  * @param {string} id - ID do elemento HTML onde o gráfico será renderizado.
+ * @param {Object} cores - Objeto com as cores associadas aos status.
  */
-function criarGrafico(dados, id) {
+function criarGrafico(dados, id, cores) {
   console.log(`Criando gráfico para o elemento com ID: ${id}`);
   console.log("Dados recebidos:", dados);
 
   const grafico = document.getElementById(id);
   if (!grafico) {
-      console.error(`Elemento com ID ${id} não encontrado.`);
-      return;
+    console.error(`Elemento com ID ${id} não encontrado.`);
+    return;
   }
 
   grafico.innerHTML = ""; // Limpa o gráfico existente
@@ -227,76 +228,56 @@ function criarGrafico(dados, id) {
   let startAngle = 0;
 
   Object.keys(dados).forEach((status) => {
-      const value = dados[status];
-      if (value > 0) {
-          const angle = (value / total) * 180; // Calcula a proporção do segmento
-          console.log(`Criando segmento para ${status} com valor ${value} e ângulo ${angle}`);
-          const li = document.createElement("li");
-          li.style.borderColor = cores[status];
-          li.style.transform = `rotate(${startAngle}deg)`;
-          li.innerHTML = `<span>${value}</span>`;
-          grafico.appendChild(li);
+    const value = dados[status];
+    if (value > 0) {
+      const angle = (value / total) * 180; // Calcula a proporção do segmento
+      console.log(`Criando segmento para ${status} com valor ${value} e ângulo ${angle}`);
+      const li = document.createElement("li");
+      li.style.borderColor = cores[status];
+      li.style.transform = `rotate(${startAngle}deg)`;
+      li.innerHTML = `<span>${value}</span>`;
+      grafico.appendChild(li);
 
-          startAngle += angle; // Atualiza o ângulo inicial para o próximo segmento
-      }
+      startAngle += angle; // Atualiza o ângulo inicial para o próximo segmento
+    }
   });
 }
 
 /**
  * Carrega os dados dos gráficos de mensalidades e renderiza-os no DOM.
  */
-(async function carregarGraficos() {
+async function carregarGraficos() {
   try {
-      const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
-      if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos");
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
+    if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos");
 
-      const data = await response.json();
+    const data = await response.json();
+    console.log("Dados carregados:", data);
 
-      const cores = {
-          em_dia: "green",
-          atrasadas: "red",
-          pendentes: "blue",
-      };
+    const cores = {
+      em_dia: "green",
+      atrasadas: "red",
+      pendentes: "blue",
+    };
 
-      function criarGrafico(dados, id) {
-          const grafico = document.getElementById(id);
-          if (!grafico) {
-              console.error(`Elemento com ID ${id} não encontrado.`);
-              return;
-          }
-
-          grafico.innerHTML = ""; // Limpa o gráfico existente
-
-          const total = Object.values(dados).reduce((sum, val) => sum + val, 0);
-          let startAngle = 0;
-
-          Object.keys(dados).forEach((status) => {
-              const value = dados[status];
-              if (value > 0) {
-                  const angle = (value / total) * 180; // Calcula o ângulo do segmento
-                  const li = document.createElement("li");
-                  li.style.borderColor = cores[status];
-                  li.style.transform = `rotate(${startAngle}deg)`;
-                  li.innerHTML = `<span>${value}</span>`;
-                  grafico.appendChild(li);
-
-                  startAngle += angle; // Atualiza o ângulo inicial
-              }
-          });
-      }
-
-      criarGrafico(data.anterior, "grafico-anterior");
-      criarGrafico(data.atual, "grafico-atual");
-      criarGrafico(data.proximo, "grafico-proximo");
+    // Cria os gráficos para os períodos definidos
+    criarGrafico(data.anterior, "grafico-anterior", cores);
+    criarGrafico(data.atual, "grafico-atual", cores);
+    criarGrafico(data.proximo, "grafico-proximo", cores);
   } catch (error) {
-      console.error("Erro ao carregar os gráficos:", error);
+    console.error("Erro ao carregar os gráficos:", error);
 
-      // Exibe mensagens de erro nos gráficos
-      ["grafico-anterior", "grafico-atual", "grafico-proximo"].forEach((id) => {
-          const grafico = document.getElementById(id);
-          if (grafico) {
-              grafico.innerHTML = `<p style="color: red; text-align: center;">Erro ao carregar o gráfico.</p>`;
-          }
-      });
+    // Exibe mensagens de erro nos gráficos
+    ["grafico-anterior", "grafico-atual", "grafico-proximo"].forEach((id) => {
+      const grafico = document.getElementById(id);
+      if (grafico) {
+        grafico.innerHTML = `<p style="color: red; text-align: center;">Erro ao carregar o gráfico.</p>`;
+      }
+    });
   }
-})();
+}
+
+// Inicia o carregamento dos gráficos ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+  carregarGraficos();
+});
