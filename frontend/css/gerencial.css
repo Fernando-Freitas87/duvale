@@ -826,71 +826,27 @@ color: #28a745;   /* Verde no hover */
   background-color: #45a049;
 }
 
-/* Container dos gráficos */
+/***************************************************************
+* [16] grafico mensalidade 
+***************************************************************/
+
 .graficos-container {
   display: flex;
-  flex-wrap: wrap; /* Permite quebra de linha em telas menores */
-  justify-content: center; /* Centraliza os gráficos */
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap; /* Adiciona quebra de linha para responsividade */
   gap: 20px; /* Espaçamento entre os gráficos */
   margin-top: 20px;
 }
 
-/* Estilo geral de cada gráfico */
-.grafico {
-  width: 120px; /* Reduz tamanho para um layout mais minimalista */
-  height: 120px;
-  position: relative;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.graficos-container div {
+  text-align: center;
 }
 
-/* Segmentos do gráfico */
-.grafico li {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border: 8px solid transparent; /* Ajusta a largura das bordas */
-  border-bottom: none;
-  border-radius: 50%;
-  transform-origin: center bottom;
-}
-
-/* Rótulos dos segmentos */
-.grafico li span {
-  position: absolute;
-  top: -20px; /* Ajusta a posição do texto */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px; /* Tamanho menor para maior minimalismo */
-  color: #333; /* Cor neutra */
-  font-weight: 600; /* Um pouco menos ousado */
-}
-
-/* Títulos dos gráficos */
-.grafico + h3 {
-  font-size: 14px; /* Reduz o tamanho do texto */
-  color: #555; /* Cor mais discreta */
-  text-align: center; /* Centraliza o título */
-  margin-top: 10px;
-  margin-bottom: 0;
-}
-
-/* Adiciona responsividade */
-@media (max-width: 768px) {
-  .grafico {
-    width: 100px;
-    height: 100px;
-  }
-
-  .grafico li {
-    width: 100px;
-    height: 100px;
-    border-width: 6px; /* Reduz a espessura das bordas */
-  }
-
-  .grafico li span {
-    top: -15px;
-    font-size: 8px;
-  }
+#grafico-anterior, #grafico-atual, #grafico-proximo {
+  background: #f9f9f9; /* Fundo claro para contraste */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
 }

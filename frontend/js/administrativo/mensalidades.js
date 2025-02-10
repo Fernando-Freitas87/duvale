@@ -221,25 +221,39 @@ function criarGraficoPizza(dados, id) {
     return;
   }
 
+  // Verifica se há dados para exibir
+  if (!dados || Object.keys(dados).length === 0) {
+    graficoContainer.innerHTML = `<p style="color: gray; text-align: center;">Sem dados para exibir.</p>`;
+    return;
+  }
+
   // Converte os dados para o formato do Google Charts
   const chartData = [["Status", "Quantidade"]];
-  Object.keys(dados).forEach((status) => {
-    chartData.push([status, dados[status]]);
+  Object.entries(dados).forEach(([status, quantidade]) => {
+    chartData.push([status, quantidade]);
   });
 
   const data = google.visualization.arrayToDataTable(chartData);
 
+  // Configurações do gráfico
   const options = {
     title: "Distribuição de Mensalidades",
-    is3D: true, // Gráfico 3D (opcional)
-    colors: ["green", "red", "blue"], // Cores dos setores
+    pieHole: 0.4, // Configura como gráfico de rosca
+    colors: ["#28a745", "#dc3545", "#007bff"], // Cores personalizadas para os setores
+    fontSize: 14,
+    chartArea: { width: "90%", height: "75%" }, // Ajuste para responsividade
     pieSliceText: "value", // Exibe os valores nas fatias
+    legend: { position: "right", alignment: "center" }, // Posiciona a legenda
   };
 
+  // Renderiza o gráfico no elemento especificado
   const chart = new google.visualization.PieChart(graficoContainer);
   chart.draw(data, options);
 }
 
+/**
+ * Carrega os dados dos gráficos de mensalidades a partir da API e renderiza os gráficos.
+ */
 async function carregarGraficos() {
   try {
     const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
@@ -248,6 +262,7 @@ async function carregarGraficos() {
     const data = await response.json();
     console.log("Dados carregados:", data);
 
+    // Renderiza os gráficos para os três períodos
     criarGraficoPizza(data.anterior, "grafico-anterior");
     criarGraficoPizza(data.atual, "grafico-atual");
     criarGraficoPizza(data.proximo, "grafico-proximo");
