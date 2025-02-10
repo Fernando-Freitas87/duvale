@@ -205,47 +205,41 @@ function atualizarPaginacao(tipo, page, total, limit) {
  * Carrega os dados dos gráficos de mensalidades
  */
 
-/**
- * Cria um gráfico dinâmico.
- * @param {Object} dados - Dados do gráfico (e.g., { em_dia: 5, atrasadas: 3 }).
- * @param {string} id - ID do elemento HTML onde o gráfico será renderizado.
- * @param {Object} cores - Objeto com as cores associadas aos status.
- */
-function criarGrafico(dados, id, cores) {
-  console.log(`Criando gráfico para o elemento com ID: ${id}`);
-  console.log("Dados recebidos:", dados);
+// Carrega a biblioteca do Google Charts
+google.charts.load("current", { packages: ["corechart"] });
+google.charts.setOnLoadCallback(carregarGraficos); // Chama a função ao carregar a biblioteca
 
-  const grafico = document.getElementById(id);
-  if (!grafico) {
+/**
+ * Cria um gráfico de pizza usando Google Charts.
+ * @param {Object} dados - Dados do gráfico (e.g., { em_dia: 5, atrasadas: 3, pendentes: 2 }).
+ * @param {string} id - ID do elemento HTML onde o gráfico será renderizado.
+ */
+function criarGraficoPizza(dados, id) {
+  const graficoContainer = document.getElementById(id);
+  if (!graficoContainer) {
     console.error(`Elemento com ID ${id} não encontrado.`);
     return;
   }
 
-  grafico.innerHTML = ""; // Limpa o gráfico existente
-
-  const total = Object.values(dados).reduce((sum, val) => sum + val, 0);
-  console.log(`Total calculado: ${total}`);
-  let startAngle = 0;
-
+  // Converte os dados para o formato do Google Charts
+  const chartData = [["Status", "Quantidade"]];
   Object.keys(dados).forEach((status) => {
-    const value = dados[status];
-    if (value > 0) {
-      const angle = (value / total) * 180; // Calcula a proporção do segmento
-      console.log(`Criando segmento para ${status} com valor ${value} e ângulo ${angle}`);
-      const li = document.createElement("li");
-      li.style.borderColor = cores[status];
-      li.style.transform = `rotate(${startAngle}deg)`;
-      li.innerHTML = `<span>${value}</span>`;
-      grafico.appendChild(li);
-
-      startAngle += angle; // Atualiza o ângulo inicial para o próximo segmento
-    }
+    chartData.push([status, dados[status]]);
   });
+
+  const data = google.visualization.arrayToDataTable(chartData);
+
+  const options = {
+    title: "Distribuição de Mensalidades",
+    is3D: true, // Gráfico 3D (opcional)
+    colors: ["green", "red", "blue"], // Cores dos setores
+    pieSliceText: "value", // Exibe os valores nas fatias
+  };
+
+  const chart = new google.visualization.PieChart(graficoContainer);
+  chart.draw(data, options);
 }
 
-/**
- * Carrega os dados dos gráficos de mensalidades e renderiza-os no DOM.
- */
 async function carregarGraficos() {
   try {
     const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
@@ -254,16 +248,9 @@ async function carregarGraficos() {
     const data = await response.json();
     console.log("Dados carregados:", data);
 
-    const cores = {
-      em_dia: "green",
-      atrasadas: "red",
-      pendentes: "blue",
-    };
-
-    // Cria os gráficos para os períodos definidos
-    criarGrafico(data.anterior, "grafico-anterior", cores);
-    criarGrafico(data.atual, "grafico-atual", cores);
-    criarGrafico(data.proximo, "grafico-proximo", cores);
+    criarGraficoPizza(data.anterior, "grafico-anterior");
+    criarGraficoPizza(data.atual, "grafico-atual");
+    criarGraficoPizza(data.proximo, "grafico-proximo");
   } catch (error) {
     console.error("Erro ao carregar os gráficos:", error);
 
@@ -279,5 +266,6 @@ async function carregarGraficos() {
 
 // Inicia o carregamento dos gráficos ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM totalmente carregado. Iniciando o carregamento dos gráficos...");
   carregarGraficos();
 });

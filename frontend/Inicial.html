@@ -13,7 +13,7 @@
       <script type="module" src="js/administrativo/imoveis.js"></script>
       <script type="module" src="js/administrativo/clientesContratos.js"></script>
       <script type="module" src="js/administrativo/dashboard.js"></script>
-      <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
       <link rel="stylesheet" href="css/gerencial.css" />
@@ -131,7 +131,7 @@
                 <h3>Imóveis</h3>
               </div>
               <hr class="divider" />
-              <p id="card-imoveis-cadastrados-valor">7</p>
+              <p id="card-imoveis-cadastrados-valor">0</p>
             </div>
 
             <!-- Card: Contratos Ativos -->
@@ -140,7 +140,7 @@
                 <h3>Contratos Ativos</h3>
               </div>
               <hr class="divider" />
-              <p id="card-contratos-ativos-valor">2</p>
+              <p id="card-contratos-ativos-valor">0</p>
             </div>
 
             <!-- Card: Total a Vencer -->
@@ -149,7 +149,7 @@
                 <h3>Total a Vencer</h3>
               </div>
               <hr class="divider" />
-              <p id="card-a-receber">R$ 4.950,00</p>
+              <p id="card-a-receber">R$ 0,00</p>
             </div>
 
             <!-- Card: Total em Atraso -->
@@ -204,20 +204,22 @@
             </table>
             <br>
             <div id="paginacao-vencer" class="pagination"></div>
+
+            <!-- Grafico mensalidades -->
             <section id="graficos">
               <h2>Mensalidades</h2>
               <hr class="divider">
               <div>
                 <h3>Mês Anterior</h3>
-                <ul class="grafico" id="grafico-anterior"></ul>
+                <div id="grafico-anterior" style="width: 100%; height: 400px;"></div>
               </div>
               <div>
                 <h3>Mês Atual</h3>
-                <ul class="grafico" id="grafico-atual"></ul>
+                <div id="grafico-atual" style="width: 100%; height: 400px;"></div>
               </div>
               <div>
                 <h3>Próximo Mês</h3>
-                <ul class="grafico" id="grafico-proximo"></ul>
+                <div id="grafico-proximo" style="width: 100%; height: 400px;"></div>
               </div>
             </section>
         </section>
