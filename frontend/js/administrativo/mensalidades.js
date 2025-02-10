@@ -211,36 +211,34 @@ function atualizarPaginacao(tipo, page, total, limit) {
  * @param {string} id - ID do elemento HTML onde o gráfico será renderizado.
  */
 function criarGrafico(dados, id) {
+  console.log(`Criando gráfico para o elemento com ID: ${id}`);
+  console.log("Dados recebidos:", dados);
+
   const grafico = document.getElementById(id);
   if (!grafico) {
-    console.error(`Elemento com ID ${id} não encontrado.`);
-    return;
+      console.error(`Elemento com ID ${id} não encontrado.`);
+      return;
   }
 
   grafico.innerHTML = ""; // Limpa o gráfico existente
 
-  const total = Object.values(dados).reduce((sum, val) => sum + val, 0); // Soma os valores totais
+  const total = Object.values(dados).reduce((sum, val) => sum + val, 0);
+  console.log(`Total calculado: ${total}`);
   let startAngle = 0;
 
-  // Cria os segmentos do gráfico
-  const cores = {
-    em_dia: "green",
-    atrasadas: "red",
-    pendentes: "blue",
-  };
-
   Object.keys(dados).forEach((status) => {
-    const value = dados[status];
-    if (value > 0) {
-      const angle = (value / total) * 180; // Calcula a proporção do segmento (em graus)
-      const li = document.createElement("li");
-      li.style.borderColor = cores[status]; // Define a cor do segmento
-      li.style.transform = `rotate(${startAngle}deg)`; // Rotaciona o segmento no gráfico
-      li.innerHTML = `<span>${value}</span>`; // Insere o valor no segmento
-      grafico.appendChild(li);
+      const value = dados[status];
+      if (value > 0) {
+          const angle = (value / total) * 180; // Calcula a proporção do segmento
+          console.log(`Criando segmento para ${status} com valor ${value} e ângulo ${angle}`);
+          const li = document.createElement("li");
+          li.style.borderColor = cores[status];
+          li.style.transform = `rotate(${startAngle}deg)`;
+          li.innerHTML = `<span>${value}</span>`;
+          grafico.appendChild(li);
 
-      startAngle += angle; // Atualiza o ângulo inicial para o próximo segmento
-    }
+          startAngle += angle; // Atualiza o ângulo inicial para o próximo segmento
+      }
   });
 }
 
