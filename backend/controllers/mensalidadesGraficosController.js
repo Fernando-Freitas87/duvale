@@ -5,7 +5,7 @@ const db = require('../db'); // Conexão com o banco de dados
  */
 const getMensalidadesGraficos = async (req, res) => {
   try {
-    // Consulta SQL para contar as mensalidades por status e mês
+    // Consulta SQL para somar os valores das mensalidades por status e mês
     const query = `
       SELECT 
         CASE 
@@ -15,7 +15,7 @@ const getMensalidadesGraficos = async (req, res) => {
           ELSE 'outros'
         END AS status,
         MONTH(data_vencimento) AS mes,
-        COUNT(*) AS quantidade
+        SUM(valor) AS total_valor
       FROM mensalidades
       WHERE data_vencimento BETWEEN DATE_ADD(NOW(), INTERVAL -1 MONTH) AND DATE_ADD(NOW(), INTERVAL 1 MONTH)
       GROUP BY status, mes
@@ -36,6 +36,7 @@ const getMensalidadesGraficos = async (req, res) => {
       const mesAtual = new Date().getMonth() + 1; // Obtém o mês atual (1-12)
       let periodo = '';
 
+      // Determina o período correspondente ao mês
       if (row.mes === mesAtual - 1) {
         periodo = 'anterior';
       } else if (row.mes === mesAtual) {
@@ -44,8 +45,9 @@ const getMensalidadesGraficos = async (req, res) => {
         periodo = 'proximo';
       }
 
+      // Atualiza o resultado com o valor total do status
       if (periodo) {
-        resultado[periodo][row.status] = row.quantidade;
+        resultado[periodo][row.status] = parseFloat(row.total_valor) || 0;
       }
     });
 
