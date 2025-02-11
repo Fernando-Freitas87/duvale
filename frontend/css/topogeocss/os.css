@@ -10,8 +10,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     min-height: 100vh;
-    background-image: url('../img/fundotopogeo.png'); /* Fundo fixo personalizado */
-    background-size: cover;
+    background-image: url('../../img/fundotopogeo.png');    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
