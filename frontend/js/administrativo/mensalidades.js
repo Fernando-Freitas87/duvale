@@ -319,6 +319,9 @@ function criarGraficoPizza(dados, id) {
     legendaContainer.appendChild(legendaItem);
   });
 
+  const oldLegend = graficoContainer.parentNode.querySelector(".legenda-container");
+if (oldLegend) oldLegend.remove();
+
   // 6) Anexa a legenda abaixo do gráfico
   graficoContainer.parentNode.appendChild(legendaContainer);
 }
