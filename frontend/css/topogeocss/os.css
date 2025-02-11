@@ -10,6 +10,11 @@ body {
     height: 100vh;
   } 
 
+  .logo {
+    max-width: 150px;
+    margin-bottom: 15px;
+}
+
 .container {
     background-color: #fff;
     border-radius: 10px;
