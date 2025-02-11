@@ -268,9 +268,9 @@ function criarGraficoPizza(dados, id) {
   // 3) Monta as opções do gráfico, destacando o mês no título
   const options = {
     // Deixe o mês em maiúsculo para destacar, ou pode estilizar como preferir
-    title: `Mês de ${graficoContainer.dataset.mes.toUpperCase()}`,
+    title: `${graficoContainer.dataset.mes.toUpperCase()}`,
     pieHole: 0.4, // gráfico de rosca
-    colors: ["#2F80ED", "#56CCF2", "#BB6BD9"], // paleta suave de exemplo
+    colors: ["##248f00", "##8A3700", "#2980b9"], // paleta suave de exemplo
     pieSliceText: "value",
     pieSliceTextStyle: {
       fontSize: 14,
