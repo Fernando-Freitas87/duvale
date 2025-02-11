@@ -10,25 +10,25 @@
 <div class="container">
   <!-- Cabeçalho -->
   <div class="header">
-    <h1>Task Status</h1>
-  </div>
+    <img src="img/logop.png" alt="Logo topogeo" class="logo">
+</div>
 
   <!-- Menu de Navegação -->
   <div class="navigation_menu" id="navigation_menu">
     <ul class="task-list" id="task-list">
-      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 1</a></li>
-      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 2</a></li>
-      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 3</a></li>
-      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 4</a></li>
-      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 5</a></li>
-      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 6</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Agendamento</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Levantamento</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Processamento</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Confeccao</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Impressao</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Entrega</a></li>
     </ul>
   </div>
 
   <!-- Informações de Progresso -->
   <div class="progress-info">
-    <p>Active Tasks: <span id="task-count">0 / 6</span></p>
-    <p>Task Status: <span id="progress-text">0%</span></p>
+    <p>Faltam: <span id="task-count">0 de 6</span></p>
+    <p>Progresso: <span id="progress-text">0%</span></p>
     <progress id="task-progress" value="0" max="100"></progress>
   </div>
 
