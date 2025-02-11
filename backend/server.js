@@ -38,7 +38,7 @@ const imoveisRoutes = require('./routes/imoveisRoutes');
 const contratosRoutes = require('./routes/contratosRoutes');
 const caixaRoutes = require('./routes/caixaRoutes');
 const imoveisGraficosRoutes = require('./routes/imoveisGraficosRoutes');
-const inquilinoRoutes = require("./routes/inquilinoRoutes");
+/*const inquilinoRoutes = require("./routes/inquilinoRoutes");*/
 
 
 /**
