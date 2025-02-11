@@ -57,11 +57,54 @@ body {
     }
 }
 
+/* ============================= */
+/* 🔹 Estilo do Footer */
+/* ============================= */
+/* Estilização do Footer */
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    color: #777; /* Cor discreta */
+    font-size: 12px;
+    padding: 5px 0;
+    border-top: 1px solid #ddd; /* Linha sutil */
+  }
+  
+  body {
+    margin-bottom: 30px; /* Espaço para o footer não sobrepor conteúdo */
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .login-container {
+        width: 95%;
+        padding: 20px 25px;
+    }
+  
+    .pin-box {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+  
+    h1 {
+        font-size: 1.8rem;
+    }
+  
+    .footer {
+        font-size: 0.7rem;
+    }
+  }
+
 /***************************************************************
 * [4] CONTAINER PRINCIPAL (MAIN-CONTAINER)
 ***************************************************************/
 .main-container {
     background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
+    background-position: center;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     padding: 20px;
