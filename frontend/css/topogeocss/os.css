@@ -26,7 +26,7 @@ body {
     text-align: center;
     font-size: 18px;
     font-weight: bold;
-    background: rgba(0, 64, 133, 0.9); /* Fundo azul escuro semi-transparente */
+    background: #22bbe1e9; /* Fundo azul escuro semi-transparente */
     color: white;
     padding: 10px;
     margin: 10px auto;
@@ -110,34 +110,66 @@ body {
 ***************************************************************/
 .main-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: rgba(227, 226, 226, 0.792); /* Fundo branco semi-transparente */
+    background-color: rgba(227, 226, 226, 0.9); /* Fundo branco semi-transparente */
     background-position: center;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    margin: 30px auto;
-    max-width: 1200px;
-  }
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15); /* Sombra mais suave */
+    padding: 30px;
+    margin: 40px auto;
+    max-width: 90%;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+}
+
+/* 🔹 Responsividade para tablets e celulares */
+@media (max-width: 1024px) {
+    .main-container {
+        max-width: 95%;
+        padding: 25px;
+        margin: 30px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        max-width: 98%;
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 8px;
+        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.12);
+    }
+}
+
+/* Ajustes para smartphones menores */
+@media (max-width: 480px) {
+    .main-container {
+        max-width: 100%;
+        padding: 15px;
+        margin: 10px auto;
+        border-radius: 6px;
+    }
+}
   
   /* Título principal da página */
   h1 {
     text-align: center;
-    color: #004085;
+    color: #22BAE1;
   }
   
   /* Títulos de segundo nível (se necessário) */
   h2 {
-    color: #004085;
+    color: #22BAE1;
     font-size: 20px;
     margin-bottom: 15px;
   }
   
   /* Linha divisória entre seções */
   .divider {
-    border: 1px solid #004085;
+    border: 1px solid #22BAE1;
     margin: 10px 0 20px;
   }
   
@@ -233,19 +265,19 @@ margin: 0 auto 10px auto;
 padding-bottom: 25px;
 }
 .navigation_menu li.tab_inactive:before {
-border-left: 3px solid #004085;
+border-left: 3px solid #22BAE1;
 margin-left: 3px;
 }
 .navigation_menu li.tab_active:after {
-border: 1px solid #004085;
+border: 1px solid #22BAE1;
 }
 .navigation_menu li.tab_inactive:after {
 content: "\2713";
 font-size: 20px;
 color: #FFF;
 text-align: center;
-border: 1px solid #004085;
-background-color: #004085;
+border: 1px solid #22BAE1;
+background-color: #22BAE1;
 }
 .task-list li a {
 display: block;
@@ -254,7 +286,7 @@ text-decoration: none;
 color: #000;
 }
 .task-list li.tab_inactive a {
-color: #004085;
+color: #22BAE1;
 }
 .task-list li.tab_disabled a {
 pointer-events: none;
@@ -293,11 +325,11 @@ float: right;
   progress::-webkit-progress-bar {
     background-color: #e0e0e0;
     border-radius: 10px;
-    border: 2px solid #004085; /* Adiciona borda azul na barra */
+    border: 2px solid #22BAE1; /* Adiciona borda azul na barra */
 }
 
 progress::-webkit-progress-value {
-    background-color: #004085;
+    background-color: #22BAE1;
     border-radius: 10px;
 }
 
@@ -306,7 +338,7 @@ progress::-webkit-progress-value {
   }
 
   progress::-webkit-progress-value {
-    background-color: #004085;
+    background-color: #22BAE1;
     border-radius: 10px;
   }
 
@@ -348,7 +380,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #004085; /* Azul escuro */
+    background-color: #22BAE1; /* Azul escuro */
     color: white;
     font-size: 16px;
     font-weight: bold;
@@ -372,9 +404,9 @@ main {
     transform: scale(1.05);
 }
 .custom-hr {
-    width: 80%; /* Define a largura */
-    height: 4px; /* Espessura da linha */
-    background: linear-gradient(to right, #004085, #4caf50); /* Gradiente Azul → Verde */
+    width: 70%; /* Define a largura */
+    height: 5px; /* Espessura da linha */
+    background: linear-gradient(to right, #22BAE1, #4caf50); /* Gradiente Azul → Verde */
     border: none; /* Remove a borda padrão */
     border-radius: 2px; /* Deixa as bordas arredondadas */
     margin: 10px auto 20px auto; /* Margem superior e inferior para espaçamento */
