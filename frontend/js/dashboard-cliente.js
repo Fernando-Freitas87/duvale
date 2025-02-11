@@ -1,257 +1,232 @@
-// ---------------------------------------------------------------------
-// dashboard-admin.js
-// ---------------------------------------------------------------------
+/**
+ * dashboard-cliente.js
+ *
+ * Script principal da página de cliente, responsável por:
+ *  1) Verificar token de autenticação.
+ *  2) Carregar dados do usuário (nome, contrato, mensalidade).
+ *  3) Popular informações na tela (cards e histórico).
+ *  4) Gerar PIX (se disponível).
+ *  5) Configurar logout.
+ */
+
+// ============================================================
+// 1) Configurações Globais e Evento DOMContentLoaded
+// ============================================================
+
+const apiBaseUrl = "https://duvale-production.up.railway.app";
+// Em ambiente local, você pode trocar por: "http://localhost:3000"
+
 document.addEventListener("DOMContentLoaded", async () => {
-  /**
-   * 1) Verificação do Token de Autenticação
-   */
-  const authToken = localStorage.getItem("authToken");
-  if (!authToken) {
-    alert("Sessão expirada. Faça login novamente.");
-    window.location.href = "index.html";
-    return;
+  try {
+    // Verifica se existe token
+    const authToken = localStorage.getItem("authToken");
+    if (!authToken) {
+      alert("Sessão expirada. Faça login novamente.");
+      window.location.href = "index.html";
+      return;
+    }
+
+    // Carrega dados do usuário via API
+    const userInfo = await carregarUsuario();
+    
+    // Prepara o botão de logout
+    configurarLogout();
+
+    // Prepara o botão de gerar Pix (caso exista no DOM)
+    configurarGerarPix();
+
+    // Exibe dados básicos na tela (mensalidade, contrato etc.)
+    popularDadosBasicosNaTela(userInfo);
+
+    // Carrega e exibe histórico (tabela dinâmica)
+    await carregarHistoricoUsuario();
+
+  } catch (error) {
+    console.error("Erro geral na inicialização da página:", error);
+    alert("Ocorreu um erro ao carregar a página de cliente. Tente novamente.");
   }
-
-  /**
-   * 2) Carregamento Inicial
-   *    - Buscamos dados do usuário (para exibir nome, mensalidade, etc.).
-   *    - Carregamos avisos, histórico, etc. se necessário.
-   *    - Configuramos também o botão de logout.
-   */
-  const userInfo = await carregarUsuario(); // Exibe o nome do usuário e retorna objeto
-  configurarLogout();
-  gerarPix(); // Configura o botão (caso exista) para gerar PIX
-
-  // Exemplo de carregar dados adicionais (caso precise):
-  //await carregarEmAtraso();
-  //await carregarAVencer();
-  //await carregarContratos();
-  //await carregarImoveis();
-  //await carregarClientes();
-  //await carregarResumo();           // se houver
-  //await carregarAvisosGerenciais(); // se houver
-
-  // Preenche informações na tela, se existirem elementos HTML correspondentes
-  popularDadosBasicosNaTela(userInfo);
-
-  // Exemplo: buscar histórico do usuário e exibir na tabela “historico”
-  // (depende da sua estrutura HTML - caso você use .historico .table)
-  await carregarHistoricoUsuario();
-
-  /**
-   * 3) Configuração dos Cards (cliques) para exibir e ocultar seções
-   *    - Selecionamos os cards pelo ID
-   *    - Selecionamos as seções de tabela pelo ID
-   *    - Ao clicar em cada card, exibimos apenas a seção correspondente
-   */
-  const cardImoveis       = document.getElementById("card-imoveis-cadastrados");
-  const cardContratos     = document.getElementById("card-contratos-ativos");
-  const cardAVencer       = document.getElementById("card-a-vencer");
-  const cardEmAtraso      = document.getElementById("card-total-em-atraso");
-
-  // Seções das tabelas
-  const secaoEmAtraso       = document.getElementById("em-atraso-section");
-  const secaoAVencer        = document.getElementById("a-vencer-section");
-  const secaoImoveis        = document.getElementById("gerenciar-imoveis-section");
-  const secaoContratos      = document.getElementById("gerenciar-contratos-section");
-  const secaoClientes       = document.getElementById("gerenciar-clientes-section");
-
-  // Função para ocultar todas as seções de tabela
-  function ocultarTodasSecoes() {
-    if (secaoEmAtraso)   secaoEmAtraso.style.display   = "none";
-    if (secaoAVencer)    secaoAVencer.style.display    = "none";
-    if (secaoImoveis)    secaoImoveis.style.display    = "none";
-    if (secaoContratos)  secaoContratos.style.display  = "none";
-    if (secaoClientes)   secaoClientes.style.display   = "none";
-  }
-
-  // Exibe “Em Atraso” por padrão (caso seja o comportamento desejado)
-  ocultarTodasSecoes();
-  if (secaoEmAtraso) secaoEmAtraso.style.display = "block";
-
-  // Clique no card "Total em Atraso"
-  if (cardEmAtraso) {
-    cardEmAtraso.addEventListener("click", () => {
-      ocultarTodasSecoes();
-      if (secaoEmAtraso) secaoEmAtraso.style.display = "block";
-    });
-  }
-
-  // Clique no card "A Vencer"
-  if (cardAVencer) {
-    cardAVencer.addEventListener("click", () => {
-      ocultarTodasSecoes();
-      if (secaoAVencer) secaoAVencer.style.display = "block";
-    });
-  }
-
-  // Clique no card "Contratos Ativos" -> exibe Contratos + Clientes
-  if (cardContratos) {
-    cardContratos.addEventListener("click", () => {
-      ocultarTodasSecoes();
-      if (secaoContratos) secaoContratos.style.display = "block";
-      if (secaoClientes)  secaoClientes.style.display  = "block";
-    });
-  }
-
-  // Clique no card "Imóveis Cadastrados"
-  if (cardImoveis) {
-    cardImoveis.addEventListener("click", () => {
-      ocultarTodasSecoes();
-      if (secaoImoveis) secaoImoveis.style.display = "block";
-    });
-  }
-
-  // -------------------------------------------------------------------
-  // FIM da configuração de cliques nos cards
-  // -------------------------------------------------------------------
 });
 
-/**
- * Carrega dados do usuário (nome, contrato, mensalidade) via API e exibe o nome na navbar.
- * Retorna o objeto de usuário para uso posterior (ex.: popular telas).
- */
+// ============================================================
+// 2) Função: Carregar dados do usuário (nome, etc.)
+// ============================================================
 async function carregarUsuario() {
   try {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
     if (!token) {
-      console.warn('Token de autenticação não encontrado. Será exibido "Usuário" como padrão.');
-      exibirNomeUsuario('Usuário');
+      console.warn("Token de autenticação não encontrado.");
+      exibirNomeUsuario("Usuário");
       return null;
     }
 
-    // Faz a requisição ao endpoint do backend
-    const response = await fetch('http://localhost:3000/api/usuario', {
-      headers: { Authorization: `Bearer ${token}` }
+    // Importante: removido o apóstrofo extra que causava erro na URL
+    const response = await fetch(`${apiBaseUrl}/api/usuario`, {
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     if (!response.ok) {
-      // Erro na resposta
-      console.warn(`Erro ao carregar o usuário: ${response.status}`);
-      exibirNomeUsuario('Usuário');
+      console.warn(`Erro ao carregar o usuário: status ${response.status}`);
+      exibirNomeUsuario("Usuário");
       return null;
     }
 
     const usuario = await response.json();
-    exibirNomeUsuario(usuario.nome || 'Usuário');
+    exibirNomeUsuario(usuario.nome || "Usuário");
     return usuario;
+
   } catch (error) {
-    console.error('Erro ao carregar o nome do usuário:', error);
-    exibirNomeUsuario('Usuário');
+    console.error("Erro ao carregar dados do usuário:", error);
+    exibirNomeUsuario("Usuário");
     return null;
   }
 }
 
-/**
- * Atualiza o elemento HTML <span id="user-name"> com o nome do usuário.
- */
+// ============================================================
+// 3) Exibir Nome do Usuário na Navbar
+// ============================================================
 function exibirNomeUsuario(nome) {
-  const userNameElement = document.getElementById('user-name');
-  if (userNameElement) {
-    userNameElement.textContent = nome;
-  } else {
+  const userNameElement = document.getElementById("user-name");
+  if (!userNameElement) {
     console.error('Elemento com ID "user-name" não encontrado no DOM.');
+    return;
   }
+  userNameElement.textContent = nome;
 }
 
-/**
- * Configura o botão "Sair" para limpar o localStorage e redirecionar ao login.
- */
+// ============================================================
+// 4) Configurar Logout (limpa token e redireciona)
+// ============================================================
 function configurarLogout() {
   const sairLink = document.getElementById("sair");
-  if (sairLink) {
-    sairLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("userName");
-      window.location.href = "index.html";
-    });
+  if (!sairLink) {
+    console.warn('Link para sair ("#sair") não encontrado.');
+    return;
   }
+
+  sairLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userName");
+    window.location.href = "index.html";
+  });
 }
 
-/**
- * Se existir um botão de gerar Pix com id="gerar-pix", configura a ação de POST na API.
- */
-function gerarPix() {
+// ============================================================
+// 5) Configurar Geração de Pix (POST na API)
+// ============================================================
+function configurarGerarPix() {
   const gerarPixButton = document.getElementById("gerar-pix");
-  if (gerarPixButton) {
-    gerarPixButton.addEventListener("click", async () => {
-      try {
-        const token = localStorage.getItem('authToken');
-        const response = await fetch('http://localhost:3000/api/gerar-pix', {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const data = await response.json();
-        alert(data.message);
-      } catch (error) {
-        console.error('Erro ao gerar QR Code para pagamento com PIX:', error);
-        alert('Erro ao gerar QR Code para pagamento com PIX.');
-      }
-    });
+  if (!gerarPixButton) {
+    // Se o botão não existir na página, não faz nada
+    return;
   }
+
+  gerarPixButton.addEventListener("click", async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        alert("Token de autenticação não encontrado. Faça login novamente.");
+        return;
+      }
+
+      // Caso esteja em produção, confirme se a rota /api/gerar-pix está correta no back-end
+      const response = await fetch(`${apiBaseUrl}/api/gerar-pix`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro na geração do PIX. Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      alert(data.message || "PIX gerado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao gerar QR Code para pagamento com PIX:", error);
+      alert("Erro ao gerar QR Code para pagamento com PIX.");
+    }
+  });
 }
 
-/**
- * Exemplo de função para popular dados básicos na tela (mensalidade, contrato etc.),
- * caso os elementos existam no HTML.
- */
+// ============================================================
+// 6) Popular dados básicos na Tela (Mensalidade, Contrato, etc.)
+// ============================================================
 function popularDadosBasicosNaTela(userInfo) {
   if (!userInfo) return;
 
-  // Exibe informações da mensalidade
+  // Exibe informações de mensalidade
   const mensalidadeCliente = document.getElementById("mensalidade-cliente");
   if (mensalidadeCliente) {
     mensalidadeCliente.textContent = userInfo.mensalidade || "R$ 0,00";
   }
 
-  // Preenche informações do contrato (por exemplo #Contrato, .avisos-li, etc.)
+  // Duração do contrato
   const contratoElement = document.getElementById("Contrato");
   if (contratoElement) {
-    contratoElement.textContent = userInfo.contrato?.meses || "-- Meses";
+    contratoElement.textContent = userInfo.contrato?.meses
+      ? `${userInfo.contrato.meses} Meses`
+      : "-- Meses";
   }
 
+  // Avisos no contrato (vigência, valor mensal, valor total)
   const avisosContrato = document.querySelectorAll(".avisos-li");
   if (avisosContrato && avisosContrato.length >= 3) {
     const [vigenciaElement, mensalElement, totalElement] = avisosContrato;
+
     if (vigenciaElement) {
-      vigenciaElement.textContent = `Vigência: ${userInfo.contrato?.vigencia || "--/--/---- - --/--/----"}`;
+      vigenciaElement.textContent = `Vigência: ${
+        userInfo.contrato?.vigencia || "--/--/---- - --/--/----"
+      }`;
     }
     if (mensalElement) {
-      mensalElement.textContent = `Valor Mensal: ${userInfo.contrato?.valorMensal || "R$ 0,00"}`;
+      mensalElement.textContent = `Valor Mensal: ${
+        userInfo.contrato?.valorMensal || "R$ 0,00"
+      }`;
     }
     if (totalElement) {
-      totalElement.textContent = `Valor Total: ${userInfo.contrato?.valorTotal || "R$ 0,00"}`;
+      totalElement.textContent = `Valor Total: ${
+        userInfo.contrato?.valorTotal || "R$ 0,00"
+      }`;
     }
   }
 }
 
-/**
- * Exemplo de busca do histórico do usuário na API e exibição em .historico .table
- * Ajuste conforme sua estrutura real ou use outra função genérica.
- */
+// ============================================================
+// 7) Carregar Histórico do Usuário e Popular na Tabela
+// ============================================================
 async function carregarHistoricoUsuario() {
   try {
-    const apiBaseUrl = 'http://localhost:3000/api';
-    const token = localStorage.getItem('authToken');
-    const headers = { Authorization: `Bearer ${token}` };
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      console.warn("Token não encontrado para histórico.");
+      return;
+    }
 
-    // Faz a request
-    const historicoResponse = await fetch(`${apiBaseUrl}/historico`, { headers });
-    if (!historicoResponse.ok) throw new Error("Erro ao buscar histórico.");
+    // Ajuste a rota /api/historico conforme seu backend real
+    const response = await fetch(`${apiBaseUrl}/api/historico`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) {
+      throw new Error(`Erro ao buscar histórico: ${response.status}`);
+    }
 
-    const historicoData = await historicoResponse.json();
+    const historicoData = await response.json();
 
-    // Exemplo de preenchimento numa DIV .historico > .table (mobile-style)
-    // Se seu HTML usa table <tr>/<td>, ajuste aqui.
+    // Localiza o container "table" para inserir as linhas
     const historicoTable = document.querySelector(".historico .table");
-    if (!historicoTable) return;
+    if (!historicoTable) {
+      console.warn("Tabela de histórico não encontrada (.historico .table).");
+      return;
+    }
 
+    // Para cada item do histórico, cria uma linha
     historicoData.forEach((entry) => {
       const row = document.createElement("div");
       row.classList.add("row");
 
-      // Cria células com os valores do objeto
+      // Cria as "células" .cell para cada valor do objeto
       Object.values(entry).forEach((value) => {
         const cell = document.createElement("div");
         cell.classList.add("cell");
@@ -259,40 +234,36 @@ async function carregarHistoricoUsuario() {
         row.appendChild(cell);
       });
 
-      // Exemplo: adicionando célula de ação
+      // Exemplo: célula de ação
       const actionCell = document.createElement("div");
       actionCell.classList.add("cell");
-
       const actionButton = document.createElement("button");
       actionButton.textContent = "Detalhes";
       actionButton.addEventListener("click", () => {
-        alert(`Detalhes de ${entry.nome}`);
+        alert(`Detalhes de ${entry.nome || "Não informado"}`);
       });
-
       actionCell.appendChild(actionButton);
       row.appendChild(actionCell);
 
+      // Anexa a row na tabela
       historicoTable.appendChild(row);
     });
   } catch (error) {
-    console.error("Erro ao carregar histórico do usuário:", error.message);
+    console.error("Erro ao carregar histórico do usuário:", error);
     alert("Não foi possível carregar o histórico. Tente novamente mais tarde.");
   }
 }
 
-/* ====================================================================
-   ABAIXO, EXEMPLOS DE FUNÇÕES PARA CARREGAR/POPULAR TABELAS ESPECÍFICAS
-   (caso deseje usar rotas do back-end e IDs definidos nas seções)
-   ====================================================================*/
+// ====================================================================
+// 8) Funções de exemplo (carregarEmAtraso, carregarAVencer...) OPCIONAL
+// ====================================================================
 
-/**
- * Exemplo: Carrega dados de "Em Atraso" e preenche a tabela #tabela-atraso-corpo
- */
+/*
 async function carregarEmAtraso() {
   try {
-    const token = localStorage.getItem('authToken');
-    const response = await fetch('http://localhost:3000/api/mensalidades/em-atraso', {
-      headers: { Authorization: `Bearer ${token}` }
+    const token = localStorage.getItem("authToken");
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/em-atraso`, {
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error(`Erro ao carregar Em Atraso: ${response.status}`);
 
@@ -300,9 +271,9 @@ async function carregarEmAtraso() {
     const tbody = document.getElementById('tabela-atraso-corpo');
     if (!tbody) return;
 
-    tbody.innerHTML = ""; // limpa antes
+    tbody.innerHTML = "";
     data.forEach((item) => {
-      const tr = document.createElement('tr');
+      const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${item.inquilino}</td>
         <td>${item.imovel}</td>
@@ -318,23 +289,6 @@ async function carregarEmAtraso() {
 }
 
 async function carregarAVencer() {
-  // Lógica muito similar a carregarEmAtraso()
+  // Similar a carregarEmAtraso()
 }
-
-async function carregarImoveis() {
-  // fetch em /api/imoveis -> preenche #imoveis-corpo
-}
-
-async function carregarClientes() {
-  // fetch em /api/clientes -> preenche #clientes-corpo
-}
-
-async function carregarContratos() {
-  // fetch em /api/contratos -> preenche #contratos-corpo
-}
-
-/* 
-   Você pode criar funções de paginação, filtro por data, etc.
-   dependendo do que seu backend suportar, integrando o 
-   query string (ex.: ?startDate=...&endDate=...) para filtrar dados.
 */
