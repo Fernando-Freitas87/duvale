@@ -27,7 +27,7 @@ const mensalidadesGraficosRoutes = require('./routes/mensalidadesGraficosRoutes'
 const avisosRoutes = require("./routes/avisos.routes");
 const loginRoutes = require('./routes/login');
 const usuarioController = require('./controllers/usuarioController');
-const clienteRoutes = require("./routes/clienteRoutes");
+const clientesRoutes = require("./routes/clientesRoutes");
 const gerencialRoutes = require('./routes/gerencialRoutes');
 const mensalidadesRoutes = require('./routes/mensalidadesRoutes');
 const cadastroClientesRoutes = require('./routes/cadastroClientesRoutes');
@@ -38,6 +38,8 @@ const imoveisRoutes = require('./routes/imoveisRoutes');
 const contratosRoutes = require('./routes/contratosRoutes');
 const caixaRoutes = require('./routes/caixaRoutes');
 const imoveisGraficosRoutes = require('./routes/imoveisGraficosRoutes');
+const inquilinoRoutes = require("./routes/inquilinoRoutes");
+
 
 
 /**
@@ -74,7 +76,7 @@ db.query('SELECT 1')
 app.use('/api/mensalidades', mensalidadesGraficosRoutes);
 app.use("/api/avisos", avisosRoutes);
 app.use('/api/login', loginRoutes);                    // Rotas de autenticação (PIN)
-app.use("/api/cliente", clienteRoutes);
+app.use("/api/clientes", clientesRoutes);
 app.use('/api/gerencial', gerencialRoutes);            // Rotas para painel gerencial
 app.use('/api/mensalidades', mensalidadesRoutes);      // Rotas para operações de mensalidades
 app.use('/api/cadastro/clientes', cadastroClientesRoutes); // Rotas para cadastro de clientes
@@ -85,6 +87,8 @@ app.use('/api/imoveis', imoveisRoutes);                // Rotas para operações
 app.use('/api/contratos', contratosRoutes);            // Rotas para operações com contratos
 app.use('/api/caixa', caixaRoutes);                    // Rotas para operações de caixa
 app.use('/api/imoveis', imoveisGraficosRoutes);
+app.use("/api/inquilino", inquilinoRoutes);
+
 
 /**
  * Rota para Obter Informações do Usuário Autenticado
