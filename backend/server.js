@@ -18,7 +18,7 @@ const { authenticateToken } = require('./middlewares/auth');
 const { atualizarStatusMensalidades } = require('./services/mensalidadesService');
 
 // Configure CORS para permitir o domínio do frontend
-const allowedOrigins = ['https://fernando-freitas87.github.io/duvale'];
+const allowedOrigins = ['https://fernando-freitas87.github.io/'];
 
 /**
  * Importação de Controllers e Rotas
