@@ -20,10 +20,16 @@ async function getDadosBasicosCliente(req, res) {
       LIMIT 1
     `, [clienteId]);
 
-    if (contratos.length === 0) {
-      return res.json({
+    if (!contratos || contratos.length === 0) {
+      return res.status(404).json({
+        mensagem: "Contrato não encontrado.",
         mensalidade: "R$ 0,00",
-        contrato: null,
+        contrato: {
+          meses: 0,
+          vigencia: "--/--/---- - --/--/----",
+          valorMensal: "R$ 0,00",
+          valorTotal: "R$ 0,00"
+        },
         imovel: null
       });
     }
@@ -94,6 +100,25 @@ async function getDadosBasicosCliente(req, res) {
   }
 }
 
+async function carregarDadosBasicos() {
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/cliente/dados-basicos`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (response.status === 404) {
+      console.warn("Contrato não encontrado na API.");
+      return;
+    }
+
+    const data = await response.json();
+    popularDadosBasicosNaTela(data);
+
+  } catch (error) {
+    console.error("Erro ao carregar dados básicos:", error);
+  }
+}
+
 
 
 /**
@@ -154,16 +179,8 @@ function formatarDataBR(dataString) {
   return `${String(data.getDate()).padStart(2, "0")}/${String(data.getMonth() + 1).padStart(2, "0")}/${data.getFullYear()}`;
 }
 
-/**
- * Formata datas no padrão DD/MM/AAAA
- */
-function formatarDataBR(dataString) {
-  if (!dataString) return "--/--/----";
-  const data = new Date(dataString);
-  return `${String(data.getDate()).padStart(2, "0")}/${String(data.getMonth() + 1).padStart(2, "0")}/${data.getFullYear()}`;
-}
-
 module.exports = {
   getDadosBasicosCliente,
-  getHistoricoCliente
+  getHistoricoCliente,
+  carregarDadosBasicos,
 };
