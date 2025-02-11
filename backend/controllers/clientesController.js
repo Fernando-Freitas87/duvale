@@ -1,132 +1,176 @@
-const db = require("../db"); // arquivo de conexão do banco de dados
+// ---------------------------------------------------------------------
+// clientesController.js
+// ---------------------------------------------------------------------
+// Controlador responsável por operações relacionadas aos clientes, como
+// listar clientes, buscar informações de usuário autenticado e obter avisos.
+// ---------------------------------------------------------------------
+
+// Importa o banco de dados e o logger
+const db = require('../db');       // Ajuste o caminho conforme necessário
+const logger = require('../utils/logger'); // Ajuste o caminho conforme necessário
 
 /**
- * Retorna dados básicos do cliente para popular a tela (mensalidade, contrato, imóvel, etc.).
- * É apenas um EXEMPLO: adapte para corresponder às suas tabelas e relacionamentos.
+ * Lista todos os clientes do tipo 'cliente' (exclui administradores).
+ * Endpoint: GET /api/clientes
+ *
+ * Restrito a usuários administradores (req.auth.type === 'administrador').
  */
-async function getDadosBasicosCliente(req, res) {
+exports.listarClientes = async (req, res) => {
   try {
-    // Exemplo: obtém o 'clienteId' do token (caso use um middleware de autenticação).
-    // Se você armazena no token, ou se vem em req.params, etc., ajuste conforme sua lógica.
-    const clienteId = req.userId; 
-    if (!clienteId) {
-      return res.status(400).json({ error: "Cliente não identificado." });
-    }
-
-    // 1) Busca o contrato do cliente
-    //    Supondo que exista uma tabela 'contratos' com campos:
-    //    - id, cliente_id, data_inicio, data_fim, valor_mensal, ...
-    const [contratos] = await db.query(`
-      SELECT id, data_inicio, data_fim, valor_mensal
-      FROM contratos
-      WHERE cliente_id = ?
-      LIMIT 1
-    `, [clienteId]);
-
-    if (contratos.length === 0) {
-      // Se não existir contrato, retorne algo básico
-      return res.json({
-        mensalidade: "R$ 0,00",
-        contrato: {
-          meses: null,
-          vigencia: "--/--/---- - --/--/----",
-          valorMensal: "R$ 0,00",
-          valorTotal: "R$ 0,00",
-        },
-        imovel: null
+    // Verifica se o usuário autenticado possui permissão (administrador).
+    if (req.auth.type !== 'administrador') {
+      return res.status(403).json({
+        error: 'Permissão insuficiente. Acesso restrito a administradores.',
       });
     }
 
-    const contrato = contratos[0];
+    // Consulta para selecionar apenas usuários do tipo 'cliente'.
+    const query = `
+      SELECT 
+        id, 
+        nome, 
+        cpf, 
+        telefone, 
+        pin, 
+        observacoes
+      FROM clientes
+      WHERE tipo_usuario = 'cliente';
+    `;
+    const [rows] = await db.query(query);
 
-    // Calcula a diferença de meses (exemplo)
-    // Ajuste se já existir um campo "meses" na tabela
-    const dataInicio = new Date(contrato.data_inicio);
-    const dataFim = new Date(contrato.data_fim);
-    const mesesContrato = Math.max(
-      0,
-      (dataFim.getFullYear() - dataInicio.getFullYear()) * 12 +
-        (dataFim.getMonth() - dataInicio.getMonth()) +
-        1
-    );
-
-    // 2) Busca a mensalidade mais recente ou em aberto, usando o contrato_id
-    //    Tabela 'mensalidades': id, contrato_id, valor, data_vencimento, status, ...
-    const [mensalidades] = await db.query(`
-      SELECT valor, data_vencimento, status
-      FROM mensalidades
-      WHERE contrato_id = ?
-      ORDER BY data_vencimento DESC
-      LIMIT 1
-    `, [contrato.id]);
-
-    let mensalidadeInfo = {
-      valor: 0,
-      data_vencimento: null,
-      status: "pendente" // Ou algo padrão
-    };
-
-    if (mensalidades.length > 0) {
-      mensalidadeInfo = mensalidades[0];
+    // Se não houver registros, retorna mensagem apropriada.
+    if (rows.length === 0) {
+      logger.warn('Nenhum cliente encontrado.');
+      return res.status(404).json({ message: 'Nenhum cliente encontrado.' });
     }
 
-    // 3) Busca algum imóvel associado ao cliente
-    //    Tabela 'imoveis': id, cliente_id, descricao, endereco, status, tipo, ...
-    const [imoveis] = await db.query(`
-      SELECT id, descricao, endereco, status, tipo
-      FROM imoveis
-      WHERE cliente_id = ?
-      LIMIT 1
-    `, [clienteId]);
-
-    let imovelInfo = null;
-    if (imoveis.length > 0) {
-      imovelInfo = {
-        id: imoveis[0].id,
-        descricao: imoveis[0].descricao,
-        endereco: imoveis[0].endereco,
-        status: imoveis[0].status,
-        tipo: imoveis[0].tipo
-      };
-    }
-
-    // Monta o objeto final para popular no front-end
-    const resultado = {
-      // Mensalidade formatada com “R$”
-      mensalidade: `R$ ${mensalidadeInfo.valor?.toFixed(2) || "0,00"}`,
-
-      // Dados do contrato
-      contrato: {
-        meses: mesesContrato, 
-        vigencia: `${formatarDataBR(contrato.data_inicio)} - ${formatarDataBR(contrato.data_fim)}`,
-        valorMensal: `R$ ${contrato.valor_mensal?.toFixed(2) || "0,00"}`,
-        valorTotal: `R$ ${(contrato.valor_mensal * mesesContrato)?.toFixed(2) || "0,00"}`
-      },
-
-      // Dados do imóvel
-      imovel: imovelInfo
-    };
-
-    res.status(200).json(resultado);
-
+    // Retorna a lista de clientes encontrados.
+    res.json(rows);
   } catch (error) {
-    console.error("Erro ao obter dados básicos do cliente:", error);
-    res.status(500).json({ error: "Erro ao buscar dados básicos." });
+    // Loga e retorna erro em caso de falha na consulta ou execução.
+    logger.error(`Erro ao listar clientes: ${error.message}`);
+    res.status(500).json({ error: 'Erro ao listar clientes.' });
   }
-}
+};
 
 /**
- * Função auxiliar para formatar data em DD/MM/AAAA
+ * (OPCIONAL) Obtém um cliente específico por ID.
+ * Endpoint: GET /api/clientes/:id
+ *
+ * - Útil se o frontend estiver chamando /api/clientes/24, por exemplo.
+ * - Ajuste a permissão conforme a regra de negócio (admin ou próprio cliente).
  */
-function formatarDataBR(dataString) {
-  if (!dataString) return "--/--/----";
-  const data = new Date(dataString);
-  const dia = String(data.getDate()).padStart(2, "0");
-  const mes = String(data.getMonth() + 1).padStart(2, "0");
-  const ano = data.getFullYear();
-  return `${dia}/${mes}/${ano}`;
-}
+exports.obterClientePorId = async (req, res) => {
+  try {
+    // Exemplo de permissão: somente administradores podem acessar qualquer cliente
+    if (req.auth.type !== 'administrador') {
+      return res.status(403).json({
+        error: 'Permissão insuficiente. Acesso restrito a administradores.',
+      });
+    }
 
-module.exports = {
-  getDadosBasicosCliente
+    // Extrai o ID do cliente do parâmetro de rota
+    const { id } = req.params;
+
+    // Busca o cliente no banco de dados
+    const [rows] = await db.query('SELECT * FROM clientes WHERE id = ?', [id]);
+
+    // Caso não encontre o cliente, retorna mensagem apropriada
+    if (!rows || rows.length === 0) {
+      logger.warn(`Cliente não encontrado para ID ${id}.`);
+      return res.status(404).json({ error: 'Cliente não encontrado.' });
+    }
+
+    // Retorna o cliente encontrado
+    res.json(rows[0]);
+  } catch (error) {
+    // Loga e retorna erro em caso de falha na consulta ou execução
+    logger.error(`Erro ao obter cliente por ID: ${error.message}`);
+    res.status(500).json({ error: 'Erro ao obter cliente por ID.' });
+  }
+};
+
+/**
+ * Retorna informações específicas do usuário autenticado.
+ * Endpoint: GET /api/usuario
+ *
+ * - Se for cliente, retorna informações do próprio cliente.
+ * - Se for administrador, retorna informações de administrador.
+ */
+exports.getUserInfo = async (req, res) => {
+  try {
+    // Se o usuário autenticado for do tipo 'cliente'
+    if (req.auth.type === 'cliente') {
+      const userId = req.auth.id;
+      const [rows] = await db.query(
+        'SELECT nome, email, telefone FROM clientes WHERE id = ?',
+        [userId]
+      );
+
+      // Verifica se o cliente foi encontrado
+      if (rows.length === 0) {
+        logger.warn(`Cliente não encontrado para ID ${userId}.`);
+        return res.status(404).json({ error: 'Cliente não encontrado.' });
+      }
+
+      // Retorna as informações do cliente autenticado
+      return res.json({
+        nome: rows[0].nome,
+        email: rows[0].email,
+        telefone: rows[0].telefone,
+      });
+    }
+
+    // Se o usuário autenticado for do tipo 'administrador'
+    if (req.auth.type === 'administrador') {
+      return res.json({
+        id: req.auth.id,
+        nome: req.auth.nome || 'Administrador',
+        email: req.auth.email || 'admin@example.com',
+      });
+    }
+
+    // Se o tipo de usuário não for reconhecido
+    return res.status(400).json({ error: 'Tipo de usuário desconhecido.' });
+  } catch (error) {
+    logger.error(`Erro ao buscar informações do usuário: ${error.message}`);
+    res.status(500).json({ error: 'Erro ao buscar informações do usuário.' });
+  }
+};
+
+/**
+ * Busca avisos específicos do cliente autenticado.
+ * Endpoint: GET /api/clientes/:id/avisos
+ *
+ * - Neste caso, somente um cliente (req.auth.type === 'cliente')
+ *   pode acessar seus próprios avisos.
+ */
+exports.getAvisos = async (req, res) => {
+  try {
+    // Verifica se o usuário autenticado é do tipo 'cliente'.
+    if (req.auth.type !== 'cliente') {
+      return res.status(403).json({
+        error: 'Permissão insuficiente. Apenas clientes podem acessar seus avisos.',
+      });
+    }
+
+    const userId = req.auth.id;
+
+    // Consulta para obter os avisos do cliente autenticado
+    const [rows] = await db.query(
+      'SELECT titulo, mensagem, data_aviso FROM avisos WHERE cliente_id = ? ORDER BY data_aviso DESC',
+      [userId]
+    );
+
+    // Se não houver avisos, retorna mensagem apropriada
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'Nenhum aviso encontrado.' });
+    }
+
+    // Retorna a lista de avisos encontrados
+    res.json(rows);
+  } catch (error) {
+    logger.error(`Erro ao buscar avisos do cliente: ${error.message}`);
+    res.status(500).json({ error: 'Erro ao buscar avisos do cliente.' });
+  }
 };
