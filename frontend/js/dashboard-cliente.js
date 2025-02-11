@@ -14,7 +14,6 @@
 // ============================================================
 
 const apiBaseUrl = "https://duvale-production.up.railway.app";
-// Em ambiente local, você pode trocar por: "http://localhost:3000"
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
@@ -188,12 +187,13 @@ function popularDadosBasicosNaTela(userInfo) {
   document.getElementById("mensalidade-cliente").textContent = userInfo.mensalidade;
 
   // Contrato
-  const contratoElement = document.getElementById("Contrato");
-  if (contratoElement) {
+  if (userInfo && userInfo.contrato) {
     contratoElement.textContent = userInfo.contrato.meses 
       ? `${userInfo.contrato.meses} Meses`
       : "-- Meses";
-  }
+} else {
+    console.warn("Contrato não encontrado na resposta da API.");
+}
 
   // Exemplo: dados do contrato
   const avisosContrato = document.querySelectorAll(".avisos-li");

@@ -10,6 +10,6 @@ router.get('/em-atraso', mensalidadesController.getAtrasados);
 router.get('/a-vencer', mensalidadesController.getAVencer);
 router.get('/resumo', mensalidadesController.getResumo);
 router.put('/:id/status', mensalidadesController.atualizarStatusMensalidade);
-router.get("/dados-basicos", authenticateToken, getDadosBasicosCliente);
+router.get("/cliente/dados-basicos", authenticateToken, getDadosBasicosCliente);
 
 module.exports = router;
