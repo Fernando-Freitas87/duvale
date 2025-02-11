@@ -11,7 +11,7 @@
   body {
     font-family: 'Roboto', sans-serif;
     min-height: 100vh;                        /* Garante altura mínima */
-    background-image: url('../img/fundo1.png'); /* Fundo fixo personalizado */
+    background-image: url('../img/fundotopogeo.png'); /* Fundo fixo personalizado */
     background-size: cover;                   /* Ajusta para cobrir a tela */
     background-position: center;              /* Centraliza o fundo */
     background-repeat: no-repeat;             /* Impede repetição da imagem */
