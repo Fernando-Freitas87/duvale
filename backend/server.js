@@ -38,7 +38,7 @@ const imoveisRoutes = require('./routes/imoveisRoutes');
 const contratosRoutes = require('./routes/contratosRoutes');
 const caixaRoutes = require('./routes/caixaRoutes');
 const imoveisGraficosRoutes = require('./routes/imoveisGraficosRoutes');
-const inquilinosRoutes = require("./routes/inquilinosRoutes");
+const inquilinoRoutes = require("./routes/inquilinoRoutes");
 
 
 /**
@@ -86,7 +86,7 @@ app.use('/api/imoveis', imoveisRoutes);                // Rotas para operações
 app.use('/api/contratos', contratosRoutes);            // Rotas para operações com contratos
 app.use('/api/caixa', caixaRoutes);                    // Rotas para operações de caixa
 app.use('/api/imoveis', imoveisGraficosRoutes);
-app.use("/api/inquilinos", inquilinosRoutes);
+app.use("/api/inquilino", inquilinoRoutes);
 
 
 /**
