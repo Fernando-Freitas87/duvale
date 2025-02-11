@@ -237,80 +237,69 @@ function obterNomeDoMes(offset = 0) {
 }
 
 /**
- * Cria um gráfico de pizza usando Google Charts, formatando valores em R$.
+ * Cria um gráfico de pizza usando Google Charts, com opção de formatação monetária ou inteiros.
  * @param {Object} dados - Exemplo: { em_dia: 5, atrasadas: 3, pendentes: 2 }
  * @param {string} id - ID do elemento HTML onde o gráfico será renderizado
+ * @param {Object} formato - configurações de formatação. Ex: { usarMoeda: true }
  */
-function criarGraficoPizza(dados, id) {
-  // 1) Obtém o container do gráfico pelo ID.
+function criarGraficoPizza(dados, id, formato = { usarMoeda: false }) {
   const graficoContainer = document.getElementById(id);
   if (!graficoContainer) {
     console.error(`Elemento com ID "${id}" não encontrado.`);
     return;
   }
 
-  // 2) Converte o objeto "dados" em um array compatível com Google Charts.
-  //    O primeiro item do array é o cabeçalho ["Status", "Valor"].
+  // 1) Monta array para Google Charts
   const chartData = [["Status", "Valor"]];
   Object.keys(dados).forEach((status) => {
-    // Converte valor para número, usando 0 caso não seja válido.
     const valor = parseFloat(dados[status]) || 0;
     chartData.push([status, valor]);
   });
 
-  // 3) Cria a DataTable do Google Charts a partir do array "chartData".
+  // 2) Cria DataTable
   const data = google.visualization.arrayToDataTable(chartData);
 
-  // 4) Formata a coluna de valores para o padrão monetário brasileiro (R$).
-  //    - "fractionDigits: 2" para ter 2 casas decimais.
-  //    - "decimalSymbol" e "groupingSymbol" para vírgula e ponto, respectivamente.
-  const formatter = new google.visualization.NumberFormat({
-    prefix: "R$ ",
-    decimalSymbol: ",",
-    groupingSymbol: ".",
-    fractionDigits: 2,
-  });
-  formatter.format(data, 1); // Aplica formatação na coluna de índice 1 (a de valores).
+  // 3) Configura formatação
+  let formatter;
+  if (formato.usarMoeda) {
+    // Formatação monetária (R$, decimais, etc.)
+    formatter = new google.visualization.NumberFormat({
+      prefix: "R$ ",
+      decimalSymbol: ",",
+      groupingSymbol: ".",
+      fractionDigits: 2,
+    });
+  } else {
+    // Formatação só inteiros (sem prefixo, sem decimais)
+    formatter = new google.visualization.NumberFormat({
+      fractionDigits: 0,
+    });
+  }
+  // Aplica na coluna [1]
+  formatter.format(data, 1);
 
-  // 5) Define as opções do gráfico, incluindo aparência, cores, título, etc.
+  // 4) Define opções do gráfico
   const options = {
-    // Usa o data-attribute do container para definir o título em maiúsculo.
-    title: `${graficoContainer.dataset.mes.toUpperCase()}`,
-    pieHole: 0.4,                         // Deixa o gráfico no estilo "rosca".
-    colors: ["#7BB662", "#B22222", "#FFAE42"], // Paleta de 3 cores para até 3 categorias.
-    pieSliceText: "value",                // Exibe o valor diretamente na fatia.
-    pieSliceTextStyle: {
-      fontSize: 14,
-      bold: true,
-      color: "#333",
-    },
-    tooltip: {
-      text: "value", // Mostra apenas o valor R$ no tooltip.
-    },
-    legend: {
-      position: "none", // Remove a legenda padrão do Google.
-    },
-    chartArea: {
-      width: "90%",
-      height: "80%",
-    },
-    // Customiza a aparência do título.
-    titleTextStyle: {
-      fontSize: 16,
-      bold: true,
-      color: "#333",
-    },
+    title: graficoContainer.dataset.mes?.toUpperCase() || "",
+    pieHole: 0.4,
+    colors: ["#7BB662", "#B22222", "#FFAE42"],
+    pieSliceText: "value",
+    pieSliceTextStyle: { fontSize: 14, bold: true, color: "#333" },
+    tooltip: { text: "value" },
+    legend: { position: "none" },
+    chartArea: { width: "90%", height: "80%" },
+    titleTextStyle: { fontSize: 16, bold: true, color: "#333" },
   };
 
-  // 6) Desenha o gráfico, usando as configurações definidas em "options".
+  // 5) Desenha
   const chart = new google.visualization.PieChart(graficoContainer);
   chart.draw(data, options);
 
-  // 7) Cria a legenda personalizada (usando elementos HTML) abaixo do gráfico.
-  //    Remove a legenda antiga se existir, para evitar duplicações.
+  // 6) Remove legenda anterior (se houver)
   const oldLegend = graficoContainer.parentNode.querySelector(".legenda-container");
   if (oldLegend) oldLegend.remove();
 
+  // 7) Cria legenda customizada
   const legendaContainer = document.createElement("div");
   legendaContainer.classList.add("legenda-container");
 
@@ -320,11 +309,9 @@ function criarGraficoPizza(dados, id) {
 
     const cor = document.createElement("span");
     cor.classList.add("legenda-cor");
-    // Usa o array "colors" definido em "options" como cor de fundo.
     cor.style.backgroundColor = options.colors[index];
 
     const texto = document.createElement("span");
-    // Substitui underscore por espaço, caso existam nomes como "em_dia".
     texto.textContent = status.replace("_", " ");
 
     legendaItem.appendChild(cor);
@@ -332,7 +319,6 @@ function criarGraficoPizza(dados, id) {
     legendaContainer.appendChild(legendaItem);
   });
 
-  // 8) Anexa a nova legenda ao container "pai" do gráfico.
   graficoContainer.parentNode.appendChild(legendaContainer);
 }
 
@@ -354,9 +340,9 @@ async function carregarGraficos() {
     document.getElementById("grafico-proximo").dataset.mes = obterNomeDoMes(1);
 
     // Desenha cada gráfico (mês anterior, atual e próximo).
-    criarGraficoPizza(data.anterior, "grafico-anterior");
-    criarGraficoPizza(data.atual, "grafico-atual");
-    criarGraficoPizza(data.proximo, "grafico-proximo");
+    criarGraficoPizza(data.anterior, "grafico-anterior", { usarMoeda: true });
+    criarGraficoPizza(data.atual, "grafico-atual", { usarMoeda: true });
+    criarGraficoPizza(data.proximo, "grafico-proximo", { usarMoeda: true });
 
   } catch (error) {
     console.error("Erro ao carregar os gráficos:", error);
@@ -398,8 +384,8 @@ async function carregarGraficosImoveis() {
     // e que 'data.tipo'   = { comercial: A, residencial: B }
 
     // Desenha dois gráficos, um para "status" e outro para "tipo".
-    criarGraficoPizza(data.status, "grafico-status-imoveis");
-    criarGraficoPizza(data.tipo, "grafico-tipo-imoveis");
+    criarGraficoPizza(data.status, "grafico-status-imoveis", { usarMoeda: false });
+    criarGraficoPizza(data.tipo, "grafico-tipo-imoveis", { usarMoeda: false });
   } catch (error) {
     console.error("Erro ao carregar os gráficos de imóveis:", error);
   }
