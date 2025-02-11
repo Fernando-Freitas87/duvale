@@ -153,9 +153,9 @@ body {
   }
 
 .container {
-    background-color: #fff;
+    background-color: #d4d3d3b7;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.122);
     padding: 20px;
     width: 90%;
     max-width: 600px;
