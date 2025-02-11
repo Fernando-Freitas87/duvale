@@ -2,8 +2,40 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <link rel="shortcut icon" href="../img/Topogeo.svg" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Título da página -->
   <title>OS Cliente | Topogeo</title>
+
+  <!-- Ícone da aba do navegador -->
+  <link rel="shortcut icon" href="../img/Topogeo.svg" type="image/x-icon">
+
+  <!-- Meta tags para SEO -->
+  <meta name="description" content="Acompanhe o progresso do seu serviço na Topogeo. Veja todas as etapas do processo e acompanhe a finalização da sua solicitação.">
+  <meta name="keywords" content="Topogeo, ordem de serviço, rastreamento, acompanhamento, cliente">
+  <meta name="author" content="Setta Software Solutions">
+  
+  <!-- Meta tags para redes sociais (Open Graph - Facebook e WhatsApp) -->
+  <meta property="og:title" content="Acompanhe sua Ordem de Serviço - Topogeo">
+  <meta property="og:description" content="Visualize todas as etapas do seu serviço e acompanhe seu progresso em tempo real.">
+  <meta property="og:image" content="https://seusite.com/img/topogeo-preview.png"> <!-- Substitua pela URL real -->
+  <meta property="og:url" content="https://seusite.com/ostopogeo.html"> <!-- URL da página -->
+  <meta property="og:type" content="website">
+  
+  <!-- Meta tags para Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Acompanhe sua Ordem de Serviço - Topogeo">
+  <meta name="twitter:description" content="Visualize todas as etapas do seu serviço e acompanhe seu progresso em tempo real.">
+  <meta name="twitter:image" content="https://seusite.com/img/topogeo-preview.png"> <!-- Substitua pela URL real -->
+
+  <!-- Meta tag para WhatsApp -->
+  <meta property="og:site_name" content="Topogeo">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Preload para carregamento mais rápido da imagem de fundo -->
+  <link rel="preload" href="../img/fundotopogeo.png" as="image">
+
+  <!-- Estilos -->
   <link rel="stylesheet" href="./css/topogeocss/os.css">
 </head>
 <body>
@@ -61,48 +93,49 @@
             <p class="task-date">Faltam: <span id="task-count">0 de 6</span> etapas.</p>
             <progress id="task-progress" value="0" max="100"></progress>
             <p class="footer">Progresso: <span id="progress-text">0%</span></p>
-
         </div>
 
         <!-- Barra de Progresso em Meia Lua -->
-        <div class="progress-container" > 
+        <div class="progress-container"> 
             <svg class="semi-circle" width="100" height="50" viewBox="0 0 200 100">
             <circle class="bg-circle" cx="100" cy="100" r="80" stroke-width="20" fill="none" stroke="#e6e6e6"/>
             <circle class="fg-circle" cx="100" cy="100" r="80" stroke-width="20" fill="none" stroke="#4caf50" stroke-dasharray="502.65" stroke-dashoffset="502.65"/>
             <text id="progress-text-svg" x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="20px" fill="black">0%</text>
             </svg>
         </div>
-        <!-- BOTAO BAIXAR ARQUIVO --> 
+
+        <!-- BOTÃO BAIXAR ARQUIVO --> 
         <button class="cta">
-                    <span class="hover-underline-animation"> Baixar Arquivo </span>
-                    <svg
-                    id="arrow-horizontal"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="30"
-                    height="10"
-                    viewBox="0 0 46 16"
-                    >
-                    <path
-                        id="Path_10"
-                        data-name="Path 10"
-                        d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
-                        transform="translate(30)"
-                    ></path>
-                    </svg>
+            <span class="hover-underline-animation"> Baixar Arquivo </span>
+            <svg
+            id="arrow-horizontal"
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="10"
+            viewBox="0 0 46 16"
+            >
+            <path
+                id="Path_10"
+                data-name="Path 10"
+                d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                transform="translate(30)"
+            ></path>
+            </svg>
         </button>
     </div> 
-
-  
     </main>
+
+    <!-- Rodapé -->
     <footer id="footer">
         <p>Setta Software Solutions. Todos os direitos reservados | Desenvolvido por Fernando Freitas © 2024</p>
-      </footer>
-<!-- Script no final do body -->
-<script src="./js/topogeojs/os.js"></script>
-<script>
-    // Preenchendo dinamicamente os campos de Cliente e Ordem de Serviço
-    document.getElementById("client-name").textContent = "João Muniz Sobrinho";
-    document.getElementById("order-number").textContent = "TP20250104";
-</script>
+    </footer>
+
+    <!-- Script no final do body -->
+    <script src="./js/topogeojs/os.js"></script>
+    <script>
+        // Preenchendo dinamicamente os campos de Cliente e Ordem de Serviço
+        document.getElementById("client-name").textContent = "João Muniz Sobrinho";
+        document.getElementById("order-number").textContent = "TP20250104";
+    </script>
 </body>
 </html>
