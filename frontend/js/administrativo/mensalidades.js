@@ -205,7 +205,10 @@ function atualizarPaginacao(tipo, page, total, limit) {
  * Carrega a biblioteca do Google Charts
  */
 google.charts.load("current", { packages: ["corechart"] });
-google.charts.setOnLoadCallback(carregarGraficos); // Chama a função ao carregar a biblioteca
+google.charts.setOnLoadCallback(() => {
+  carregarGraficos();       // Gráficos de mensalidades
+  carregarGraficosImoveis(); // Gráficos de imóveis
+});
 
 /**
  * Obtém o nome dos meses correspondentes para o título dos gráficos.
@@ -235,71 +238,79 @@ function obterNomeDoMes(offset = 0) {
 
 /**
  * Cria um gráfico de pizza usando Google Charts, formatando valores em R$.
- * @param {Object} dados - ex: { em_dia: 5, atrasadas: 3, pendentes: 2 }
+ * @param {Object} dados - Exemplo: { em_dia: 5, atrasadas: 3, pendentes: 2 }
  * @param {string} id - ID do elemento HTML onde o gráfico será renderizado
  */
 function criarGraficoPizza(dados, id) {
+  // 1) Obtém o container do gráfico pelo ID.
   const graficoContainer = document.getElementById(id);
   if (!graficoContainer) {
-    console.error(`Elemento com ID ${id} não encontrado.`);
+    console.error(`Elemento com ID "${id}" não encontrado.`);
     return;
   }
 
-  // 1) Converte os dados para o formato do Google Charts
+  // 2) Converte o objeto "dados" em um array compatível com Google Charts.
+  //    O primeiro item do array é o cabeçalho ["Status", "Valor"].
   const chartData = [["Status", "Valor"]];
   Object.keys(dados).forEach((status) => {
-    // Se quiser ter certeza de que é numérico, use parseFloat:
+    // Converte valor para número, usando 0 caso não seja válido.
     const valor = parseFloat(dados[status]) || 0;
     chartData.push([status, valor]);
   });
 
+  // 3) Cria a DataTable do Google Charts a partir do array "chartData".
   const data = google.visualization.arrayToDataTable(chartData);
 
-  // 2) Formatação de número em R$ (moeda brasileira)
+  // 4) Formata a coluna de valores para o padrão monetário brasileiro (R$).
+  //    - "fractionDigits: 2" para ter 2 casas decimais.
+  //    - "decimalSymbol" e "groupingSymbol" para vírgula e ponto, respectivamente.
   const formatter = new google.visualization.NumberFormat({
     prefix: "R$ ",
     decimalSymbol: ",",
     groupingSymbol: ".",
     fractionDigits: 2,
   });
-  // A coluna 1 (índice 1) é a de valores
-  formatter.format(data, 1);
+  formatter.format(data, 1); // Aplica formatação na coluna de índice 1 (a de valores).
 
-  // 3) Monta as opções do gráfico, destacando o mês no título
+  // 5) Define as opções do gráfico, incluindo aparência, cores, título, etc.
   const options = {
-    // Deixe o mês em maiúsculo para destacar, ou pode estilizar como preferir
+    // Usa o data-attribute do container para definir o título em maiúsculo.
     title: `${graficoContainer.dataset.mes.toUpperCase()}`,
-    pieHole: 0.4, // gráfico de rosca
-    colors: ["#7BB662", "#B22222", "#FFAE42"], // paleta suave de exemplo
-    pieSliceText: "value",
+    pieHole: 0.4,                         // Deixa o gráfico no estilo "rosca".
+    colors: ["#7BB662", "#B22222", "#FFAE42"], // Paleta de 3 cores para até 3 categorias.
+    pieSliceText: "value",                // Exibe o valor diretamente na fatia.
     pieSliceTextStyle: {
       fontSize: 14,
       bold: true,
       color: "#333",
     },
     tooltip: {
-      text: "value", // Mostra o valor em R$
+      text: "value", // Mostra apenas o valor R$ no tooltip.
     },
     legend: {
-      position: "none", // Remove a legenda padrão
+      position: "none", // Remove a legenda padrão do Google.
     },
     chartArea: {
       width: "90%",
       height: "80%",
     },
-    // Se quiser deixar o título em negrito, adicione titleTextStyle:
+    // Customiza a aparência do título.
     titleTextStyle: {
       fontSize: 16,
       bold: true,
-      color: "#333"
+      color: "#333",
     },
   };
 
-  // 4) Desenha o gráfico
+  // 6) Desenha o gráfico, usando as configurações definidas em "options".
   const chart = new google.visualization.PieChart(graficoContainer);
   chart.draw(data, options);
 
-  // 5) Criar a legenda personalizada (caso queira manter)
+  // 7) Cria a legenda personalizada (usando elementos HTML) abaixo do gráfico.
+  //    Remove a legenda antiga se existir, para evitar duplicações.
+  const oldLegend = graficoContainer.parentNode.querySelector(".legenda-container");
+  if (oldLegend) oldLegend.remove();
+
   const legendaContainer = document.createElement("div");
   legendaContainer.classList.add("legenda-container");
 
@@ -309,9 +320,11 @@ function criarGraficoPizza(dados, id) {
 
     const cor = document.createElement("span");
     cor.classList.add("legenda-cor");
+    // Usa o array "colors" definido em "options" como cor de fundo.
     cor.style.backgroundColor = options.colors[index];
 
     const texto = document.createElement("span");
+    // Substitui underscore por espaço, caso existam nomes como "em_dia".
     texto.textContent = status.replace("_", " ");
 
     legendaItem.appendChild(cor);
@@ -319,46 +332,75 @@ function criarGraficoPizza(dados, id) {
     legendaContainer.appendChild(legendaItem);
   });
 
-  const oldLegend = graficoContainer.parentNode.querySelector(".legenda-container");
-if (oldLegend) oldLegend.remove();
-
-  // 6) Anexa a legenda abaixo do gráfico
+  // 8) Anexa a nova legenda ao container "pai" do gráfico.
   graficoContainer.parentNode.appendChild(legendaContainer);
 }
+
 /**
- * Carrega os dados dos gráficos de mensalidades e renderiza-os no DOM.
+ * Carrega os dados dos gráficos de mensalidades e os desenha no DOM.
  */
 async function carregarGraficos() {
   try {
+    // Busca dados do endpoint /api/mensalidades/graficos
     const response = await fetch(`${apiBaseUrl}/api/mensalidades/graficos`);
     if (!response.ok) throw new Error("Erro ao carregar os dados dos gráficos");
 
     const data = await response.json();
     console.log("Dados carregados:", data);
 
-    // Define os nomes dos meses dinamicamente nos containers
+    // Define dinamicamente o "data-mes" para cada container de gráfico.
     document.getElementById("grafico-anterior").dataset.mes = obterNomeDoMes(-1);
     document.getElementById("grafico-atual").dataset.mes = obterNomeDoMes(0);
     document.getElementById("grafico-proximo").dataset.mes = obterNomeDoMes(1);
 
+    // Desenha cada gráfico (mês anterior, atual e próximo).
     criarGraficoPizza(data.anterior, "grafico-anterior");
     criarGraficoPizza(data.atual, "grafico-atual");
     criarGraficoPizza(data.proximo, "grafico-proximo");
+
   } catch (error) {
     console.error("Erro ao carregar os gráficos:", error);
 
-    // Exibe mensagens de erro nos gráficos
+    // Se der erro, exibe uma mensagem para cada "div" correspondente.
     ["grafico-anterior", "grafico-atual", "grafico-proximo"].forEach((id) => {
       const grafico = document.getElementById(id);
       if (grafico) {
-        grafico.innerHTML = `<p style="color: red; text-align: center;">Erro ao carregar o gráfico.</p>`;
+        grafico.innerHTML = `<p style="color: red; text-align: center;">
+                                Erro ao carregar o gráfico.
+                             </p>`;
       }
     });
   }
 }
 
-// Inicia o carregamento dos gráficos ao carregar a página
+/**
+ * Evento disparado quando o DOM é totalmente carregado.
+ * Inicia o carregamento dos gráficos de mensalidades.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM totalmente carregado. Iniciando o carregamento dos gráficos...");
   carregarGraficos();
 });
+
+/**
+ * Carrega e desenha os gráficos de imóveis (status e tipo), consumindo outro endpoint.
+ */
+async function carregarGraficosImoveis() {
+  try {
+    // Busca dados do endpoint /api/imoveis/graficos
+    const response = await fetch(`${apiBaseUrl}/api/imoveis/graficos`);
+    if (!response.ok) throw new Error("Erro ao carregar dados dos gráficos de imóveis");
+
+    const data = await response.json();
+    console.log("Dados Imóveis:", data);
+
+    // Supondo que 'data.status' = { disponivel: X, alugado: Y, indisponivel: Z }
+    // e que 'data.tipo'   = { comercial: A, residencial: B }
+
+    // Desenha dois gráficos, um para "status" e outro para "tipo".
+    criarGraficoPizza(data.status, "grafico-status-imoveis");
+    criarGraficoPizza(data.tipo, "grafico-tipo-imoveis");
+  } catch (error) {
+    console.error("Erro ao carregar os gráficos de imóveis:", error);
+  }
+}

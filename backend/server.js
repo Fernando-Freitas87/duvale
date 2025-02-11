@@ -37,6 +37,7 @@ const cadastroMensalidadesRoutes = require('./routes/cadastroMensalidadesRoutes'
 const imoveisRoutes = require('./routes/imoveisRoutes');
 const contratosRoutes = require('./routes/contratosRoutes');
 const caixaRoutes = require('./routes/caixaRoutes');
+const imoveisGraficosRoutes = require('./routes/imoveisGraficosRoutes');
 
 
 /**
@@ -83,6 +84,7 @@ app.use('/api/cadastro/mensalidades', cadastroMensalidadesRoutes); // Rotas para
 app.use('/api/imoveis', imoveisRoutes);                // Rotas para operações com imóveis
 app.use('/api/contratos', contratosRoutes);            // Rotas para operações com contratos
 app.use('/api/caixa', caixaRoutes);                    // Rotas para operações de caixa
+app.use('/api/imoveis', imoveisGraficosRoutes);
 
 /**
  * Rota para Obter Informações do Usuário Autenticado
