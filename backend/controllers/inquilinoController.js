@@ -94,6 +94,70 @@ async function getDadosBasicosCliente(req, res) {
   }
 }
 
+
+
+/**
+ * Retorna o histórico de pagamentos do cliente.
+ */
+async function getHistoricoCliente(req, res) {
+  try {
+    const clienteId = req.userId;
+
+    if (!clienteId) {
+      console.warn("Tentativa de acesso sem clienteId válido.");
+      return res.status(401).json({ error: "Não autorizado. Cliente não identificado." });
+    }
+
+    // 1) Busca o histórico de pagamentos do cliente
+    const [historico] = await db.query(`
+      SELECT 
+        h.id, 
+        h.descricao, 
+        h.data_vencimento, 
+        h.valor, 
+        h.status, 
+        i.descricao AS imovel
+      FROM historico_pagamentos h
+      LEFT JOIN imoveis i ON h.imovel_id = i.id
+      WHERE h.cliente_id = ?
+      ORDER BY h.data_vencimento DESC
+    `, [clienteId]);
+
+    if (historico.length === 0) {
+      return res.status(404).json({ message: "Nenhum histórico encontrado." });
+    }
+
+    // 2) Formatação da resposta
+    const historicoFormatado = historico.map(item => ({
+      id: item.id,
+      descricao: item.descricao,
+      imovel: item.imovel || "Não especificado",
+      vencimento: formatarDataBR(item.data_vencimento),
+      valor: `R$ ${item.valor?.toFixed(2) || "0,00"}`,
+      status: item.status
+    }));
+
+    res.status(200).json(historicoFormatado);
+
+  } catch (error) {
+    console.error("Erro ao obter histórico do cliente:", error);
+    res.status(500).json({ error: "Erro ao buscar histórico do cliente." });
+  }
+}
+
+/**
+ * Função auxiliar para formatar data no padrão DD/MM/AAAA
+ */
+function formatarDataBR(dataString) {
+  if (!dataString) return "--/--/----";
+  const data = new Date(dataString);
+  return `${String(data.getDate()).padStart(2, "0")}/${String(data.getMonth() + 1).padStart(2, "0")}/${data.getFullYear()}`;
+}
+
+module.exports = {
+  getHistoricoCliente
+};
+
 /**
  * Formata datas no padrão DD/MM/AAAA
  */
