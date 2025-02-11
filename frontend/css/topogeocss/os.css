@@ -7,20 +7,54 @@
     box-sizing: border-box;
   }
   
-  /* Fonte padrão do corpo */
-  body {
+body {
     font-family: 'Roboto', sans-serif;
-    min-height: 100vh;                        /* Garante altura mínima */
-    background-image: url('.../img/fundotopogeo.png'); /* Fundo fixo personalizado */
-    background-size: cover;                   /* Ajusta para cobrir a tela */
-    background-position: center;              /* Centraliza o fundo */
-    background-repeat: no-repeat;             /* Impede repetição da imagem */
-    background-attachment: fixed;             /* Mantém o fundo fixo ao rolar */
-  } 
+    min-height: 100vh;
+    background-image: url('../img/fundotopogeo.png'); /* Fundo fixo personalizado */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+} 
 
-  .logo {
+.logo {
     max-width: 250px;
     margin-bottom: 15px;
+}
+
+/* Estilizando Nome do Cliente e Ordem */
+.client-info {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    background: rgba(0, 64, 133, 0.9); /* Fundo azul escuro semi-transparente */
+    color: white;
+    padding: 10px;
+    margin: 10px auto;
+    border-radius: 8px;
+    max-width: 400px;
+}
+
+/* Datas abaixo das etapas */
+.task-date {
+    color: #004085; /* Azul escuro */
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: 35px;
+    margin-top: 5px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .client-info {
+        font-size: 16px;
+        padding: 8px;
+    }
+    .task-date {
+        font-size: 12px;
+        margin-left: 25px;
+    }
 }
 
 /***************************************************************

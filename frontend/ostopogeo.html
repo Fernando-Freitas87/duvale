@@ -14,15 +14,45 @@
             <img src="img/topogeo.png" alt="Logo topogeo" class="logo">
         </div>
 
+        <!-- Campo para Nome do Cliente e Número da Ordem -->
+        <div class="client-info">
+            <p><strong>Cliente:</strong> <span id="client-name">---</span></p>
+            <p><strong>Nº Ordem:</strong> <span id="order-number">---</span></p>
+        </div>
+
         <!-- Menu de Navegação -->
         <div class="navigation_menu" id="navigation_menu">
             <ul class="task-list" id="task-list">
-            <li><input type="checkbox" class="task-checkbox"><a href="#">Agendamento</a></li>
-            <li><input type="checkbox" class="task-checkbox"><a href="#">Levantamento</a></li>
-            <li><input type="checkbox" class="task-checkbox"><a href="#">Processamento</a></li>
-            <li><input type="checkbox" class="task-checkbox"><a href="#">Confeccao</a></li>
-            <li><input type="checkbox" class="task-checkbox"><a href="#">Impressao</a></li>
-            <li><input type="checkbox" class="task-checkbox"><a href="#">Entrega</a></li>
+                <li>
+                    <input type="checkbox" class="task-checkbox">
+                    <a href="#">Agendamento</a>
+                    <p class="task-date">02/02/2025 08:00</p>
+                </li>
+                <li>
+                    <input type="checkbox" class="task-checkbox">
+                    <a href="#">Levantamento</a>
+                    <p class="task-date">03/02/2025 08:00</p>
+                </li>
+                <li>
+                    <input type="checkbox" class="task-checkbox">
+                    <a href="#">Processamento</a>
+                    <p class="task-date">04/02/2025 08:00</p>
+                </li>
+                <li>
+                    <input type="checkbox" class="task-checkbox">
+                    <a href="#">Confeccao</a>
+                    <p class="task-date">04/02/2025 14:00</p>
+                </li>
+                <li>
+                    <input type="checkbox" class="task-checkbox">
+                    <a href="#">Impressao</a>
+                    <p class="task-date">04/02/2025 16:00</p>
+                </li>
+                <li>
+                    <input type="checkbox" class="task-checkbox">
+                    <a href="#">Entrega</a>
+                    <p class="task-date">05/02/2025 15:00</p>
+                </li>
             </ul>
         </div>
 
@@ -45,6 +75,10 @@
     </main>
 <!-- Script no final do body -->
 <script src="./js/topogeojs/os.js"></script>
-
+<script>
+    // Preenchendo dinamicamente os campos de Cliente e Ordem de Serviço
+    document.getElementById("client-name").textContent = "João Muniz Sobrinho";
+    document.getElementById("order-number").textContent = "TP20250104";
+</script>
 </body>
 </html>
