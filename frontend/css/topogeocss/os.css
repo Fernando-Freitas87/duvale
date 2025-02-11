@@ -340,3 +340,32 @@ main {
     color: #666; /* Cinza discreto */
     margin-top: 20px;
 }
+
+/* Estilo do Botão de Download */
+.download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #004085; /* Azul escuro */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+    margin: 20px auto;
+    width: 200px;
+    text-align: center;
+}
+
+/* Ícone de Download */
+.download-btn i {
+    margin-left: 8px;
+}
+
+/* Efeito de Hover */
+.download-btn:hover {
+    background-color: #003366; /* Azul um pouco mais escuro */
+    transform: scale(1.05);
+}
