@@ -153,43 +153,54 @@ function configurarGerarPix() {
 // ============================================================
 // 6) Popular dados básicos na Tela (Mensalidade, Contrato, etc.)
 // ============================================================
+async function carregarDadosBasicos() {
+  try {
+    const token = localStorage.getItem("authToken");
+    if (!token) throw new Error("Token não encontrado.");
+
+    const response = await fetch(`${apiBaseUrl}/api/cliente/dados-basicos`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao buscar dados básicos do cliente.");
+    }
+
+    const data = await response.json();
+    // data.mensalidade -> "R$ 200.00"
+    // data.contrato -> { meses, vigencia, valorMensal, valorTotal }
+    // data.imovel -> { descricao, endereco, status, tipo }
+
+    // Agora, chama sua função popularDadosBasicosNaTela:
+    popularDadosBasicosNaTela(data);
+
+  } catch (error) {
+    console.error("Erro em carregarDadosBasicos:", error);
+  }
+}
+
 function popularDadosBasicosNaTela(userInfo) {
   if (!userInfo) return;
 
-  // Exibe informações de mensalidade
-  const mensalidadeCliente = document.getElementById("mensalidade-cliente");
-  if (mensalidadeCliente) {
-    mensalidadeCliente.textContent = userInfo.mensalidade || "R$ 0,00";
-  }
+  // userInfo.mensalidade => "R$ 200.00"
+  document.getElementById("mensalidade-cliente").textContent = userInfo.mensalidade;
 
-  // Duração do contrato
+  // Contrato
   const contratoElement = document.getElementById("Contrato");
   if (contratoElement) {
-    contratoElement.textContent = userInfo.contrato?.meses
+    contratoElement.textContent = userInfo.contrato.meses 
       ? `${userInfo.contrato.meses} Meses`
       : "-- Meses";
   }
 
-  // Avisos no contrato (vigência, valor mensal, valor total)
+  // Exemplo: dados do contrato
   const avisosContrato = document.querySelectorAll(".avisos-li");
-  if (avisosContrato && avisosContrato.length >= 3) {
-    const [vigenciaElement, mensalElement, totalElement] = avisosContrato;
-
-    if (vigenciaElement) {
-      vigenciaElement.textContent = `Vigência: ${
-        userInfo.contrato?.vigencia || "--/--/---- - --/--/----"
-      }`;
-    }
-    if (mensalElement) {
-      mensalElement.textContent = `Valor Mensal: ${
-        userInfo.contrato?.valorMensal || "R$ 0,00"
-      }`;
-    }
-    if (totalElement) {
-      totalElement.textContent = `Valor Total: ${
-        userInfo.contrato?.valorTotal || "R$ 0,00"
-      }`;
-    }
+  if (avisosContrato.length >= 3) {
+    avisosContrato[0].textContent = `Vigência: ${userInfo.contrato.vigencia}`;
+    avisosContrato[1].textContent = `Valor Mensal: ${userInfo.contrato.valorMensal}`;
+    avisosContrato[2].textContent = `Valor Total: ${userInfo.contrato.valorTotal}`;
   }
 }
 
