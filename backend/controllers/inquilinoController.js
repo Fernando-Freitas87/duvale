@@ -1,21 +1,18 @@
-const db = require("../db"); // arquivo de conexão do banco de dados
+const db = require("../db");
 
 /**
- * Retorna dados básicos do cliente para popular a tela (mensalidade, contrato, imóvel, etc.).
- * É apenas um EXEMPLO: adapte para corresponder às suas tabelas e relacionamentos.
+ * Retorna dados básicos do cliente (mensalidade, contrato, imóvel).
  */
 async function getDadosBasicosCliente(req, res) {
   try {
-    // Exemplo: obtém o 'clienteId' do token (caso use um middleware de autenticação).
-    // Se você armazena no token, ou se vem em req.params, etc., ajuste conforme sua lógica.
-    const clienteId = req.userId; 
+    const clienteId = req.userId;
+
     if (!clienteId) {
-      return res.status(400).json({ error: "Cliente não identificado." });
+      console.warn("Tentativa de acesso sem clienteId válido.");
+      return res.status(401).json({ error: "Não autorizado. Cliente não identificado." });
     }
 
     // 1) Busca o contrato do cliente
-    //    Supondo que exista uma tabela 'contratos' com campos:
-    //    - id, cliente_id, data_inicio, data_fim, valor_mensal, ...
     const [contratos] = await db.query(`
       SELECT id, data_inicio, data_fim, valor_mensal
       FROM contratos
@@ -24,34 +21,32 @@ async function getDadosBasicosCliente(req, res) {
     `, [clienteId]);
 
     if (contratos.length === 0) {
-      // Se não existir contrato, retorne algo básico
       return res.json({
         mensalidade: "R$ 0,00",
-        contrato: {
-          meses: null,
-          vigencia: "--/--/---- - --/--/----",
-          valorMensal: "R$ 0,00",
-          valorTotal: "R$ 0,00",
-        },
+        contrato: null,
         imovel: null
       });
     }
 
     const contrato = contratos[0];
 
-    // Calcula a diferença de meses (exemplo)
-    // Ajuste se já existir um campo "meses" na tabela
-    const dataInicio = new Date(contrato.data_inicio);
-    const dataFim = new Date(contrato.data_fim);
-    const mesesContrato = Math.max(
-      0,
-      (dataFim.getFullYear() - dataInicio.getFullYear()) * 12 +
-        (dataFim.getMonth() - dataInicio.getMonth()) +
-        1
-    );
+    // 2) Cálculo da duração do contrato em meses
+    const dataInicio = contrato.data_inicio ? new Date(contrato.data_inicio) : null;
+    const dataFim = contrato.data_fim ? new Date(contrato.data_fim) : null;
 
-    // 2) Busca a mensalidade mais recente ou em aberto, usando o contrato_id
-    //    Tabela 'mensalidades': id, contrato_id, valor, data_vencimento, status, ...
+    let mesesContrato = 0;
+    if (dataInicio && dataFim && !isNaN(dataInicio) && !isNaN(dataFim)) {
+      mesesContrato = Math.max(
+        0,
+        (dataFim.getFullYear() - dataInicio.getFullYear()) * 12 +
+          (dataFim.getMonth() - dataInicio.getMonth()) +
+          1
+      );
+    } else {
+      console.warn(`Datas inválidas para contrato do cliente ${clienteId}`);
+    }
+
+    // 3) Busca a mensalidade mais recente
     const [mensalidades] = await db.query(`
       SELECT valor, data_vencimento, status
       FROM mensalidades
@@ -60,18 +55,11 @@ async function getDadosBasicosCliente(req, res) {
       LIMIT 1
     `, [contrato.id]);
 
-    let mensalidadeInfo = {
-      valor: 0,
-      data_vencimento: null,
-      status: "pendente" // Ou algo padrão
-    };
+    const mensalidadeInfo = mensalidades.length > 0
+      ? mensalidades[0]
+      : { valor: 0, data_vencimento: null, status: "pendente" };
 
-    if (mensalidades.length > 0) {
-      mensalidadeInfo = mensalidades[0];
-    }
-
-    // 3) Busca algum imóvel associado ao cliente
-    //    Tabela 'imoveis': id, cliente_id, descricao, endereco, status, tipo, ...
+    // 4) Busca imóvel associado ao cliente
     const [imoveis] = await db.query(`
       SELECT id, descricao, endereco, status, tipo
       FROM imoveis
@@ -79,32 +67,23 @@ async function getDadosBasicosCliente(req, res) {
       LIMIT 1
     `, [clienteId]);
 
-    let imovelInfo = null;
-    if (imoveis.length > 0) {
-      imovelInfo = {
-        id: imoveis[0].id,
-        descricao: imoveis[0].descricao,
-        endereco: imoveis[0].endereco,
-        status: imoveis[0].status,
-        tipo: imoveis[0].tipo
-      };
-    }
+    const imovelInfo = imoveis.length > 0 ? imoveis[0] : null;
 
-    // Monta o objeto final para popular no front-end
+    // 5) Construção do objeto de resposta
+    const valorMensal = contrato.valor_mensal || 0;
+    const valorTotal = valorMensal * mesesContrato;
+
     const resultado = {
-      // Mensalidade formatada com “R$”
       mensalidade: `R$ ${mensalidadeInfo.valor?.toFixed(2) || "0,00"}`,
-
-      // Dados do contrato
-      contrato: {
-        meses: mesesContrato, 
-        vigencia: `${formatarDataBR(contrato.data_inicio)} - ${formatarDataBR(contrato.data_fim)}`,
-        valorMensal: `R$ ${contrato.valor_mensal?.toFixed(2) || "0,00"}`,
-        valorTotal: `R$ ${(contrato.valor_mensal * mesesContrato)?.toFixed(2) || "0,00"}`
-      },
-
-      // Dados do imóvel
-      imovel: imovelInfo
+      contrato: contrato
+        ? {
+            meses: mesesContrato,
+            vigencia: `${formatarDataBR(contrato.data_inicio)} - ${formatarDataBR(contrato.data_fim)}`,
+            valorMensal: `R$ ${valorMensal.toFixed(2)}`,
+            valorTotal: `R$ ${valorTotal.toFixed(2)}`
+          }
+        : null,
+      imovel: imovelInfo || null
     };
 
     res.status(200).json(resultado);
@@ -116,15 +95,12 @@ async function getDadosBasicosCliente(req, res) {
 }
 
 /**
- * Função auxiliar para formatar data em DD/MM/AAAA
+ * Formata datas no padrão DD/MM/AAAA
  */
 function formatarDataBR(dataString) {
   if (!dataString) return "--/--/----";
   const data = new Date(dataString);
-  const dia = String(data.getDate()).padStart(2, "0");
-  const mes = String(data.getMonth() + 1).padStart(2, "0");
-  const ano = data.getFullYear();
-  return `${dia}/${mes}/${ano}`;
+  return `${String(data.getDate()).padStart(2, "0")}/${String(data.getMonth() + 1).padStart(2, "0")}/${data.getFullYear()}`;
 }
 
 module.exports = {

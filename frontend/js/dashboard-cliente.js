@@ -150,8 +150,9 @@ function configurarGerarPix() {
 }
 
 // ============================================================
-// 6) Popular dados básicos na Tela (Mensalidade, Contrato, etc.)
+// 7) Carregar os dados do cliente
 // ============================================================
+
 async function carregarDadosBasicos() {
   try {
     const token = localStorage.getItem("authToken");
@@ -164,43 +165,56 @@ async function carregarDadosBasicos() {
     });
 
     if (!response.ok) {
-      throw new Error("Erro ao buscar dados básicos do cliente.");
+      throw new Error(`Erro ao buscar dados básicos do cliente. Código: ${response.status}`);
     }
 
     const data = await response.json();
-    // data.mensalidade -> "R$ 200.00"
-    // data.contrato -> { meses, vigencia, valorMensal, valorTotal }
-    // data.imovel -> { descricao, endereco, status, tipo }
+    
+    if (!data || Object.keys(data).length === 0) {
+      console.warn("Resposta da API está vazia.");
+      return;
+    }
 
-    // Agora, chama sua função popularDadosBasicosNaTela:
+    // Atualiza a interface com os dados recebidos
     popularDadosBasicosNaTela(data);
 
   } catch (error) {
     console.error("Erro em carregarDadosBasicos:", error);
+    alert("Falha ao carregar os dados básicos do cliente.");
   }
 }
 
 function popularDadosBasicosNaTela(userInfo) {
   if (!userInfo) return;
 
-  // userInfo.mensalidade => "R$ 200.00"
-  document.getElementById("mensalidade-cliente").textContent = userInfo.mensalidade;
+  // Atualiza a mensalidade
+  const mensalidadeElement = document.getElementById("mensalidade-cliente");
+  if (mensalidadeElement) {
+    mensalidadeElement.textContent = userInfo.mensalidade;
+  } else {
+    console.warn('Elemento "mensalidade-cliente" não encontrado no DOM.');
+  }
 
-  // Contrato
-  if (userInfo && userInfo.contrato) {
-    contratoElement.textContent = userInfo.contrato.meses 
-      ? `${userInfo.contrato.meses} Meses`
-      : "-- Meses";
-} else {
+  // Atualiza os dados do contrato, se existirem
+  if (userInfo.contrato) {
+    const contratoElement = document.getElementById("contrato-cliente");
+    if (contratoElement) {
+      contratoElement.textContent = userInfo.contrato.meses 
+        ? `${userInfo.contrato.meses} Meses`
+        : "-- Meses";
+    } else {
+      console.warn("Elemento 'contrato-cliente' não encontrado.");
+    }
+
+    // Atualiza os avisos do contrato
+    const avisosContrato = document.querySelectorAll(".avisos-li");
+    if (avisosContrato.length >= 3) {
+      avisosContrato[0].textContent = `Vigência: ${userInfo.contrato.vigencia}`;
+      avisosContrato[1].textContent = `Valor Mensal: ${userInfo.contrato.valorMensal}`;
+      avisosContrato[2].textContent = `Valor Total: ${userInfo.contrato.valorTotal}`;
+    }
+  } else {
     console.warn("Contrato não encontrado na resposta da API.");
-}
-
-  // Exemplo: dados do contrato
-  const avisosContrato = document.querySelectorAll(".avisos-li");
-  if (avisosContrato.length >= 3) {
-    avisosContrato[0].textContent = `Vigência: ${userInfo.contrato.vigencia}`;
-    avisosContrato[1].textContent = `Valor Mensal: ${userInfo.contrato.valorMensal}`;
-    avisosContrato[2].textContent = `Valor Total: ${userInfo.contrato.valorTotal}`;
   }
 }
 
