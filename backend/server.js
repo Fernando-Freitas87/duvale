@@ -18,7 +18,7 @@ const { authenticateToken } = require('./middlewares/auth');
 const { atualizarStatusMensalidades } = require('./services/mensalidadesService');
 
 // Configure CORS para permitir o domínio do frontend
-const allowedOrigins = ['https://fernando-freitas87.github.io'];
+const allowedOrigins = ['https://fernando-freitas87.github.io/duvale'];
 
 /**
  * Importação de Controllers e Rotas
@@ -38,7 +38,7 @@ const imoveisRoutes = require('./routes/imoveisRoutes');
 const contratosRoutes = require('./routes/contratosRoutes');
 const caixaRoutes = require('./routes/caixaRoutes');
 const imoveisGraficosRoutes = require('./routes/imoveisGraficosRoutes');
-const inquilinoRoutes = require("./routes/inquilinoRoutes");
+const inquilinosRoutes = require("./routes/inquilinosRoutes");
 
 
 
@@ -87,7 +87,7 @@ app.use('/api/imoveis', imoveisRoutes);                // Rotas para operações
 app.use('/api/contratos', contratosRoutes);            // Rotas para operações com contratos
 app.use('/api/caixa', caixaRoutes);                    // Rotas para operações de caixa
 app.use('/api/imoveis', imoveisGraficosRoutes);
-app.use("/api/inquilino", inquilinoRoutes);
+app.use("/api/inquilinos", inquilinosRoutes);
 
 
 /**

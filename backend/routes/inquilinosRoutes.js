@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getDadosBasicosCliente } = require("../controllers/inquilinoController");
+const { getDadosBasicosCliente } = require("../controllers/inquilinosController");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 // Rota GET /api/cliente/dados-basicos
