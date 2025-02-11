@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>OS Cliente | Topogeo</title>
+  <link rel="stylesheet" href="./css/topogeocss/os.css">
+</head>
+<body>
+
+<div class="container">
+  <!-- Cabeçalho -->
+  <div class="header">
+    <h1>Task Status</h1>
+  </div>
+
+  <!-- Menu de Navegação -->
+  <div class="navigation_menu" id="navigation_menu">
+    <ul class="task-list" id="task-list">
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 1</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 2</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 3</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 4</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 5</a></li>
+      <li><input type="checkbox" class="task-checkbox"><a href="#">Step 6</a></li>
+    </ul>
+  </div>
+
+  <!-- Informações de Progresso -->
+  <div class="progress-info">
+    <p>Active Tasks: <span id="task-count">0 / 6</span></p>
+    <p>Task Status: <span id="progress-text">0%</span></p>
+    <progress id="task-progress" value="0" max="100"></progress>
+  </div>
+
+  <!-- Barra de Progresso em Meia Lua -->
+  <div class="progress-container">
+    <svg class="semi-circle" width="100" height="50" viewBox="0 0 200 100">
+      <circle class="bg-circle" cx="100" cy="100" r="80" stroke-width="20" fill="none" stroke="#e6e6e6"/>
+      <circle class="fg-circle" cx="100" cy="100" r="80" stroke-width="20" fill="none" stroke="#4caf50" stroke-dasharray="502.65" stroke-dashoffset="502.65"/>
+      <text id="progress-text-svg" x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="20px" fill="black">0%</text>
+    </svg>
+  </div>
+</div>
+
+<!-- Script no final do body -->
+<script src="./js/topogeojs/os.js"></script>
+
+</body>
+</html>
