@@ -154,10 +154,6 @@ function formatarDataBR(dataString) {
   return `${String(data.getDate()).padStart(2, "0")}/${String(data.getMonth() + 1).padStart(2, "0")}/${data.getFullYear()}`;
 }
 
-module.exports = {
-  getHistoricoCliente
-};
-
 /**
  * Formata datas no padrão DD/MM/AAAA
  */
@@ -168,5 +164,6 @@ function formatarDataBR(dataString) {
 }
 
 module.exports = {
-  getDadosBasicosCliente
+  getDadosBasicosCliente,
+  getHistoricoCliente
 };
