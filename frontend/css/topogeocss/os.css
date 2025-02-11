@@ -364,3 +364,38 @@ float: right;
     transform-origin: bottom left;
   }
   
+
+
+
+  /* Centraliza o main na página */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Estilização das datas das etapas */
+.task-date {
+    display: none; /* Inicialmente oculta */
+    color: #004085; /* Azul escuro */
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    opacity: 0.7; /* Torna o texto mais discreto */
+    margin-left: 35px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Exibe a data quando a checkbox for marcada */
+.task-checkbox:checked + a + .task-date {
+    display: block;
+}
+
+/* Ajuste do footer para manter o mesmo estilo */
+.footer {
+    text-align: center;
+    font-size: 12px;
+    color: #666; /* Cinza discreto */
+    margin-top: 20px;
+}
