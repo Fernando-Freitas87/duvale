@@ -35,14 +35,21 @@ body {
     max-width: 400px;
 }
 
-/* Datas abaixo das etapas */
+/* Estilização das datas das etapas */
 .task-date {
+    display: none; /* Inicialmente oculta */
     color: #004085; /* Azul escuro */
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
+    opacity: 0.7; /* Torna o texto mais discreto */
     margin-left: 35px;
-    margin-top: 5px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Exibe a data quando a checkbox for marcada */
+.task-checkbox:checked + a + .task-date {
+    display: block;
 }
 
 /* Responsividade */
@@ -103,6 +110,10 @@ body {
 * [4] CONTAINER PRINCIPAL (MAIN-CONTAINER)
 ***************************************************************/
 .main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
     background-position: center;
     border-radius: 10px;
@@ -297,3 +308,59 @@ float: right;
     background-color: #4caf50;
     border-radius: 10px;
   }
+
+  /***************************************************************
+* [4]BOTAO BAIXAR ARQUIVO
+***************************************************************/
+
+.cta {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .cta span {
+    padding-bottom: 7px;
+    letter-spacing: 4px;
+    font-size: 14px;
+    padding-right: 15px;
+    text-transform: uppercase;
+  }
+  
+  .cta svg {
+    transform: translateX(-8px);
+    transition: all 0.3s ease;
+  }
+  
+  .cta:hover svg {
+    transform: translateX(0);
+  }
+  
+  .cta:active svg {
+    transform: scale(0.9);
+  }
+  
+  .hover-underline-animation {
+    position: relative;
+    color: black;
+    padding-bottom: 20px;
+  }
+  
+  .hover-underline-animation:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #000000;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+  
+  .cta:hover .hover-underline-animation:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+  

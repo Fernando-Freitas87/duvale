@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <link rel="shortcut icon" href="img/Topogeo.svg" type="image/x-icon">
+  <link rel="shortcut icon" href="./img/Topogeo.svg" type="image/x-icon">
   <title>OS Cliente | Topogeo</title>
   <link rel="stylesheet" href="./css/topogeocss/os.css">
 </head>
@@ -19,8 +19,8 @@
             <p><strong>Cliente:</strong> <span id="client-name">---</span></p>
             <p><strong>Nº Ordem:</strong> <span id="order-number">---</span></p>
         </div>
-
-        <!-- Menu de Navegação -->
+        <br>
+        <!-- Etapas -->
         <div class="navigation_menu" id="navigation_menu">
             <ul class="task-list" id="task-list">
                 <li>
@@ -40,8 +40,8 @@
                 </li>
                 <li>
                     <input type="checkbox" class="task-checkbox">
-                    <a class="task-date" href="#">Confeccao</a>
-                    <p >04/02/2025 14:00</p>
+                    <a href="#">Confeccao</a>
+                    <p class="task-date">04/02/2025 14:00</p>
                 </li>
                 <li>
                     <input type="checkbox" class="task-checkbox">
@@ -58,7 +58,7 @@
 
         <!-- Informações de Progresso -->
         <div class="progress-info">
-            <p>Faltam: <span id="task-count">0 de 6</span> etapas.</p>
+            <p class="task-checkbox">Faltam: <span id="task-count">0 de 6</span> etapas.</p>
             <progress id="task-progress" value="0" max="100"></progress>
             <p>Progresso: <span id="progress-text">0%</span></p>
 
@@ -73,6 +73,25 @@
             </svg>
         </div>
         </div> 
+        <!-- From Uiverse.io by alexmaracinaru --> 
+        <button class="cta">
+            <span class="hover-underline-animation"> Baixar Arquivo </span>
+            <svg
+            id="arrow-horizontal"
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="10"
+            viewBox="0 0 46 16"
+            >
+            <path
+                id="Path_10"
+                data-name="Path 10"
+                d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                transform="translate(30)"
+            ></path>
+            </svg>
+        </button>
+  
     </main>
     <footer id="footer">
         <p>Setta Software Solutions. Todos os direitos reservados | Desenvolvido por Fernando Freitas © 2024</p>
