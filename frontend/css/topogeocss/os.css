@@ -371,3 +371,12 @@ main {
     background-color: #003366; /* Azul um pouco mais escuro */
     transform: scale(1.05);
 }
+.custom-hr {
+    width: 80%; /* Define a largura */
+    height: 4px; /* Espessura da linha */
+    background: linear-gradient(to right, #004085, #4caf50); /* Gradiente Azul → Verde */
+    border: none; /* Remove a borda padrão */
+    border-radius: 2px; /* Deixa as bordas arredondadas */
+    margin: 10px auto 20px auto; /* Margem superior e inferior para espaçamento */
+    opacity: 0.9; /* Torna a linha um pouco transparente */
+}
