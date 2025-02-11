@@ -41,7 +41,6 @@ const imoveisGraficosRoutes = require('./routes/imoveisGraficosRoutes');
 const inquilinosRoutes = require("./routes/inquilinosRoutes");
 
 
-
 /**
  * Configuração do Servidor Express
  */
