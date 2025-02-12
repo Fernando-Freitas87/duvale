@@ -404,9 +404,9 @@ main {
     transform: scale(1.05);
 }
 .custom-hr {
-    width: 70%; /* Define a largura */
-    height: 5px; /* Espessura da linha */
-    background: linear-gradient(to right, #22BAE1, #4caf50); /* Gradiente Azul → Verde */
+    width: 80%; /* Define a largura */
+    height: 3px; /* Espessura da linha */
+    background: linear-gradient(to right, #22BAE1, #003366); /* Gradiente Azul → Verde */
     border: none; /* Remove a borda padrão */
     border-radius: 2px; /* Deixa as bordas arredondadas */
     margin: 10px auto 20px auto; /* Margem superior e inferior para espaçamento */

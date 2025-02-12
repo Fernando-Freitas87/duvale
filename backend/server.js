@@ -18,7 +18,22 @@ const { authenticateToken } = require('./middlewares/auth');
 const { atualizarStatusMensalidades } = require('./services/mensalidadesService');
 
 // Configure CORS para permitir o domínio do frontend
-const allowedOrigins = ['https://fernando-freitas87.github.io'];
+const allowedOrigins = [
+  'https://fernando-freitas87.github.io', 
+  'https://setta.dev.br' // Novo domínio
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 /**
  * Importação de Controllers e Rotas
