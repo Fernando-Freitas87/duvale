@@ -86,15 +86,20 @@
             </li>
         </ul>
         <!-- Modal de Avisos -->
-        <div id="modalAviso" class="modal">
-          <div class="modalContent">
-            <span id="closeModalAviso" class="close">&times;</span>
-            <h2>Avisos</h2>
-            <div id="modalBodyAviso">
-              <!-- Aqui as notificações serão inseridas via JavaScript -->
-            </div>
-          </div>
-        </div>
+<!-- Exemplo de teste para .notification -->
+<div class="notification">
+  <!-- Ícone ou imagem -->
+  <i class="fa-solid fa-bell notification__icon" style="color: #004085;"></i>
+  
+  <!-- Texto do aviso -->
+  <div class="notification__text">
+    <p class="notification__text-title">Aviso Importante</p>
+    <p class="notification__text-subtitle">Este é um texto de exemplo para testar o estilo de notification.</p>
+  </div>
+
+  <!-- Botão de fechar ou qualquer ação -->
+  <button class="notification__btn" onclick="this.parentNode.remove()">×</button>
+</div>
         <!-- Informações do Usuário (Agora melhor estruturado) -->
       <div class="menuUser">
         <!-- Linha divisória -->
