@@ -11,7 +11,7 @@ body {
     align-items: center;
     height: 100vh; /* Ocupa toda a altura da tela */
     font-family: Arial, sans-serif;
-    background: url('../img/fundo2.png') no-repeat center center fixed;
+    background: url('../img/fundo1.png') no-repeat center center fixed;
     background-size: cover;
 }
 
