@@ -17,6 +17,9 @@ const logger = require('./utils/logger');
 const { authenticateToken } = require('./middlewares/auth');
 const { atualizarStatusMensalidades } = require('./services/mensalidadesService');
 
+// 🔹 **DECLARE O `app` PRIMEIRO**
+const app = express();
+
 // Configure CORS para permitir o domínio do frontend
 const allowedOrigins = [
   'https://fernando-freitas87.github.io', 
@@ -24,7 +27,13 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-  origin: '*',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -49,10 +58,7 @@ const caixaRoutes = require('./routes/caixaRoutes');
 const imoveisGraficosRoutes = require('./routes/imoveisGraficosRoutes');
 
 
-/**
- * Configuração do Servidor Express
- */
-const app = express();
+
 
 /**
  * Middlewares Globais
