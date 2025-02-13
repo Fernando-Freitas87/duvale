@@ -21,8 +21,8 @@ body {
   text-align: center;
   padding: 0;
   margin: 0;
-    width: 300px;
-  height: 300px;
+    width: 400px;
+  height: 400px;
   
 }
 
@@ -108,7 +108,7 @@ margin: auto;
 }
 
 #Alugados:after{
-  content: ' 17 ';
+  content: ' 1243 ';
   position: absolute;
   right: 10px;
   color: #000000;
@@ -145,7 +145,7 @@ margin: auto;
 }
 
 .Em_Obra:after{
-  content: ' 11 ';
+  content: ' 2077 ';
   position: absolute;
   right: 10px;
   color: #000;
@@ -181,7 +181,7 @@ margin: auto;
 }
 
 #Disponiveis:after{
-  content: ' 6 ';
+  content: ' 2374 ';
   position: absolute;
   right: 10px;
   color: #010101;
@@ -206,118 +206,6 @@ margin: auto;
   animation-delay: .5s;
   animation-fill-mode: forwards;  
 }
-
-/*Anterior*/
-#Anterior{
-
-    width: 95%;
-    -webkit-animation: Disponiveis 2s;
-    animation: Disponiveis 2s;
-    animation-fill-mode: forwards;  
-  }
-  
-  #Anterior:after{
-    content: ' 6 ';
-    position: absolute;
-    right: 10px;
-    color: #010101;
-    top: 10px;
-         opacity: 0;
-      -webkit-animation: see 2s;
-      animation: see 2s;
-      animation-delay: .5s;
-      animation-fill-mode: forwards;  
-  }
-  
-  #Anterior:before{
-    content: 'Disponiveis';
-    position: absolute;
-    left: -67px;
-    float: left;
-    color: #010101;
-    top: 12px;
-    opacity: 0;
-    -webkit-animation: see 2s;
-    animation: see 2s;
-    animation-delay: .5s;
-    animation-fill-mode: forwards;  
-  }
-
-  /*Atual*/
-#Atual{
-
-    width: 95%;
-    -webkit-animation: Disponiveis 2s;
-    animation: Disponiveis 2s;
-    animation-fill-mode: forwards;  
-  }
-  
-  #Atual:after{
-    content: ' 6 ';
-    position: absolute;
-    right: 10px;
-    color: #010101;
-    top: 10px;
-         opacity: 0;
-      -webkit-animation: see 2s;
-      animation: see 2s;
-      animation-delay: .5s;
-      animation-fill-mode: forwards;  
-  }
-  
-  #Atual:before{
-    content: 'Disponiveis';
-    position: absolute;
-    left: -67px;
-    float: left;
-    color: #010101;
-    top: 12px;
-    opacity: 0;
-    -webkit-animation: see 2s;
-    animation: see 2s;
-    animation-delay: .5s;
-    animation-fill-mode: forwards;  
-  }
-
-    /*Posterior*/
-#Posterior{
-
-    width: 95%;
-    -webkit-animation: Disponiveis 2s;
-    animation: Disponiveis 2s;
-    animation-fill-mode: forwards;  
-  }
-  
-  #Posterior:after{
-    content: ' 6 ';
-    position: absolute;
-    right: 10px;
-    color: #010101;
-    top: 10px;
-         opacity: 0;
-      -webkit-animation: see 2s;
-      animation: see 2s;
-      animation-delay: .5s;
-      animation-fill-mode: forwards;  
-  }
-  
-  #Posterior:before{
-    content: 'Disponiveis';
-    position: absolute;
-    left: -67px;
-    float: left;
-    color: #010101;
-    top: 12px;
-    opacity: 0;
-    -webkit-animation: see 2s;
-    animation: see 2s;
-    animation-delay: .5s;
-    animation-fill-mode: forwards;  
-  }
-
-  
-  
-
 
 
 
@@ -385,7 +273,6 @@ margin: auto;
 
 }
 
-/* grafico ciclo imoveis  */
 
 #circle_Em_Obras:after {
   content: 'Em Obras';
@@ -401,7 +288,7 @@ margin: auto;
     padding-right: 30px;
     padding-top: 50px;
     font-size: 20px;
-    color: #040404;
+    color: #fff;
     border-bottom: 3px solid #F08418;
 
     -webkit-animation: see 2s;
@@ -425,7 +312,7 @@ margin: auto;
     padding-right: 30px;
     padding-top: 50px;
     font-size: 20px;
-    color: #040404;
+    color: #fff;
     border-bottom: 3px solid #F08418;
 
     -webkit-animation: see 2s;
@@ -449,7 +336,7 @@ margin: auto;
     padding-right: 30px;
     padding-top: 50px;
     font-size: 20px;
-    color: #050505;
+    color: #fff;
     border-bottom: 3px solid #F08418;
 
     -webkit-animation: see 2s;
@@ -458,80 +345,195 @@ margin: auto;
     animation-fill-mode: forwards;  
 
 }
+#anterior:after {
+    content: '97%';
+    position: absolute;
+    opacity: 0;
+    /* border-right: 3px solid #F08418; */
+    /* bottom: 25px; */
+    top: -113px;
+    /* left: -32px; */
+    right: 52px;
+    padding: 10px;
+    padding-bottom: 0;
+    padding-left: 30px;
+    padding-right: 10px;
+    padding-top: 50px;
+    font-size: 49px;
+    color: #fff;
+    border-bottom: 3px solid #F08418;
+    -webkit-animation: see 2s;
+    animation: see 2s;
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
 
-/* grafico ciclo mensadides */
+}
+#anterior:before {
+    content: ' ';
+    position: absolute;
+    opacity: 0;
+    top: -5px;
+    right: 157px;
+    /* width: 1px; */
+    height: 26px;
+    border-right: 3px solid #F08418;
+    -webkit-animation: see 2s;
+    animation: see 2s;
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
+}
 
-#circle_anterior:after {
-    content: 'Janeiro';/* definir ninamicamente*/
-    position: absolute;
-     
-    opacity: 0;
-  
-      border-right: 3px solid #F08418;
-      bottom: 25px;
-      left: -40px;
-      padding: 10px;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 50px;
-      font-size: 20px;
-      color: #040404;
-      border-bottom: 3px solid #F08418;
-  
-      -webkit-animation: see 2s;
-      animation: see 2s;
-      animation-delay: 1.5s;
-      animation-fill-mode: forwards;  
-  
-  }
-  
-  #circle_atual:after {
-    content: 'Fevereiro';/* definir ninamicamente*/
-    position: absolute;
-     
-    opacity: 0;
-  
-      border-right: 3px solid #F08418;
-      bottom: 25px;
-      left: -40px;
-      padding: 10px;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 50px;
-      font-size: 20px;
-      color: #040404;
-      border-bottom: 3px solid #F08418;
-  
-      -webkit-animation: see 2s;
-      animation: see 2s;
-      animation-delay: 1.5s;
-      animation-fill-mode: forwards;  
-  
-  }
-  
-  #circle_posterior:after {
-    content: 'Marco'; /* definir ninamicamente*/
-    position: absolute;
-     
-    opacity: 0;
-  
-      border-right: 3px solid #F08418;
-      bottom: 25px;
-      left: -40px;
-      padding: 10px;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 50px;
-      font-size: 20px;
-      color: #050505;
-      border-bottom: 3px solid #F08418;
-  
-      -webkit-animation: see 2s;
-      animation: see 2s;
-      animation-delay: 1.5s;
-      animation-fill-mode: forwards;  
-  
-  }
+#atual:after {
+  content: '67%';
+  position: absolute;
+  opacity: 0;
+  /* border-right: 3px solid #F08418; */
+  /* bottom: 25px; */
+  top: -113px;
+  /* left: -32px; */
+  right: 52px;
+  padding: 10px;
+  padding-bottom: 0;
+  padding-left: 30px;
+  padding-right: 10px;
+  padding-top: 50px;
+  font-size: 49px;
+  color: #fff;
+  border-bottom: 3px solid #F08418;
+  -webkit-animation: see 2s;
+  animation: see 2s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+
+}
+#atual:before {
+  content: ' ';
+  position: absolute;
+  opacity: 0;
+  top: -5px;
+  right: 157px;
+  /* width: 1px; */
+  height: 26px;
+  border-right: 3px solid #F08418;
+  -webkit-animation: see 2s;
+  animation: see 2s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+}
+
+#posterior:after {
+  content: '8%';
+  position: absolute;
+  opacity: 0;
+  /* border-right: 3px solid #F08418; */
+  /* bottom: 25px; */
+  top: -113px;
+  /* left: -32px; */
+  right: 52px;
+  padding: 10px;
+  padding-bottom: 0;
+  padding-left: 30px;
+  padding-right: 10px;
+  padding-top: 50px;
+  font-size: 49px;
+  color: #fff;
+  border-bottom: 3px solid #F08418;
+  -webkit-animation: see 2s;
+  animation: see 2s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+
+}
+#posterior:before {
+  content: ' ';
+  position: absolute;
+  opacity: 0;
+  top: -5px;
+  right: 157px;
+  /* width: 1px; */
+  height: 26px;
+  border-right: 3px solid #F08418;
+  -webkit-animation: see 2s;
+  animation: see 2s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+}
+
+
+
+.chart figcaption {
+  width: calc(80% - 10px);
+  height: calc(80% - 10px);
+  border-radius: 100%;
+  position: absolute;
+  z-index: 1;
+  left: calc( 50% - (80%/2) - -7px );
+  top: calc( 50% - (80%/2) - 13px);
+  -webkit-animation: see 1s;
+  animation: see 1s;
+}
+.chart figcaption h2{
+  font-family: arial;
+  font-weight: lighter;
+  font-size: 80px;
+  color:#fff;
+  margin-bottom: 10px;
+}
+#pizza{
+  top: 50px;
+
+}
+
+#pizza figcaption h2{
+  font-family: arial;
+  font-weight: lighter;
+  font-size: 30px;
+  color:#fff;
+  margin-bottom: 10px;
+  font-size: 50px;
+  text-align: left;
+  margin-top: 100px;
+  padding-left: 50px;
+}
+
+.chart figcaption p{
+
+  color:#fff;
+  max-width: 40%;
+  margin: auto;
+  font-size: 20px;
+}
+
+.outer {
+  fill: transparent;
+  stroke: #F08418;
+  stroke-width: 25;
+  stroke-dasharray: 251%;
+}
+
+.pizza{
+  stroke-dashoffset: -270%;
+  stroke-width: 80%;
+}
+
+/* END Circle colors and graphic positions */
+
+
+/* Set the initial values for the animation */
+
+.chart[data-percent='75'] .outer {
+   stroke-dashoffset: -100%;
+  -webkit-animation: show75 2s;
+  animation: show75 2s;
+}
+
+.chart[data-percent='pizza'] .outer {
+  stroke-dashoffset: -262%;
+  -webkit-animation: pizza 1s;
+  animation: pizza 1s;
+}
+
+/* END set initial animation values */
 
 /* Keyframes for the initial animation */
 
@@ -615,6 +617,87 @@ margin: auto;
     width: 85%;
   }
 }
+
+
+@-webkit-keyframes argentina {
+  from {
+    width: 0;
+  }
+  
+  to {
+    width: 8%;
+  }
+}
+
+@keyframes argentina {
+  from {
+    width: 0;
+  }
+  
+  to {
+    width: 8%;
+  }
+}
+
+@-webkit-keyframes chile {
+  from {
+    width: 0;
+  }
+  
+  to {
+    width: 1%;
+  }
+}
+
+@keyframes chile {
+  from {
+    width: 0;
+  }
+  
+  to {
+    width: 1%;
+  }
+}
+@-webkit-keyframes uruguai {
+  from {
+    width: 0;
+  }
+  
+  to {
+    width: 5%;
+  }
+}
+
+@keyframes uruguai {
+  from {
+    width: 0;
+  }
+  
+  to {
+    width: 5%;
+  }
+}
+
+
+
+@-webkit-keyframes pizza {
+  from {
+        stroke-dashoffset: -251%;
+  }
+  
+  to {
+    stroke-dashoffset: -262%;  }
+}
+
+@keyframes pizza {
+  from {
+        stroke-dashoffset: -251%;
+  }
+  
+  to {
+    stroke-dashoffset: -262%;  }
+}
+
 @keyframes see {
   from {
       opacity: 0;
