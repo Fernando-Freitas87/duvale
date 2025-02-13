@@ -13,34 +13,26 @@ body {
   text-align: center;
 }
 
+/* Ajusta cada gráfico (circular) */
 .chart {
-  position: relative;
-  display: inline-block;
-  color: #999;
-  font-size: 20px;
-  text-align: center;
-  padding: 0;
-  margin: 0;
-    width: 400px;
-  height: 400px;
-  
-}
+    position: relative;
+    display: inline-block;
+    color: #999;
+    font-size: 20px;
+    text-align: center;
+    width: 300px;  /* ou menos, se preferir */
+    height: 300px;
+    margin: 0;     /* zera margens laterais */
+  }
 
-#info1{
- 
-width:500px;
-height: 500px;
-position: relative;
-margin: auto;
- margin-top: 100px;
-}
-#info1.pessoa{
- width: 10%;
- }
-#info1.pessoa img{
- width: 100%;
- }
-
+/* Agrupa as 3 pizzas em linha */
+.charts-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px; 
+    flex-wrap: wrap; 
+  }
 
 /*START - GRAFICO COLUNA*/
 .column-graph{
@@ -51,15 +43,15 @@ margin: auto;
   padding-top: 30px;
 
 }
-.column-graph .esq{
-  border:none;
-  position: absolute;
-  left: 40px;
-  border-left: 2px solid #040404;
-  height: calc(100% + 50px);
-  width: 2px;
-  top: 0;
-}
+/* Mantém seu .column-graph centrado */
+.column-graph {
+    width: 100%;
+    max-width: 940px;
+    margin: 40px auto; /* centraliza e cria espaço vertical */
+    position: relative;
+    padding-top: 30px;
+    text-align: center; /* se quiser centralizar textos dentro */
+  }
 
 .column-graph .bot{
   border:none;
@@ -72,16 +64,13 @@ margin: auto;
   
 }
 
-.column{
-  height: 50px;
-  margin-left: 42px;
-  margin-top:10px ;
-  position: relative;
-  margin-bottom:10px ;
-  font-family: arial;
-  
 
-}
+/* Ajusta cada barra */
+.column {
+    margin: 10px auto;  /* centraliza a barra */
+    position: relative;
+    height: 50px;
+  }
 
 .gringo{
 
@@ -458,8 +447,6 @@ margin: auto;
   animation-delay: 1s;
   animation-fill-mode: forwards;
 }
-
-
 
 .chart figcaption {
   width: calc(80% - 10px);
