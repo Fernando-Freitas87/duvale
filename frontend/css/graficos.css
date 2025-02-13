@@ -207,6 +207,118 @@ margin: auto;
   animation-fill-mode: forwards;  
 }
 
+/*Anterior*/
+#Anterior{
+
+    width: 95%;
+    -webkit-animation: Disponiveis 2s;
+    animation: Disponiveis 2s;
+    animation-fill-mode: forwards;  
+  }
+  
+  #Anterior:after{
+    content: ' 6 ';
+    position: absolute;
+    right: 10px;
+    color: #010101;
+    top: 10px;
+         opacity: 0;
+      -webkit-animation: see 2s;
+      animation: see 2s;
+      animation-delay: .5s;
+      animation-fill-mode: forwards;  
+  }
+  
+  #Anterior:before{
+    content: 'Disponiveis';
+    position: absolute;
+    left: -67px;
+    float: left;
+    color: #010101;
+    top: 12px;
+    opacity: 0;
+    -webkit-animation: see 2s;
+    animation: see 2s;
+    animation-delay: .5s;
+    animation-fill-mode: forwards;  
+  }
+
+  /*Atual*/
+#Atual{
+
+    width: 95%;
+    -webkit-animation: Disponiveis 2s;
+    animation: Disponiveis 2s;
+    animation-fill-mode: forwards;  
+  }
+  
+  #Atual:after{
+    content: ' 6 ';
+    position: absolute;
+    right: 10px;
+    color: #010101;
+    top: 10px;
+         opacity: 0;
+      -webkit-animation: see 2s;
+      animation: see 2s;
+      animation-delay: .5s;
+      animation-fill-mode: forwards;  
+  }
+  
+  #Atual:before{
+    content: 'Disponiveis';
+    position: absolute;
+    left: -67px;
+    float: left;
+    color: #010101;
+    top: 12px;
+    opacity: 0;
+    -webkit-animation: see 2s;
+    animation: see 2s;
+    animation-delay: .5s;
+    animation-fill-mode: forwards;  
+  }
+
+    /*Posterior*/
+#Posterior{
+
+    width: 95%;
+    -webkit-animation: Disponiveis 2s;
+    animation: Disponiveis 2s;
+    animation-fill-mode: forwards;  
+  }
+  
+  #Posterior:after{
+    content: ' 6 ';
+    position: absolute;
+    right: 10px;
+    color: #010101;
+    top: 10px;
+         opacity: 0;
+      -webkit-animation: see 2s;
+      animation: see 2s;
+      animation-delay: .5s;
+      animation-fill-mode: forwards;  
+  }
+  
+  #Posterior:before{
+    content: 'Disponiveis';
+    position: absolute;
+    left: -67px;
+    float: left;
+    color: #010101;
+    top: 12px;
+    opacity: 0;
+    -webkit-animation: see 2s;
+    animation: see 2s;
+    animation-delay: .5s;
+    animation-fill-mode: forwards;  
+  }
+
+  
+  
+
+
 
 
 
@@ -398,7 +510,7 @@ margin: auto;
   }
   
   #circle_posterior:after {
-    content: 'Março'; /* definir ninamicamente*/
+    content: 'Marco'; /* definir ninamicamente*/
     position: absolute;
      
     opacity: 0;
@@ -420,47 +532,6 @@ margin: auto;
       animation-fill-mode: forwards;  
   
   }
-
-
-/* Set the initial values for the animation */
-
-.chart[data-percent='75'] .outer {
-   stroke-dashoffset: -100%;
-  -webkit-animation: show75 2s;
-  animation: show75 2s;
-}
-
-.chart[data-percent="anterior"] .outer {
-    /* stroke-dashoffset inicial e final */
-    animation: showAnterior 2s forwards;
-  }
-  
-  @keyframes showAnterior {
-    from { stroke-dashoffset: -251%; }
-    to   { stroke-dashoffset: -120%; } /* ajuste conforme a fração do círculo */
-  }
-
-  .chart[data-percent="posterior"] .outer {
-    /* stroke-dashoffset inicial e final */
-    animation: showAnterior 2s forwards;
-  }
-  
-  @keyframes showAnterior {
-    from { stroke-dashoffset: -251%; }
-    to   { stroke-dashoffset: -120%; } /* ajuste conforme a fração do círculo */
-  }
-
-  .chart[data-percent="atual"] .outer {
-    /* stroke-dashoffset inicial e final */
-    animation: showAnterior 2s forwards;
-  }
-  
-  @keyframes showAnterior {
-    from { stroke-dashoffset: -251%; }
-    to   { stroke-dashoffset: -120%; } /* ajuste conforme a fração do círculo */
-  }
-
-/* END set initial animation values */
 
 /* Keyframes for the initial animation */
 
