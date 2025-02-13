@@ -509,9 +509,6 @@ margin: auto;
   stroke: #F08418;
   stroke-width: 25;
   stroke-dasharray: 251%;
-  -webkit-animation-play-state: running;
-    /* firefox bug fix - won't rotate at 90deg angles */
-  -moz-transform: rotate(-89deg) translateX(-190px);
 }
 
 .pizza{
