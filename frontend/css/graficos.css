@@ -467,7 +467,7 @@ margin: auto;
   border-radius: 100%;
   position: absolute;
   z-index: 1;
-  left: calc( 50% - (80%/2) - -7px );
+  left: calc( 50% - (80%/2) - 7px );
   top: calc( 50% - (80%/2) - 13px);
   -webkit-animation: see 1s;
   animation: see 1s;
@@ -527,11 +527,35 @@ margin: auto;
   animation: show75 2s;
 }
 
-.chart[data-percent='pizza'] .outer {
-  stroke-dashoffset: -262%;
-  -webkit-animation: pizza 1s;
-  animation: pizza 1s;
-}
+.chart[data-percent="anterior"] .outer {
+    /* stroke-dashoffset inicial e final */
+    animation: showAnterior 2s forwards;
+  }
+  
+  @keyframes showAnterior {
+    from { stroke-dashoffset: -251%; }
+    to   { stroke-dashoffset: -120%; } /* ajuste conforme a fração do círculo */
+  }
+
+  .chart[data-percent="posterior"] .outer {
+    /* stroke-dashoffset inicial e final */
+    animation: showAnterior 2s forwards;
+  }
+  
+  @keyframes showAnterior {
+    from { stroke-dashoffset: -251%; }
+    to   { stroke-dashoffset: -120%; } /* ajuste conforme a fração do círculo */
+  }
+
+  .chart[data-percent="atual"] .outer {
+    /* stroke-dashoffset inicial e final */
+    animation: showAnterior 2s forwards;
+  }
+  
+  @keyframes showAnterior {
+    from { stroke-dashoffset: -251%; }
+    to   { stroke-dashoffset: -120%; } /* ajuste conforme a fração do círculo */
+  }
 
 /* END set initial animation values */
 
