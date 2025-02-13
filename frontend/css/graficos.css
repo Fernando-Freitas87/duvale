@@ -55,7 +55,7 @@ margin: auto;
   border:none;
   position: absolute;
   left: 40px;
-  border-left: 2px solid #fff;
+  border-left: 2px solid #040404;
   height: calc(100% + 50px);
   width: 2px;
   top: 0;
@@ -66,7 +66,7 @@ margin: auto;
   position: absolute;
   left: 0px;
   bottom: -30px;
-  border-bottom: 2px solid #fff;
+  border-bottom: 2px solid #040404;
   height: 2px;
   width: calc(100%);
   
@@ -90,7 +90,7 @@ margin: auto;
 
 .divider{
   text-align: center;
-  background-color: #ffffff;
+  background-color: #010101;
 }
 
 .Em_Obra{
@@ -111,7 +111,7 @@ margin: auto;
   content: ' 1243 ';
   position: absolute;
   right: 10px;
-  color: #fff;
+  color: #000000;
   top: 10px;
   opacity: 0;
   -webkit-animation: see 2s;
@@ -125,7 +125,7 @@ margin: auto;
   position: absolute;
   left: -46px; 
   float: left;
-  color: #fff;
+  color: #060606;
   top: 12px;
   opacity: 0;
   -webkit-animation: see 2s;
@@ -162,7 +162,7 @@ margin: auto;
   position: absolute;
   left: -51px;
   float: left;
-  color: #fff;
+  color: #010101;
   top: 12px;
   opacity: 0;
   -webkit-animation: see 2s;
@@ -184,7 +184,7 @@ margin: auto;
   content: ' 2374 ';
   position: absolute;
   right: 10px;
-  color: #fff;
+  color: #010101;
   top: 10px;
        opacity: 0;
     -webkit-animation: see 2s;
@@ -198,7 +198,7 @@ margin: auto;
   position: absolute;
   left: -67px;
   float: left;
-  color: #fff;
+  color: #010101;
   top: 12px;
   opacity: 0;
   -webkit-animation: see 2s;
@@ -217,7 +217,7 @@ margin: auto;
   position: absolute;
   max-width: 100px;
   max-height: 100px;
-  background: white;
+  background: rgb(3, 3, 3);
 }
 /* END Container styles */
 
@@ -360,7 +360,7 @@ margin: auto;
     padding-right: 10px;
     padding-top: 50px;
     font-size: 49px;
-    color: #fff;
+    color: #050505;
     border-bottom: 3px solid #F08418;
     -webkit-animation: see 2s;
     animation: see 2s;
@@ -398,7 +398,7 @@ margin: auto;
   padding-right: 10px;
   padding-top: 50px;
   font-size: 49px;
-  color: #fff;
+  color: #010101;
   border-bottom: 3px solid #F08418;
   -webkit-animation: see 2s;
   animation: see 2s;
@@ -436,7 +436,7 @@ margin: auto;
   padding-right: 10px;
   padding-top: 50px;
   font-size: 49px;
-  color: #fff;
+  color: #000000;
   border-bottom: 3px solid #F08418;
   -webkit-animation: see 2s;
   animation: see 2s;
@@ -476,7 +476,7 @@ margin: auto;
   font-family: arial;
   font-weight: lighter;
   font-size: 80px;
-  color:#fff;
+  color:#010101;
   margin-bottom: 10px;
 }
 #pizza{
@@ -488,7 +488,7 @@ margin: auto;
   font-family: arial;
   font-weight: lighter;
   font-size: 30px;
-  color:#fff;
+  color:#010101;
   margin-bottom: 10px;
   font-size: 50px;
   text-align: left;
@@ -498,7 +498,7 @@ margin: auto;
 
 .chart figcaption p{
 
-  color:#fff;
+  color:#030303;
   max-width: 40%;
   margin: auto;
   font-size: 20px;
