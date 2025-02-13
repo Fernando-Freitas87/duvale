@@ -43,87 +43,78 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-// ================================
-// 🛠️ Configuração do Modal de Avisos
-// ================================
 
-// 🎯 Seleciona os elementos do modal de aviso no DOM
-const btnAviso = document.getElementById("btnAviso"); // Botão que abre o modal
-const modalAviso = document.getElementById("modalAviso"); // O próprio modal
-const closeModalAviso = document.getElementById("closeModalAviso"); // Botão de fechar modal
-const iconAviso = document.getElementById("iconAviso"); // Ícone de sino no menu
-const indicatorAviso = document.getElementById("indicatorAviso"); // Indicador de novos avisos (bolinha vermelha)
-const modalBodyAviso = document.getElementById("modalBodyAviso"); // Área onde os avisos serão inseridos dinamicamente
+    // ================================
+    // Configuração do Modal de Avisos
+    // ================================
 
-// 🔍 Verifica se todos os elementos necessários foram encontrados no DOM
-if (!btnAviso || !modalAviso || !closeModalAviso || !iconAviso || !indicatorAviso || !modalBodyAviso) {
-    console.error("⚠️ Elementos do aviso não encontrados!");
-    return; // Interrompe a execução caso algum elemento esteja ausente
-}
+    // Seleciona os elementos do modal de aviso
+    const btnAviso = document.getElementById("btnAviso");
+    const modalAviso = document.getElementById("modalAviso");
+    const closeModalAviso = document.getElementById("closeModalAviso");
+    const iconAviso = document.getElementById("iconAviso");
+    const indicatorAviso = document.getElementById("indicatorAviso");
+    const modalBodyAviso = document.getElementById("modalBodyAviso");
 
-// 📢 Evento para abrir o modal quando o botão for clicado
-btnAviso.addEventListener("click", async () => {
-    modalAviso.style.display = "flex"; // Torna o modal visível
-    indicatorAviso.classList.remove("show"); // Remove o indicador de novos avisos
-    iconAviso.classList.remove("icon-shake"); // Remove a animação de notificação do ícone de sino
+    // Verifica se os elementos do aviso existem
+    if (!btnAviso || !modalAviso || !closeModalAviso || !iconAviso || !indicatorAviso || !modalBodyAviso) {
+        console.error("Elementos do aviso não encontrados!");
+        return;
+    }
 
-    try {
-        // 🔄 Chama a função para carregar os avisos da API ou banco de dados
-        const avisos = await carregarAvisos();
-
-        // 🧹 Limpa a área do modal antes de adicionar os novos avisos
-        modalBodyAviso.innerHTML = "";
-
-        // 📌 Verifica se existem avisos retornados
-        if (!avisos || avisos.length === 0) {
-            // Se não houver avisos, exibe uma mensagem padrão
+    // Exibe o modal de aviso ao clicar no botão de aviso
+    btnAviso.addEventListener("click", async () => {
+        modalAviso.style.display = "flex"; // Exibe o modal
+        indicatorAviso.classList.remove("show"); // Remove o indicador de aviso
+        iconAviso.classList.remove("icon-shake"); // Remove a animação do ícone
+      
+        try {
+          const avisos = await carregarAvisos();
+      
+          modalBodyAviso.innerHTML = ""; // Limpa o conteúdo antes de atualizar
+      
+          if (!avisos || avisos.length === 0) {
             modalBodyAviso.innerHTML = "<p>Nenhum aviso disponível.</p>";
-        } else {
-            // 📝 Itera sobre os avisos e os adiciona ao modal
+          } else {
             avisos.forEach((aviso) => {
-                // 📦 Cria um novo elemento de aviso
-                const avisoElement = document.createElement("div");
-                avisoElement.classList.add("aviso-item"); // Aplica a classe de estilização
-
-                // 🔹 Define o conteúdo do aviso
-                avisoElement.innerHTML = `
-                    <p>
-                        <strong style="color: red; text-transform: uppercase;">
-                            ${aviso.aviso || "Sem detalhes disponíveis."} <!-- Título do aviso -->
-                        </strong> 
-                        ${aviso.imovel_descricao || "Imóvel não identificado"}, <!-- Descrição do imóvel -->
-                        ${aviso.imovel_endereco || "Endereço não informado"} <!-- Endereço do imóvel -->
-                    </p>
-                `;
-
-                // 📌 Adiciona o aviso ao corpo do modal
-                modalBodyAviso.appendChild(avisoElement);
+              const avisoElement = document.createElement("div");
+              avisoElement.classList.add("aviso-item");
+              avisoElement.innerHTML = `
+                  <p>
+                      <strong style="color: red; text-transform: uppercase;">
+                          ${aviso.aviso || "Sem detalhes disponíveis."}
+                      </strong> 
+                      ${aviso.imovel_descricao || "Imóvel não identificado"}, 
+                      ${aviso.imovel_endereco || "Não informado"}
+                  </p>
+              `;
+              modalBodyAviso.appendChild(avisoElement);
             });
-        }
-    } catch (error) {
-        // ❌ Caso ocorra um erro ao carregar os avisos, exibe uma mensagem de erro
-        console.error("🚨 Erro ao carregar avisos:", error);
-        modalBodyAviso.innerHTML = `
+          }
+        } catch (error) {
+          console.error("Erro ao carregar avisos:", error);
+          modalBodyAviso.innerHTML = `
             <p style="color: red;">Erro ao carregar avisos. Tente novamente mais tarde.</p>
-        `;
-    }
+          `;
+        }
+      });
+
+    // Fecha o modal ao clicar no botão de fechamento
+    closeModalAviso.addEventListener("click", () => {
+        modalAviso.style.display = "none";
+    });
+
+    // Fecha o modal ao clicar fora dele
+    window.addEventListener("click", (event) => {
+        if (event.target === modalAviso) {
+            modalAviso.style.display = "none";
+        }
+    });
+
+    // Simulação: Indicador de novos avisos
+    setTimeout(() => {
+        indicatorAviso.classList.add("show");
+        iconAviso.classList.add("icon-shake");
+    }, 2000);
 });
 
-// ❌ Evento para fechar o modal ao clicar no botão "X"
-closeModalAviso.addEventListener("click", () => {
-    modalAviso.style.display = "none"; // Esconde o modal
-});
-
-// 🖱️ Evento para fechar o modal ao clicar fora dele
-window.addEventListener("click", (event) => {
-    if (event.target === modalAviso) { // Verifica se o clique foi fora da área do modal
-        modalAviso.style.display = "none"; // Fecha o modal
-    }
-});
-
-// 🔔 Simulação de chegada de novos avisos (após 2 segundos)
-setTimeout(() => {
-    indicatorAviso.classList.add("show"); // Exibe o indicador de novos avisos
-    iconAviso.classList.add("icon-shake"); // Adiciona animação ao ícone de sino
-}, 2000);
-});

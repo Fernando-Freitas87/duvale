@@ -222,65 +222,96 @@ main {
 /* ============================= */
 /* 🔹 Modal de Avisos (Melhorado) */
 /* ============================= */
-.notification {
-  padding: 0.75em;
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  background-color: hsl(0, 0%, 100%);
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
-  display: flex;
+.modal {
+  display: none; /* Oculta o modal por padrão */
+  position: fixed; /* Fixa na tela */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ocupa toda a largura */
+  height: 100%; /* Ocupa toda a altura */
+  background-color: rgba(0, 0, 0, 0.6); /* Fundo translúcido escuro */
+  z-index: 1000; /* Sobrepõe outros elementos */
+  justify-content: center;
   align-items: center;
-  animation: fadeIn 0.3s ease-in-out;
 }
 
-.notification__icon {
-  width: 2em;
-  height: 2em;
-  margin-right: 10px;
+.modalContent {
+  background: #ffffff; /* Fundo branco */
+  border-radius: 10px; /* Cantos arredondados */
+  width: 90%;
+  max-width: 600px; /* Limita a largura */
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  position: relative; /* Para o botão de fechar */
+  animation: modalEnter 0.3s ease; /* Animação de entrada */
+  overflow-y: auto; /* Permite rolagem se o conteúdo for grande */
+  max-height: 80%; /* Limita a altura do modal */
 }
 
-.notification__text {
-  flex: 1;
+.modalContent h2 {
+  font-size: 1.5rem;
+  color: #004085; /* Azul escuro */
+  text-align: center;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
 }
 
-.notification__text-title {
-  font-weight: bold;
+.modalContent p {
   font-size: 1rem;
-  color: #004085;
+  color: #333; /* Texto em cinza escuro */
+  line-height: 1.6;
+  margin: 10px 0;
 }
 
-.notification__text-subtitle {
-  font-size: 0.85rem;
-  color: #666;
-}
-
-.notification__btn {
-  background: transparent;
-  border: none;
+.modalContent .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: #aaa;
   cursor: pointer;
-  font-size: 1rem;
-  color: #004085;
-  transition: 0.3s ease;
+  transition: color 0.3s ease;
 }
 
-.notification__btn:hover {
-  color: #002752;
+.modalContent .close:hover {
+  color: #333; /* Escurece ao passar o mouse */
 }
 
-/* Animação */
-@keyframes fadeIn {
+/* Lista de avisos */
+.modalContent .aviso {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd; /* Linha ao redor de cada aviso */
+  border-radius: 5px; /* Cantos arredondados */
+  background: #f9f9f9; /* Fundo leve */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modalContent .aviso h3 {
+  font-size: 1.2rem;
+  color: #0056b3; /* Azul escuro */
+  margin-bottom: 5px;
+}
+
+.modalContent .aviso p {
+  font-size: 0.95rem;
+  color: #555; /* Cinza médio */
+  margin: 2px 0;
+}
+
+/* Animação de entrada */
+@keyframes modalEnter {
   from {
-      opacity: 0;
-      transform: translateY(-10px);
+    transform: translateY(-50px);
+    opacity: 0;
   }
   to {
-      opacity: 1;
-      transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
   }
 }
+
 /* ============================= */
 /* 🔹 Indicador de Aviso ao Lado do Ícone */
 /* ============================= */

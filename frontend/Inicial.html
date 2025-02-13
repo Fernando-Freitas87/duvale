@@ -18,6 +18,7 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
       <link rel="stylesheet" href="css/gerencial.css" />
       <link rel="stylesheet" href="css/navbar.css">
+      <link rel="stylesheet" href="css/graficos.css">
   </head>
 
 
@@ -86,20 +87,15 @@
             </li>
         </ul>
         <!-- Modal de Avisos -->
-<!-- Exemplo de teste para .notification -->
-<div class="notification">
-  <!-- Ícone ou imagem -->
-  <i class="fa-solid fa-bell notification__icon" style="color: #004085;"></i>
-  
-  <!-- Texto do aviso -->
-  <div class="notification__text">
-    <p class="notification__text-title">Aviso Importante</p>
-    <p class="notification__text-subtitle">Este é um texto de exemplo para testar o estilo de notification.</p>
-  </div>
-
-  <!-- Botão de fechar ou qualquer ação -->
-  <button class="notification__btn" onclick="this.parentNode.remove()">×</button>
-</div>
+        <div id="modalAviso" class="modal">
+          <div class="modalContent">
+            <span id="closeModalAviso" class="close">&times;</span>
+            <h2>Avisos</h2>
+            <div id="modalBodyAviso">
+              <!-- Aqui as notificações serão inseridas via JavaScript -->
+            </div>
+          </div>
+        </div>
         <!-- Informações do Usuário (Agora melhor estruturado) -->
       <div class="menuUser">
         <!-- Linha divisória -->
@@ -211,21 +207,69 @@
             <div id="paginacao-vencer" class="pagination"></div>
 
             <!-- Grafico mensalidades -->
-            <div id="graficos">
-              <h2>Mensalidades</h2>
-              <hr class="divider">
-              <div class="graficos-container">
-                <div>
-                  <div id="grafico-anterior" style="width: 300px; height: 400px;"></div>
-                </div>
-                <div>
-                  <div id="grafico-atual" style="width: 300px; height: 400px;"></div>
-                </div>
-                <div>
-                  <div id="grafico-proximo" style="width: 300px; height: 400px;"></div>
-                </div>
+            <section class="container">
+              <div>
+                <figure class="chart" id="anterior"data-percent="anterior" >
+                  <svg>
+                    <defs>
+                      <circle id="SVGID_1_" cx="1.5%" cy="52%" r="43%" stroke="#f0f" />
+                    </defs>
+        
+                    <clipPath id="SVGID_2_">
+                      <use xlink:href="#SVGID_1_" overflow="visible"/>
+                    </clipPath>
+                    
+                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                    <circle clip-path="url(#SVGID_2_)" class="outer pizza" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                  </svg>
+        
+                  <figcaption>
+                    <h2>0,3%</h2>
+                    <p>Pendente <br> R$ 0,00</p>
+                  </figcaption>
+                </figure>
+        
+                <figure class="chart" id="atual"data-percent="atual" >
+                  <svg>
+                    <defs>
+                      <circle id="SVGID_1_" cx="1.5%" cy="52%" r="43%" stroke="#f0f" />
+                    </defs>
+        
+                    <clipPath id="SVGID_2_">
+                      <use xlink:href="#SVGID_1_" overflow="visible"/>
+                    </clipPath>
+                    
+                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                    <circle clip-path="url(#SVGID_2_)" class="outer pizza" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                  </svg>
+        
+                  <figcaption>
+                    <h2>21%</h2>
+                    <p>Pendente <br> R$ 0,00</p>
+                  </figcaption>
+                </figure>
+        
+                <figure class="chart" id="posterior"data-percent="posterior" >
+                  <svg>
+                    <defs>
+                      <circle id="SVGID_1_" cx="1.5%" cy="52%" r="43%" stroke="#f0f" />
+                    </defs>
+        
+                    <clipPath id="SVGID_2_">
+                      <use xlink:href="#SVGID_1_" overflow="visible"/>
+                    </clipPath>
+                    
+                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                    <circle clip-path="url(#SVGID_2_)" class="outer pizza" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                  </svg>
+        
+                  <figcaption>
+                    <h2>95%</h2>
+                    <p>Pendente <br> R$ 0,00</p>
+                  </figcaption>
+                </figure>
               </div>
-            </div>
+            </section>
         </section>
         <br />
         <!-- Seção: Gerenciamento de Imóveis -->
@@ -282,22 +326,55 @@
               </div>
             </div>
             <!-- Card do Status dos Imóveis -->
-            <div id="graficos">
-                <h2>Mensalidades</h2>
-                <hr class="divider">
-                <div class="graficos-container">
-                  <h3>Status dos Imóveis</h3>
-                  <div>
-                  <div id="grafico-status-imoveis" class="grafico-container" style="width: 300px; height: 400px;"data-mes="Status"></div>
-                  </div>
-                  <!-- Card do Tipo de Imóvel -->
-                  <h3>Tipo de Imóvel</h3>
-                  <div>
-                  <div id="grafico-tipo-imoveis" class="grafico-container" style="width: 300px; height: 400px;" data-mes="Tipo"></div>
-                  </div>
-                </div>
-            </div>
-        </section>
+            <section class="container">
+              <!-- GRAFICOS EM CICLOS - IMOVEIS-->
+              <div>
+                <!--Disponiveis-->
+                <figure class="chart" id="circle_Disponiveis"data-percent="75">
+                    <svg>
+                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                    </svg>
+                  <figcaption>
+                    <h2>21%</h2><!--definir em funcao java via api-->
+                    <p>Imoveis disponiveis</p>
+                  </figcaption>
+                </figure>
+      
+                <!--Alugados-->
+                <figure class="chart" id="circle_Alugados"data-percent="75">
+                  <svg>
+                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                    <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                  </svg>
+                  <figcaption>
+                    <h2>18%</h2><!--definir em funcao java via api-->
+                    <p>Imoveis alugados</p>
+                  </figcaption>
+                </figure>
+      
+                <!--Em Obra-->
+                <figure class="chart" id="circle_Em_Obras"data-percent="75">
+                  <svg>
+                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                    <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                  </svg>
+                  <figcaption>
+                    <h2>61%</h2><!--definir em funcao java via api-->
+                    <p>Imoveis em Obras</p>
+                  </figcaption>
+                </figure>
+              </div>  
+      
+              <!-- GRAFICO EM COLUNA - IMOVEIS  -->
+              <div class="column-graph">
+                <hr class="esq">
+                <hr class="bot">
+                <div class="column gringo" id="Alugados"></div>
+                <div class="column Em_Obra" id="Em Obras"></div>
+                <div class="column gringo" id="Disponiveis"></div>
+              </div>
+          </section>
         <br />
           <!-- Seção: Gerenciamento de Clientes -->
         <section id="gerenciar-clientes-section" style="display: none;">
