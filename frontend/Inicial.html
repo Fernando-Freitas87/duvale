@@ -208,69 +208,45 @@
             <br>
 
             <!-- Grafico mensalidades -->
-            <div class="container">
+            <section class="container">
               <div>
-                <figure class="chart" id="anterior"data-percent="anterior" >
-                  <svg>
-                    <defs>
-                      <circle id="SVGID_1_" cx="1.5%" cy="52%" r="43%" stroke="#f0f" />
-                    </defs>
-        
-                    <clipPath id="SVGID_2_">
-                      <use xlink:href="#SVGID_1_" overflow="visible"/>
-                    </clipPath>
-                    
-                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
-                    <circle clip-path="url(#SVGID_2_)" class="outer pizza" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
-                  </svg>
-        
+                <!--Disponiveis-->
+                <figure class="chart" id="circle_Disponiveis"data-percent="75">
+                    <svg>
+                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                    </svg>
                   <figcaption>
-                    <h2>0,3%</h2>
-                    <p>Pendente <br> R$ 0,00</p>
+                    <h2>21%</h2><!--definir em funcao java via api-->
+                    <p>Imoveis disponiveis</p>
                   </figcaption>
                 </figure>
-        
-                <figure class="chart" id="atual"data-percent="atual" >
+      
+                <!--Alugados-->
+                <figure class="chart" id="circle_Alugados"data-percent="75">
                   <svg>
-                    <defs>
-                      <circle id="SVGID_1_" cx="1.5%" cy="52%" r="43%" stroke="#f0f" />
-                    </defs>
-        
-                    <clipPath id="SVGID_2_">
-                      <use xlink:href="#SVGID_1_" overflow="visible"/>
-                    </clipPath>
-                    
-                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
-                    <circle clip-path="url(#SVGID_2_)" class="outer pizza" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                    <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
                   </svg>
-        
                   <figcaption>
-                    <h2>21%</h2>
-                    <p>Pendente <br> R$ 0,00</p>
+                    <h2>18%</h2><!--definir em funcao java via api-->
+                    <p>Imoveis alugados</p>
                   </figcaption>
                 </figure>
-        
-                <figure class="chart" id="posterior"data-percent="posterior" >
+      
+                <!--Em Obra-->
+                <figure class="chart" id="circle_Em_Obras"data-percent="75">
                   <svg>
-                    <defs>
-                      <circle id="SVGID_1_" cx="1.5%" cy="52%" r="43%" stroke="#f0f" />
-                    </defs>
-        
-                    <clipPath id="SVGID_2_">
-                      <use xlink:href="#SVGID_1_" overflow="visible"/>
-                    </clipPath>
-                    
-                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
-                    <circle clip-path="url(#SVGID_2_)" class="outer pizza" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                    <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
                   </svg>
-        
                   <figcaption>
-                    <h2>95%</h2>
-                    <p>Pendente <br> R$ 0,00</p>
+                    <h2>61%</h2><!--definir em funcao java via api-->
+                    <p>Imoveis em Obras</p>
                   </figcaption>
                 </figure>
-              </div>
-            </div>
+              </div>  
+          </section>
       </section>
         <br />
         <!-- Seção: Gerenciamento de Imóveis -->
