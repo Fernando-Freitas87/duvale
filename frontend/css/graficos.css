@@ -273,6 +273,7 @@ margin: auto;
 
 }
 
+/* grafico ciclo imoveis  */
 
 #circle_Em_Obras:after {
   content: 'Em Obras';
@@ -345,178 +346,80 @@ margin: auto;
     animation-fill-mode: forwards;  
 
 }
-#anterior:after {
-    content: '97%';
+
+/* grafico ciclo mensadides */
+
+#circle_anterior:after {
+    content: 'Janeiro';/* definir ninamicamente*/
     position: absolute;
+     
     opacity: 0;
-    /* border-right: 3px solid #F08418; */
-    /* bottom: 25px; */
-    top: -113px;
-    /* left: -32px; */
-    right: 52px;
-    padding: 10px;
-    padding-bottom: 0;
-    padding-left: 30px;
-    padding-right: 10px;
-    padding-top: 50px;
-    font-size: 49px;
-    color: #050505;
-    border-bottom: 3px solid #F08418;
-    -webkit-animation: see 2s;
-    animation: see 2s;
-    animation-delay: 1s;
-    animation-fill-mode: forwards;
-
-}
-#anterior:before {
-    content: ' ';
+  
+      border-right: 3px solid #F08418;
+      bottom: 25px;
+      left: -40px;
+      padding: 10px;
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-top: 50px;
+      font-size: 20px;
+      color: #040404;
+      border-bottom: 3px solid #F08418;
+  
+      -webkit-animation: see 2s;
+      animation: see 2s;
+      animation-delay: 1.5s;
+      animation-fill-mode: forwards;  
+  
+  }
+  
+  #circle_atual:after {
+    content: 'Fevereiro';/* definir ninamicamente*/
     position: absolute;
+     
     opacity: 0;
-    top: -5px;
-    right: 157px;
-    /* width: 1px; */
-    height: 26px;
-    border-right: 3px solid #F08418;
-    -webkit-animation: see 2s;
-    animation: see 2s;
-    animation-delay: 1s;
-    animation-fill-mode: forwards;
-}
-
-#atual:after {
-  content: '67%';
-  position: absolute;
-  opacity: 0;
-  /* border-right: 3px solid #F08418; */
-  /* bottom: 25px; */
-  top: -113px;
-  /* left: -32px; */
-  right: 52px;
-  padding: 10px;
-  padding-bottom: 0;
-  padding-left: 30px;
-  padding-right: 10px;
-  padding-top: 50px;
-  font-size: 49px;
-  color: #010101;
-  border-bottom: 3px solid #F08418;
-  -webkit-animation: see 2s;
-  animation: see 2s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-
-}
-#atual:before {
-  content: ' ';
-  position: absolute;
-  opacity: 0;
-  top: -5px;
-  right: 157px;
-  /* width: 1px; */
-  height: 26px;
-  border-right: 3px solid #F08418;
-  -webkit-animation: see 2s;
-  animation: see 2s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-}
-
-#posterior:after {
-  content: '8%';
-  position: absolute;
-  opacity: 0;
-  /* border-right: 3px solid #F08418; */
-  /* bottom: 25px; */
-  top: -113px;
-  /* left: -32px; */
-  right: 52px;
-  padding: 10px;
-  padding-bottom: 0;
-  padding-left: 30px;
-  padding-right: 10px;
-  padding-top: 50px;
-  font-size: 49px;
-  color: #000000;
-  border-bottom: 3px solid #F08418;
-  -webkit-animation: see 2s;
-  animation: see 2s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-
-}
-#posterior:before {
-  content: ' ';
-  position: absolute;
-  opacity: 0;
-  top: -5px;
-  right: 157px;
-  /* width: 1px; */
-  height: 26px;
-  border-right: 3px solid #F08418;
-  -webkit-animation: see 2s;
-  animation: see 2s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-}
-
-
-
-.chart figcaption {
-  width: calc(80% - 10px);
-  height: calc(80% - 10px);
-  border-radius: 100%;
-  position: absolute;
-  z-index: 1;
-  left: calc( 50% - (80%/2) - 7px );
-  top: calc( 50% - (80%/2) - 13px);
-  -webkit-animation: see 1s;
-  animation: see 1s;
-}
-.chart figcaption h2{
-  font-family: arial;
-  font-weight: lighter;
-  font-size: 80px;
-  color:#010101;
-  margin-bottom: 10px;
-}
-#pizza{
-  top: 50px;
-
-}
-
-#pizza figcaption h2{
-  font-family: arial;
-  font-weight: lighter;
-  font-size: 30px;
-  color:#010101;
-  margin-bottom: 10px;
-  font-size: 50px;
-  text-align: left;
-  margin-top: 100px;
-  padding-left: 50px;
-}
-
-.chart figcaption p{
-
-  color:#030303;
-  max-width: 40%;
-  margin: auto;
-  font-size: 20px;
-}
-
-.outer {
-  fill: transparent;
-  stroke: #F08418;
-  stroke-width: 25;
-  stroke-dasharray: 251%;
-}
-
-.pizza{
-  stroke-dashoffset: -270%;
-  stroke-width: 80%;
-}
-
-/* END Circle colors and graphic positions */
+  
+      border-right: 3px solid #F08418;
+      bottom: 25px;
+      left: -40px;
+      padding: 10px;
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-top: 50px;
+      font-size: 20px;
+      color: #040404;
+      border-bottom: 3px solid #F08418;
+  
+      -webkit-animation: see 2s;
+      animation: see 2s;
+      animation-delay: 1.5s;
+      animation-fill-mode: forwards;  
+  
+  }
+  
+  #circle_posterior:after {
+    content: 'Março'; /* definir ninamicamente*/
+    position: absolute;
+     
+    opacity: 0;
+  
+      border-right: 3px solid #F08418;
+      bottom: 25px;
+      left: -40px;
+      padding: 10px;
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-top: 50px;
+      font-size: 20px;
+      color: #050505;
+      border-bottom: 3px solid #F08418;
+  
+      -webkit-animation: see 2s;
+      animation: see 2s;
+      animation-delay: 1.5s;
+      animation-fill-mode: forwards;  
+  
+  }
 
 
 /* Set the initial values for the animation */
@@ -641,87 +544,6 @@ margin: auto;
     width: 85%;
   }
 }
-
-
-@-webkit-keyframes argentina {
-  from {
-    width: 0;
-  }
-  
-  to {
-    width: 8%;
-  }
-}
-
-@keyframes argentina {
-  from {
-    width: 0;
-  }
-  
-  to {
-    width: 8%;
-  }
-}
-
-@-webkit-keyframes chile {
-  from {
-    width: 0;
-  }
-  
-  to {
-    width: 1%;
-  }
-}
-
-@keyframes chile {
-  from {
-    width: 0;
-  }
-  
-  to {
-    width: 1%;
-  }
-}
-@-webkit-keyframes uruguai {
-  from {
-    width: 0;
-  }
-  
-  to {
-    width: 5%;
-  }
-}
-
-@keyframes uruguai {
-  from {
-    width: 0;
-  }
-  
-  to {
-    width: 5%;
-  }
-}
-
-
-
-@-webkit-keyframes pizza {
-  from {
-        stroke-dashoffset: -251%;
-  }
-  
-  to {
-    stroke-dashoffset: -262%;  }
-}
-
-@keyframes pizza {
-  from {
-        stroke-dashoffset: -251%;
-  }
-  
-  to {
-    stroke-dashoffset: -262%;  }
-}
-
 @keyframes see {
   from {
       opacity: 0;
