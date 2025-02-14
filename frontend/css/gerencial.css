@@ -992,7 +992,7 @@ color: #28a745;   /* Verde no hover */
 /* Estilização para o botão de ação dentro do card */
 .card-relatorio .btn-primary {
   align-self: flex-start;                       /* Alinha o botão à esquerda */
-  background-color: var(--btn-bg);              /* Cor de fundo do botão */
+  background-color: #004085;              /* Cor de fundo do botão */
   color: var(--btn-text-color);                 /* Cor do texto */
   padding: 20px 30px;                           /* Espaçamento interno */
   border-radius: 5px;                           /* Bordas arredondadas */
