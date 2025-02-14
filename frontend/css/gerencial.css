@@ -10,7 +10,7 @@
 .planilhas-header {
   width: 100%;
   padding: 20px;
-  background-color: #f4f4f4; /* Adapte conforme o design */
+  background-color: #004085; /* Adapte conforme o design */
   border-bottom: 2px solid #ccc;
 }
 
@@ -35,7 +35,7 @@
   align-items: center;
   gap: 5px; /* Espaço entre o ícone e o texto */
   font-size: 18px;
-  color: #d9534f; /* Cor de destaque */
+  color: #004085; /* Cor de destaque */
   text-decoration: none;
   padding: 10px;
 }
