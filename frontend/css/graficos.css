@@ -68,8 +68,6 @@ body {
 
 }
 
-
-
 .gringo{
 
   background-color: #256F8D;
@@ -405,8 +403,8 @@ body {
   border-radius: 100%;
   position: absolute;
   z-index: 1;
-  left: calc( 50% - (80%/2) - -7px );
-  top: calc( 50% - (80%/2) - 13px);
+  left: calc( 50% - (60%/2) - -7px );
+  top: calc( 50% - (60%/2) - 13px);
   -webkit-animation: see 1s;
   animation: see 1s;
 }
