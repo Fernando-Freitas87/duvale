@@ -994,7 +994,7 @@ color: #28a745;   /* Verde no hover */
   align-self: flex-start;                       /* Alinha o botão à esquerda */
   background-color: #004085;              /* Cor de fundo do botão */
   color: var(--btn-text-color);                 /* Cor do texto */
-  padding: 20px 30px;                           /* Espaçamento interno */
+  padding: 10px 20px;                           /* Espaçamento interno */
   border-radius: 5px;                           /* Bordas arredondadas */
   text-decoration: none;                        /* Remove sublinhado */
   font-size: 1em;
