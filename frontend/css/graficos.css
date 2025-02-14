@@ -400,8 +400,8 @@ body {
 
 
 .chart figcaption {
-  width: calc(80% - 10px);
-  height: calc(80% - 10px);
+  width: calc(60% - 10px);
+  height: calc(60% - 10px);
   border-radius: 100%;
   position: absolute;
   z-index: 1;
@@ -413,7 +413,7 @@ body {
 .chart figcaption h2{
   font-family: arial;
   font-weight: lighter;
-  font-size: 80px;
+  font-size: 30px;
   color:#000000;
   margin-bottom: 10px;
 }
