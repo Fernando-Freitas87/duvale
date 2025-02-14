@@ -207,46 +207,53 @@
             <hr class="divider">
             <br>
 
-            <!-- Grafico mensalidades -->
-            <section class="container">
-              <div>
-                <!--Disponiveis-->
-                <figure class="chart" id="circle_anterior"data-percent="75">
-                    <svg>
-                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                    </svg>
-                  <figcaption>
-                    <h3>9%</h3><!--definir em funcao java via api-->
-                    <p>Janeiro</p><!--definir dinamicamento js-->
-                  </figcaption>
-                </figure>
-      
-                <!--Alugados-->
-                <figure class="chart" id="circle_atual"data-percent="75">
-                  <svg>
-                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                    <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                  </svg>
-                  <figcaption>
-                    <h3>18%</h3><!--definir em funcao java via api-->
-                    <p>Fevereiro</p><!--definir dinamicamento js-->
-                  </figcaption>
-                </figure>
-      
-                <!--Em Obra-->
-                <figure class="chart" id="circle_posterior"data-percent="75">
-                  <svg>
-                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                    <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                  </svg>
-                  <figcaption>
-                    <h3>21%</h3><!--definir em funcao java via api-->
-                    <p>Marco</p><!--definir dinamicamento js-->
-                  </figcaption>
-                </figure>
-              </div>  
-          </section>
+ <!-- grafico mensalidade -->
+ <section class="graficos-mensalidades">
+  
+  <section class="container">
+    <div class="graficos-mensalidades">
+      <figure class="chart" id="em-atraso"data-percent="75">
+        <svg>
+          <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+          <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+        </svg>
+        <figcaption>
+          <h2>34%</h2>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="graficos-mensalidades">
+      <figure class="chart" id="Pendente"data-percent="75">
+        <svg>
+          <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+          <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+        </svg>
+        <figcaption>
+          <h2>34%</h2>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <div>
+      <figure class="chart" id="em-dias"data-percent="75">
+        <svg>
+          <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+          <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+        </svg>
+        <figcaption>
+          <h2>34%</h2>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+</section>
+
       </section>
         <br />
         <!-- Seção: Gerenciamento de Imóveis -->
@@ -304,57 +311,56 @@
             </div>
             <hr class="divider">
             <br>
-            <!-- Card do Status dos Imóveis -->
-            <section class="container">
-              <!-- GRAFICOS EM CICLOS - IMOVEIS-->
-              <div>
-                <!--Disponiveis-->
-                <figure class="chart" id="circle_Disponiveis"data-percent="75">
+            <!-- grafico imoveis -->
+            <section class="graficos-mensalidades">
+              
+              <section class="container">
+                <div class="graficos-mensalidades">
+                  <figure class="chart" id="em-obra"data-percent="75">
                     <svg>
-                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
+                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
                     </svg>
-                  <figcaption>
-                    <h2>21%</h2><!--definir em funcao java via api-->
-                    <p>Imoveis disponiveis</p>
-                  </figcaption>
-                </figure>
-      
-                <!--Alugados-->
-                <figure class="chart" id="circle_Alugados"data-percent="75">
-                  <svg>
-                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                    <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                  </svg>
-                  <figcaption>
-                    <h2>18%</h2><!--definir em funcao java via api-->
-                    <p>Imoveis alugados</p>
-                  </figcaption>
-                </figure>
-      
-                <!--Em Obra-->
-                <figure class="chart" id="circle_Em_Obras"data-percent="75">
-                  <svg>
-                    <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                    <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/><!--definir em funcao java via api-->
-                  </svg>
-                  <figcaption>
-                    <h2>61%</h2><!--definir em funcao java via api-->
-                    <p>Imoveis em Obras</p>
-                  </figcaption>
-                </figure>
-              </div>  
-      
-              <!-- GRAFICO EM COLUNA - IMOVEIS  -->
-              <div class="column-graph">
-                <hr class="esq">
-                <hr class="bot">
-                <div class="column gringo" id="Alugados"></div>
-                <div class="column Em_Obra" id="Em_Obra"></div>
-                <div class="column gringo" id="Disponiveis"></div>
-              </div>
-          </section>
-        <br />
+                    <figcaption>
+                      <h2>14%</h2>
+                      <p>9 Imoveis</p>
+                    </figcaption>
+                  </figure>
+                </div>
+              </section>
+
+              <section>
+                <div>
+                  <figure class="chart" id="livre"data-percent="75">
+                    <svg>
+                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                    </svg>
+                    <figcaption>
+                      <h2>11%</h2>
+                      <p>7 Imoveis</p>
+                    </figcaption>
+                  </figure>
+                </div>
+              </section>
+
+              <section class="container">
+                <div class="graficos-mensalidades">
+                  <figure class="chart" id="alugado"data-percent="75">
+                    <svg>
+                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                    </svg>
+                    <figcaption>
+                      <h2>68%</h2>
+                      <p>16 Imoveis</p>
+                    </figcaption>
+                  </figure>
+                </div>
+              </section>
+
+            </section>
+            <br />
           <!-- Seção: Gerenciamento de Clientes -->
         <section id="gerenciar-clientes-section" style="display: none;">
             <h2>Gerenciamento de Clientes</h2>
@@ -414,6 +420,16 @@
                 <button id="btn-cancelar-cliente" class="btn-secondary">Cancelar</button>
               </div>
             </div>
+          </div>
+        </section>
+        <!-- grafico de colunas imoveis -->
+        <section>
+          <div class="column-graph">
+            <hr class="esq">
+            <hr class="bot">
+            <div class="column nac"></div>
+            <div class="column gringo" id="canada"></div>
+            <div class="column gringo" id="eua"></div>
           </div>
         </section>
         <br />

@@ -3,8 +3,8 @@
 
 /* Container styles */
 body {
-  background-color: #2F2F2F;
-  color: #333;
+  background-color: #fffdfd;
+  color: #080808;
   font-family: 'Lato';
 }
 
@@ -13,26 +13,19 @@ body {
   text-align: center;
 }
 
-/* Ajusta cada gráfico (circular) */
 .chart {
-    position: relative;
-    display: inline-block;
-    color: #999;
-    font-size: 20px;
-    text-align: center;
-    width: 300px;  /* ou menos, se preferir */
-    height: 300px;
-    margin: 0;     /* zera margens laterais */
-  }
+  position: relative;
+  display: inline-block;
+  color: #999;
+  font-size: 20px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+    width: 400px;
+  height: 400px;
+  
+}
 
-/* Agrupa as 3 pizzas em linha */
-.charts-row {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 20px; 
-    flex-wrap: wrap; 
-  }
 
 /*START - GRAFICO COLUNA*/
 .column-graph{
@@ -43,61 +36,61 @@ body {
   padding-top: 30px;
 
 }
-/* Mantém seu .column-graph centrado */
-.column-graph {
-    width: 100%;
-    max-width: 940px;
-    margin: 40px auto; /* centraliza e cria espaço vertical */
-    position: relative;
-    padding-top: 30px;
-    text-align: center; /* se quiser centralizar textos dentro */
-  }
+.column-graph .esq{
+  border:none;
+  position: absolute;
+  left: 40px;
+  border-left: 2px solid #000000;
+  height: calc(100% + 50px);
+  width: 2px;
+  top: 0;
+}
 
 .column-graph .bot{
   border:none;
   position: absolute;
   left: 0px;
   bottom: -30px;
-  border-bottom: 2px solid #040404;
+  border-bottom: 2px solid #000000;
   height: 2px;
   width: calc(100%);
   
 }
 
+.column{
+  height: 50px;
+  margin-left: 42px;
+  margin-top:10px ;
+  position: relative;
+  margin-bottom:10px ;
+  font-family: arial;
+  
 
-/* Ajusta cada barra */
-.column {
-    margin: 10px auto;  /* centraliza a barra */
-    position: relative;
-    height: 50px;
-  }
+}
+
+
 
 .gringo{
 
   background-color: #256F8D;
 }
 
-.divider{
-  text-align: center;
-  background-color: #010101;
-}
-
-.Em_Obra{
+.nac{
 
   background-color: #F08418;
 }
 
-/*Alugados*/
-#Alugados{
+/*GRAFICO status - IMOVEIS*/
+#eua{
 
   width: 50%;
-    -webkit-animation: Alugados 2s;
-  animation: Alugados 2s;
+    -webkit-animation: eua 2s;
+  animation: eua 2s;
   animation-fill-mode: forwards;  
 }
 
-#Alugados:after{
-  content: ' 1243 ';
+#eua:after{
+  content: ' 14 ';
   position: absolute;
   right: 10px;
   color: #000000;
@@ -109,12 +102,12 @@ body {
   animation-fill-mode: forwards;  
 }
 
-#Alugados:before{
-  content: 'Alugados';
+#eua:before{
+  content:'Disponiveis';
   position: absolute;
-  left: -46px; 
+  left: -85px; 
   float: left;
-  color: #060606;
+  color: #000000;
   top: 12px;
   opacity: 0;
   -webkit-animation: see 2s;
@@ -124,8 +117,8 @@ body {
 }
 
 
-/*EM OBRA*/
-.Em_Obra{
+/*BRASIL*/
+.nac{
 
     width: 85%;
       -webkit-animation: br 2s;
@@ -133,8 +126,8 @@ body {
   animation-fill-mode: forwards;  
 }
 
-.Em_Obra:after{
-  content: ' 2077 ';
+.nac:after{
+  content: ' 9 ';
   position: absolute;
   right: 10px;
   color: #000;
@@ -146,12 +139,12 @@ body {
   animation-fill-mode: forwards;  
 }
 
-.Em_Obra:before{
-  content: 'Em_Obra';
+.nac:before{
+  content: 'Em Obra';
   position: absolute;
-  left: -51px;
+  left: -70px;
   float: left;
-  color: #010101;
+  color: #020202;
   top: 12px;
   opacity: 0;
   -webkit-animation: see 2s;
@@ -160,20 +153,20 @@ body {
   animation-fill-mode: forwards;  
 }
 
-/*DISPONIVEIS*/
-#Disponiveis{
+/*GRAFICO EM BARRAS IMOVEIS*/
+#canada{
 
   width: 95%;
-  -webkit-animation: Disponiveis 2s;
-  animation: Disponiveis 2s;
+  -webkit-animation: canada 2s;
+  animation: canada 2s;
   animation-fill-mode: forwards;  
 }
 
-#Disponiveis:after{
-  content: ' 2374 ';
+#canada:after{
+  content: ' 16 ';
   position: absolute;
   right: 10px;
-  color: #010101;
+  color: #000000;
   top: 10px;
        opacity: 0;
     -webkit-animation: see 2s;
@@ -182,12 +175,12 @@ body {
     animation-fill-mode: forwards;  
 }
 
-#Disponiveis:before{
-  content: 'Disponiveis';
+#canada:before{
+  content: 'Alugados';
   position: absolute;
-  left: -67px;
+  left: -70px;
   float: left;
-  color: #010101;
+  color: #000000;
   top: 12px;
   opacity: 0;
   -webkit-animation: see 2s;
@@ -196,17 +189,13 @@ body {
   animation-fill-mode: forwards;  
 }
 
-
-
-
-
 /*END - GRAFICO COLUNA*/
 
 .chart img {
   position: absolute;
   max-width: 100px;
   max-height: 100px;
-  background: rgb(3, 3, 3);
+  background: rgb(0, 0, 0);
 }
 /* END Container styles */
 
@@ -262,9 +251,106 @@ body {
 
 }
 
+/*ETIQUETA GRAFICO IMOVEIS*/
 
-#circle_Em_Obras:after {
-  content: 'Em Obras';
+#em-atraso:after {
+  content: 'Em atraso';
+  position: absolute;
+   
+  opacity: 0;
+
+    border-right: 3px solid #f01818;
+    bottom: 10px;
+    left: -40px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 50px;
+    font-size: 20px;
+    color: #000000;
+    border-bottom: 3px solid #f01818;
+
+    -webkit-animation: see 2s;
+    animation: see 2s;
+    animation-delay: 1.5s;
+    animation-fill-mode: forwards;  
+
+}
+
+#pendente:after {
+  content: 'Pendente';
+  position: absolute;
+   
+  opacity: 0;
+
+    border-right: 3px solid #F08418;
+    bottom: 10px;
+    left: -40px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 50px;
+    font-size: 20px;
+    color: #000000;
+    border-bottom: 3px solid #F08418;
+
+    -webkit-animation: see 2s;
+    animation: see 2s;
+    animation-delay: 1.5s;
+    animation-fill-mode: forwards;  
+
+}
+
+#em-dias:after {
+  content: 'Em Dias';
+  position: absolute;
+   
+  opacity: 0;
+
+    border-right: 3px solid #83cd29;
+    bottom: 12px;
+    left: -40px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 50px;
+    font-size: 20px;
+    color: #000000;
+    border-bottom: 3px solid #83cd29;
+
+    -webkit-animation: see 2s;
+    animation: see 2s;
+    animation-delay: 1.5s;
+    animation-fill-mode: forwards;  
+
+}
+
+#em-obra:after {
+  content: 'Em obra';
+  position: absolute;
+   
+  opacity: 0;
+
+    border-right: 3px solid #f01818;
+    bottom: 25px;
+    left: -40px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 50px;
+    font-size: 20px;
+    color: #000000;
+    border-bottom: 3px solid #f01818;
+
+    -webkit-animation: see 2s;
+    animation: see 2s;
+    animation-delay: 1.5s;
+    animation-fill-mode: forwards;  
+
+}
+
+#alugado:after {
+  content: 'Alugado';
   position: absolute;
    
   opacity: 0;
@@ -277,7 +363,7 @@ body {
     padding-right: 30px;
     padding-top: 50px;
     font-size: 20px;
-    color: #fff;
+    color: #000000;
     border-bottom: 3px solid #F08418;
 
     -webkit-animation: see 2s;
@@ -287,22 +373,22 @@ body {
 
 }
 
-#circle_Alugados:after {
-  content: 'Alugados';
+#livre:after {
+  content: 'disponivel';
   position: absolute;
    
   opacity: 0;
 
-    border-right: 3px solid #F08418;
-    bottom: 25px;
+    border-right: 3px solid #83cd29;
+    bottom: 10px;
     left: -40px;
     padding: 10px;
     padding-left: 30px;
     padding-right: 30px;
     padding-top: 50px;
     font-size: 20px;
-    color: #fff;
-    border-bottom: 3px solid #F08418;
+    color: #000000;
+    border-bottom: 3px solid #83cd29;
 
     -webkit-animation: see 2s;
     animation: see 2s;
@@ -311,142 +397,7 @@ body {
 
 }
 
-#circle_Disponiveis:after {
-  content: 'Disponiveis';
-  position: absolute;
-   
-  opacity: 0;
 
-    border-right: 3px solid #F08418;
-    bottom: 25px;
-    left: -40px;
-    padding: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 50px;
-    font-size: 20px;
-    color: #fff;
-    border-bottom: 3px solid #F08418;
-
-    -webkit-animation: see 2s;
-    animation: see 2s;
-    animation-delay: 1.5s;
-    animation-fill-mode: forwards;  
-
-}
-#anterior:after {
-    content: '97%';
-    position: absolute;
-    opacity: 0;
-    /* border-right: 3px solid #F08418; */
-    /* bottom: 25px; */
-    top: -113px;
-    /* left: -32px; */
-    right: 52px;
-    padding: 10px;
-    padding-bottom: 0;
-    padding-left: 30px;
-    padding-right: 10px;
-    padding-top: 50px;
-    font-size: 49px;
-    color: #fff;
-    border-bottom: 3px solid #F08418;
-    -webkit-animation: see 2s;
-    animation: see 2s;
-    animation-delay: 1s;
-    animation-fill-mode: forwards;
-
-}
-#anterior:before {
-    content: ' ';
-    position: absolute;
-    opacity: 0;
-    top: -5px;
-    right: 157px;
-    /* width: 1px; */
-    height: 26px;
-    border-right: 3px solid #F08418;
-    -webkit-animation: see 2s;
-    animation: see 2s;
-    animation-delay: 1s;
-    animation-fill-mode: forwards;
-}
-
-#atual:after {
-  content: '67%';
-  position: absolute;
-  opacity: 0;
-  /* border-right: 3px solid #F08418; */
-  /* bottom: 25px; */
-  top: -113px;
-  /* left: -32px; */
-  right: 52px;
-  padding: 10px;
-  padding-bottom: 0;
-  padding-left: 30px;
-  padding-right: 10px;
-  padding-top: 50px;
-  font-size: 49px;
-  color: #fff;
-  border-bottom: 3px solid #F08418;
-  -webkit-animation: see 2s;
-  animation: see 2s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-
-}
-#atual:before {
-  content: ' ';
-  position: absolute;
-  opacity: 0;
-  top: -5px;
-  right: 157px;
-  /* width: 1px; */
-  height: 26px;
-  border-right: 3px solid #F08418;
-  -webkit-animation: see 2s;
-  animation: see 2s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-}
-
-#posterior:after {
-  content: '8%';
-  position: absolute;
-  opacity: 0;
-  /* border-right: 3px solid #F08418; */
-  /* bottom: 25px; */
-  top: -113px;
-  /* left: -32px; */
-  right: 52px;
-  padding: 10px;
-  padding-bottom: 0;
-  padding-left: 30px;
-  padding-right: 10px;
-  padding-top: 50px;
-  font-size: 49px;
-  color: #fff;
-  border-bottom: 3px solid #F08418;
-  -webkit-animation: see 2s;
-  animation: see 2s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-
-}
-#posterior:before {
-  content: ' ';
-  position: absolute;
-  opacity: 0;
-  top: -5px;
-  right: 157px;
-  /* width: 1px; */
-  height: 26px;
-  border-right: 3px solid #F08418;
-  -webkit-animation: see 2s;
-  animation: see 2s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-}
 
 .chart figcaption {
   width: calc(80% - 10px);
@@ -463,29 +414,14 @@ body {
   font-family: arial;
   font-weight: lighter;
   font-size: 80px;
-  color:#fff;
+  color:#000000;
   margin-bottom: 10px;
 }
-#pizza{
-  top: 50px;
 
-}
-
-#pizza figcaption h2{
-  font-family: arial;
-  font-weight: lighter;
-  font-size: 30px;
-  color:#fff;
-  margin-bottom: 10px;
-  font-size: 50px;
-  text-align: left;
-  margin-top: 100px;
-  padding-left: 50px;
-}
 
 .chart figcaption p{
 
-  color:#fff;
+  color:#000000;
   max-width: 40%;
   margin: auto;
   font-size: 20px;
@@ -496,16 +432,8 @@ body {
   stroke: #F08418;
   stroke-width: 25;
   stroke-dasharray: 251%;
+    /* firefox bug fix - won't rotate at 90deg angles */
 }
-
-.pizza{
-  stroke-dashoffset: -270%;
-  stroke-width: 80%;
-}
-
-/* END Circle colors and graphic positions */
-
-
 /* Set the initial values for the animation */
 
 .chart[data-percent='75'] .outer {
@@ -514,13 +442,16 @@ body {
   animation: show75 2s;
 }
 
-.chart[data-percent='pizza'] .outer {
-  stroke-dashoffset: -262%;
-  -webkit-animation: pizza 1s;
-  animation: pizza 1s;
+.graficos-mensalidades {
+  display: flex;
+  justify-content: center; /* centraliza horizontalmente */
+  align-items: center;     /* alinha no eixo vertical (se quiser) */
+  gap: 2rem;              /* espaço entre os círculos (opcional) */
 }
 
-/* END set initial animation values */
+
+
+
 
 /* Keyframes for the initial animation */
 
@@ -545,7 +476,7 @@ body {
 }
 
 
-@-webkit-keyframes Disponiveis {
+@-webkit-keyframes canada {
   from {
     width: 0;
   }
@@ -555,7 +486,7 @@ body {
   }
 }
 
-@keyframes Disponiveis {
+@keyframes canada {
   from {
     width: 0;
   }
@@ -565,7 +496,7 @@ body {
   }
 }
 
-@-webkit-keyframes Alugados {
+@-webkit-keyframes eua {
   from {
     width: 0;
   }
@@ -575,7 +506,7 @@ body {
   }
 }
 
-@keyframes Alugados {
+@keyframes eua {
   from {
     width: 0;
   }
@@ -666,24 +597,6 @@ body {
 }
 
 
-
-@-webkit-keyframes pizza {
-  from {
-        stroke-dashoffset: -251%;
-  }
-  
-  to {
-    stroke-dashoffset: -262%;  }
-}
-
-@keyframes pizza {
-  from {
-        stroke-dashoffset: -251%;
-  }
-  
-  to {
-    stroke-dashoffset: -262%;  }
-}
 
 @keyframes see {
   from {
