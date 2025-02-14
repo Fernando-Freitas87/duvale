@@ -939,3 +939,35 @@ color: #28a745;   /* Verde no hover */
   color: #004085; /* Azul-escuro, por exemplo */
   text-decoration: underline; /* Se quiser sublinhar */
 }
+
+/* CARDS RELATORIOS */
+
+/* Estilização dos Cards */
+.card-relatorio {
+  background-color: #ffffff;      /* Fundo branco para um visual clean */
+  border: 1px solid #e0e0e0;      /* Borda leve para delimitar o card */
+  border-radius: 8px;             /* Bordas arredondadas para modernidade */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para profundidade */
+  padding: 20px;                  /* Espaçamento interno para melhor disposição do conteúdo */
+  margin: 10px;                   /* Espaçamento externo para separar os cards */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave para efeito hover */
+}
+
+/* Efeito hover para destacar o card */
+.card-relatorio:hover {
+  transform: translateY(-5px);    /* Leve deslocamento para cima ao passar o mouse */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra mais intensa para evidenciar o card */
+}
+
+/* Estilização para o título do card */
+.card-relatorio h3 {
+  margin-top: 0;               /* Remove a margem superior para alinhamento consistente */
+  font-size: 1.5em;            /* Tamanho de fonte adequado para destaque */
+  color: #333;                 /* Cor de fonte escura para boa legibilidade */
+}
+
+/* Estilização para o parágrafo do card */
+.card-relatorio p {
+  color: #666;                /* Cor de fonte mais suave para o texto secundário */
+  line-height: 1.4;           /* Altura da linha para facilitar a leitura */
+}
