@@ -446,8 +446,8 @@ body {
   display: flex;
   justify-content: center;  /* Centraliza os gráficos */
   align-items: center;      /* Mantém o alinhamento vertical */
-  width: 100%;              /* Usa toda a largura disponível */
-  transform: scale(0.9);    /* Ajuste fino para melhor proporção */
+  width: 90%;              /* Usa toda a largura disponível */
+  transform: scale(0.7);    /* Ajuste fino para melhor proporção */
   transform-origin: center; /* Mantém a escala centrada */
 }
 
