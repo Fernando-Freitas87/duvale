@@ -432,29 +432,30 @@ body {
 }
 /* Set the initial values for the animation */
 
-.chart[data-percent='75'] .outer {
-   stroke-dashoffset: -100%;
-  -webkit-animation: show75 2s;
-  animation: show75 2s;
-}
-
 .graficos-mensalidades {
   display: flex;
   justify-content: center;  /* Centraliza os gráficos horizontalmente */
-  align-items: center;      /* Alinha os gráficos verticalmente */
-  gap: 2rem;               /* Espaço entre os gráficos */
+  align-items: center;      /* Alinha verticalmente */
+  gap: 3rem;               /* Aumenta o espaço entre os gráficos */
   width: 100%;             /* Ocupa toda a largura do container */
+  flex-wrap: nowrap;       /* Garante que os gráficos fiquem na mesma linha */
 }
 
-/* 🔹 Define a escala reduzida para todos os elementos */
+/* 🔹 Ajuste no container geral */
 .scale-container {
-  display: flex;            /* Mantém o layout flexível */
-  justify-content: center;  /* Garante que os gráficos fiquem centralizados */
-  align-items: center;      /* Alinha verticalmente */
-  flex-wrap: wrap;          /* Permite que os gráficos quebrem linha caso necessário */
-  width: 100%;              /* Garante que ocupe a largura do container */
-  transform: scale(0.7);    /* Reduz o tamanho para 70% do original */
+  display: flex;
+  justify-content: center;  /* Centraliza os gráficos */
+  align-items: center;      /* Mantém o alinhamento vertical */
+  width: 100%;              /* Usa toda a largura disponível */
+  transform: scale(0.9);    /* Ajuste fino para melhor proporção */
   transform-origin: center; /* Mantém a escala centrada */
+}
+
+/* 🔹 Ajuste para cada gráfico */
+.graficos-mensalidades .chart {
+  flex: 1;                 /* Distribui os gráficos igualmente */
+  max-width: 300px;        /* Evita que fiquem muito grandes */
+  min-width: 250px;        /* Define um tamanho mínimo */
 }
 
 
