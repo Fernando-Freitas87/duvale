@@ -2,10 +2,10 @@
 .graficos-container {
   display: flex;           /* Ativa flexbox */
   justify-content: center; /* Centraliza os gráficos */
-  align-items: center;     /* Alinha no centro verticalmente */
+  align-items: flex-start; /* Ajusta alinhamento superior */
   gap: 3rem;              /* Espaço entre os gráficos */
   width: 100%;
-  flex-wrap: nowrap;       /* Mantém os gráficos em uma única linha */
+  flex-wrap: wrap;         /* Permite quebra de linha, se necessário */
   margin-top: 20px;
 }
 
@@ -24,26 +24,36 @@
   height: 100%;
 }
 
-/* 🔹 Ajustes no texto do gráfico */
+/* 🔹 Ajustes para os círculos internos (remover fundo preto) */
+.chart svg .inner {
+  fill: transparent !important; /* Remove o fundo preto */
+  stroke: #e0e0e0; /* Adiciona um fundo sutil para melhor contraste */
+  stroke-width: 10;
+}
+
+/* 🔹 Ajustes para os textos dentro do gráfico */
 .chart figcaption {
   position: absolute;
   width: 100%;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 18px;
+  font-weight: bold;
+  color: #333; /* Cor do texto */
 }
 
 /* 🔹 Animação dos círculos */
 .outer {
   stroke: #F08418;
-  stroke-width: 25;
+  stroke-width: 20;
   stroke-dasharray: 251%;
   fill: transparent;
 }
 
 /* 🔹 Ajuste das etiquetas abaixo dos gráficos */
-#em-atraso:after,
-#pendente:after,
-#em-dias:after {
+#em-atraso::after,
+#pendente::after,
+#em-dias::after {
   position: absolute;
   bottom: -20px;
   font-size: 14px;
@@ -51,6 +61,6 @@
 }
 
 /* Cores das etiquetas */
-#em-atraso:after { content: 'Em atraso'; color: red; }
-#pendente:after { content: 'Pendente'; color: orange; }
-#em-dias:after { content: 'Em Dias'; color: green; }
+#em-atraso::after { content: 'Em atraso'; color: red; }
+#pendente::after { content: 'Pendente'; color: orange; }
+#em-dias::after { content: 'Em Dias'; color: green; }
