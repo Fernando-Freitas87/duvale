@@ -314,56 +314,47 @@
               </div>
             </div>
 
-            <!-- grafico imoveis -->
-            <h2>Grafico Imóveis</h2>
+            <h2>Gráfico Imóveis</h2>
             <hr class="divider">
             <br>
-            <section class="scale-container">
-              <section class="container">
-                <div class="graficos-mensalidades">
-                  <figure class="chart" id="em-obra"data-percent="75">
+            
+            <!-- Contêiner principal para os gráficos -->
+            <section class="graficos-container">
+                <!-- Gráfico 1: Em Obra -->
+                <figure class="chart" id="em-obra" data-percent="75">
                     <svg>
-                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
-                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="inner" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="outer" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
                     </svg>
                     <figcaption>
-                      <h2>14%</h2>
-                      <p>9 Imoveis</p>
+                        <h2>14%</h2>
+                        <p>9 Imóveis</p>
                     </figcaption>
-                  </figure>
-                </div>
-              </section>
-
-              <section class="container">
-                <div class="graficos-mensalidades">
-                  <figure class="chart" id="livre"data-percent="75">
+                </figure>
+            
+                <!-- Gráfico 2: Disponível -->
+                <figure class="chart" id="livre" data-percent="75">
                     <svg>
-                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
-                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="inner" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="outer" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
                     </svg>
                     <figcaption>
-                      <h2>11%</h2>
-                      <p>7 Imoveis</p>
+                        <h2>11%</h2>
+                        <p>7 Imóveis</p>
                     </figcaption>
-                  </figure>
-                </div>
-              </section>
-
-              <section class="container">
-                <div class="graficos-mensalidades">
-                  <figure class="chart" id="alugado"data-percent="75">
+                </figure>
+            
+                <!-- Gráfico 3: Alugado -->
+                <figure class="chart" id="alugado" data-percent="75">
                     <svg>
-                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
-                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="inner" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="outer" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
                     </svg>
                     <figcaption>
-                      <h2>68%</h2>
-                      <p>16 Imoveis</p>
+                        <h2>68%</h2>
+                        <p>16 Imóveis</p>
                     </figcaption>
-                  </figure>
-                </div>
-              </section>
-
+                </figure>
             </section>
             <br />
           <!-- Seção: Gerenciamento de Clientes -->
@@ -427,17 +418,6 @@
             </div>
           </div>
         </section>
-        <!-- grafico de colunas imoveis -->
-        <section>
-          <div class="column-graph">
-            <hr class="esq">
-            <hr class="bot">
-            <div class="column nac"></div>
-            <div class="column gringo" id="canada"></div>
-            <div class="column gringo" id="eua"></div>
-          </div>
-        </section>
-        <br />
         <!-- Seção: Gerenciamento de Contratos -->
         <section id="gerenciar-contratos-section" style="display: none;">
             <h2>Contratos</h2>

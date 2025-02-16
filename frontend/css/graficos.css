@@ -2,10 +2,10 @@
 .graficos-container {
   display: flex;           /* Ativa flexbox */
   justify-content: center; /* Centraliza os gráficos */
-  align-items: flex-start; /* Ajusta alinhamento superior */
+  align-items: flex-start; /* Mantém alinhamento no topo */
   gap: 3rem;              /* Espaço entre os gráficos */
   width: 100%;
-  flex-wrap: wrap;         /* Permite quebra de linha, se necessário */
+  flex-wrap: nowrap;       /* Mantém os gráficos na mesma linha */
   margin-top: 20px;
 }
 
