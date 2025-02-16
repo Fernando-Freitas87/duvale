@@ -94,7 +94,7 @@ main {
   padding: 0.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center; /* Centraliza horizontalmente */
   border-radius: 0.5rem;
   transition: 0.3s ease;
 }
