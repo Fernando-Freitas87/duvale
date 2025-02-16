@@ -115,21 +115,15 @@
 
     <!-- Conteúdo Principal -->
     <main class="main-container">
-        
-
+      <!-- titulo -->
       <section class="planilhas-header">
-        <div class="header-container">
-            <!-- Botão Sair -->
-            <a href="index.html" id="sair" class="menuOption" title="Sair">
-                <i class="fa-solid fa-sign-out-alt"></i>
-                <span>Sair</span>
-            </a>
-    
+        <div class="header-container">    
             <!-- Título da página -->
             <h1 class="h1"><i class="fas fa-chart-line"></i> Painel Administrativo</h1>
         </div>
       </section>
       <hr class="divider" />
+
       <!-- Cards Dinâmicos -->
       <section class="overview">
         <div class="cards">
@@ -171,6 +165,7 @@
             </div>
         </div>
       </section>
+
         <!-- Seção: Em Atraso -->
         <section id="em-atraso-section" style="display: none;">
           <h2>Em atraso</h2>
@@ -215,7 +210,6 @@
             <h2>Grafico Mensalidades</h2>
             <hr class="divider">
             <br>
-
             <!-- grafico mensalidade -->
             <section class="scale-container">
               <section class="container">
@@ -264,12 +258,14 @@
               </section>
             </section>
             <br />
-        <!-- Seção: Gerenciamento de Imóveis -->
-        <section id="gerenciar-imoveis-section" style="display: none;">
-            <h2>Gerenciamento de Imóveis</h2>
-            <table class="table">
-              <thead>
-                <tr>
+      </section>
+
+      <!-- Seção: Gerenciamento de Imóveis -->
+      <section id="gerenciar-imoveis-section" style="display: none;">
+        <h2>Gerenciamento de Imóveis</h2>
+          <table class="table">
+            <thead>
+              <tr>
                   <th>Descrição</th>
                   <th>Endereço</th>
                   <th>Nº Cliente ENEL</th> <!-- Nova Coluna -->
@@ -278,12 +274,12 @@
                   <th>Status</th>
                   <th>Ações</th>
 
-                </tr>
-              </thead>
-              <tbody id="imoveis-corpo">
-                <!-- Linhas dinâmicas via JavaScript -->
-              </tbody>
-            </table>
+              </tr>
+            </thead>
+            <tbody id="imoveis-corpo">
+            <!-- Linhas dinâmicas via JavaScript -->
+            </tbody>
+          </table>
             <div id="paginacao-imoveis" class="pagination"></div>
             <!-- Modal: Editar Imóvel -->
             <div id="modal-editar-imovel" class="modal" style="display: none;">
