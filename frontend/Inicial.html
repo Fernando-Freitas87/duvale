@@ -207,58 +207,50 @@
             </table>
             <br>
             <div id="paginacao-vencer" class="pagination"></div>
-            <h2>Grafico Mensalidades</h2>
+            <h2>Gráfico Mensalidades</h2>
             <hr class="divider">
             <br>
-            <!-- grafico mensalidade -->
-            <section class="scale-container">
-              <section class="container">
-                <div class="graficos-mensalidades">
-                  <figure class="chart" id="em-atraso"data-percent="75">
+        
+            <!-- Contêiner principal para os gráficos -->
+            <section class="graficos-container">
+                <!-- Gráfico 1: Em Atraso -->
+                <figure class="chart" id="em-atraso" data-percent="75">
                     <svg>
-                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
-                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="inner" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="outer" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
                     </svg>
                     <figcaption>
-                      <h2>7%</h2>
-                      <p>R$ 4.850,00 em atraso</p>
+                        <h2>7%</h2>
+                        <p>R$ 4.850,00 em atraso</p>
                     </figcaption>
-                  </figure>
-                </div>
-              </section>
-
-              <section class="container">
-                <div class="graficos-mensalidades">
-                  <figure class="chart" id="pendente"data-percent="75">
+                </figure>
+        
+                <!-- Gráfico 2: Pendentes -->
+                <figure class="chart" id="pendente" data-percent="75">
                     <svg>
-                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
-                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="inner" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="outer" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
                     </svg>
                     <figcaption>
-                      <h2>93%</h2>
-                      <p>R$ 50.200,00 Pendentes</p>
+                        <h2>93%</h2>
+                        <p>R$ 50.200,00 Pendentes</p>
                     </figcaption>
-                  </figure>
-                </div>
-              </section>
-
-              <section class="container">
-                <div class="graficos-mensalidades">
-                  <figure class="chart" id="em-dias"data-percent="75">
+                </figure>
+        
+                <!-- Gráfico 3: Em Dias -->
+                <figure class="chart" id="em-dias" data-percent="75">
                     <svg>
-                      <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
-                      <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="inner" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
+                        <circle class="outer" cx="50%" cy="50%" r="40%" transform="rotate(-90, 95, 95)"/>
                     </svg>
                     <figcaption>
-                      <h2>0,1%</h2>
-                      <p>R$ 0,00 Pagos</p>
+                        <h2>0,1%</h2>
+                        <p>R$ 0,00 Pagos</p>
                     </figcaption>
-                  </figure>
-                </div>
-              </section>
+                </figure>
             </section>
             <br />
-      </section>
+        </section>
 
       <!-- Seção: Gerenciamento de Imóveis -->
       <section id="gerenciar-imoveis-section" style="display: none;">
@@ -318,7 +310,7 @@
             <hr class="divider">
             <br>
             
-            <!-- Contêiner principal para os gráficos -->
+            <!-- Contêiner principal para os gráficos imoveis-->
             <section class="graficos-container">
                 <!-- Gráfico 1: Em Obra -->
                 <figure class="chart" id="em-obra" data-percent="75">
