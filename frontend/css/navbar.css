@@ -39,7 +39,7 @@ body {
 .menu {
   position: fixed;
   width: 60px;
-  height: calc(100vh - 10px);
+  height: calc(100vh - 35px);
   background-color: var(--sidebar-bg);
   z-index: 2;
   top: 5px;
