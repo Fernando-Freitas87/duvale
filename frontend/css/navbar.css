@@ -178,18 +178,6 @@ main {
   transform: translateX(0);
 }
 
-/* ============================= */
-/* 🔹 Estilização do Usuário no Menu */
-/* ============================= */
-.menuUser {
-  position: absolute;
-  bottom: 0;
-  width: 60%;
-  padding: 1rem 0;
-  background-color: var(--sidebar-bg); /* Mantém o fundo do menu */
-  text-align: center;
-}
-
 .menu .menuUser a {
   display: flex;
   align-items: center;
@@ -198,6 +186,17 @@ main {
   text-decoration: none;
   padding: 0.5rem;
   position: relative;
+  color: var(--text-color);
+}
+
+/* Estado hover: força a cor e define um fundo */
+.menu .menuUser a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-color); /* Garante que a cor do texto permaneça */
+}
+
+/* Estado visited: evita que a cor mude para o padrão (que pode ser vermelho) */
+.menu .menuUser a:visited {
   color: var(--text-color);
 }
 /* ============================= */
