@@ -450,6 +450,8 @@ body {
   transform: scale(0.7);  /* Reduz o tamanho para 70% do original */
   transform-origin: top left; /* Mantém a posição de origem no topo esquerdo */
   justify-content: center; /* centraliza horizontalmente */
+  align-items: center;     /* alinha no eixo vertical (se quiser) */
+  gap: 2rem;              /* espaço entre os círculos (opcional) */
 }
 
 
