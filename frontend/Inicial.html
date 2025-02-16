@@ -24,94 +24,81 @@
 
   <!--todo o conteudo da pagina-->
   <body>
-    <!-- Menu Lateral -->
-    <nav id="menu" class="menu">
-        <!-- Botão de abrir/fechar o menu -->
-        <div class="actionBar">
-          <div>
-              <button id="menuBtn" type="button">
-                  <img src="img/duvaleb.svg" alt="Logo Duvale" style="height: 40px;">
-              </button>
-          </div>
+<!-- Menu Lateral -->
+<nav id="menu" class="menu">
+  <!-- Botão de abrir/fechar o menu -->
+  <div class="actionBar">
+    <div>
+      <button id="menuBtn" type="button">
+        <img src="img/duvaleb.svg" alt="Logo Duvale" style="height: 40px;">
+      </button>
+    </div>
+  </div>
+
+  <!-- Linha divisória -->
+  <li class="menuBreak">
+    <hr>
+  </li>
+
+  <!-- Opções do Menu -->
+  <ul class="optionsBar">
+    <!-- Administrativo -->
+    <li class="menuItem">
+      <a href="Inicial.html" class="menuOption" title="Administrativo">
+        <i class="fas fa-chart-line"></i>
+        <h5 class="menuText">Administrativo</h5>
+      </a>
+    </li>
+
+    <!-- Financeiro -->
+    <li class="menuItem">
+      <a href="financeiro.html" class="menuOption" title="Financeiro">
+        <i class="fa-solid fa-wallet"></i>
+        <h5 class="menuText">Financeiro</h5>
+      </a>
+    </li>
+
+    <!-- Cadastro -->
+    <li class="menuItem">
+      <a href="cadastro.html" class="menuOption" title="Cadastro">
+        <i class="fa-solid fa-user-plus"></i>
+        <h5 class="menuText">Cadastro</h5>
+      </a>
+    </li>
+
+    <!-- Relatórios -->
+    <li class="menuItem">
+      <a href="relatorios.html" class="menuOption" title="Relatórios">
+        <i class="fa-solid fa-file-lines"></i>
+        <h5 class="menuText">Relatórios</h5>
+      </a>
+    </li>
+
+    <!-- Botão de Avisos -->
+    <li class="menuItem">
+      <a href="#" class="menuOption" id="btnAviso" title="Avisos">
+        <i class="fa-solid fa-bell" id="iconAviso"></i>
+        <span class="indicator" id="indicatorAviso"></span>
+        <h5 class="menuText">Avisos</h5>
+      </a>
+    </li>
+  </ul>
+
+  <!-- Área do Menu para Sair (antiga área do usuário) -->
+  <div class="menuUser">
+    <!-- Linha divisória -->
+    <li class="menuBreak">
+      <hr>
+    </li>
+    <!-- Botão Sair -->
+    <a href="index.html" id="sair" class="menuOption" title="Sair">
+      <div class="menuItem">
+        <i class="fa-solid fa-power-off"></i>
       </div>
-
-        <!-- Linha divisória -->
-        <li class="menuBreak">
-            <hr>
-        </li>
-
-        <!-- Opções do Menu -->
-        <ul class="optionsBar">
-            <!-- Administrativo -->
-            <li class="menuItem">
-                <a href="Inicial.html" class="menuOption" title="Administrativo">
-                    <i class="fas fa-chart-line"></i><h5 class="menuText">Administrativo</h5>
-                </a>
-            </li>
-
-            <!-- Financeiro -->
-            <li class="menuItem">
-                <a href="financeiro.html" class="menuOption" title="Financeiro">
-                    <i class="fa-solid fa-wallet"></i><h5 class="menuText">Financeiro</h5>
-                </a>
-            </li>
-
-            <!-- Cadastro -->
-            <li class="menuItem">
-                <a href="cadastro.html" class="menuOption" title="Cadastro">
-                    <i class="fa-solid fa-user-plus"></i><h5 class="menuText">Cadastro</h5>
-                </a>
-            </li>
-
-            <!-- Relatórios -->
-            <li class="menuItem">
-              <a href="relatorios.html" class="menuOption" title="Relatórios">
-                  <i class="fa-solid fa-file-lines"></i><h5 class="menuText">Relatórios</h5>
-              </a>
-            </li>
-
-            <!-- Botão de aviso no menu -->
-            <li class="menuItem">
-              <a href="#" class="menuOption" id="btnAviso" title="Avisos">
-                  <i class="fa-solid fa-bell" id="iconAviso"></i>
-                  <span class="indicator" id="indicatorAviso"></span>
-                  <h5 class="menuText">Avisos</h5>
-              </a>
-          </li>
-
-          <!-- Botão de aviso no menu -->
-          <a href="index.html" id="sair" class="menuOption" title="Sair">
-            <i class="fa-solid fa-power-off"></i>
-            <h5 class="menuText">Sair</h5>
-          </a>
-        </ul>
-        
-        <!-- Modal de Avisos -->
-        <div id="modalAviso" class="modal">
-          <div class="modalContent">
-            <span id="closeModalAviso" class="close">&times;</span>
-            <h2>Avisos</h2>
-            <div id="modalBodyAviso">
-              <!-- Aqui as notificações serão inseridas via JavaScript -->
-            </div>
-          </div>
-        </div>
-        <!-- Informações do Usuário (Agora melhor estruturado) -->
-        <!-- Linha divisória -->
-        <div class="menuUser">
-          <!-- Linha divisória -->
-            <li class="menuBreak">
-              <hr>
-            </li>
-        
-            <a href="#" class="menuOption" title="Usuario">
-              <div class="menuItem">
-                <i class="fa-solid fa-user-circle" style="color: #ffffff;"  > </i> <!-- Ícone de usuário -->
-              </div>
-              <h5 class="menuText"><span id="user-name">Usuário</span></h5>
-            </a>
-        </div>
-    </nav>
+      <h5 class="menuText">Sair</h5>
+    </a>
+  </div>
+</nav>
 
 
     <!-- Conteúdo Principal -->
