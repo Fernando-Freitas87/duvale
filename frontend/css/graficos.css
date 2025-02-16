@@ -197,16 +197,16 @@ body {
 }
 /* END Container styles */
 
-/* 🔹 Ajuste geral do layout */
+/* Colors for the circles and positions for the graphics */
 .html {
-  top: 35px;   /* Reduz 30% */
-  left: 31px;  /* Reduz 30% */
+  top: 50px;
+  left: 45px;
 }
 
  svg .inner {
   stroke: #256F8D;
   fill: none;
-  stroke-width: 7px; /* Reduz 30% do tamanho original */
+    stroke-width: 10;
 }
 
 .html + svg .outer {
@@ -218,12 +218,11 @@ body {
   stroke: #0d84ce;
 }
 
-/* 🔹 Redução do tamanho dos ícones */
 .javascript {
-  max-width: 63px;  /* Reduzindo 30% */
-  max-height: 63px; /* Reduzindo 30% */
-  top: 31px;
-  left: 31px;
+  max-width: 90px;
+  max-height: 90px;
+  top: 45px;
+  left: 45px;
 }
 
 .javascript + svg .outer {
@@ -244,8 +243,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 70%;  /* Reduz a largura em 30% */
-  height: 70%; /* Reduz a altura em 30% */
+  width:100%;
+  height:100%;
   z-index: 2;
 
 }
