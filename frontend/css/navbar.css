@@ -377,8 +377,17 @@ main {
   border-top: 1px solid #ddd; /* Linha sutil */
 }
 
+#footer a {
+  color: #777; /* Mantém a mesma cor do texto */
+  text-decoration: underline; /* Destaca o link */
+}
+
+#footer a:hover {
+  color: #555; /* Cor levemente mais escura ao passar o mouse */
+}
+
 body {
-  margin-bottom: 30px; /* Espaço para o footer não sobrepor conteúdo */
+  margin-bottom: 30px; /* Espaço para o footer não sobrepor o conteúdo */
 }
 
 /* Responsividade */
