@@ -440,18 +440,21 @@ body {
 
 .graficos-mensalidades {
   display: flex;
-  justify-content: center; /* centraliza horizontalmente */
-  align-items: center;     /* alinha no eixo vertical (se quiser) */
-  gap: 2rem;              /* espaço entre os círculos (opcional) */
+  justify-content: center;  /* Centraliza os gráficos horizontalmente */
+  align-items: center;      /* Alinha os gráficos verticalmente */
+  gap: 2rem;               /* Espaço entre os gráficos */
+  width: 100%;             /* Ocupa toda a largura do container */
 }
 
 /* 🔹 Define a escala reduzida para todos os elementos */
 .scale-container {
-  transform: scale(0.7);  /* Reduz o tamanho para 70% do original */
-  transform-origin: top left; /* Mantém a posição de origem no topo esquerdo */
-  justify-content: center; /* centraliza horizontalmente */
-  align-items: center;     /* alinha no eixo vertical (se quiser) */
-  gap: 2rem;              /* espaço entre os círculos (opcional) */
+  display: flex;            /* Mantém o layout flexível */
+  justify-content: center;  /* Garante que os gráficos fiquem centralizados */
+  align-items: center;      /* Alinha verticalmente */
+  flex-wrap: wrap;          /* Permite que os gráficos quebrem linha caso necessário */
+  width: 100%;              /* Garante que ocupe a largura do container */
+  transform: scale(0.7);    /* Reduz o tamanho para 70% do original */
+  transform-origin: center; /* Mantém a escala centrada */
 }
 
 
