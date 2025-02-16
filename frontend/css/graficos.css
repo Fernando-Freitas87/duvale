@@ -445,7 +445,11 @@ body {
   gap: 1rem;              /* espaço entre os círculos (opcional) */
 }
 
-
+/* 🔹 Define a escala reduzida para todos os elementos */
+.scale-container {
+  transform: scale(0.7);  /* Reduz o tamanho para 70% do original */
+  transform-origin: top left; /* Mantém a posição de origem no topo esquerdo */
+}
 
 
 
