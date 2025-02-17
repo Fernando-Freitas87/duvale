@@ -178,7 +178,7 @@ main {
   transform: translateX(0);
 }
 
-.menu .menuUser a {
+.menuUser a {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -190,13 +190,13 @@ main {
 }
 
 /* Estado hover: força a cor e define um fundo */
-.menu .menuUser a:hover {
+.menuUser a:hover {
   background-color: rgba(255, 255, 255, 0.2);
   color: var(--text-color); /* Garante que a cor do texto permaneça */
 }
 
 /* Estado visited: evita que a cor mude para o padrão (que pode ser vermelho) */
-.menu .menuUser a:visited {
+.menuUser a:visited {
   color: var(--text-color);
 }
 /* ============================= */
