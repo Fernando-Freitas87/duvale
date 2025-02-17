@@ -28,7 +28,7 @@ body.dark {
 body {
   display: flex;
   height: 100vh; /* Ocupa toda a altura da tela */
-  background: url("../img/fundo1.png") no-repeat center center fixed;
+  background-image: url('img/fundo2.png'); /* Fundo fixo personalizado */
   background-size: cover;
   font-family: sans-serif;
 }
@@ -88,28 +88,33 @@ main {
 /* ============================= */
 /* 🔹 Barra de Ações (Topo do Menu) */
 /* ============================= */
+/* 🔹 Barra de Ações (Topo do Menu) */
 .menu .actionBar {
-  width: 100%;
-  height: 10%;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Centraliza horizontalmente */
-  border-radius: 0.5rem;
-  transition: 0.3s ease;
+width: 100%;
+height: 10%;
+padding: 0.5rem;
+display: flex;
+align-items: center;
+justify-content: center; /* Centraliza horizontalmente */
+border-radius: 0.5rem;
+transition: 0.3s ease;
 }
 
+/* 🔹 Ajuste do botão */
 .menu .actionBar button {
-  background-color: transparent;
-  outline: none;
-  border: none;
-  border-radius: 0.5rem;
-  color: var(--text-color);
-  width: 45px;
-  height: 45px;
-  transition: 0.3s ease;
-  font-size: 1rem;
-  cursor: pointer;
+background-color: transparent;
+outline: none;
+border: none;
+border-radius: 0.5rem;
+color: var(--text-color);
+width: 45px;
+height: 45px;
+transition: 0.3s ease;
+font-size: 1rem;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
 }
 
 .menu .actionBar button:hover {
@@ -178,6 +183,18 @@ main {
   transform: translateX(0);
 }
 
+/* ============================= */
+/* 🔹 Estilização do Usuário no Menu */
+/* ============================= */
+.menuUser {
+  position: absolute;
+  bottom: 0;
+  width: 60%;
+  padding: 1rem 0;
+  background-color: var(--sidebar-bg); /* Mantém o fundo do menu */
+  text-align: center;
+}
+
 .menu .menuUser a {
   display: flex;
   align-items: center;
@@ -186,17 +203,6 @@ main {
   text-decoration: none;
   padding: 0.5rem;
   position: relative;
-  color: var(--text-color);
-}
-
-/* Estado hover: força a cor e define um fundo */
-.menu .menuUser a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: var(--text-color); /* Garante que a cor do texto permaneça */
-}
-
-/* Estado visited: evita que a cor mude para o padrão (que pode ser vermelho) */
-.menu .menuUser a:visited {
   color: var(--text-color);
 }
 /* ============================= */
@@ -216,6 +222,67 @@ main {
   background-color: var(--text-color);
   border: none;
   border-radius: 5px;
+}
+
+/* =================================== */
+/* 🔹 define o titulo da pagina padrao */
+/* =================================== */
+.planilhas-header {
+position: fixed;
+left: 75px;           /* Margem à esquerda */
+top: 43px;            /* Margem no topo */
+width: 1330px;        /* Largura fixa (ajuste conforme necessário) */
+padding: 20px;
+background-color: transparent; /* Fundo transparente */
+/* Removido 'height: calc(100vh - 40px);' para não forçar altura grande */
+/* Se você quiser que o background ocupe toda a tela, mantenha a altura */
+border-bottom: 2px solid transparent; /* Linha sutil (se desejar visível, mude a cor) */
+}
+
+/* Contêiner que mantém o h1 e os ícones na mesma linha */
+.header-container {
+display: flex;               /* Distribui os elementos em linha */
+align-items: center;         /* Alinha verticalmente ao centro */
+justify-content: space-between; /* Espaça o título à esquerda e os ícones à direita */
+width: 100%; 
+max-width: 1200px;          /* Ajuste conforme necessário */
+margin: 0 auto;             /* Centraliza horizontalmente */
+}
+
+/* Título */
+.h1 {
+margin: 0;                  /* Remove margens padrões */
+font-size: 24px;            /* Ajuste conforme necessário */
+font-weight: bold;
+color: #004085;
+display: flex;
+align-items: center;        /* Alinha o ícone e o texto do h1 */
+}
+
+/* Seção de ícones à direita */
+.header-actions {
+display: flex;              /* Exibe ícones em linha */
+align-items: center;
+gap: 1rem;                  /* Espaçamento entre os itens */
+}
+
+/* Ajuste do ícone e da imagem */
+.header-actions span i {
+font-size: 1.2rem;
+color: #888888;             /* Ajuste a cor conforme seu design */
+}
+
+.header-actions img {
+height: 3rem;
+width: 3rem;
+object-fit: cover;
+border-radius: 50%;
+}
+
+/* Linha divisória entre seções */
+.divider {
+border: 1px solid #004085;  /* Ajuste a cor conforme necessário */
+margin: 10px 0 20px;
 }
 
 /* ============================= */
@@ -333,6 +400,20 @@ main {
 }
 
 /* ============================= */
+/* 🔹 busca + icone de aleta + avatar */
+/* ============================= */
+
+.nav-links { display: flex; }
+  .nav-links li { position: relative; padding: 0.7vw; margin: 0 0.7vw; }
+      .nav-links li a { display: flex; flex-direction: column; align-items: center; color: #888888; }
+          .nav-links li a span { font-size: .9rem; letter-spacing: 1px; margin-top: 0.2rem; }
+
+section { display: flex; align-items: center; }
+  section span { color: #888888; }
+      section span i { margin: 0 1.2vw; font-size: 1.2rem; }
+  section img { height: 3rem; width: 3rem; object-fit: cover; border-radius: 50%; margin: 0 0.7vw; }
+
+/* ============================= */
 /* 🔹 Ajuste para o Contêiner do Ícone */
 /* ============================= */
 .menu .menuItem {
@@ -365,48 +446,53 @@ main {
 /* ============================= */
 /* Estilização do Footer */
 #footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  background: transparent;
-  color: #777; /* Cor discreta */
-  font-size: 12px;
-  padding: 5px 0;
-  border-top: 1px solid #ddd; /* Linha sutil */
+position: fixed;
+bottom: 0;
+width: 100%;
+text-align: center;
+background: transparent;
+color: #777; /* Cor discreta */
+font-size: 12px;
+padding: 5px 0;
+border-top: 1px solid #ddd; /* Linha sutil */
 }
 
 #footer a {
-  color: #777; /* Mantém a mesma cor do texto */
-  text-decoration: underline; /* Destaca o link */
+color: #777; /* Mantém a mesma cor do texto */
+text-decoration: underline; /* Destaca o link */
 }
 
 #footer a:hover {
-  color: #555; /* Cor levemente mais escura ao passar o mouse */
+color: #555; /* Cor levemente mais escura ao passar o mouse */
 }
 
 body {
-  margin-bottom: 30px; /* Espaço para o footer não sobrepor o conteúdo */
+margin-bottom: 30px; /* Espaço para o footer não sobrepor o conteúdo */
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-  .login-container {
-      width: 95%;
-      padding: 20px 25px;
-  }
-
-  .pin-box {
-      width: 45px;
-      height: 45px;
-      font-size: 1.2rem;
-  }
-
-  h1 {
-      font-size: 1.8rem;
-  }
-
-  .footer {
-      font-size: 0.7rem;
-  }
+.login-container {
+    width: 95%;
+    padding: 20px 25px;
 }
+
+.pin-box {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+}
+
+h1 {
+    font-size: 1.8rem;
+}
+
+.footer {
+    font-size: 0.7rem;
+}
+}
+
+
+
+
+
