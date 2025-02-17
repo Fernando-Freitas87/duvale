@@ -8,99 +8,91 @@
   <link rel="stylesheet" href="css/navbar.css">
 </head>
 <body>
-  <!-- Menu Lateral -->
-  <nav id="menu" class="menu">
-    <!-- Botão de abrir/fechar o menu -->
-    <div class="actionBar">
-      <div>
-        <button id="menuBtn" type="button">
-          <i class="fa-solid fa-bars"></i>
-        </button>
+    <!-- Menu Lateral -->
+    <nav id="menu" class="menu">
+      <!-- Botão de abrir/fechar o menu -->
+      <div class="actionBar">
+          <div>
+              <button id="menuBtn" type="button">
+                  <img src="img/duvaleb.svg" alt="Logo Duvale" style="height: 40px;">
+              </button>
+          </div>
       </div>
-    </div>
 
-    <!-- Linha divisória (utilizando uma div ao invés de <li>) -->
-    <div class="menuBreak">
-      <hr>
-    </div>
 
-    <!-- Opções do Menu -->
-    <ul class="optionsBar">
-      <!-- Administrativo -->
-      <li class="menuItem">
-        <a href="Inicial.html" class="menuOption" title="Administrativo">
-          <i class="fas fa-chart-line"></i>
-          <h5 class="menuText">Administrativo</h5>
-        </a>
-      </li>
-
-      <!-- Financeiro -->
-      <li class="menuItem">
-        <a href="financeiro.html" class="menuOption" title="Financeiro">
-          <i class="fa-solid fa-wallet"></i>
-          <h5 class="menuText">Financeiro</h5>
-        </a>
-      </li>
-
-      <!-- Cadastro -->
-      <li class="menuItem">
-        <a href="cadastro.html" class="menuOption" title="Cadastro">
-          <i class="fa-solid fa-user-plus"></i>
-          <h5 class="menuText">Cadastro</h5>
-        </a>
-      </li>
-
-      <!-- Suporte -->
-      <li class="menuItem">
-        <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer" class="menuOption" title="Suporte">
-          <i class="fa-solid fa-headset"></i>
-          <h5 class="menuText">Suporte</h5>
-        </a>
-      </li>
-
-      <!-- Relatórios -->
-      <li class="menuItem">
-        <a href="relatorios.html" class="menuOption" title="Relatórios">
-          <i class="fa-solid fa-file-lines"></i>
-          <h5 class="menuText">Relatórios</h5>
-        </a>
-      </li>
-
-      <!-- Botão de Avisos -->
-      <li class="menuItem">
-        <a href="#" class="menuOption" id="btnAviso" title="Avisos">
-          <i class="fa-solid fa-bell" id="iconAviso"></i>
-          <span class="indicator" id="indicatorAviso"></span>
-          <h5 class="menuText">Avisos</h5>
-        </a>
-      </li>
-    </ul>
-
-    <!-- Modal de Avisos -->
-    <div id="modalAviso" class="modal">
-      <div class="modalContent">
-        <span id="closeModalAviso" class="close">&times;</span>
-        <h2>Avisos</h2>
-        <div id="modalBodyAviso">
-          <!-- Aqui as notificações serão inseridas via JavaScript -->
-        </div>
-      </div>
-    </div>
-
-    <!-- Informações do Usuário -->
-    <div class="menuUser">
       <!-- Linha divisória -->
-      <div class="menuBreak">
-        <hr>
-      </div>
-      <a href="#" class="menuOption" title="Usuário">
-        <div class="menuItem">
-          <i class="fa-solid fa-user-circle" style="color: #ffffff;"></i>
+      <li class="menuBreak">
+          <hr>
+      </li>
+
+      <!-- Opções do Menu -->
+      <ul class="optionsBar">
+          <!-- Administrativo -->
+          <li class="menuItem">
+              <a href="Inicial.html" class="menuOption" title="Administrativo">
+                  <i class="fas fa-chart-line"></i><h5 class="menuText">Administrativo</h5>
+              </a>
+          </li>
+
+          <!-- Financeiro -->
+          <li class="menuItem">
+              <a href="financeiro.html" class="menuOption" title="Financeiro">
+                  <i class="fa-solid fa-wallet"></i><h5 class="menuText">Financeiro</h5>
+              </a>
+          </li>
+
+          <!-- Cadastro -->
+          <li class="menuItem">
+              <a href="cadastro.html" class="menuOption" title="Cadastro">
+                  <i class="fa-solid fa-user-plus"></i><h5 class="menuText">Cadastro</h5>
+              </a>
+          </li>
+
+          <!-- Relatórios -->
+          <li class="menuItem">
+              <a href="relatorios.html" class="menuOption" title="Relatórios">
+                <i class="fa-solid fa-file-lines"></i><h5 class="menuText">Relatórios</h5>
+              </a>
+          </li>
+
+          <!-- Suporte -->
+          <li class="menuItem">
+              <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer" class="menuOption" title="Suporte">
+                  <i class="fa-solid fa-headset"></i><h5 class="menuText">Suporte</h5>
+              </a>
+          </li>
+
+          <!-- Botão de aviso no menu -->
+          <li class="menuItem">
+            <a href="#" class="menuOption" id="btnAviso" title="Avisos">
+                <i class="fa-solid fa-bell" id="iconAviso"></i>
+                <span class="indicator" id="indicatorAviso"></span>
+                <h5 class="menuText">Avisos</h5>
+            </a>
+          </li>
+        </ul>
+      <!--modal avisos-->
+        <div id="modalAviso" class="modal">
+        <div class="modalContent">
+          <span id="closeModalAviso" class="close">&times;</span>
+          <h2>Avisos</h2>
+          <div id="modalBodyAviso">
+            <!-- Avisos serão adicionados aqui dinamicamente -->
+          </div>
         </div>
-        <h5 class="menuText"><span id="user-name">Usuário</span></h5>
-      </a>
-    </div>
-  </nav>
+        </div>
+
+
+      <!-- Informações do Usuário (Agora melhor estruturado) -->
+        <div class="menuUser">
+          <!-- Sair -->
+          <li class="menuItem">
+            <a href="index.html" id="sair" class="menuOption" title="Sair">
+              <i class="fa-solid fa-power-off"></i>
+            </a>
+          </li>
+        </div>
+    </nav>
 
   <!-- Conteúdo Principal -->
   <main class="main-container">
@@ -145,10 +137,13 @@
     </section>
   </main>
 
-  <!-- Rodapé -->
-  <footer id="footer">
-    <p>Setta Software Solutions. Todos os direitos reservados | Desenvolvido por Fernando Freitas © 2024</p>
-  </footer>
+    <!--rodape da pagina-->
+    <footer id="footer">
+      <p>
+        Setta Software Solutions. Todos os direitos reservados | Desenvolvido por Fernando Freitas © 2024 
+        | <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer">Suporte</a>
+      </p>
+    </footer>
 
   <!-- Inclusão de Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>

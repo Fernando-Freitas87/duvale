@@ -30,8 +30,8 @@
 
     <!-- Menu Lateral -->
     <nav id="menu" class="menu">
-        <!-- Botão de abrir/fechar o menu -->
-        <div class="actionBar">
+      <!-- Botão de abrir/fechar o menu -->
+      <div class="actionBar">
           <div>
               <button id="menuBtn" type="button">
                   <img src="img/duvaleb.svg" alt="Logo Duvale" style="height: 40px;">
@@ -39,82 +39,79 @@
           </div>
       </div>
 
-        <!-- Linha divisória -->
-        <li class="menuBreak">
-            <hr>
-        </li>
 
-        <!-- Opções do Menu -->
-        <ul class="optionsBar">
-            <!-- Administrativo -->
-            <li class="menuItem">
-                <a href="Inicial.html" class="menuOption" title="Administrativo">
-                    <i class="fas fa-chart-line"></i><h5 class="menuText">Administrativo</h5>
-                </a>
-            </li>
+      <!-- Linha divisória -->
+      <li class="menuBreak">
+          <hr>
+      </li>
 
-            <!-- Financeiro -->
-            <li class="menuItem">
-                <a href="financeiro.html" class="menuOption" title="Financeiro">
-                    <i class="fa-solid fa-wallet"></i><h5 class="menuText">Financeiro</h5>
-                </a>
-            </li>
-
-            <!-- Cadastro -->
-            <li class="menuItem">
-                <a href="cadastro.html" class="menuOption" title="Cadastro">
-                    <i class="fa-solid fa-user-plus"></i><h5 class="menuText">Cadastro</h5>
-                </a>
-            </li>
-
-            <!-- Suporte -->
-            <li class="menuItem">
-                <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer" class="menuOption" title="Suporte">
-                    <i class="fa-solid fa-headset"></i><h5 class="menuText">Suporte</h5>
-                </a>
-            </li>
-
-            <!-- Botão de aviso no menu -->
-            <li class="menuItem">
-              <a href="#" class="menuOption" id="btnAviso" title="Avisos">
-                  <i class="fa-solid fa-bell" id="iconAviso"></i>
-                  <span class="indicator" id="indicatorAviso"></span>
-                  <h5 class="menuText">Avisos</h5>
+      <!-- Opções do Menu -->
+      <ul class="optionsBar">
+          <!-- Administrativo -->
+          <li class="menuItem">
+              <a href="Inicial.html" class="menuOption" title="Administrativo">
+                  <i class="fas fa-chart-line"></i><h5 class="menuText">Administrativo</h5>
               </a>
           </li>
 
-            <!-- Sair -->
+          <!-- Financeiro -->
           <li class="menuItem">
-            <a href="index.html" id="sair" class="menuOption" title="Sair">
-              <i class="fa-solid fa-power-off"></i>
-              <h5 class="menuText">Sair</h5>
+              <a href="financeiro.html" class="menuOption" title="Financeiro">
+                  <i class="fa-solid fa-wallet"></i><h5 class="menuText">Financeiro</h5>
+              </a>
+          </li>
+
+          <!-- Cadastro -->
+          <li class="menuItem">
+              <a href="cadastro.html" class="menuOption" title="Cadastro">
+                  <i class="fa-solid fa-user-plus"></i><h5 class="menuText">Cadastro</h5>
+              </a>
+          </li>
+
+          <!-- Relatórios -->
+          <li class="menuItem">
+              <a href="relatorios.html" class="menuOption" title="Relatórios">
+                <i class="fa-solid fa-file-lines"></i><h5 class="menuText">Relatórios</h5>
+              </a>
+          </li>
+
+          <!-- Suporte -->
+          <li class="menuItem">
+              <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer" class="menuOption" title="Suporte">
+                  <i class="fa-solid fa-headset"></i><h5 class="menuText">Suporte</h5>
+              </a>
+          </li>
+
+          <!-- Botão de aviso no menu -->
+          <li class="menuItem">
+            <a href="#" class="menuOption" id="btnAviso" title="Avisos">
+                <i class="fa-solid fa-bell" id="iconAviso"></i>
+                <span class="indicator" id="indicatorAviso"></span>
+                <h5 class="menuText">Avisos</h5>
             </a>
           </li>
         </ul>
-        <!--modal avisos-->
+      <!--modal avisos-->
         <div id="modalAviso" class="modal">
-          <div class="modalContent">
-            <span id="closeModalAviso" class="close">&times;</span>
-            <h2>Avisos</h2>
-            <div id="modalBodyAviso">
-              <!-- Avisos serão adicionados aqui dinamicamente -->
-            </div>
+        <div class="modalContent">
+          <span id="closeModalAviso" class="close">&times;</span>
+          <h2>Avisos</h2>
+          <div id="modalBodyAviso">
+            <!-- Avisos serão adicionados aqui dinamicamente -->
           </div>
         </div>
-        <!-- Informações do Usuário (Agora melhor estruturado) -->
-      <div class="menuUser">
-        <!-- Linha divisória -->
-          <li class="menuBreak">
-            <hr>
+        </div>
+
+
+      <!-- Informações do Usuário (Agora melhor estruturado) -->
+        <div class="menuUser">
+          <!-- Sair -->
+          <li class="menuItem">
+            <a href="index.html" id="sair" class="menuOption" title="Sair">
+              <i class="fa-solid fa-power-off"></i>
+            </a>
           </li>
-      
-          <a href="#" class="menuOption" title="Usuario">
-            <div class="menuItem">
-              <i class="fa-solid fa-user-circle" style="color: #ffffff;"  > </i> <!-- Ícone de usuário -->
-            </div>
-            <h5 class="menuText"><span id="user-name">Usuário</span></h5>
-          </a>
-      </div>
+        </div>
     </nav>
 
 
@@ -442,7 +439,10 @@
 
     <!--rodape da pagina-->
     <footer id="footer">
-      <p>Setta Software Solutions. Todos os direitos reservados | Desenvolvido por Fernando Freitas © 2024</p>
+      <p>
+        Setta Software Solutions. Todos os direitos reservados | Desenvolvido por Fernando Freitas © 2024 
+        | <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer">Suporte</a>
+      </p>
     </footer>
   </body>
 
