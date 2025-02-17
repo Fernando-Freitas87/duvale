@@ -204,19 +204,14 @@ main {
   text-align: center;
   padding: 0.5rem;
   z-index: 10;
+  /* Remova qualquer background temporário quando confirmar que está funcionando */
 }
 
-/* Remove margens e bullets do item de lista */
 .menuUser .menuItem {
   margin: 0;
   list-style: none;
 }
 
-/*
-   Define o botão de sair como um bloco flexível, 
-   centralizando ícone e texto. 
-   background-color em hover é definido via var(--menu-hover-bg).
-*/
 .menuUser .menuOption {
   display: flex;
   align-items: center;
@@ -231,6 +226,12 @@ main {
 
 .menuUser .menuOption:hover {
   background-color: var(--menu-hover-bg);
+}
+
+/* Força o tamanho e cor do ícone no botão "Sair" */
+.menuUser .menuOption i {
+  font-size: 1.5rem;
+  color: var(--text-color);
 }
 /* ============================= */
 /* 🔹 Linha Separadora no Menu */
