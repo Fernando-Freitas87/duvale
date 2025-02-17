@@ -166,6 +166,14 @@ main {
 /* ============================= */
 /* 🔹 Estilização do Texto do Menu */
 /* ============================= */
+
+/* 
+   Define a cor do texto e inicia cada elemento 
+   .menuText deslocado (-100px) e invisível (opacity: 0).
+   Quando a classe .open2 é adicionada, ocorre a animação 
+   de entrada (transition) que move o texto para a posição
+   normal (translateX(0)) e torna-o opaco (opacity: 1).
+*/
 .menuText {
   color: var(--text-color);
   transform: translateX(-100px);
@@ -178,22 +186,36 @@ main {
   transform: translateX(0);
 }
 
+/* ============================= */
+/* 🔹 Fixar o Botão "Sair" na Parte Inferior do Menu */
+/* ============================= */
+
+/*
+   .menuUser fica posicionado no rodapé do menu lateral
+   usando position: absolute; bottom: 0;
+   Largura total (width: 100%) para preencher o menu.
+   text-align: center; centraliza horizontalmente o conteúdo.
+*/
 .menuUser {
-  /* 🔹 Ajuste para fixar o botão Sair na parte de baixo da barra lateral */
   position: absolute;
-  bottom: 0;      /* Cola no rodapé interno do .menu */
+  bottom: 0;
   left: 0;
-  width: 100%;    /* Ocupa toda a largura do menu */
+  width: 100%;
   text-align: center;
   padding: 0.5rem;
 }
 
+/* Remove margens e bullets do item de lista */
 .menuUser .menuItem {
-  /* Remove margens extras e listas se necessário */
   margin: 0;
   list-style: none;
 }
 
+/*
+   Define o botão de sair como um bloco flexível, 
+   centralizando ícone e texto. 
+   background-color em hover é definido via var(--menu-hover-bg).
+*/
 .menuUser .menuOption {
   display: flex;
   align-items: center;
