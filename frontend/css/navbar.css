@@ -203,6 +203,7 @@ main {
   width: 100%;
   text-align: center;
   padding: 0.5rem;
+  z-index: 10;
 }
 
 /* Remove margens e bullets do item de lista */
