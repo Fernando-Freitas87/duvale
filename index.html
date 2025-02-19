@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Erro 404 - Setta Software Solutions</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div class="error">
+  <div class="wrap">
+    <h1>Erro 404 - Página não encontrada</h1>
+    <p>O arquivo que você está procurando não está onde você pensa que está.</p>
+    
+    <pre><code>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;style&gt;
+        * {
+            color: red;
+            background: black;
+        }
+    &lt;/style&gt;
+    &lt;body&gt; 
+        ERROR 404!
+        FILE NOT FOUND!
+        &lt;!--A página que você procura não existe--&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+    </code></pre>
+
+    <!-- Botão para tocar o som caso o autoplay seja bloqueado -->
+    <button id="playSound" style="display: none;">Curioso? Então vá em frente. <strong>Clique e descubra.</strong></button>
+
+  </div>
+</div>
+
+<!-- Áudio do erro 404 -->
+<audio id="errorSound" src="audio/erro404.mp3"></audio>
+
+<script>
+  window.onload = function() {
+    let audio = document.getElementById("errorSound");
+    let playButton = document.getElementById("playSound");
+
+    // Tentar tocar o áudio automaticamente
+    let playPromise = audio.play();
+
+    // Caso o navegador bloqueie, exibir o botão para tocar manualmente
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log("Autoplay bloqueado, mostrando botão para tocar o som.");
+        playButton.style.display = "block";
+      });
+    }
+
+    // Se o usuário clicar no botão, o áudio é reproduzido
+    playButton.addEventListener("click", function() {
+      audio.play();
+      playButton.style.display = "none"; // Esconde o botão após tocar
+    });
+  };
+</script>
+
+</body>
+</html>
