@@ -61,13 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const authToken = localStorage.getItem('authToken');
   const currentPage = window.location.pathname;
 
-  if (!authToken && !currentPage.includes('index.html')) {
+  if (!authToken && !currentPage.includes('Index.html')) {
     alert('Sessão expirada. Faça login novamente.');
-    window.location.href = 'index.html';
+    window.location.href = 'Index.html';
     return;
   }
 
-  if (authToken && !currentPage.includes('index.html')) {
+  if (authToken && !currentPage.includes('Index.html')) {
     fetch('https://duvale-production.up.railway.app/api/usuario', {
       headers: { Authorization: `Bearer ${authToken}` },
     })
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Erro ao validar sessão:', err);
         alert('Sessão inválida. Faça login novamente.');
         localStorage.removeItem('authToken');
-        window.location.href = 'index.html';
+        window.location.href = 'Index.html';
       });
   }
 
