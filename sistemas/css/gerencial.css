@@ -1005,3 +1005,36 @@ color: #28a745;   /* Verde no hover */
 .card-relatorio .btn-primary:hover {
   background-color: var(--btn-bg-hover);
 }
+
+.details {
+  display: flex; /* Mantém Flexbox para controle de layout */
+  flex-direction: column; /* Organiza os elementos em coluna */
+  align-items: flex-start; /* Alinha os itens ao início da coluna */
+  gap: 8px; /* Espaçamento uniforme entre os itens */
+  width: 100%; /* Ocupa toda a largura disponível */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Adiciona uma borda sutil */
+  border-radius: 10px; /* Arredonda os cantos */
+  padding: 12px; /* Adiciona espaço interno */
+  background: white; /* Define um fundo branco */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra leve */
+  border-bottom: 2px solid #25ab03; /* Linha inferior verde */
+  padding-bottom: 8px;
+  text-align: left; /* Garante alinhamento do texto */
+}
+
+/* Estilo para transações em atraso */
+.details.em-atraso {
+  display: flex; /* Mantém Flexbox para controle de layout */
+  flex-direction: column; /* Organiza os elementos em coluna */
+  align-items: flex-start; /* Alinha os itens ao início da coluna */
+  gap: 8px; /* Espaçamento uniforme entre os itens */
+  width: 100%; /* Ocupa toda a largura disponível */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Adiciona uma borda sutil */
+  border-radius: 10px; /* Arredonda os cantos */
+  padding: 12px; /* Adiciona espaço interno */
+  background: white; /* Define um fundo branco */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra leve */
+  border-bottom: 2px solid #ff6b6b; /* Linha inferior verde */
+  padding-bottom: 8px;
+  text-align: left; /* Garante alinhamento do texto */
+}
