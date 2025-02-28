@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // b) Identifica o card ao qual o botão pertence.
       //    'closest' percorre os nós pai até achar um elemento com a classe .card.
-      const card = botao.closest('.card');
+      const card = botao.closest('.card-relatorio');
       if (!card) {
         console.error('Card não encontrado para o botão:', botao);
         return;
