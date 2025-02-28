@@ -116,7 +116,7 @@ export async function carregarAVencer(page = 1, limit = 10) {
  */
 async function atualizarStatusMensalidade(id, novoStatus, valor) {
   try {
-    const response = await fetch(`${apiBaseUrl}/${id}/api/mensalidades/status`, {
+    const response = await fetch(`${apiBaseUrl}/api/mensalidades/${id}/status`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: novoStatus, valor }),
