@@ -955,18 +955,15 @@ color: #28a745;   /* Verde no hover */
 
 /* Estilização dos Cards de Relatório */
 .card-relatorio {
-  background-color: var(--card-bg);            /* Fundo branco para visual clean */
-  border: 1px solid var(--card-border);          /* Borda leve para delimitar o card */
-  border-radius: 8px;                           /* Bordas arredondadas para modernidade */
-  box-shadow: 0 2px 5px var(--card-shadow);       /* Sombra sutil para profundidade */
-  padding: 20px;                                /* Espaçamento interno para melhor disposição do conteúdo */
-  margin: 10px;                                 /* Espaçamento externo para separar os cards */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave para efeito hover */
-  
-  /* Layout Flex para distribuir o conteúdo */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex: 1 1 300px;  /* Permite que os cards tenham largura flexível */
+  max-width: 350px; /* Define um tamanho máximo */
+  min-width: 280px; /* Evita que fiquem muito pequenos */
+  text-align: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Efeito hover para destacar o card */

@@ -1,53 +1,55 @@
 // relatoriosController.js
 const db = require('../db');
-const logger = require('../utils/logger');
-const PDFDocument = require("pdfkit");
 const PdfTable = require("pdfkit-table");
 
 async function getRelatorioImoveis(req, res) {
-    try {
-      const [rows] = await dbConnection.execute(`SELECT ... FROM imoveis`);
-  
+  try {
+      // 1) Consulta o banco de dados e obtém os dados
+      const [rows] = await db.execute(`
+          SELECT id, descricao, endereco, enel, cagece, tipo, status 
+          FROM imoveis
+      `);
+
+      // 2) Configura os cabeçalhos HTTP para exibir inline no navegador
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader("Content-Disposition", "inline; filename=relatorio_imoveis.pdf");
-  
+
+      // 3) Cria o documento PDF
       const doc = new PDFDocument({ margin: 50 });
-      doc.pipe(res);
-  
+      doc.pipe(res); // Envia o PDF diretamente na resposta HTTP
+
+      // 4) Adiciona título ao PDF
       doc.fontSize(18).text("Relatório de Imóveis", { align: "center" });
       doc.moveDown(1);
-  
-      // Monta cabeçalho e dados da tabela
+
+      // 5) Define a estrutura da tabela
       const table = {
-        headers: [
-          { label: "ID", property: "id", width: 50 },
-          { label: "Descrição", property: "descricao", width: 100 },
-          { label: "Endereço", property: "endereco", width: 150 },
-          { label: "ENEL", property: "enel", width: 50 },
-          { label: "CAGECE", property: "cagece", width: 50 },
-          { label: "Tipo", property: "tipo", width: 50 },
-          { label: "Status", property: "status", width: 70 },
-        ],
-        datas: rows, // Array de objetos retornados do banco
+          headers: [
+              { label: "ID", property: "id", width: 50 },
+              { label: "Descrição", property: "descricao", width: 150 },
+              { label: "Endereço", property: "endereco", width: 200 },
+              { label: "ENEL", property: "enel", width: 50 },
+              { label: "CAGECE", property: "cagece", width: 50 },
+              { label: "Tipo", property: "tipo", width: 70 },
+              { label: "Status", property: "status", width: 70 },
+          ],
+          datas: rows, // Usa os dados consultados no banco
       };
-  
+
+      // 6) Renderiza a tabela no PDF
       await doc.table(table, {
-        prepareHeader: () => doc.fontSize(12).font("Helvetica-Bold"),
-        prepareRow: () => doc.fontSize(10).font("Helvetica")
+          prepareHeader: () => doc.fontSize(12).font("Helvetica-Bold"),
+          prepareRow: () => doc.fontSize(10).font("Helvetica")
       });
-  
+
+      // 7) Finaliza o documento
       doc.end();
-    } catch (error) {
+
+  } catch (error) {
       console.error("Erro ao gerar relatório de imóveis em PDF:", error);
       res.status(500).json({ error: "Erro ao gerar relatório de imóveis." });
-    }
   }
-
-
-module.exports = {
-  getRelatorioImoveis,
-  // demais relatórios ...
-};
+}
   
   // Exemplo de controlador para relatório de clientes:
   async function getRelatorioClientes(req, res) {
