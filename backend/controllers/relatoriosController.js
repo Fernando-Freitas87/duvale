@@ -1,10 +1,10 @@
 // relatoriosController.js
 const PDFDocument = require("pdfkit");
-const db = require("../db"); // Verifique se o caminho está correto
+const db = require("../db");
 
 async function getRelatorioImoveis(req, res) {
   try {
-      // 1) Consulta o banco de dados e obtém os dados
+      // 1) Consulta o banco de dados e verifica se há dados
       const [rows] = await db.execute(`
           SELECT id, descricao, endereco, enel, cagece, tipo, status 
           FROM imoveis
@@ -14,7 +14,7 @@ async function getRelatorioImoveis(req, res) {
           return res.status(404).json({ error: "Nenhum imóvel encontrado." });
       }
 
-      // 2) Configura os cabeçalhos HTTP para exibir inline no navegador
+      // 2) Configura cabeçalhos para exibir o PDF corretamente
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader("Content-Disposition", "inline; filename=relatorio_imoveis.pdf");
 
@@ -26,17 +26,11 @@ async function getRelatorioImoveis(req, res) {
       doc.fontSize(18).text("Relatório de Imóveis", { align: "center" });
       doc.moveDown(1);
 
-      // 5) Define a estrutura da tabela
+      // 5) Define a estrutura da tabela (formato correto para pdfkit-table)
       const table = {
           headers: ["ID", "Descrição", "Endereço", "ENEL", "CAGECE", "Tipo", "Status"],
           rows: rows.map(row => [
-              row.id,
-              row.descricao,
-              row.endereco,
-              row.enel,
-              row.cagece,
-              row.tipo,
-              row.status
+              row.id, row.descricao, row.endereco, row.enel, row.cagece, row.tipo, row.status
           ])
       };
 
@@ -53,12 +47,13 @@ async function getRelatorioImoveis(req, res) {
       doc.end();
 
   } catch (error) {
-      console.error("Erro ao gerar relatório de imóveis em PDF:", error);
+      console.error("Erro ao gerar relatório de imóveis:", error);
       res.status(500).json({ error: "Erro interno ao gerar relatório." });
   }
 }
 
-module.exports = { getRelatorioImoveis };
+
+
   
   // Exemplo de controlador para relatório de clientes:
   async function getRelatorioClientes(req, res) {
