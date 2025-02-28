@@ -1,23 +1,52 @@
-// controllers/relatoriosController.js
+// relatoriosController.js
 
-// Exemplo de controlador para relatório de imóveis:
+const PDFDocument = require("pdfkit");
+const PdfTable = require("pdfkit-table");
+
 async function getRelatorioImoveis(req, res) {
     try {
-      // 1) Consulta no banco (exemplo usando pseudo-código)
-      // const imoveis = await db.query("SELECT * FROM imoveis");
-      // Para demonstração, vamos retornar algo fixo:
-      const imoveis = [
-        { id: 1, descricao: "Casa no Centro", endereco: "Rua A, 123" },
-        { id: 2, descricao: "Apartamento Luxo", endereco: "Av B, 456" },
-      ];
+      const [rows] = await dbConnection.execute(`SELECT ... FROM imoveis`);
   
-      // 2) Retorna em formato JSON (ou gere PDF se precisar)
-      return res.json({ data: imoveis });
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", "inline; filename=relatorio_imoveis.pdf");
+  
+      const doc = new PDFDocument({ margin: 50 });
+      doc.pipe(res);
+  
+      doc.fontSize(18).text("Relatório de Imóveis", { align: "center" });
+      doc.moveDown(1);
+  
+      // Monta cabeçalho e dados da tabela
+      const table = {
+        headers: [
+          { label: "ID", property: "id", width: 50 },
+          { label: "Descrição", property: "descricao", width: 100 },
+          { label: "Endereço", property: "endereco", width: 150 },
+          { label: "ENEL", property: "enel", width: 50 },
+          { label: "CAGECE", property: "cagece", width: 50 },
+          { label: "Tipo", property: "tipo", width: 50 },
+          { label: "Status", property: "status", width: 70 },
+        ],
+        datas: rows, // Array de objetos retornados do banco
+      };
+  
+      await doc.table(table, {
+        prepareHeader: () => doc.fontSize(12).font("Helvetica-Bold"),
+        prepareRow: () => doc.fontSize(10).font("Helvetica")
+      });
+  
+      doc.end();
     } catch (error) {
-      console.error("Erro ao gerar relatório de imóveis:", error);
-      return res.status(500).json({ error: "Erro ao gerar relatório de imóveis." });
+      console.error("Erro ao gerar relatório de imóveis em PDF:", error);
+      res.status(500).json({ error: "Erro ao gerar relatório de imóveis." });
     }
   }
+
+
+module.exports = {
+  getRelatorioImoveis,
+  // demais relatórios ...
+};
   
   // Exemplo de controlador para relatório de clientes:
   async function getRelatorioClientes(req, res) {
