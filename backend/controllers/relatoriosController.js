@@ -1,5 +1,6 @@
 // relatoriosController.js
-
+const db = require('../db');
+const logger = require('../utils/logger');
 const PDFDocument = require("pdfkit");
 const PdfTable = require("pdfkit-table");
 
