@@ -57,7 +57,7 @@ export function configurarLogout() {
     sairLink.addEventListener("click", (e) => {
       e.preventDefault();
       localStorage.removeItem("authToken");
-      window.location.href = "index.html";
+      window.location.href = "Index.html";
     });
   }
 }
