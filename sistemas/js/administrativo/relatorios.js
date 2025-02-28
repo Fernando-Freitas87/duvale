@@ -4,16 +4,33 @@ const apiBaseUrl = window.location.hostname.includes("localhost")
   : "https://duvale-production.up.railway.app";
 
 /**
- * Abre o relatório em PDF no navegador, consumindo a API do backend.
+ * Testa se a API do relatório está respondendo corretamente antes de abrir o PDF.
  *
  * @param {string} tipoRelatorio - Tipo do relatório (ex: "imoveis", "clientes", "contratos").
  */
-const abrirRelatorio = (tipoRelatorio) => {
+const abrirRelatorio = async (tipoRelatorio) => {
   // Monta a URL do relatório no backend
   const urlRelatorio = `${apiBaseUrl}/api/relatorios/${tipoRelatorio}`;
 
-  // Abre o relatório em uma nova aba do navegador
-  window.open(urlRelatorio, "_blank");
+  console.log(`🔍 Testando API: ${urlRelatorio}`);
+
+  try {
+    // Testa se a API retorna um status válido antes de abrir o PDF
+    const response = await fetch(urlRelatorio, { method: "HEAD" });
+
+    if (!response.ok) {
+      console.error(`❌ Erro ao acessar ${urlRelatorio}:`, response.status);
+      alert(`Erro ao gerar o relatório (${response.status}). Tente novamente.`);
+      return;
+    }
+
+    console.log("✅ API respondeu corretamente. Abrindo relatório...");
+    window.open(urlRelatorio, "_blank");
+
+  } catch (error) {
+    console.error("❌ Erro ao se conectar com a API:", error);
+    alert("Erro ao conectar-se ao servidor. Verifique sua conexão e tente novamente.");
+  }
 };
 
 /**
@@ -30,7 +47,7 @@ const configurarBotoesRelatorio = () => {
       // Busca o tipo de relatório definido no botão via atributo "data-relatorio"
       const tipoRelatorio = botao.getAttribute("data-relatorio") || "imoveis";
 
-      // Abre o relatório correspondente
+      // Abre o relatório correspondente (agora testando a API primeiro)
       abrirRelatorio(tipoRelatorio);
     });
   });
