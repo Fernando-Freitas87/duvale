@@ -1,24 +1,13 @@
-// routes/relatorios.js
-
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {
-  getRelatorioImoveis,
-  getRelatorioClientes,
-  getRelatorioContratos,
-  getRelatorioFinanceiro,
-} = require("../controllers/relatoriosController");
+const { getRelatorioImoveis } = require("../controllers/relatoriosController"); // Confirme este caminho!
 
-// Rota para relatório de Imóveis
-router.get("/imoveis", getRelatorioImoveis);
+// Verifica se a função está definida
+if (!getRelatorioImoveis) {
+  throw new Error("Erro crítico: getRelatorioImoveis não foi importado corretamente.");
+}
 
-// Rota para relatório de Clientes
-router.get("/clientes", getRelatorioClientes);
-
-// Rota para relatório de Contratos
-router.get("/contratos", getRelatorioContratos);
-
-// Rota para relatório Financeiro
-router.get("/financeiro", getRelatorioFinanceiro);
+// Define a rota para gerar o relatório de imóveis
+router.get("/relatorios/imoveis", getRelatorioImoveis);
 
 module.exports = router;

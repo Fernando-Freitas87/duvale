@@ -16,6 +16,7 @@ async function getRelatorioImoveis(req, res) {
       `);
 
       if (!rows || rows.length === 0) {
+          console.warn("⚠ Nenhum imóvel encontrado.");
           return res.status(404).json({ error: "Nenhum imóvel encontrado." });
       }
 
@@ -31,7 +32,7 @@ async function getRelatorioImoveis(req, res) {
       doc.fontSize(18).text("Relatório de Imóveis", { align: "center" });
       doc.moveDown(1);
 
-      // 5) Configuração da tabela
+      // 5) Configuração da tabela (Corrigida)
       const table = {
           headers: ["ID", "Descrição", "Endereço", "ENEL", "CAGECE", "Tipo", "Status"],
           rows: rows.map(row => [
@@ -39,25 +40,30 @@ async function getRelatorioImoveis(req, res) {
           ])
       };
 
-      // 6) Renderiza a tabela no PDF
-      doc.table(table, {
-          prepareHeader: () => doc.fontSize(12).font("Helvetica-Bold"),
-          prepareRow: () => doc.fontSize(10).font("Helvetica")
-      });
+      try {
+          doc.table(table, {
+              prepareHeader: () => doc.fontSize(12).font("Helvetica-Bold"),
+              prepareRow: () => doc.fontSize(10).font("Helvetica")
+          });
+      } catch (tableError) {
+          console.error("Erro ao renderizar tabela no PDF:", tableError);
+          return res.status(500).json({ error: "Erro ao gerar a tabela no PDF." });
+      }
 
       // 7) Finaliza corretamente
       doc.on("finish", () => {
-          console.log("PDF finalizado corretamente.");
+          console.log("✅ PDF gerado com sucesso!");
       });
-      doc.end();
+
+      // Usa um timeout para evitar problemas de finalização precoce
+      setTimeout(() => {
+          doc.end();
+      }, 200);
 
   } catch (error) {
-      console.error("Erro ao gerar relatório de imóveis:", error);
+      console.error("❌ Erro ao gerar relatório de imóveis:", error);
       res.status(500).json({ error: "Erro interno ao gerar relatório." });
   }
 }
 
 module.exports = { getRelatorioImoveis };
-
-
-
