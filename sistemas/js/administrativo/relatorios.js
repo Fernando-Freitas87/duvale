@@ -31,28 +31,28 @@ document.addEventListener("DOMContentLoaded", () => {
       // Criar documento PDF no modo paisagem
       const doc = new jsPDF({ orientation: "landscape" });
 
-      // CABEÇALHO - Adicionando Logo (se houver)
+      // CABEÇALHO - Adicionando Logo corretamente
       fetch("../img/duvalep.png")
-      .then(response => response.blob())
-      .then(blob => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          doc.addImage(reader.result, "PNG", 15, 10, 30, 10);
-        };
-        reader.readAsDataURL(blob);
-      })
-      .catch(() => console.warn("⚠️ Logo não carregado. Verifique o caminho."));
+        .then(response => response.blob())
+        .then(blob => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            doc.addImage(reader.result, "PNG", 15, 10, 30, 10);
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch(() => console.warn("⚠️ Logo não carregado. Verifique o caminho."));
 
       // Título do relatório
       doc.setFontSize(22);
       doc.setFont("helvetica", "bold");
-      doc.text(dadosRelatorio.titulo, 100, 20);
+      doc.text(dadosRelatorio.titulo, 130, 20, { align: "center" });
 
       // Data de geração do relatório
       const dataAtual = new Date().toLocaleDateString();
       doc.setFontSize(10);
       doc.setFont("helvetica", "italic");
-      doc.text(`Data de emissão: ${dataAtual}`, 240, 20);
+      doc.text(`Data de emissão: ${dataAtual}`, 260, 20, { align: "right" });
 
       // Descrição
       doc.setFontSize(12);
@@ -62,15 +62,24 @@ document.addEventListener("DOMContentLoaded", () => {
       let y = 50;
       const limitePagina = doc.internal.pageSize.getHeight() - 20;
 
+      // Definição da largura das colunas
+      const colWidths = {
+        descricao: 60,
+        endereco: 80,
+        matricula: 50,
+        tipo: 40,
+        status: 40,
+      };
+
       // Cabeçalhos da tabela
       doc.setFontSize(10).setFont("helvetica", "bold");
       doc.setFillColor(200, 200, 200); // Fundo cinza claro
       doc.rect(15, y - 5, 260, 8, "F"); // Desenha um retângulo de fundo
-      doc.text("Descrição", 40, y);
+      doc.text("Descrição", 20, y);
       doc.text("Endereço", 90, y);
-      doc.text("Matricula Nº", 180, y);
-      doc.text("Tipo", 200, y);
-      doc.text("Status", 230, y);
+      doc.text("Matrícula Nº", 180, y);
+      doc.text("Tipo", 220, y);
+      doc.text("Status", 250, y);
       y += 10;
 
       // Conteúdo da tabela
@@ -81,13 +90,16 @@ document.addEventListener("DOMContentLoaded", () => {
           y = 20;
         }
 
-        const descricao = doc.splitTextToSize(item.descricao, 45);
-        doc.text(descricao, 40, y);
-        doc.text(item.endereco, 90, y);
+        // Ajustando espaçamento das colunas
+        const descricao = doc.splitTextToSize(item.descricao, colWidths.descricao);
+        const endereco = doc.splitTextToSize(item.endereco, colWidths.endereco);
+
+        doc.text(descricao, 20, y);
+        doc.text(endereco, 90, y);
         doc.text(String(item.cagece), 180, y);
-        doc.text(item.tipo, 200, y);
-        doc.text(item.status, 230, y);
-        y += 8;
+        doc.text(item.tipo, 220, y);
+        doc.text(item.status, 250, y);
+        y += 8; // Maior espaçamento entre as linhas
       });
 
       // Rodapé
@@ -98,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         doc.text(`Página ${i} de ${totalPaginas}`, 250, doc.internal.pageSize.getHeight() - 10);
       }
 
-      // 6️⃣ Abre o PDF no navegador
+      // Abre o PDF no navegador
       window.open(doc.output("bloburl"), "_blank");
 
     } catch (error) {
