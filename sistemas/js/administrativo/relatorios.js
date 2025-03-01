@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const doc = new jsPDF({ orientation: "landscape" });
 
       // CABEÇALHO - Adicionando Logo (se houver)
-      fetch("img/duvalep.png")
+      fetch("../img/duvalep.png")
       .then(response => response.blob())
       .then(blob => {
         const reader = new FileReader();
