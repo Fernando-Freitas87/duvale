@@ -69,8 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
       doc.text("ID", 18, y);
       doc.text("Descrição", 40, y);
       doc.text("Endereço", 90, y);
-      doc.text("ENEL", 160, y);
-      doc.text("CAGECE", 180, y);
       doc.text("Tipo", 200, y);
       doc.text("Status", 230, y);
       y += 10;
@@ -87,8 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const descricao = doc.splitTextToSize(item.descricao, 45);
         doc.text(descricao, 40, y);
         doc.text(item.endereco, 90, y);
-        doc.text(String(item.enel), 160, y);
-        doc.text(String(item.cagece), 180, y);
         doc.text(item.tipo, 200, y);
         doc.text(item.status, 230, y);
         y += 8;
