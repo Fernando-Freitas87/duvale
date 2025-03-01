@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const doc = new jsPDF({ orientation: "landscape" });
 
       // CABEÇALHO - Adicionando Logo corretamente
-      fetch("../img/duvalep.png")
+      fetch("./administrativo/img/duvalep.png")
         .then(response => response.blob())
         .then(blob => {
           const reader = new FileReader();
@@ -64,9 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Definição das larguras das colunas
       const colWidths = {
-        descricao: 50,
-        endereco: 80,
-        matricula: 40,
+        descricao: 40,
+        endereco: 100,
+        matricula: 30,
         tipo: 40,
         status: 40,
       };
@@ -120,11 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
         doc.setTextColor(100);
         doc.text(`Página ${i} de ${totalPaginas}`, 250, doc.internal.pageSize.getHeight() - 10);
       }
-
-      // **📌 Marca D'água**
-      doc.setFontSize(40);
-      doc.setTextColor(200, 200, 200);
-      doc.text("DuVale", 100, 150, { align: "center", angle: 30 });
 
       // **📌 Abre o PDF no navegador**
       window.open(doc.output("bloburl"), "_blank");
