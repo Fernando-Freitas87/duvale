@@ -13,12 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const gerarPDF = async (tipoRelatorio) => {
     try {
-      document.body.style.cursor = "wait";
+      document.body.style.cursor = "wait"; // Exibe indicador de carregamento
 
       console.log(`🔗 Buscando relatório: ${tipoRelatorio}`);
       const response = await fetch(`${apiBaseUrl}/api/relatorios/${tipoRelatorio}`);
 
-      document.body.style.cursor = "default";
+      document.body.style.cursor = "default"; // Retorna cursor normal
 
       if (!response.ok) {
         console.error(`❌ Erro na API (${response.status}):`, await response.text());
@@ -31,17 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
       // Criar documento PDF no modo paisagem
       const doc = new jsPDF({ orientation: "landscape" });
 
-      // CABEÇALHO - Adicionando Logo corretamente
-      fetch("./img/duvale.png")
-        .then(response => response.blob())
-        .then(blob => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            doc.addImage(reader.result, "PNG", 15, 10, 30, 10);
-          };
-          reader.readAsDataURL(blob);
-        })
-        .catch(() => console.warn("⚠️ Logo não carregado. Verifique o caminho."));
+      // CABEÇALHO - Adicionando Logo (se houver)
+      fetch("img/duvalep.png")
+      .then(response => response.blob())
+      .then(blob => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          doc.addImage(reader.result, "PNG", 15, 10, 30, 10);
+        };
+        reader.readAsDataURL(blob);
+      })
+      .catch(() => console.warn("⚠️ Logo não carregado. Verifique o caminho."));
 
       // Título do relatório
       doc.setFontSize(22);
@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Cabeçalhos da tabela
       doc.setFontSize(10).setFont("helvetica", "bold");
-      doc.setFillColor(200, 200, 200);
-      doc.rect(15, y - 5, 260, 8, "F");
+      doc.setFillColor(200, 200, 200); // Fundo cinza claro
+      doc.rect(15, y - 5, 260, 8, "F"); // Desenha um retângulo de fundo
       doc.text("ID", 18, y);
       doc.text("Descrição", 40, y);
       doc.text("Endereço", 90, y);
@@ -78,13 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
       // Conteúdo da tabela
       doc.setFontSize(10).setFont("helvetica", "normal");
       dadosRelatorio.dados.forEach((item) => {
-        if (y > limitePagina) {
+        if (y > limitePagina) { // Se a página estiver cheia, adiciona uma nova
           doc.addPage();
           y = 20;
         }
 
         doc.text(String(item.id), 18, y);
-        doc.text(item.descricao, 40, y);
+        const descricao = doc.splitTextToSize(item.descricao, 45);
+        doc.text(descricao, 40, y);
         doc.text(item.endereco, 90, y);
         doc.text(String(item.enel), 160, y);
         doc.text(String(item.cagece), 180, y);
@@ -101,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
         doc.text(`Página ${i} de ${totalPaginas}`, 250, doc.internal.pageSize.getHeight() - 10);
       }
 
-      // Abre o PDF no navegador
+      // 6️⃣ Abre o PDF no navegador
       window.open(doc.output("bloburl"), "_blank");
 
     } catch (error) {
