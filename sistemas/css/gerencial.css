@@ -969,6 +969,10 @@ color: #28a745;   /* Verde no hover */
 
 .card-relatorios {
   display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 colunas */
+  gap: 1rem;
+  margin-top: 1rem;
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   padding: 20px;
