@@ -48,7 +48,6 @@ const gerarPDF = async (tipoRelatorio) => {
 
     // Adiciona cabeçalhos com colunas mais espaçadas
     doc.setFontSize(10).setFont("helvetica", "bold");
-    doc.text("ID", 10, y);
     doc.text("Descrição", 30, y);
     doc.text("Endereço", 70, y);
     doc.text("ENEL", 140, y);
@@ -65,7 +64,6 @@ const gerarPDF = async (tipoRelatorio) => {
         y = 20; // Reinicia a posição
       }
 
-      doc.text(String(item.id), 10, y);
       doc.text(item.descricao, 30, y);
       doc.text(item.endereco, 70, y);
       doc.text(String(item.enel), 140, y);
