@@ -64,11 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Definição das larguras das colunas
       const colWidths = {
-        descricao: 40,
-        endereco: 100,
+        descricao: 50,
+        endereco: 90,
         matricula: 30,
-        tipo: 40,
-        status: 40,
+        tipo: 30,
+        status: 30,
       };
 
       // **📌 Cabeçalho da Tabela**
