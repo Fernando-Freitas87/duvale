@@ -1,3 +1,11 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
+
 /* ============================= */
 /* 🌙 Definição de Variáveis CSS */
 /* ============================= */
@@ -22,10 +30,13 @@ body.dark {
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 body {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 100vh; /* Ocupa toda a altura da tela */
   background: url("../img/fundo1.png") no-repeat center center fixed;
@@ -45,12 +56,22 @@ body {
   top: 5px;
   left: 5px;
   border-radius: 10px;
+  -webkit-transition: width 0.3s ease;
+  -o-transition: width 0.3s ease;
   transition: width 0.3s ease;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding-top: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .menu.open {
@@ -61,10 +82,16 @@ body {
 .menu a {
   text-decoration: none;
   color: var(--text-color);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 10px;
   width: 100%;
+  -webkit-transition: background 0.3s ease;
+  -o-transition: background 0.3s ease;
   transition: background 0.3s ease;
 }
 
@@ -74,10 +101,14 @@ body {
 
 /* Ajuste do Conteúdo Principal */
 main {
-  flex: 1;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   margin-left: 70px;
   padding: 1rem;
   overflow-y: auto;
+  -webkit-transition: margin-left 0.3s ease;
+  -o-transition: margin-left 0.3s ease;
   transition: margin-left 0.3s ease;
 }
 
@@ -92,10 +123,18 @@ main {
   width: 100%;
   height: 10%;
   padding: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center; /* Centraliza horizontalmente */
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; /* Centraliza horizontalmente */
   border-radius: 0.5rem;
+  -webkit-transition: 0.3s ease;
+  -o-transition: 0.3s ease;
   transition: 0.3s ease;
 }
 
@@ -107,6 +146,8 @@ main {
   color: var(--text-color);
   width: 45px;
   height: 45px;
+  -webkit-transition: 0.3s ease;
+  -o-transition: 0.3s ease;
   transition: 0.3s ease;
   font-size: 1rem;
   cursor: pointer;
@@ -120,9 +161,16 @@ main {
 /* 🔹 Barra de Opções do Menu */
 /* ============================= */
 .menu .optionsBar {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 100%;
   height: 60%;
   padding: 0 0.5rem;
@@ -136,9 +184,15 @@ main {
 }
 
 .menu .optionsBar .menuItem .menuOption {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   width: 100%;
   height: 100%;
   font-size: 1rem;
@@ -147,6 +201,8 @@ main {
   color: var(--text-color);
   border-radius: 0.5rem;
   cursor: pointer;
+  -webkit-transition: color 0.3s ease, background-color 0.3s ease;
+  -o-transition: color 0.3s ease, background-color 0.3s ease;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 
@@ -176,14 +232,22 @@ main {
 */
 .menuText {
   color: var(--text-color);
-  transform: translateX(-100px);
+  -webkit-transform: translateX(-100px);
+      -ms-transform: translateX(-100px);
+          transform: translateX(-100px);
   opacity: 0;
+  -webkit-transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
+  transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
+  -o-transition: transform 0.3s ease, opacity 0.3s ease;
   transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease, -webkit-transform 0.3s ease;
 }
 
 .menuText.open2 {
   opacity: 1;
-  transform: translateX(0);
+  -webkit-transform: translateX(0);
+      -ms-transform: translateX(0);
+          transform: translateX(0);
 }
 
 /* ============================= */
@@ -213,14 +277,22 @@ main {
 }
 
 .menuUser .menuOption {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   text-decoration: none;
   color: var(--text-color);
   width: 100%;
   height: 45px;
   border-radius: 0.5rem;
+  -webkit-transition: background 0.3s ease;
+  -o-transition: background 0.3s ease;
   transition: background 0.3s ease;
 }
 
@@ -239,9 +311,15 @@ main {
 .menu .menuBreak {
   width: 100%;
   height: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .menu .menuBreak hr {
@@ -264,8 +342,12 @@ main {
   height: 100%; /* Ocupa toda a altura */
   background-color: rgba(0, 0, 0, 0.6); /* Fundo translúcido escuro */
   z-index: 1000; /* Sobrepõe outros elementos */
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .modalContent {
@@ -274,9 +356,11 @@ main {
   width: 90%;
   max-width: 600px; /* Limita a largura */
   padding: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   position: relative; /* Para o botão de fechar */
-  animation: modalEnter 0.3s ease; /* Animação de entrada */
+  -webkit-animation: modalEnter 0.3s ease;
+          animation: modalEnter 0.3s ease; /* Animação de entrada */
   overflow-y: auto; /* Permite rolagem se o conteúdo for grande */
   max-height: 80%; /* Limita a altura do modal */
 }
@@ -304,6 +388,8 @@ main {
   font-size: 1.5rem;
   color: #aaa;
   cursor: pointer;
+  -webkit-transition: color 0.3s ease;
+  -o-transition: color 0.3s ease;
   transition: color 0.3s ease;
 }
 
@@ -318,7 +404,8 @@ main {
   border: 1px solid #ddd; /* Linha ao redor de cada aviso */
   border-radius: 5px; /* Cantos arredondados */
   background: #f9f9f9; /* Fundo leve */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .modalContent .aviso h3 {
@@ -334,13 +421,27 @@ main {
 }
 
 /* Animação de entrada */
-@keyframes modalEnter {
+@-webkit-keyframes modalEnter {
   from {
-    transform: translateY(-50px);
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes modalEnter {
+  from {
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
     opacity: 1;
   }
 }
@@ -352,7 +453,9 @@ main {
   position: absolute; /* Posiciona em relação ao ícone */
   top: 50%; /* Centraliza verticalmente em relação ao ícone */
   right: -5px; /* Coloca o indicador ao lado direito do ícone */
-  transform: translateY(-50%); /* Ajusta para o centro vertical */
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%); /* Ajusta para o centro vertical */
   width: 10px; /* Define a largura do indicador */
   height: 10px; /* Define a altura do indicador */
   background: red; /* Cor do indicador (vermelho) */
@@ -371,27 +474,49 @@ main {
 /* ============================= */
 .menu .menuItem {
   position: relative; /* Garante que o indicador seja posicionado em relação ao ícone */
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex; /* Alinha o ícone e o texto horizontalmente */
-  align-items: center; /* Centraliza verticalmente */
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; /* Centraliza verticalmente */
 }
 
 /* ============================= */
 /* 🔹 Animação do Ícone de Aviso */
 /* ============================= */
-@keyframes shake {
+@-webkit-keyframes shake {
   0%, 100% {
-      transform: rotate(0);
+      -webkit-transform: rotate(0);
+              transform: rotate(0);
   }
   25% {
-      transform: rotate(-15deg);
+      -webkit-transform: rotate(-15deg);
+              transform: rotate(-15deg);
   }
   75% {
-      transform: rotate(15deg);
+      -webkit-transform: rotate(15deg);
+              transform: rotate(15deg);
+  }
+}
+@keyframes shake {
+  0%, 100% {
+      -webkit-transform: rotate(0);
+              transform: rotate(0);
+  }
+  25% {
+      -webkit-transform: rotate(-15deg);
+              transform: rotate(-15deg);
+  }
+  75% {
+      -webkit-transform: rotate(15deg);
+              transform: rotate(15deg);
   }
 }
 
 .icon-shake {
-  animation: shake 0.5s ease;
+  -webkit-animation: shake 0.5s ease;
+          animation: shake 0.5s ease;
 }
 
 /* ============================= */
