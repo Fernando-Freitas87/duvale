@@ -86,7 +86,7 @@ const gerarPDF = async (tipoRelatorio) => {
  * Adiciona eventos aos botões de relatório.
  */
 const configurarBotoesRelatorio = () => {
-  document.querySelectorAll(".btn-primary").forEach(botao => {
+  document.querySelectorAll(".btn-primary-relatorio").forEach(botao => {
     botao.addEventListener("click", (event) => {
       event.preventDefault();
       const tipoRelatorio = botao.getAttribute("data-relatorio") || "imoveis";
