@@ -31,17 +31,28 @@ document.addEventListener("DOMContentLoaded", () => {
       // Criar documento PDF no modo paisagem
       const doc = new jsPDF({ orientation: "landscape" });
 
-      // CABEÇALHO - Adicionando Logo corretamente
-      fetch("./administrativo/img/duvalep.png")
-        .then(response => response.blob())
-        .then(blob => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            doc.addImage(reader.result, "PNG", 15, 10, 30, 10);
-          };
-          reader.readAsDataURL(blob);
-        })
-        .catch(() => console.warn("⚠️ Logo não carregado. Verifique o caminho."));
+// CABEÇALHO - Adicionando Logo diretamente do link externo
+const logoUrl = "https://setta.dev.br/sistemas/img/logop.png";
+
+const img = new Image();
+img.src = logoUrl;
+img.crossOrigin = "Anonymous"; // Garante carregamento externo sem restrições CORS
+
+img.onload = function () {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = img.width;
+  canvas.height = img.height;
+  ctx.drawImage(img, 0, 0);
+
+  const imgData = canvas.toDataURL("image/png"); // Converte para Base64
+  doc.addImage(imgData, "PNG", 15, 10, 30, 10);
+};
+
+img.onerror = function () {
+  console.warn("⚠️ Logo não carregado. Verifique a URL.");
+};
 
       // Título do relatório
       doc.setFontSize(22);
