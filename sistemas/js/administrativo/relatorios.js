@@ -1,4 +1,10 @@
-// Importa jsPDF (certifique-se de que a biblioteca está no projeto)
+// Verifica se jsPDF está carregado
+if (!window.jspdf) {
+  console.error("⚠ Erro: jsPDF não carregado. Verifique a importação da biblioteca.");
+  alert("Erro ao carregar jsPDF. Atualize a página e tente novamente.");
+  return;
+}
+
 const { jsPDF } = window.jspdf;
 
 // Define a URL base da API (muda automaticamente entre local e produção)
@@ -13,8 +19,12 @@ const apiBaseUrl = window.location.hostname.includes("localhost")
  */
 const gerarPDF = async (tipoRelatorio) => {
   try {
+    document.body.style.cursor = "wait"; // Exibe indicador de carregamento
+
     // 1️⃣ Faz requisição ao backend para obter os dados do relatório
     const response = await fetch(`${apiBaseUrl}/api/relatorios/${tipoRelatorio}`);
+
+    document.body.style.cursor = "default"; // Remove indicador de carregamento
 
     if (!response.ok) {
       throw new Error(`Erro ao buscar relatório (${response.status})`);
@@ -22,45 +32,50 @@ const gerarPDF = async (tipoRelatorio) => {
 
     const dadosRelatorio = await response.json();
 
-    // 2️⃣ Cria um novo documento PDF
-    const doc = new jsPDF();
+    // 2️⃣ Cria um novo documento PDF no modo paisagem
+    const doc = new jsPDF({ orientation: "landscape" });
 
     // 3️⃣ Adiciona o título do relatório
     doc.setFontSize(18);
-    doc.text(dadosRelatorio.titulo, 10, 20);
+    doc.text(dadosRelatorio.titulo, 15, 20);
 
     // 4️⃣ Adiciona a descrição
     doc.setFontSize(12);
-    doc.text(dadosRelatorio.descricao, 10, 30);
+    doc.text(dadosRelatorio.descricao, 15, 30);
 
     // 5️⃣ Adiciona uma tabela com os dados
     let y = 40; // Posição inicial
 
-    // Adiciona cabeçalhos
+    // Adiciona cabeçalhos com colunas mais espaçadas
     doc.setFontSize(10).setFont("helvetica", "bold");
     doc.text("ID", 10, y);
     doc.text("Descrição", 30, y);
-    doc.text("Endereço", 90, y);
-    doc.text("ENEL", 150, y);
-    doc.text("CAGECE", 170, y);
-    doc.text("Tipo", 190, y);
+    doc.text("Endereço", 70, y);
+    doc.text("ENEL", 140, y);
+    doc.text("CAGECE", 160, y);
+    doc.text("Tipo", 180, y);
     doc.text("Status", 210, y);
     y += 10;
 
     // Adiciona os dados do relatório
     doc.setFontSize(10).setFont("helvetica", "normal");
     dadosRelatorio.dados.forEach((item) => {
+      if (y > 190) { // Se a página estiver cheia, adiciona uma nova página
+        doc.addPage();
+        y = 20; // Reinicia a posição
+      }
+
       doc.text(String(item.id), 10, y);
       doc.text(item.descricao, 30, y);
-      doc.text(item.endereco, 90, y);
-      doc.text(String(item.enel), 150, y);
-      doc.text(String(item.cagece), 170, y);
-      doc.text(item.tipo, 190, y);
+      doc.text(item.endereco, 70, y);
+      doc.text(String(item.enel), 140, y);
+      doc.text(String(item.cagece), 160, y);
+      doc.text(item.tipo, 180, y);
       doc.text(item.status, 210, y);
       y += 10;
     });
 
-    // 6️⃣ abre o PDF no navegador
+    // 6️⃣ Abre o PDF no navegador
     window.open(doc.output("bloburl"), "_blank");
 
   } catch (error) {
