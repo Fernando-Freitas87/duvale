@@ -66,9 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
       doc.setFontSize(10).setFont("helvetica", "bold");
       doc.setFillColor(200, 200, 200); // Fundo cinza claro
       doc.rect(15, y - 5, 260, 8, "F"); // Desenha um retângulo de fundo
-      doc.text("ID", 18, y);
       doc.text("Descrição", 40, y);
       doc.text("Endereço", 90, y);
+      doc.text("Matricula Nº", 180, y);
       doc.text("Tipo", 200, y);
       doc.text("Status", 230, y);
       y += 10;
@@ -81,10 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
           y = 20;
         }
 
-        doc.text(String(item.id), 18, y);
         const descricao = doc.splitTextToSize(item.descricao, 45);
         doc.text(descricao, 40, y);
         doc.text(item.endereco, 90, y);
+        doc.text(String(item.cagece), 180, y);
         doc.text(item.tipo, 200, y);
         doc.text(item.status, 230, y);
         y += 8;
