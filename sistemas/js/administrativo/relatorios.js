@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Título do relatório
       doc.setFontSize(22);
       doc.setFont("helvetica", "bold");
-      doc.text(dadosRelatorio.titulo, 130, 20, { align: "center" });
+      doc.text(dadosRelatorio.titulo, 140, 20, { align: "center" });
 
       // Data de geração do relatório
       const dataAtual = new Date().toLocaleDateString();
@@ -62,19 +62,20 @@ document.addEventListener("DOMContentLoaded", () => {
       let y = 50;
       const limitePagina = doc.internal.pageSize.getHeight() - 20;
 
-      // Definição da largura das colunas
+      // Definição das larguras das colunas
       const colWidths = {
-        descricao: 60,
+        descricao: 50,
         endereco: 80,
-        matricula: 50,
+        matricula: 40,
         tipo: 40,
         status: 40,
       };
 
-      // Cabeçalhos da tabela
+      // **📌 Cabeçalho da Tabela**
       doc.setFontSize(10).setFont("helvetica", "bold");
-      doc.setFillColor(200, 200, 200); // Fundo cinza claro
-      doc.rect(15, y - 5, 260, 8, "F"); // Desenha um retângulo de fundo
+      doc.setFillColor(180, 180, 180); // Fundo cinza médio
+      doc.rect(15, y - 5, 260, 8, "F"); // Adiciona fundo ao cabeçalho
+      doc.setTextColor(0, 0, 0); // Cor do texto preto
       doc.text("Descrição", 20, y);
       doc.text("Endereço", 90, y);
       doc.text("Matrícula Nº", 180, y);
@@ -82,12 +83,20 @@ document.addEventListener("DOMContentLoaded", () => {
       doc.text("Status", 250, y);
       y += 10;
 
-      // Conteúdo da tabela
+      // **📌 Conteúdo da Tabela**
       doc.setFontSize(10).setFont("helvetica", "normal");
-      dadosRelatorio.dados.forEach((item) => {
+      doc.setDrawColor(150, 150, 150); // Cor das bordas das células
+
+      dadosRelatorio.dados.forEach((item, index) => {
         if (y > limitePagina) { // Se a página estiver cheia, adiciona uma nova
           doc.addPage();
           y = 20;
+        }
+
+        // Alterna fundo das linhas para melhorar leitura
+        if (index % 2 === 0) {
+          doc.setFillColor(230, 230, 230); // Cinza claro
+          doc.rect(15, y - 5, 260, 8, "F");
         }
 
         // Ajustando espaçamento das colunas
@@ -96,21 +105,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         doc.text(descricao, 20, y);
         doc.text(endereco, 90, y);
-        doc.text(String(item.cagece), 180, y);
-        doc.text(item.tipo, 220, y);
-        doc.text(item.status, 250, y);
-        y += 8; // Maior espaçamento entre as linhas
+        doc.text(String(item.cagece), 180, y, { align: "center" });
+        doc.text(item.tipo, 220, y, { align: "center" });
+        doc.text(item.status, 250, y, { align: "center" });
+
+        y += 10; // Espaçamento maior entre as linhas
       });
 
-      // Rodapé
+      // **📌 Rodapé**
       const totalPaginas = doc.internal.getNumberOfPages();
       for (let i = 1; i <= totalPaginas; i++) {
         doc.setPage(i);
         doc.setFontSize(10);
+        doc.setTextColor(100);
         doc.text(`Página ${i} de ${totalPaginas}`, 250, doc.internal.pageSize.getHeight() - 10);
       }
 
-      // Abre o PDF no navegador
+      // **📌 Marca D'água**
+      doc.setFontSize(40);
+      doc.setTextColor(200, 200, 200);
+      doc.text("DuVale", 100, 150, { align: "center", angle: 30 });
+
+      // **📌 Abre o PDF no navegador**
       window.open(doc.output("bloburl"), "_blank");
 
     } catch (error) {
@@ -119,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Adiciona eventos aos botões de relatório
+  // **📌 Eventos dos Botões**
   document.querySelectorAll(".btn-primary-relatorio").forEach(botao => {
     botao.addEventListener("click", (event) => {
       event.preventDefault();
