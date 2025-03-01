@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const doc = new jsPDF({ orientation: "landscape" });
 
       // CABEÇALHO - Adicionando Logo (se houver)
-      const imgLogo = "img/duvale.svg"; // Caminho do logo
+      const imgLogo = "./img/duvale.png"; // Caminho do logo
       doc.addImage(imgLogo, "PNG", 15, 10, 30, 10);
 
       // Título do relatório
