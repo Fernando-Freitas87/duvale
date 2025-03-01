@@ -75,9 +75,9 @@ img.onerror = function () {
 
       // Definição das larguras das colunas
       const colWidths = {
-        descricao: 50,
-        endereco: 90,
-        matricula: 30,
+        descricao: 30,
+        endereco: 110,
+        matricula: 25,
         tipo: 30,
         status: 30,
       };
