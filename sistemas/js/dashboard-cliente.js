@@ -17,7 +17,7 @@ const apiBaseUrl = "https://duvale-production.up.railway.app";
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    // Verifica se existe token
+    // Verifica token de autenticação
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
       alert("Sessão expirada. Faça login novamente.");
@@ -25,24 +25,35 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // Carrega dados do usuário via API
+    // Carrega dados do usuário
     const userInfo = await carregarUsuario();
-    
-    // Prepara o botão de logout
-    configurarLogout();
 
-    // Prepara o botão de gerar Pix (caso exista no DOM)
-    configurarGerarPix();
+    // Configura logout
+    const sairBtn = document.getElementById("sair");
+    if (sairBtn) {
+      configurarLogout();
+    } else {
+      console.warn("Botão de logout não encontrado.");
+    }
 
-    // Exibe dados básicos na tela (mensalidade, contrato etc.)
-    popularDadosBasicosNaTela(userInfo);
+    // Configura botão PIX (se aplicável)
+    if (userInfo && userInfo.permitePix) {
+      configurarGerarPix();
+    }
 
-    // Carrega e exibe histórico (tabela dinâmica)
-    await carregarHistoricoUsuario();
+    // Exibe dados básicos (se válidos)
+    if (userInfo) {
+      popularDadosBasicosNaTela(userInfo);
+    }
+
+    // Aguarda o carregamento do DOM antes de carregar histórico
+    setTimeout(async () => {
+      await carregarHistoricoUsuario();
+    }, 500);
 
   } catch (error) {
     console.error("Erro geral na inicialização da página:", error);
-    alert("Ocorreu um erro ao carregar a página de cliente. Tente novamente.");
+    alert("Erro ao carregar a página. Tente novamente.");
   }
 });
 
@@ -275,60 +286,94 @@ function popularDadosBasicosNaTela(userInfo) {
 // ============================================================
 async function carregarHistoricoUsuario() {
   try {
+    // Obtém o token de autenticação
     const token = localStorage.getItem("authToken");
     if (!token) {
-      console.warn("Token não encontrado para histórico.");
+      console.warn("Token não encontrado. Redirecionando para login...");
+      window.location.href = "Index.html";
       return;
     }
 
-    // Ajuste a rota /api/historico conforme seu backend real
+    // Faz a requisição para buscar o histórico do usuário
     const response = await fetch(`${apiBaseUrl}/api/historico`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    if (!response.ok) {
-      throw new Error(`Erro ao buscar histórico: ${response.status}`);
+
+    // Tratamento de erros HTTP específicos
+    if (response.status === 401) {
+      console.warn("Token expirado. Redirecionando para login...");
+      localStorage.removeItem("authToken");
+      window.location.href = "Index.html";
+      return;
+    } else if (response.status === 403) {
+      alert("Acesso negado. Você não tem permissão para visualizar esse histórico.");
+      return;
+    } else if (!response.ok) {
+      console.warn(`Erro ao buscar histórico: ${response.status}`);
+      alert("Erro ao carregar seu histórico. Tente novamente mais tarde.");
+      return;
     }
 
+    // Converte a resposta para JSON
     const historicoData = await response.json();
 
-    // Localiza o container "table" para inserir as linhas
+    // Garante que os dados são válidos antes de renderizar
+    if (!Array.isArray(historicoData) || historicoData.length === 0) {
+      console.warn("Nenhum dado de histórico encontrado.");
+      return;
+    }
+
+    // Localiza o container da tabela
     const historicoTable = document.querySelector(".historico .table");
     if (!historicoTable) {
       console.warn("Tabela de histórico não encontrada (.historico .table).");
       return;
     }
 
-    // Para cada item do histórico, cria uma linha
+    // Limpa a tabela antes de adicionar novos dados
+    historicoTable.innerHTML = "";
+
+    // Itera pelos dados do histórico e insere no DOM
     historicoData.forEach((entry) => {
       const row = document.createElement("div");
       row.classList.add("row");
 
-      // Cria as "células" .cell para cada valor do objeto
+      // Cria células para cada campo do objeto
       Object.values(entry).forEach((value) => {
         const cell = document.createElement("div");
         cell.classList.add("cell");
-        cell.textContent = value;
+        cell.textContent = value || "N/A";
         row.appendChild(cell);
       });
 
-      // Exemplo: célula de ação
+      // Adiciona botão de ação
       const actionCell = document.createElement("div");
       actionCell.classList.add("cell");
       const actionButton = document.createElement("button");
       actionButton.textContent = "Detalhes";
-      actionButton.addEventListener("click", () => {
-        alert(`Detalhes de ${entry.nome || "Não informado"}`);
-      });
+      actionButton.addEventListener("click", () => exibirDetalhesHistorico(entry));
       actionCell.appendChild(actionButton);
       row.appendChild(actionCell);
 
-      // Anexa a row na tabela
+      // Insere a linha na tabela
       historicoTable.appendChild(row);
     });
+
   } catch (error) {
     console.error("Erro ao carregar histórico do usuário:", error);
     alert("Não foi possível carregar o histórico. Tente novamente mais tarde.");
   }
+}
+
+// Função para exibir detalhes do histórico
+function exibirDetalhesHistorico(entry) {
+  alert(`
+    Nome: ${entry.nome || "Não informado"}
+    Imóvel: ${entry.imovel || "Não informado"}
+    Vencimento: ${entry.vencimento || "Não informado"}
+    Valor: R$ ${entry.valor || "Não informado"}
+    Status: ${entry.status || "Não informado"}
+  `);
 }
 
 // ====================================================================
