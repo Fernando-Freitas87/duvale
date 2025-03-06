@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
       alert("Sessão expirada. Faça login novamente.");
-      window.location.href = "index.html";
+      window.location.href = "Index.html";
       return;
     }
 
@@ -72,7 +72,7 @@ async function carregarUsuario() {
     if (response.status === 401) {
       console.warn("Token inválido ou expirado. Redirecionando para login...");
       localStorage.removeItem("authToken"); // Remove token inválido
-      window.location.href = "index.html"; // Redireciona para a página de login
+      window.location.href = "Index.html"; // Redireciona para a página de login
       return null;
     }
 
@@ -102,18 +102,6 @@ async function carregarUsuario() {
     return null;
   }
 }
-
-// ============================================================
-// 3) Exibir Nome do Usuário na Navbar
-// ============================================================
-/*function exibirNomeUsuario(nome) {
-  const userNameElement = document.getElementById("user-name");
-  if (!userNameElement) {
-    console.error('Elemento com ID "user-name" não encontrado no DOM.');
-    return;
-  }
-  userNameElement.textContent = nome;
-}*/
 
 // ============================================================
 // 4) Configurar Logout (limpa token e redireciona)
@@ -148,7 +136,7 @@ function configurarLogout() {
 
     localStorage.removeItem("authToken");
     localStorage.removeItem("userName");
-    window.location.href = "index.html";
+    window.location.href = "Index.html";
   });
 }
 
@@ -197,21 +185,38 @@ function configurarGerarPix() {
 
 async function carregarDadosBasicos() {
   try {
+    // Obtém o token de autenticação
     const token = localStorage.getItem("authToken");
-    if (!token) throw new Error("Token não encontrado.");
-
-    const response = await fetch(`${apiBaseUrl}/api/cliente/dados-basicos`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erro ao buscar dados básicos do cliente. Código: ${response.status}`);
+    if (!token) {
+      console.warn("Token não encontrado. Redirecionando para login...");
+      window.location.href = "Index.html";
+      return;
     }
 
+    // Faz a requisição para buscar os dados do cliente
+    const response = await fetch(`${apiBaseUrl}/api/cliente/dados-basicos`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    // Tratamento de erros HTTP específicos
+    if (response.status === 401) {
+      console.warn("Token expirado. Redirecionando para login...");
+      localStorage.removeItem("authToken");
+      window.location.href = "Index.html";
+      return;
+    } else if (response.status === 403) {
+      alert("Acesso negado. Você não tem permissão para visualizar esses dados.");
+      return;
+    } else if (!response.ok) {
+      console.warn(`Erro ao buscar dados básicos do cliente. Código: ${response.status}`);
+      alert("Ocorreu um erro ao carregar seus dados. Tente novamente mais tarde.");
+      return;
+    }
+
+    // Converte a resposta para JSON
     const data = await response.json();
-    
+
+    // Garante que os dados não estejam vazios
     if (!data || Object.keys(data).length === 0) {
       console.warn("Resposta da API está vazia.");
       return;
@@ -227,12 +232,15 @@ async function carregarDadosBasicos() {
 }
 
 function popularDadosBasicosNaTela(userInfo) {
-  if (!userInfo) return;
+  if (!userInfo || typeof userInfo !== "object") {
+    console.warn("Dados básicos do usuário não foram recebidos corretamente.");
+    return;
+  }
 
   // Atualiza a mensalidade
   const mensalidadeElement = document.getElementById("mensalidade-cliente");
   if (mensalidadeElement) {
-    mensalidadeElement.textContent = userInfo.mensalidade;
+    mensalidadeElement.textContent = userInfo.mensalidade || "R$ 0,00";
   } else {
     console.warn('Elemento "mensalidade-cliente" não encontrado no DOM.');
   }
@@ -250,10 +258,12 @@ function popularDadosBasicosNaTela(userInfo) {
 
     // Atualiza os avisos do contrato
     const avisosContrato = document.querySelectorAll(".avisos-li");
-    if (avisosContrato.length >= 3) {
-      avisosContrato[0].textContent = `Vigência: ${userInfo.contrato.vigencia}`;
-      avisosContrato[1].textContent = `Valor Mensal: ${userInfo.contrato.valorMensal}`;
-      avisosContrato[2].textContent = `Valor Total: ${userInfo.contrato.valorTotal}`;
+    if (avisosContrato.length > 0) {
+      if (userInfo.contrato.vigencia) avisosContrato[0].textContent = `Vigência: ${userInfo.contrato.vigencia}`;
+      if (userInfo.contrato.valorMensal) avisosContrato[1].textContent = `Valor Mensal: ${userInfo.contrato.valorMensal}`;
+      if (userInfo.contrato.valorTotal) avisosContrato[2].textContent = `Valor Total: ${userInfo.contrato.valorTotal}`;
+    } else {
+      console.warn("Elementos de aviso do contrato não foram encontrados no DOM.");
     }
   } else {
     console.warn("Contrato não encontrado na resposta da API.");
