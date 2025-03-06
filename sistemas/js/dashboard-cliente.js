@@ -51,31 +51,54 @@ document.addEventListener("DOMContentLoaded", async () => {
 // ============================================================
 async function carregarUsuario() {
   try {
+    // Obtém o token de autenticação do localStorage
     const token = localStorage.getItem("authToken");
+
+    // Se não houver token, exibe nome genérico e retorna null
     if (!token) {
       console.warn("Token de autenticação não encontrado.");
       exibirNomeUsuario("Usuário");
       return null;
     }
 
-    // Importante: removido o apóstrofo extra que causava erro na URL
-    const response = await fetch(`${apiBaseUrl}/api/usuario`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    // Define a URL da API e os headers necessários
+    const url = `${apiBaseUrl}/api/usuario`;
+    const headers = { Authorization: `Bearer ${token}` };
 
+    // Faz a requisição à API
+    const response = await fetch(url, { headers });
+
+    // Tratamento especial para token inválido ou expirado (erro 401)
+    if (response.status === 401) {
+      console.warn("Token inválido ou expirado. Redirecionando para login...");
+      localStorage.removeItem("authToken"); // Remove token inválido
+      window.location.href = "index.html"; // Redireciona para a página de login
+      return null;
+    }
+
+    // Se houver outro erro na resposta, exibe uma mensagem e retorna null
     if (!response.ok) {
       console.warn(`Erro ao carregar o usuário: status ${response.status}`);
       exibirNomeUsuario("Usuário");
       return null;
     }
 
+    // Converte a resposta para JSON e extrai os dados do usuário
     const usuario = await response.json();
+
+    // Exibe o nome do usuário na interface (ou "Usuário" se não houver nome)
     exibirNomeUsuario(usuario.nome || "Usuário");
+
+    // Retorna os dados do usuário para outras funções utilizarem
     return usuario;
 
   } catch (error) {
+    // Captura e exibe no console qualquer erro inesperado durante a execução
     console.error("Erro ao carregar dados do usuário:", error);
+    
+    // Exibe nome genérico em caso de erro
     exibirNomeUsuario("Usuário");
+    
     return null;
   }
 }
@@ -83,14 +106,14 @@ async function carregarUsuario() {
 // ============================================================
 // 3) Exibir Nome do Usuário na Navbar
 // ============================================================
-function exibirNomeUsuario(nome) {
+/*function exibirNomeUsuario(nome) {
   const userNameElement = document.getElementById("user-name");
   if (!userNameElement) {
     console.error('Elemento com ID "user-name" não encontrado no DOM.');
     return;
   }
   userNameElement.textContent = nome;
-}
+}*/
 
 // ============================================================
 // 4) Configurar Logout (limpa token e redireciona)
@@ -102,8 +125,27 @@ function configurarLogout() {
     return;
   }
 
-  sairLink.addEventListener("click", (e) => {
+  sairLink.addEventListener("click", async (e) => {
     e.preventDefault();
+
+    if (!confirm("Tem certeza que deseja sair?")) return;
+
+    try {
+      const token = localStorage.getItem("authToken");
+
+      if (token) {
+        await fetch("https://duvale-production.up.railway.app/api/logout", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+    } catch (error) {
+      console.warn("Erro ao deslogar no servidor:", error);
+    }
+
+    // Aguarda um tempo para evitar redirecionamento prematuro
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     localStorage.removeItem("authToken");
     localStorage.removeItem("userName");
     window.location.href = "index.html";
