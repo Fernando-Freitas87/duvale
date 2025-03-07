@@ -68,6 +68,22 @@
             <img src="img/PIX.png" alt="pix" class="h3-icon" />
             Pague com PIX
           </button>
+          <!-- Container do QR Code -->
+          <div id="qrcode-container" style="display: none; text-align: center; margin-top: 10px;">
+            <img id="qrcode" src="" alt="QR Code de Pagamento" style="max-width: 200px; margin-bottom: 10px;" />
+            
+            <!-- Código Pix Copia e Cola -->
+            <p><strong>Código PIX (Copia e Cola):</strong></p>
+            <input type="text" id="codigo-pix" readonly style="width: 100%; text-align: center; padding: 5px; font-size: 14px;">
+            
+            <!-- Botão de Copiar -->
+            <button id="botao-copiar" onclick="copiarCodigoPix()" style="margin-top: 5px; padding: 8px; font-size: 14px; cursor: pointer;">
+              📋 Copiar Código PIX
+            </button>
+
+            <!-- Timer de expiração -->
+            <p id="tempo-restante" style="font-weight: bold; color: red; margin-top: 10px;"></p>
+          </div>
           <div class="avisos">
             <li class="avisos-li">Vencimento: --/--/----</li>
             <li class="avisos-li">
