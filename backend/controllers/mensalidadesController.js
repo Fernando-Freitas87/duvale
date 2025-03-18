@@ -251,7 +251,8 @@ exports.getAVencer = async (req, res) => {
     // Query principal
     const query = `
       SELECT 
-        m.id AS id, 
+        m.id AS id,
+        c.nome AS cliente_nome,
         i.descricao AS imovel_descricao,
         i.endereco,
         DATE_FORMAT(m.data_vencimento, '%Y-%m-%d') AS data_vencimento,
