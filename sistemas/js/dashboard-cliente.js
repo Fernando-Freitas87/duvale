@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function carregarDadosCliente() {
       try {
         // Placeholder de endpoint para obter dados do cliente (GET)
-        const response = await fetch("/api/cliente/dados");
+        const response = await fetch("/api/clientes/dados");
         if (!response.ok) {
           throw new Error("Erro ao carregar dados do cliente");
         }
