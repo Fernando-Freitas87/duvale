@@ -11,14 +11,43 @@ document.addEventListener("DOMContentLoaded", () => {
     ? "http://localhost:3000"
     : "https://duvale-production.up.railway.app";
 
+  const carregarImagemBase64 = (url) => new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.onload = function () {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      resolve(canvas.toDataURL("image/png"));
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+
   const gerarPDF = async (tipoRelatorio) => {
     try {
       document.body.style.cursor = "wait"; // Exibe indicador de carregamento
+
+      const loader = document.createElement('div');
+      loader.innerHTML = "Gerando PDF...";
+      loader.style.position = "fixed";
+      loader.style.top = "50%";
+      loader.style.left = "50%";
+      loader.style.transform = "translate(-50%, -50%)";
+      loader.style.backgroundColor = "#fff";
+      loader.style.padding = "10px 20px";
+      loader.style.borderRadius = "5px";
+      loader.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.5)";
+      loader.style.zIndex = "1000";
+      document.body.appendChild(loader);
 
       console.log(`🔗 Buscando relatório: ${tipoRelatorio}`);
       const response = await fetch(`${apiBaseUrl}/api/relatorios/${tipoRelatorio}`);
 
       document.body.style.cursor = "default"; // Retorna cursor normal
+      document.body.removeChild(loader);
 
       if (!response.ok) {
         console.error(`❌ Erro na API (${response.status}):`, await response.text());
@@ -28,31 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const dadosRelatorio = await response.json();
       console.log("📄 Dados do relatório recebidos:", dadosRelatorio);
 
-      // Criar documento PDF no modo paisagem
-      const doc = new jsPDF({ orientation: "landscape" });
+      // Criar documento PDF no modo paisagem e tamanho A4
+      const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
 
-// CABEÇALHO - Adicionando Logo diretamente do link externo
-const logoUrl = "https://setta.dev.br/sistemas/img/logop.png";
+      // CABEÇALHO - Adicionando Logo diretamente do link externo
+      const logoUrl = "https://setta.dev.br/sistemas/img/logop.png";
 
-const img = new Image();
-img.src = logoUrl;
-img.crossOrigin = "Anonymous"; // Garante carregamento externo sem restrições CORS
-
-img.onload = function () {
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = img.width;
-  canvas.height = img.height;
-  ctx.drawImage(img, 0, 0);
-
-  const imgData = canvas.toDataURL("image/png"); // Converte para Base64
-  doc.addImage(imgData, "PNG", 15, 10, 30, 10);
-};
-
-img.onerror = function () {
-  console.warn("⚠️ Logo não carregado. Verifique a URL.");
-};
+      // Carregar e inserir imagem no PDF
+      try {
+        const imgData = await carregarImagemBase64(logoUrl);
+        doc.addImage(imgData, "PNG", 15, 10, 30, 10);
+      } catch (error) {
+        console.warn("⚠️ Erro ao carregar a logo:", error);
+      }
 
       // Título do relatório
       doc.setFontSize(22);
