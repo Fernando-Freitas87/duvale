@@ -60,7 +60,7 @@ export function atualizarTabela(tabelaId, dados) {
   dados.forEach((item) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${item.cliente_nome || "N/A"}</td>
+      <td>${item.nome_inquilino || "N/A"}</td>
       <td>${item.imovel_descricao || "N/A"}</td>
       <td>${new Date(item.data_vencimento).toLocaleDateString("pt-BR") || "Data Inválida"}</td>
       <td>R$ ${parseFloat(item.valor || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</td>
