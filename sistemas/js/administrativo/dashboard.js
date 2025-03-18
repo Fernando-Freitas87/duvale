@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const authToken = localStorage.getItem("authToken");
   if (!authToken) {
     alert("Sessão expirada. Faça login novamente.");
-    window.location.href = "index.html";
+    window.location.href = "Index.html";
     return;
   }
 

@@ -53,7 +53,7 @@ export function atualizarTabela(tabelaId, dados) {
   tabelaCorpo.innerHTML = "";
 
   if (!dados || dados.length === 0) {
-    tabelaCorpo.innerHTML = `<tr><td colspan="6" style="text-align: center;"> Nenhum dado encontrado.</td></tr>`;
+    tabelaCorpo.innerHTML = `<tr><td colspan="7" style="text-align: center;"> Nenhum dado encontrado.</td></tr>`;
     return;
   }
 
@@ -62,6 +62,7 @@ export function atualizarTabela(tabelaId, dados) {
     tr.innerHTML = `
       <td>${item.cliente_nome || "N/A"}</td>
       <td>${item.imovel_descricao || "N/A"}</td>
+      <td>${item.imovel_endereco || "N/A"}</td>
       <td>${new Date(item.data_vencimento).toLocaleDateString("pt-BR") || "Data Inválida"}</td>
       <td>R$ ${parseFloat(item.valor || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</td>
       <td>${item.dias_atraso || "0"}</td>
@@ -200,5 +201,3 @@ function atualizarPaginacao(tipo, page, total, limit) {
     });
   });
 }
-
-
