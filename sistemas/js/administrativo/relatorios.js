@@ -104,11 +104,11 @@ document.addEventListener("DOMContentLoaded", () => {
       doc.setFillColor(180, 180, 180); // Fundo cinza médio
       doc.rect(15, y - 5, 260, 8, "F"); // Adiciona fundo ao cabeçalho
       doc.setTextColor(0, 0, 0); // Cor do texto preto
-      doc.text("Descrição", 20, y);
-      doc.text("Endereço", 90, y);
-      doc.text("Matrícula Nº", 180, y);
-      doc.text("Tipo", 220, y);
-      doc.text("Status", 250, y);
+      doc.text("Descrição", 80, y);
+      doc.text("Endereço", 180, y);
+      doc.text("Matrícula Nº", 40, y);
+      doc.text("Tipo", 40, y);
+      doc.text("Status", 40, y);
       y += 10;
 
       // **📌 Conteúdo da Tabela**
@@ -131,11 +131,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const descricao = doc.splitTextToSize(item.descricao, colWidths.descricao);
         const endereco = doc.splitTextToSize(item.endereco, colWidths.endereco);
 
-        doc.text(descricao, 20, y);
-        doc.text(endereco, 90, y);
-        doc.text(String(item.cagece), 180, y, { align: "center" });
-        doc.text(item.tipo, 220, y, { align: "center" });
-        doc.text(item.status, 250, y, { align: "center" });
+        doc.text(descricao, 80, y);
+        doc.text(endereco, 180, y);
+        doc.text(String(item.cagece), 40, y, { align: "center" });
+        doc.text(item.tipo, 40, y, { align: "center" });
+        doc.text(item.status, 40, y, { align: "center" });
 
         y += 10; // Espaçamento maior entre as linhas
       });
