@@ -104,10 +104,10 @@ document.addEventListener("DOMContentLoaded", () => {
       doc.setFillColor(180, 180, 180); // Fundo cinza médio
       doc.rect(15, y - 5, 260, 8, "F"); // Adiciona fundo ao cabeçalho
       doc.setTextColor(0, 0, 0); // Cor do texto preto
-      doc.text("Matrícula Nº", 20, y, { align: "center" });
-      doc.text("Descrição", 60, y, { align: "center" });
-      doc.text("Endereço", 140, y, { align: "center" });
-      doc.text("Tipo", 220, y, { align: "center" });
+      doc.text("Matrícula Nº", 25, y, { align: "center" });
+      doc.text("Descrição", 70, y, { align: "center" });
+      doc.text("Endereço", 145, y, { align: "center" });
+      doc.text("Tipo", 215, y, { align: "center" });
       doc.text("Status", 260, y, { align: "center" });
       y += 10;
 
@@ -128,13 +128,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Ajustando espaçamento das colunas
-        doc.text(String(item.cagece), 20, y, { align: "center" });
-        doc.text(doc.splitTextToSize(item.descricao, 40), 45, y);
-        doc.text(doc.splitTextToSize(item.endereco, 75), 105, y);
-        doc.text(item.tipo, 220, y, { align: "center" });
+        doc.text(String(item.cagece), 25, y, { align: "center" });
+        doc.text(doc.splitTextToSize(item.descricao, 50), 50, y);
+        doc.text(doc.splitTextToSize(item.endereco, 75), 120, y);
+        doc.text(item.tipo, 215, y, { align: "center" });
         doc.text(item.status, 260, y, { align: "center" });
 
-        y += 10; // Espaçamento maior entre as linhas
+        y += 12; // Mais espaço entre as linhas
       });
 
       // **📌 Rodapé**
