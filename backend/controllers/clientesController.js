@@ -170,7 +170,77 @@ exports.getAvisos = async (req, res) => {
     // Retorna a lista de avisos encontrados
     res.json(rows);
   } catch (error) {
-    logger.error(`Erro ao buscar avisos do cliente: ${error.message}`);
-    res.status(500).json({ error: 'Erro ao buscar avisos do cliente.' });
+  logger.error(`Erro ao buscar avisos do cliente: ${error.message}`);
+  res.status(500).json({ error: 'Erro ao buscar avisos do cliente.' });
+  }
+};
+
+/**
+ * GET /api/clientes/dados
+ * Retorna informações do cliente logado (nome, mensalidade, contrato).
+ */
+exports.getDadosCliente = async (req, res) => {
+  try {
+    const clienteId = req.auth.id; // Ajuste se necessário
+    const query = `
+      SELECT 
+        c.nome AS nome,
+        con.valor_aluguel AS mensalidade,
+        con.total_meses AS contrato
+      FROM clientes c
+      JOIN contrato con ON c.id = con.cliente_id
+      WHERE c.id = ?
+      LIMIT 1
+    `;
+    const [rows] = await db.query(query, [clienteId]);
+
+    if (!rows || rows.length === 0) {
+      return res.status(404).json({ error: 'Cliente ou contrato não encontrado.' });
+    }
+
+    return res.json(rows[0]); // { nome, mensalidade, contrato }
+  } catch (error) {
+    console.error('Erro ao obter dados do cliente:', error);
+    return res.status(500).json({ error: 'Erro ao obter dados do cliente.' });
+  }
+};
+
+/**
+ * POST /api/clientes/gerar-pix
+ * Gera um QR Code e código Pix (mock).
+ */
+exports.gerarPix = async (req, res) => {
+  try {
+    // Exemplo de QR Code e código fixo
+    const qrcodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ExemploPix';
+    const codigoPix = '000201010212...6304A13B';
+    const expiracaoSegundos = 300;
+
+    return res.json({
+      qrcodeUrl,
+      codigoPix,
+      expiracaoSegundos
+    });
+  } catch (error) {
+    console.error('Erro ao gerar Pix:', error);
+    return res.status(500).json({ error: 'Erro ao gerar Pix.' });
+  }
+};
+
+/**
+ * POST /api/logout
+ * Invalida sessão/token do cliente.
+ */
+exports.logout = (req, res) => {
+  try {
+    // Se estiver usando sessões
+    req.session.destroy(() => {
+      return res.json({ message: 'Logout efetuado com sucesso.' });
+    });
+
+    // Se usar JWT, adapte conforme sua estratégia de invalidação do token
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error);
+    return res.status(500).json({ error: 'Erro ao fazer logout.' });
   }
 };

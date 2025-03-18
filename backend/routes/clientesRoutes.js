@@ -27,6 +27,13 @@ router.get('/', authenticateToken, clientesController.listarClientes);
 
 
 // ---------------------------------------------------------------------
+// Novas rotas para alinhamento com dashboard-cliente.js
+// ---------------------------------------------------------------------
+router.get('/dados', authenticateToken, clientesController.getDadosCliente);
+router.post('/gerar-pix', authenticateToken, clientesController.gerarPix);
+router.post('/logout', authenticateToken, clientesController.logout);
+
+// ---------------------------------------------------------------------
 // Exporta o roteador
 // ---------------------------------------------------------------------
 module.exports = router;
