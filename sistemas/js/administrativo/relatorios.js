@@ -104,11 +104,11 @@ document.addEventListener("DOMContentLoaded", () => {
       doc.setFillColor(180, 180, 180); // Fundo cinza médio
       doc.rect(15, y - 5, 260, 8, "F"); // Adiciona fundo ao cabeçalho
       doc.setTextColor(0, 0, 0); // Cor do texto preto
-      doc.text("Descrição", 80, y);
-      doc.text("Endereço", 180, y);
-      doc.text("Matrícula Nº", 40, y);
-      doc.text("Tipo", 40, y);
-      doc.text("Status", 40, y);
+      doc.text("Matrícula Nº", 20, y, { align: "center" });
+      doc.text("Descrição", 60, y, { align: "center" });
+      doc.text("Endereço", 140, y, { align: "center" });
+      doc.text("Tipo", 220, y, { align: "center" });
+      doc.text("Status", 260, y, { align: "center" });
       y += 10;
 
       // **📌 Conteúdo da Tabela**
@@ -128,14 +128,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Ajustando espaçamento das colunas
-        const descricao = doc.splitTextToSize(item.descricao, colWidths.descricao);
-        const endereco = doc.splitTextToSize(item.endereco, colWidths.endereco);
-
-        doc.text(descricao, 80, y);
-        doc.text(endereco, 180, y);
-        doc.text(String(item.cagece), 40, y, { align: "center" });
-        doc.text(item.tipo, 40, y, { align: "center" });
-        doc.text(item.status, 40, y, { align: "center" });
+        doc.text(String(item.cagece), 20, y, { align: "center" });
+        doc.text(doc.splitTextToSize(item.descricao, 40), 45, y);
+        doc.text(doc.splitTextToSize(item.endereco, 75), 105, y);
+        doc.text(item.tipo, 220, y, { align: "center" });
+        doc.text(item.status, 260, y, { align: "center" });
 
         y += 10; // Espaçamento maior entre as linhas
       });
