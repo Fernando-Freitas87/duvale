@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function gerarPix() {
       try {
         // Placeholder de endpoint para gerar Pix (POST ou GET)
-        const response = await fetch("/api/cliente/gerar-pix");
+        const response = await fetch("/api/clientes/gerar-pix");
         if (!response.ok) {
           throw new Error("Falha ao gerar Pix");
         }
