@@ -69,7 +69,6 @@ def gerar_qrcode():
     if not valor:
         return jsonify({"erro": "Valor é obrigatório"}), 400
 
-    # ✅ Endpoint correto do Mercado Pago
     url = "https://api.mercadopago.com/v1/payments"
 
     headers = {
@@ -93,35 +92,27 @@ def gerar_qrcode():
         "notification_url": "https://setta.dev.br/notificacao-pagamento"
     }
 
-    print("📌 Payload enviado para Mercado Pago:", payload)
-    print("📌 Headers enviados:", headers)
+    print("📌 Enviando payload para Mercado Pago:", payload)
 
     try:
         response = requests.post(url, headers=headers, json=payload)
-        print("📌 Resposta da API Mercado Pago:",
-              response.status_code, response.text)
-        response.raise_for_status()
+        print("📌 Resposta Mercado Pago:", response.status_code, response.text)
 
-        # ✅ Obtém o QR Code e o ID do pagamento gerado
+        response.raise_for_status()
         response_json = response.json()
+
         qr_data = response_json.get("point_of_interaction", {}).get(
             "transaction_data", {}).get("qr_code", "")
         payment_id = response_json.get("id")  # ID do pagamento gerado
 
         if not qr_data or not payment_id:
+            print("❌ Erro: Falha ao obter QR Code do Mercado Pago.")
             return jsonify({"erro": "Falha ao gerar QR Code"}), 400
 
-        # ✅ Criar QR Code e converter para Base64
-        qr = qrcode.make(qr_data)
-        buffer = io.BytesIO()
-        qr.save(buffer, format="PNG")
-        buffer.seek(0)
-        qr_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
-
-        # ✅ Retorna QR Code em Base64 e o ID do pagamento para o frontend
-        return jsonify({"qr_code": qr_base64, "payment_id": payment_id, "qr_data": qr_data})
+        return jsonify({"qr_code": qr_data, "payment_id": payment_id})
 
     except requests.exceptions.RequestException as e:
+        print(f"❌ Erro ao gerar QR Code: {str(e)}")
         return jsonify({"erro": str(e)}), 400
 
 
