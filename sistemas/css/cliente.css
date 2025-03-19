@@ -1,0 +1,298 @@
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 400px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+    width: 250px;
+    max-width: 80%;
+    margin-bottom: 15px;
+}
+
+.title {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.details {
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.details span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    margin: 8px 0;
+    color: #444;
+    font-weight: 500;
+}
+
+/* Melhor ajuste para telas menores */
+@media (max-width: 480px) {
+    .details {
+        padding: 15px;
+    }
+    
+    .details span {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 14px;
+    }
+}
+
+.checkout--footer {
+    display: flex;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+/* Estilização da Tooltip */
+.tooltip {
+    position: absolute;
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    white-space: nowrap;
+    top: -30px; /* Ajuste para exibir acima do elemento */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.checkout--footer:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.checkout-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.checkout-btn:hover {
+    transform: scale(1.1);
+}
+
+.checkout-btn img {
+    width: 70px;
+    max-width: 100%;
+}
+
+.botao-copiar {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 16px;
+    transition: background 0.3s;
+    width: 60%;
+}
+
+.botao-copiar:hover {
+    background-color: #0056b3;
+}
+
+#qrcode-container {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+textarea {
+    text-align: center;
+    width: 93%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: white;
+    font-size: 10px;
+    resize: none;
+}
+
+.qrcode-box {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.qr-code {
+    display: block;
+    margin: 15px auto;
+    max-width: 200px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.codigo-pix {
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    background: #f8f8f8;
+    text-align: center;
+    resize: none;
+}
+
+@media (max-width: 768px) {
+    .container {
+        max-width: 90%;
+        padding: 15px;
+    }
+    .checkout--footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .checkout-btn img {
+        width: 40px;
+    }
+    .details span {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .price {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        max-width: 95%;
+        padding: 12px;
+    }
+    .botao-copiar {
+        font-size: 14px;
+        padding: 10px;
+    }
+    .checkout-btn img {
+        width: 35px;
+    }
+}
+
+.footerr {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1px;
+    font-size: 12px;
+    color: rgba(156, 155, 155, 0.662);
+}
+
+.footer-hr {
+    border: none;
+    height: 1px;
+    background: rgba(156, 155, 155, 0.3);
+    margin: 10px auto;
+    width: 80%;
+}
+
+.footerr a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footerr a:hover {
+    text-decoration: underline;
+}
+
+/* ✅ Estilização da barra de progresso */
+.progress {
+    width: 100%;
+    height: 8px;
+    background-color: #f3f3f3; /* Tom mais claro para menor destaque */
+    border-radius: 5px;
+    overflow: hidden;
+    display: none; /* Inicialmente oculta */
+    margin-top: 10px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 100%;
+    background-color: #4caf50; /* Tom de verde mais suave */
+    transition: width 1s linear; /* Animação suave */
+    border-radius: 5px;
+}
+
+@keyframes progress-animation {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 20px 20px;
+    }
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+}
+.menu-container {
+    width: 100%;
+    max-width: 400px; /* Igualando à largura da div container */
+    margin: 20px auto; /* Adiciona 8px de espaçamento acima e abaixo */
+    border-radius: 12px; /* Cantos arredondados */
+    padding: 8px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.menu-container div {
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.menu-container div:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
