@@ -369,6 +369,53 @@ def obter_mensalidade():
     except mysql.connector.Error as e:
         return jsonify({"erro": "Erro no banco de dados", "detalhe": str(e)}), 500
 
+
+@app.route('/api/cliente/mensalidade', methods=['GET'])
+def obter_dados_cliente_e_mensalidade():
+    """ Retorna os dados do cliente e o valor da mensalidade """
+    auth_token = request.headers.get("Authorization")
+    if not auth_token:
+        return jsonify({"erro": "Token de autenticação ausente"}), 401
+
+    token_sem_prefixo = auth_token.replace("Bearer ", "")
+
+    try:
+        payload = jwt.decode(token_sem_prefixo, os.getenv(
+            "JWT_SECRET"), algorithms=["HS256"])
+        cliente_id = payload.get("id")
+        if not cliente_id:
+            return jsonify({"erro": "Token inválido ou expirado"}), 401
+
+        conn = obter_conexao()
+        if conn is None:
+            return jsonify({"erro": "Erro ao conectar ao banco de dados"}), 500
+
+        cursor = conn.cursor(dictionary=True)
+
+        query = """
+            SELECT c.nome, c.cpf, cfg.valor as mensalidade
+            FROM clientes c
+            LEFT JOIN configuracoes cfg ON cfg.chave = 'mensalidade'
+            WHERE c.id = %s
+        """
+        cursor.execute(query, (cliente_id,))
+        cliente = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if not cliente:
+            return jsonify({"erro": "Cliente não encontrado"}), 404
+
+        return jsonify(cliente)
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({"erro": "Token expirado"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"erro": "Token inválido"}), 401
+    except mysql.connector.Error as e:
+        return jsonify({"erro": "Erro no banco de dados", "detalhe": str(e)}), 500
+
 # ------------------ FUNÇÕES AUXILIARES ------------------ #
 
 

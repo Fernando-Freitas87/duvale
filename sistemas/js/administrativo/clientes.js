@@ -69,6 +69,41 @@ async function gerarQRCode() {
 }
 
 //#############################################################################
+// ✅ Função para carregar dados do cliente e da mensalidade
+async function carregarDadosCliente() {
+    try {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            console.warn('Token de autenticação não encontrado.');
+            return;
+        }
+
+        const response = await fetch(`${apiBaseUrl}/api/cliente/mensalidade`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+            console.warn(`Erro ao carregar os dados do cliente: ${response.status}`);
+            return;
+        }
+
+        const data = await response.json();
+        document.getElementById("user-name").textContent = data.nome || "Usuário";
+        document.getElementById("valor").innerHTML = `<sup>R$</sup> ${data.mensalidade.toFixed(2)}`;
+    } catch (error) {
+        console.error('Erro ao carregar dados do cliente:', error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        await carregarDadosCliente();
+    } catch (error) {
+        console.error("Erro na inicialização:", error);
+    }
+});
+
+//#############################################################################
 // ✅ Função para VERIFICAR STATUS DO PAGAMENTO COM TEMPO LIMITE
 //#############################################################################
 
