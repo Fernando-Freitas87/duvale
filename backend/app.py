@@ -6,7 +6,7 @@ import qrcode
 from datetime import datetime
 import io
 import os
-import uuid  # Importar para gerar identificadores únicos
+import mysql.connector.pooling  # Adicionada a importação para conexão otimizada
 from dotenv import load_dotenv
 import base64  # Adicionar essa importação
 
@@ -21,6 +21,28 @@ CORS(app)
 
 TOKEN_API = os.getenv("TOKEN_API_WHATSAPP")
 MP_ACCESS_TOKEN = os.getenv("MP_ACCESS_TOKEN")
+
+# ✅ Configuração do banco de dados MySQL seguindo o padrão do `caixaController.js`
+db_config = {
+    "host": os.getenv("DB_HOST"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "database": os.getenv("DB_NAME")
+}
+
+# ✅ Criando um pool de conexões para melhor performance
+pool = mysql.connector.pooling.MySQLConnectionPool(
+    pool_name="mypool", pool_size=10, **db_config
+)
+
+
+def obter_conexao():
+    """ Obtém uma conexão do pool de conexões """
+    try:
+        return pool.get_connection()
+    except mysql.connector.Error as e:
+        print(f"❌ Erro ao conectar ao banco de dados: {e}")
+        return None
 
 # ------------------ ROTA PARA ENVIO DE MENSAGEM VIA WHATSAPP ------------------ #
 
@@ -55,7 +77,6 @@ def enviar_mensagem():
 
 
 # ------------------ ROTA PARA GERAR QR CODE PIX (MERCADO PAGO) ------------------ #
-
 
 @app.route('/gerar-qrcode', methods=['OPTIONS', 'POST'])
 def gerar_qrcode():
@@ -213,7 +234,6 @@ def notificacao_pagamento():
 
 # ------------------ APAGA O QRCODE APOS PAGAMENTO ------------------ #
 
-
 @app.route('/invalidar-qrcode/<payment_id>', methods=['DELETE'])
 def invalidar_qrcode(payment_id):
     """ Invalida o QR Code associado a um pagamento específico """
@@ -221,6 +241,42 @@ def invalidar_qrcode(payment_id):
     print(f"📌 QR Code do pagamento {payment_id} invalidado.")
     return jsonify({"status": "QR Code invalidado"}), 200
 
+
+# ------------------ ROTA PARA OBTER DADOS DO CLIENTE ------------------ #
+
+@app.route('/api/cliente/dados', methods=['GET'])
+def obter_dados_cliente():
+    auth_token = request.headers.get("Authorization")
+
+    if not auth_token:
+        return jsonify({"erro": "Token de autenticação ausente"}), 401
+
+    conn = None
+    try:
+        conn = obter_conexao()
+        cursor = conn.cursor(dictionary=True)
+
+        # 🔍 Busca o cliente no banco de dados pelo token (deve estar associado ao usuário)
+        query = """
+            SELECT id, nome, email FROM clientes 
+            WHERE token = %s
+        """
+        cursor.execute(query, (auth_token,))
+        cliente = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if not cliente:
+            return jsonify({"erro": "Cliente não encontrado"}), 404
+
+        return jsonify(cliente)
+
+    except mysql.connector.Error as e:
+        return jsonify({"erro": "Erro no banco de dados", "detalhe": str(e)}), 500
+    finally:
+        if conn:
+            conn.close()  # Garante que a conexão será fechada para evitar vazamento
 
 # ------------------ FUNÇÕES AUXILIARES ------------------ #
 

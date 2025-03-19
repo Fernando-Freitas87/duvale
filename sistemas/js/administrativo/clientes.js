@@ -1,16 +1,19 @@
 // ✅ Define a URL base da API do backend
 const apiBaseUrl = "https://duvale-production.up.railway.app"; 
 
+window.logout = function () {
+    console.log("🔒 Realizando logout...");
+    localStorage.removeItem("authToken"); // Remove o token de autenticação
+    window.location.href = "Index.html"; // Redireciona para a página de login
+};
+
 // ✅ Aguarda o carregamento da página antes de buscar o nome do cliente
 document.addEventListener("DOMContentLoaded", () => {
     carregarNomeCliente();
 });
 
 /**
- * ✅ Função para carregar o nome do cliente da API e exibir no HTML.
- * - Obtém o token de autenticação do localStorage.
- * - Faz uma requisição à API `/api/cliente/dados`.
- * - Exibe o nome do cliente no elemento com id `nome-cliente`.
+ * ✅ Função para buscar o nome do cliente e exibi-lo corretamente
  */
 async function carregarNomeCliente() {
     try {
@@ -96,13 +99,4 @@ async function gerarQRCode() {
         document.getElementById('resultado').innerText = `❌ Erro: ${error.message}`;
         console.error("Erro:", error);
     }
-}
-
-/**
- * ✅ Função para realizar logout e redirecionar para a página de login.
- */
-function logout() {
-    console.log("🔒 Realizando logout...");
-    localStorage.removeItem("authToken"); // Remove o token de autenticação
-    window.location.href = "Index.html"; // Redireciona para a página de login
 }

@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /**
    * ✅ Função para realizar logout e redirecionar para a página de login.
    */
-  function logout() {
+  window.logout = function () {
     console.log("🔒 Realizando logout...");
     localStorage.removeItem("authToken"); // Remove o token de autenticação
     window.location.href = "Index.html"; // Redireciona para a página de login

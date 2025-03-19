@@ -1,4 +1,16 @@
-const db = require('../db');
+const mysql = require('mysql2/promise'); // 🔄 Substituído por conexão dinâmica
+require('dotenv').config(); // ✅ Para carregar variáveis de ambiente
+
+// ✅ Configuração do banco de dados
+const pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
 
 /**
  * Registra uma movimentação no caixa.
@@ -11,10 +23,12 @@ exports.registrarTransacao = async (req, res) => {
       return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
     }
 
-    await db.query(
+    const conn = await pool.getConnection();
+    await conn.execute(
       'INSERT INTO caixa (tipo, valor, descricao, usuario) VALUES (?, ?, ?, ?)',
       [tipo, valor, descricao, usuario]
     );
+    conn.release();
 
     res.status(201).json({ message: 'Transação registrada com sucesso!' });
   } catch (error) {
@@ -28,17 +42,21 @@ exports.registrarTransacao = async (req, res) => {
  */
 exports.getCaixa = async (req, res) => {
   try {
+    const conn = await pool.getConnection();
+
     // Calcula saldo
-    const [[{ saldo }]] = await db.query(`
+    const [[{ saldo }]] = await conn.execute(`
       SELECT SUM(CASE WHEN tipo = 'entrada' THEN valor ELSE -valor END) AS saldo FROM caixa
     `);
 
     // Busca transações
-    const [transacoes] = await db.query(`
+    const [transacoes] = await conn.execute(`
       SELECT id, tipo, valor, descricao, usuario, data
       FROM caixa
       ORDER BY data DESC
     `);
+
+    conn.release();
 
     res.json({ saldo: saldo || 0, transacoes });
   } catch (error) {
