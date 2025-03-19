@@ -10,6 +10,7 @@ const clientesController = require('../controllers/clientesController'); // Cont
 // 1. Obter informações do usuário autenticado
 // Endpoint: GET /api/clientes/info
 router.get('/info', authenticateToken, clientesController.getUserInfo);
+router.get('/:id', authenticateToken, clientesController.obterClientePorId);
 
 // 2. Buscar avisos do cliente autenticado
 // Endpoint: GET /api/clientes/avisos
@@ -23,15 +24,7 @@ router.get('/avisos', authenticateToken, clientesController.getAvisos);
 // Endpoint: GET /api/clientes
 router.get('/', authenticateToken, clientesController.listarClientes);
 
-// ---------------------------------------------------------------------
-// Novas rotas para alinhamento com dashboard-cliente.js
-// ---------------------------------------------------------------------
-router.get('/dados', authenticateToken, clientesController.getDadosCliente);
-router.post('/gerar-pix', authenticateToken, clientesController.gerarPix);
-router.post('/logout', authenticateToken, clientesController.logout);
 
-// Agora colocamos /:id por último
-router.get('/:id', authenticateToken, clientesController.obterClientePorId);
 
 // ---------------------------------------------------------------------
 // Exporta o roteador
