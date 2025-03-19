@@ -12,12 +12,12 @@
 <!-- CARD INICIAL -->    
 <div class="container">
     <img src="./img/duvalep.png" alt="Logo Duvale" class="logo">
-    <p id="nome-cliente" class="nome-cliente">Carregando...</p> <!-- Nome do cliente -->
+    <p id="user-name">Usuário</p>
     <a href="#" onclick="logout()" class="logout-btn">Sair</a> <!-- ✅ Botão de logout -->
     <div class="card checkout">
         <div class="details">
             <span><strong>Mensalidade:</strong><span id="mes-referencia">Mar/2025</span></span>
-            <span><strong>Subtotal:</strong> <span>R$ 450,00</span></span>
+            <span><strong>Subtotal:</strong> <span id="valor"><sup>R$</sup> 450,00</span></span>
             <span><strong>Desconto:</strong> <span>R$ 0,00</span></span>
             <span><strong>Juros/multas:</strong> <span>R$ 0,00</span></span>
         </div>
@@ -48,5 +48,26 @@
     </p>
 </footer>
 <script src="js/administrativo/clientes.js"></script>
+<script>
+    /**
+     * ✅ Função para buscar o valor da mensalidade no backend e exibir no frontend
+     */
+    async function carregarMensalidade() {
+        try {
+            const response = await fetch(`${apiBaseUrl}/api/mensalidade`);
+            if (!response.ok) throw new Error("Erro ao obter valor da mensalidade.");
+
+            const data = await response.json();
+            document.getElementById("valor").innerHTML = `<sup>R$</sup> ${data.valor.toFixed(2)}`;
+
+        } catch (error) {
+            console.error("❌ Erro ao carregar valor da mensalidade:", error);
+            document.getElementById("valor").innerHTML = `<sup>R$</sup> 450.00`; // Valor padrão
+        }
+    }
+
+    // ✅ Chama a função ao carregar a página
+    document.addEventListener("DOMContentLoaded", carregarMensalidade);
+</script>
 </body>
 </html>

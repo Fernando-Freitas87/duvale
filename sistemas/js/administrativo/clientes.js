@@ -1,5 +1,5 @@
 //#############################################################################
-            // ✅ Função para GERAR QR CODE MERCADO PAGO
+// ✅ Função para GERAR QR CODE MERCADO PAGO
 //#############################################################################
 const apiBaseUrl = "https://duvale-production.up.railway.app";
 
@@ -59,6 +59,26 @@ async function gerarQRCode() {
     }
 }
 
+
+/**
+ * ✅ Função para buscar o valor da mensalidade no backend e exibir no frontend
+ */
+async function carregarMensalidade() {
+    try {
+        const response = await fetch(`${apiBaseUrl}/api/mensalidade`);
+        if (!response.ok) throw new Error("Erro ao obter valor da mensalidade.");
+
+        const data = await response.json();
+        document.getElementById("valor").innerHTML = `<sup>R$</sup> ${data.valor.toFixed(2)}`;
+
+    } catch (error) {
+        console.error("❌ Erro ao carregar valor da mensalidade:", error);
+        document.getElementById("valor").innerHTML = `<sup>R$</sup> 450.00`; // Valor padrão
+    }
+}
+
+// ✅ Chama a função ao carregar a página
+document.addEventListener("DOMContentLoaded", carregarMensalidade);
 
 //#############################################################################
 // ✅ Função para VERIFICAR PAGAMENTO com tempo limite
@@ -166,7 +186,8 @@ function ocultarElementos() {
     const tempoRestanteEl = document.getElementById('tempo-restante');
     if (tempoRestanteEl) {
         tempoRestanteEl.style.display = 'none';
-    }}
+    }
+}
 
 // ✅ Formata números menores que 10 com "0"
 function formatarTempo(valor) {
@@ -228,12 +249,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("mes-referencia").textContent = mesAno;
 });
 
-// ✅ atualiza o valor da mensalidade
-document.addEventListener("DOMContentLoaded", function () {
-    const valorElement = document.getElementById("valor");
-    let valorMensalidade = 450.00; // Definir valor real
-    valorElement.innerHTML = `<sup>R$</sup> ${valorMensalidade.toFixed(2)}`;
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//     const valorElement = document.getElementById("valor");
+//     let valorMensalidade = 450.00; // Definir valor real
+//     valorElement.innerHTML = `<sup>R$</sup> ${valorMensalidade.toFixed(2)}`;
+// });
 
 document.addEventListener("DOMContentLoaded", async () => {
     try {
@@ -267,9 +287,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
           }
     
-          const response = await fetch(`${apiBaseUrl}/api/usuario`, {
+          const response = await fetch(`${apiBaseUrl}/api/cliente/dados`, {
             headers: { Authorization: `Bearer ${token}` }
-          });
+        });
     
           if (!response.ok) {
             console.warn(`Erro ao carregar o usuário: ${response.status}`);

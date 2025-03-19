@@ -1,6 +1,7 @@
 import uuid  # Importação para gerar UUID
 from flask import Flask, request, jsonify, send_file, make_response
 from flask_cors import CORS
+import jwt  # Importação para decodificar JWT
 import requests
 import qrcode
 from datetime import datetime
@@ -221,13 +222,27 @@ def obter_dados_cliente():
     if not auth_token:
         return jsonify({"erro": "Token de autenticação ausente"}), 401
 
-    conn = None
+    # ✅ Remove prefixo "Bearer " do token, se presente
+    token_sem_prefixo = auth_token.replace("Bearer ", "")
+
     try:
+        # ✅ Decodifica o token JWT para obter o ID do cliente
+        payload = jwt.decode(token_sem_prefixo, os.getenv(
+            "JWT_SECRET"), algorithms=["HS256"])
+        cliente_id = payload.get("id")
+
+        if not cliente_id:
+            return jsonify({"erro": "Token inválido ou expirado"}), 401
+
         conn = obter_conexao()
+        if conn is None:
+            return jsonify({"erro": "Erro ao conectar ao banco de dados"}), 500
+
         cursor = conn.cursor(dictionary=True)
 
-        query = "SELECT id, nome, email FROM clientes WHERE token = %s"
-        cursor.execute(query, (auth_token,))
+        # ✅ Agora a busca é feita pelo ID do usuário
+        query = "SELECT id, nome, email FROM clientes WHERE id = %s"
+        cursor.execute(query, (cliente_id,))
         cliente = cursor.fetchone()
 
         cursor.close()
@@ -238,11 +253,44 @@ def obter_dados_cliente():
 
         return jsonify(cliente)
 
+    except jwt.ExpiredSignatureError:
+        return jsonify({"erro": "Token expirado"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"erro": "Token inválido"}), 401
     except mysql.connector.Error as e:
         return jsonify({"erro": "Erro no banco de dados", "detalhe": str(e)}), 500
     finally:
         if conn:
             conn.close()
+
+# ------------------ ROTA PARA OBTER O VALOR DA MENSALIDADE ------------------ #
+
+
+@app.route('/api/mensalidade', methods=['GET'])
+def obter_mensalidade():
+    """ Retorna o valor atual da mensalidade """
+    try:
+        conn = obter_conexao()
+        if conn is None:
+            return jsonify({"erro": "Erro ao conectar ao banco de dados"}), 500
+
+        cursor = conn.cursor(dictionary=True)
+
+        # 🔍 Busca o valor da mensalidade na tabela de configurações ou define um padrão
+        query = "SELECT valor FROM configuracoes WHERE chave = 'mensalidade'"
+        cursor.execute(query)
+        resultado = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        # Se não houver configuração definida, usa um valor padrão
+        valor_mensalidade = resultado["valor"] if resultado else 450.00
+
+        return jsonify({"valor": valor_mensalidade})
+
+    except mysql.connector.Error as e:
+        return jsonify({"erro": "Erro no banco de dados", "detalhe": str(e)}), 500
 
 # ------------------ FUNÇÕES AUXILIARES ------------------ #
 
