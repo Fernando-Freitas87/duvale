@@ -1,12 +1,3 @@
-// ---------------------------------------------------------------------
-// app.js
-// ---------------------------------------------------------------------
-// Script responsável por:
-// - Gerenciar a entrada do PIN pelo usuário.
-// - Validar sessão e redirecionar para páginas específicas.
-// - Carregar informações iniciais (caso haja token).
-// ---------------------------------------------------------------------
-
 document.addEventListener('DOMContentLoaded', () => {
   // Elementos do DOM utilizados
   const pinBoxes = document.querySelectorAll('.pin-box');
@@ -155,4 +146,20 @@ document.addEventListener('DOMContentLoaded', () => {
     pinBoxes.forEach(box => (box.value = ''));
     pinBoxes[0].focus();
   }
+
+  // Função para carregar o nome do cliente
+  async function carregarNomeCliente() {
+    try {
+      const response = await fetch('https://duvale-production.up.railway.app/api/cliente/dados', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+      });
+      if (!response.ok) throw new Error('Erro ao obter dados do cliente.');
+      const data = await response.json();
+      document.getElementById('nome-cliente').textContent = data.nome || 'Usuário';
+    } catch (error) {
+      console.error('Erro ao carregar nome do cliente:', error);
+    }
+  }
+
+  carregarNomeCliente();
 });
