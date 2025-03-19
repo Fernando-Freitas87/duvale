@@ -14,7 +14,9 @@ async function gerarQRCode() {
 
     // 🔍 Obtém o valor da mensalidade na interface
     const valorLabel = document.getElementById('valor');
-    const valor = parseFloat(valorLabel.textContent.replace("R$", "").replace(",", ".").trim());
+    const valorResponse = await fetch('/api/mensalidade');
+    const valorData = await valorResponse.json();
+    const valor = parseFloat(valorData.valor.replace("R$", "").replace(",", ".").trim());
 
     // 🚨 Verifica se o valor é válido
     if (isNaN(valor) || valor <= 0) {
