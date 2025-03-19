@@ -167,8 +167,14 @@ def gerar_qrcode():
                 print("❌ Erro: Falha ao obter QR Code do Mercado Pago.")
                 return jsonify({"erro": "Falha ao gerar QR Code"}), 400
 
-            # ✅ Retorna os dados do QR Code para o frontend
-            return jsonify({"qr_code": qr_data, "payment_id": payment_id})
+            # Gerar QR Code e converter para base64
+            qr = qrcode.make(qr_data)
+            buffer = io.BytesIO()
+            qr.save(buffer, format="PNG")
+            buffer.seek(0)
+            qr_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+
+            return jsonify({"qr_code": qr_base64, "payment_id": payment_id, "qr_data": qr_data})
 
         except requests.exceptions.RequestException as e:
             print(f"❌ Erro ao gerar QR Code: {str(e)}")
