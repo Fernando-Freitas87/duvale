@@ -1,5 +1,14 @@
 // dashboard-cliente.js
 document.addEventListener("DOMContentLoaded", () => {
+  const apiBaseUrl = "https://duvale-production.up.railway.app";
+  
+  // Se você usa localStorage para armazenar o token (por exemplo: "authToken"):
+  const token = localStorage.getItem("authToken");
+  if (!token) {
+    alert("Sessão expirada ou inexistente. Faça login novamente.");
+    window.location.href = "index.html";
+    return;
+  }
     // Seletores de elementos do DOM
     const userNameSpan       = document.getElementById("user-name");
     const mensalidadeCliente = document.getElementById("mensalidade-cliente");
@@ -17,7 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
     async function carregarDadosCliente() {
       try {
         // Placeholder de endpoint para obter dados do cliente (GET)
-        const response = await fetch("/api/clientes/dados");
+        const response = await fetch(`${apiBaseUrl}/api/clientes/dados`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
         if (!response.ok) {
           throw new Error("Erro ao carregar dados do cliente");
         }
@@ -42,7 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
     async function gerarPix() {
       try {
         // Placeholder de endpoint para gerar Pix (POST ou GET)
-        const response = await fetch("/api/clientes/gerar-pix");
+        const response = await fetch(`${apiBaseUrl}/api/clientes/gerar-pix`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
         if (!response.ok) {
           throw new Error("Falha ao gerar Pix");
         }
@@ -114,10 +133,15 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
         try {
           // Placeholder de endpoint para logout (POST)
-          await fetch("/api/logout", { method: "POST" });
+          await fetch(`${apiBaseUrl}/api/logout`, {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          });
   
           // Se estiver usando localStorage ou cookies para tokens, limpe-os:
-          localStorage.removeItem("token");
+          localStorage.removeItem("authToken");
           document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   
           // Redireciona para a tela de login
