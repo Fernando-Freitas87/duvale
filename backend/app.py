@@ -22,7 +22,7 @@ CORS(app)
 TOKEN_API = os.getenv("TOKEN_API_WHATSAPP")
 MP_ACCESS_TOKEN = os.getenv("MP_ACCESS_TOKEN")
 
-# ✅ Configuração do banco de dados MySQL seguindo o padrão do `caixaController.js`
+# ✅ Configuração do banco de dados MySQL
 db_config = {
     "host": os.getenv("DB_HOST"),
     "user": os.getenv("DB_USER"),
@@ -256,11 +256,7 @@ def obter_dados_cliente():
         conn = obter_conexao()
         cursor = conn.cursor(dictionary=True)
 
-        # 🔍 Busca o cliente no banco de dados pelo token (deve estar associado ao usuário)
-        query = """
-            SELECT id, nome, email FROM clientes 
-            WHERE token = %s
-        """
+        query = "SELECT id, nome, email FROM clientes WHERE token = %s"
         cursor.execute(query, (auth_token,))
         cliente = cursor.fetchone()
 
@@ -276,7 +272,7 @@ def obter_dados_cliente():
         return jsonify({"erro": "Erro no banco de dados", "detalhe": str(e)}), 500
     finally:
         if conn:
-            conn.close()  # Garante que a conexão será fechada para evitar vazamento
+            conn.close()
 
 # ------------------ FUNÇÕES AUXILIARES ------------------ #
 

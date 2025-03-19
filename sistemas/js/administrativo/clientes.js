@@ -21,8 +21,9 @@ async function carregarNomeCliente() {
         const response = await fetch(`${apiBaseUrl}/api/cliente/dados`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem("authToken")}` }
         });
+
         if (!response.ok) throw new Error("Erro ao obter dados do cliente.");
-        
+
         const data = await response.json();
         console.log("✅ Nome do cliente carregado:", data.nome);
         document.getElementById("nome-cliente").textContent = data.nome || "Usuário";
