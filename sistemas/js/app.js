@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const message = document.getElementById('message');
   const datetimeElement = document.getElementById('datetime');
 
+  // ✅ Define a URL base da API do backend
+  const apiBaseUrl = "https://duvale-production.up.railway.app"; 
+
   /**
    * Atualiza data e hora no elemento apropriado (a cada segundo).
    */
@@ -59,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (authToken && !currentPage.includes('Index.html')) {
-    fetch('https://duvale-production.up.railway.app/api/usuario', {
+    fetch(`${apiBaseUrl}/api/usuario`, {
       headers: { Authorization: `Bearer ${authToken}` },
     })
       .then(response => {
@@ -98,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     try {
-      const response = await fetch('https://duvale-production.up.railway.app/api/login', {
+      const response = await fetch(`${apiBaseUrl}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin }),
@@ -148,9 +151,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Função para carregar o nome do cliente
+  /**
+   * ✅ Função para carregar o nome do cliente da API e exibir no HTML.
+   * - Obtém o token de autenticação do localStorage.
+   * - Faz uma requisição à API `/api/cliente/dados`.
+   * - Exibe o nome do cliente no elemento com id `nome-cliente`.
+   */
   async function carregarNomeCliente() {
     try {
-      const response = await fetch('https://duvale-production.up.railway.app/api/cliente/dados', {
+      const response = await fetch(`${apiBaseUrl}/api/cliente/dados`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
       });
       if (!response.ok) throw new Error('Erro ao obter dados do cliente.');
