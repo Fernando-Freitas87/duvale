@@ -1,7 +1,7 @@
 //#############################################################################
 // ✅ Função para GERAR QR CODE MERCADO PAGO
 //#############################################################################
-
+const apiBaseUrl = "https://duvale-production.up.railway.app"; // ou a URL correta da API
 /**
  * Gera um QR Code PIX usando a API do Mercado Pago.
  * 
