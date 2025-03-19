@@ -19,7 +19,6 @@ app = Flask(__name__)
 # ✅ CORS configurado corretamente
 CORS(app)
 
-TOKEN_API = os.getenv("TOKEN_API_WHATSAPP")
 MP_ACCESS_TOKEN = os.getenv("MP_ACCESS_TOKEN")
 
 # ✅ Configuração do banco de dados MySQL
@@ -45,35 +44,6 @@ def obter_conexao():
         return None
 
 # ------------------ ROTA PARA ENVIO DE MENSAGEM VIA WHATSAPP ------------------ #
-
-
-@app.route('/enviar-mensagem', methods=['OPTIONS', 'POST'])
-def enviar_mensagem():
-    if request.method == 'OPTIONS':
-        return make_response("", 200)  # ✅ Responde corretamente ao preflight
-
-    dados = request.json
-    numero = dados.get('numero', '').strip()
-    mensagem = dados.get('mensagem', '').strip()
-    data_envio = dados.get('data_envio', '').strip()
-
-    if not numero or not mensagem or not data_envio:
-        return jsonify({"status": "Erro", "detalhe": "Todos os campos são obrigatórios"}), 400
-
-    hoje = datetime.now().strftime('%Y-%m-%d')
-
-    if data_envio == hoje:
-        url = f'https://api-whatsapp.wascript.com.br/api/enviar-texto/{TOKEN_API}'
-        payload = {'numero': numero, 'mensagem': mensagem}
-
-        try:
-            response = requests.post(url, json=payload)
-            response.raise_for_status()
-            return jsonify({"status": "Mensagem enviada com sucesso!"}), 200
-        except requests.exceptions.RequestException as e:
-            return jsonify({"status": "Erro ao enviar mensagem", "detalhe": str(e)}), 400
-    else:
-        return jsonify({"status": "Mensagem agendada para outra data."}), 202
 
 
 # ------------------ ROTA PARA GERAR QR CODE PIX (MERCADO PAGO) ------------------ #
