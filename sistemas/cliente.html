@@ -13,6 +13,7 @@
 <div class="container">
     <img src="./img/duvalep.png" alt="Logo Duvale" class="logo">
     <p id="nome-cliente" class="nome-cliente">Carregando...</p> <!-- Nome do cliente -->
+    <a href="#" onclick="logout()" class="logout-btn">Sair</a> <!-- ✅ Adicionado botão de logout -->
     <div class="card checkout">
         <div class="details">
             <span><strong>Mensalidade:</strong><span id="mes-referencia">Mar/2025</span></span>
@@ -64,15 +65,18 @@ document.addEventListener("DOMContentLoaded", () => {
  */
 async function carregarNomeCliente() {
     try {
+        console.log("📡 Buscando nome do cliente...");
         const response = await fetch(`${apiBaseUrl}/api/cliente/dados`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem("authToken")}` }
         });
         if (!response.ok) throw new Error("Erro ao obter dados do cliente.");
         
         const data = await response.json();
+        console.log("✅ Nome do cliente carregado:", data.nome);
         document.getElementById("nome-cliente").textContent = data.nome || "Usuário";
     } catch (error) {
-        console.error("Erro ao carregar nome do cliente:", error);
+        console.error("❌ Erro ao carregar nome do cliente:", error);
+        document.getElementById("nome-cliente").textContent = "Erro ao carregar usuário";
     }
 }
 
@@ -143,6 +147,15 @@ async function gerarQRCode() {
         document.getElementById('resultado').innerText = `❌ Erro: ${error.message}`;
         console.error("Erro:", error);
     }
+}
+
+/**
+ * ✅ Função para realizar logout e redirecionar para a página de login.
+ */
+function logout() {
+    console.log("🔒 Realizando logout...");
+    localStorage.removeItem("authToken"); // Remove o token de autenticação
+    window.location.href = "Index.html"; // Redireciona para a página de login
 }
 </script>
 </body>
