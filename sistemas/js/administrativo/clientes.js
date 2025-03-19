@@ -1,27 +1,36 @@
 //#############################################################################
 // ✅ Função para GERAR QR CODE MERCADO PAGO
 //#############################################################################
-const apiBaseUrl = "https://duvale-production.up.railway.app";
 
-
+/**
+ * Gera um QR Code PIX usando a API do Mercado Pago.
+ * 
+ * - Obtém o valor da mensalidade do elemento HTML.
+ * - Envia uma requisição `POST` para `/gerar-qrcode` no backend.
+ * - Exibe o QR Code gerado e o código PIX no frontend.
+ */
 async function gerarQRCode() {
     console.log("Função gerarQRCode() foi chamada!");
 
+    // 🔍 Obtém o valor da mensalidade na interface
     const valorLabel = document.getElementById('valor');
     const valor = parseFloat(valorLabel.textContent.replace("R$", "").replace(",", ".").trim());
 
+    // 🚨 Verifica se o valor é válido
     if (isNaN(valor) || valor <= 0) {
         document.getElementById('resultado').innerHTML = "❌ Informe um valor válido!";
         return;
     }
 
     try {
+        // 📡 Faz a requisição ao backend para gerar o QR Code
         const response = await fetch(`${apiBaseUrl}/gerar-qrcode`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem("authToken")}` },
             body: JSON.stringify({ valor: valor, descricao: "Mensalidade Aluguel" })
         });
 
+        // 🚨 Verifica se a resposta do servidor é válida
         if (!response.ok) {
             throw new Error(`Erro no servidor (${response.status})`);
         }
@@ -29,12 +38,13 @@ async function gerarQRCode() {
         const data = await response.json();
         console.log("Resposta do servidor:", data);
 
+        // 🚨 Garante que os dados necessários foram retornados
         if (!data || !data.qr_code || !data.qr_data || !data.payment_id) {
             document.getElementById('resultado').innerText = "❌ Erro ao gerar QR Code.";
             return;
         }
 
-        // ✅ Exibe QR Code
+        // ✅ Exibe o QR Code gerado
         document.getElementById('qrcode-container').style.display = 'block';
         document.getElementById('qrcode').src = `data:image/png;base64,${data.qr_code}`;
         document.getElementById('qrcode').style.display = 'block';
@@ -47,10 +57,7 @@ async function gerarQRCode() {
         codigoPixElemento.style.display = 'block';
         botaoCopiar.style.display = 'inline-block';
 
-        // Removido: referência a 'tempo-restante' inexistente
-        document.getElementById('resultado').innerText = "";
-
-        // ✅ Definir tempo limite de 3 minutos
+        // ✅ Define um tempo limite de 3 minutos para o pagamento
         iniciarTemporizador(3, data.payment_id);
 
     } catch (error) {
@@ -59,31 +66,16 @@ async function gerarQRCode() {
     }
 }
 
+//#############################################################################
+// ✅ Função para VERIFICAR STATUS DO PAGAMENTO COM TEMPO LIMITE
+//#############################################################################
 
 /**
- * ✅ Função para buscar o valor da mensalidade no backend e exibir no frontend
+ * Verifica periodicamente o status do pagamento via API do Mercado Pago.
+ * 
+ * - Consulta o status do pagamento a cada 10 segundos.
+ * - Para a verificação se o pagamento for aprovado ou o tempo limite for atingido.
  */
-async function carregarMensalidade() {
-    try {
-        const response = await fetch(`${apiBaseUrl}/api/mensalidade`);
-        if (!response.ok) throw new Error("Erro ao obter valor da mensalidade.");
-
-        const data = await response.json();
-        document.getElementById("valor").innerHTML = `<sup>R$</sup> ${data.valor.toFixed(2)}`;
-
-    } catch (error) {
-        console.error("❌ Erro ao carregar valor da mensalidade:", error);
-        document.getElementById("valor").innerHTML = `<sup>R$</sup> 450.00`; // Valor padrão
-    }
-}
-
-// ✅ Chama a função ao carregar a página
-document.addEventListener("DOMContentLoaded", carregarMensalidade);
-
-//#############################################################################
-// ✅ Função para VERIFICAR PAGAMENTO com tempo limite
-//############################################################################+
-
 async function verificarPagamento(paymentId, intervaloTimer) {
     console.log(`🔍 Iniciando verificação do pagamento ID: ${paymentId}...`);
 
@@ -107,7 +99,7 @@ async function verificarPagamento(paymentId, intervaloTimer) {
 
         try {
             console.log(`🔄 Consultando status do pagamento (ID: ${paymentId})...`);
-            
+
             // 📡 Requisição para o backend verificar o status do pagamento
             const response = await fetch(`${apiBaseUrl}/verificar-pagamento/${paymentId}`);
 
@@ -139,182 +131,3 @@ async function verificarPagamento(paymentId, intervaloTimer) {
         }
     }, 10000); // ⏳ Executa a cada 10 segundos
 }
-
-// ✅ Função que controla a barra de progresso e o tempo do pagamento
-function iniciarTemporizador(minutos, paymentId) {
-    let tempoRestante = minutos * 60; // Converte minutos em segundos
-    const tempoTotal = tempoRestante; // Guarda o tempo total para cálculo da porcentagem
-    const progressBar = document.getElementById("progress-bar");
-    const progressContainer = progressBar ? progressBar.parentElement : null; // Verifica se o elemento existe
-
-    // ✅ Exibe a barra de progresso se ela existir
-    if (progressContainer) {
-        progressContainer.style.display = "block";
-    } else {
-        console.error("⚠️ Barra de progresso não encontrada no DOM.");
-        return;
-    }
-
-    const intervaloTimer = setInterval(() => {
-        if (tempoRestante <= 0) {
-            clearInterval(intervaloTimer);
-            progressContainer.style.display = "none"; // Oculta a barra de progresso
-            document.getElementById('resultado').innerText = "";
-            mostrarToast("Tempo limite excedido!");
-            return;
-        }
-
-        // Calcula a porcentagem do tempo restante
-        const porcentagem = (tempoRestante / tempoTotal) * 100;
-        progressBar.style.width = `${porcentagem}%`; // Atualiza a largura da barra
-        progressBar.setAttribute("aria-valuenow", porcentagem.toFixed(0)); // Atualiza o atributo de acessibilidade
-
-        tempoRestante--;
-
-    }, 1000); // Atualiza a cada 1 segundo
-
-    // ✅ Agora passamos o `intervaloTimer` corretamente para `verificarPagamento`
-    verificarPagamento(paymentId, intervaloTimer);
-}
-
-// ✅ Função para ocultar elementos do QR Code após expiração ou pagamento
-function ocultarElementos() {
-    document.getElementById('qrcode-container').style.display = 'none';
-    document.getElementById('qrcode').style.display = 'none';
-    document.getElementById('codigo-pix').style.display = 'none';
-    document.getElementById('botao-copiar').style.display = 'none';
-    const tempoRestanteEl = document.getElementById('tempo-restante');
-    if (tempoRestanteEl) {
-        tempoRestanteEl.style.display = 'none';
-    }
-}
-
-// ✅ Formata números menores que 10 com "0"
-function formatarTempo(valor) {
-    return valor < 10 ? `0${valor}` : valor;
-}
-
-window.copiarCodigoPix = function() {
-    const codigoPixElemento = document.getElementById('codigo-pix');
-    const botaoCopiar = document.getElementById('botao-copiar');
-
-    if (!codigoPixElemento.value) {
-        mostrarToast("❌ Nenhum código PIX disponível para copiar.");
-        return;
-    }
-
-    codigoPixElemento.select();
-    navigator.clipboard.writeText(codigoPixElemento.value)
-        .then(() => {
-            botaoCopiar.innerText = "✅ Copiado!";
-            botaoCopiar.style.background = "#218838";
-
-            setTimeout(() => {
-                botaoCopiar.innerText = "📋 Copiar Código PIX";
-                botaoCopiar.style.background = "#28a745";
-            }, 2000); // Reseta o texto após 2 segundos
-        })
-        .catch(err => console.error("Erro ao copiar código PIX:", err));
-};
-
-
-function mostrarToast(mensagem) {
-    const toast = document.createElement("div");
-    toast.innerText = mensagem;
-    toast.style.position = "fixed";
-    toast.style.top = "50%";
-    toast.style.left = "50%";
-    toast.style.transform = "translate(-50%, -50%)";
-    toast.style.backgroundColor = "#28a745";
-    toast.style.color = "white";
-    toast.style.padding = "10px 20px";
-    toast.style.borderRadius = "5px";
-    toast.style.fontSize = "16px";
-    toast.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-        toast.style.opacity = "0";
-        setTimeout(() => toast.remove(), 500); // Remove após fade-out
-    }, 4000); // Exibe por 4 segundos
-}
-
-
-// ✅ atualiza a mensalidade referente
-document.addEventListener("DOMContentLoaded", function () {
-    const dataAtual = new Date();
-    const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-    const mesAno = `${meses[dataAtual.getMonth()]}/${dataAtual.getFullYear()}`;
-    
-    document.getElementById("mes-referencia").textContent = mesAno;
-});
-
-// document.addEventListener("DOMContentLoaded", function () {
-//     const valorElement = document.getElementById("valor");
-//     let valorMensalidade = 450.00; // Definir valor real
-//     valorElement.innerHTML = `<sup>R$</sup> ${valorMensalidade.toFixed(2)}`;
-// });
-
-document.addEventListener("DOMContentLoaded", async () => {
-    try {
-      // Recupera o token de autenticação do localStorage
-      const authToken = localStorage.getItem("authToken");
-      if (!authToken) {
-        alert("Sessão expirada. Faça login novamente.");
-        window.location.href = "index.html";
-        return;
-      }
-  
-      // Inicializar o modal e eventos relacionados
-      configurarModalTransacao();
-  
-      // Carregar saldo e histórico de transações
-      await carregarCaixa();
-    } catch (error) {
-      console.error("Erro ao inicializar o script:", error.message);
-    }
-  });
-
-    /***************************************************************
-   * [3] CARREGAR E EXIBIR NOME DO USUÁRIO LOGADO
-   ***************************************************************/
-    async function carregarUsuario() {
-        try {
-          const token = localStorage.getItem('authToken');
-          if (!token) {
-            console.warn('Token de autenticação não encontrado. Nome padrão será exibido.');
-            exibirNomeUsuario('Usuário');
-            return;
-          }
-    
-          const response = await fetch(`${apiBaseUrl}/api/cliente/dados`, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-    
-          if (!response.ok) {
-            console.warn(`Erro ao carregar o usuário: ${response.status}`);
-            exibirNomeUsuario('Usuário');
-            return;
-          }
-    
-          const usuario = await response.json();
-          exibirNomeUsuario(usuario.nome || 'Usuário');
-        } catch (error) {
-          console.error('Erro ao carregar o nome do usuário:', error);
-          exibirNomeUsuario('Usuário');
-        }
-      }
-    
-      function exibirNomeUsuario(nome) {
-        const userNameElement = document.getElementById('user-name');
-        if (userNameElement) {
-          userNameElement.textContent = nome;
-        } else {
-          console.error('Elemento com ID "user-name" não encontrado no DOM.');
-        }
-      }
-
-/***************************************************************
-   INICIALIZAÇÕES GERAIS
-***************************************************************/
-      carregarUsuario();

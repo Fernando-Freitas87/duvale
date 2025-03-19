@@ -51,61 +51,137 @@ def obter_conexao():
 
 @app.route('/gerar-qrcode', methods=['OPTIONS', 'POST'])
 def gerar_qrcode():
+    """
+    ✅ Rota para gerar um QR Code PIX via Mercado Pago.
+
+    - Método OPTIONS: responde a requisições prévias do CORS.
+    - Método POST: processa o pagamento e retorna um QR Code.
+    """
+
+    # ✅ Responde a requisições OPTIONS (CORS)
     if request.method == 'OPTIONS':
         return make_response("", 200)
 
+    # 🔍 Obtém os dados enviados pelo frontend
     dados = request.json
-    valor = dados.get("valor")
-    descricao = dados.get("descricao", "Pagamento aluguel vence hoje!")
+    valor = dados.get("valor")  # Valor do pagamento
+    descricao = dados.get(
+        "descricao", "Pagamento mensalidade")  # Descrição padrão
 
+    # 🚨 Verifica se o valor foi fornecido
     if not valor:
         return jsonify({"erro": "Valor é obrigatório"}), 400
 
-    url = "https://api.mercadopago.com/v1/payments"
+    # 🔑 Obtém o token de autenticação do cliente para validar a identidade
+    auth_token = request.headers.get("Authorization")
+    if not auth_token:
+        return jsonify({"erro": "Token de autenticação ausente"}), 401
 
-    headers = {
-        "Authorization": f"Bearer {MP_ACCESS_TOKEN}",
-        "Content-Type": "application/json",
-        "X-Idempotency-Key": str(uuid.uuid4())  # Evita duplicações
-    }
-
-    payload = {
-        "transaction_amount": float(valor),
-        "description": descricao,
-        "payment_method_id": "pix",
-        "payer": {
-            "email": "grupoesilveira@gmail.com",
-            "identification": {
-                "type": "CPF",
-                "number": "01973165309"  # CPF válido sem pontos e traços
-            }
-        },
-        "external_reference": "pedido123",
-        "notification_url": "https://setta.dev.br/notificacao-pagamento"
-    }
-
-    print("📌 Enviando payload para Mercado Pago:", payload)
+    # ✅ Remove o prefixo "Bearer " do token
+    token_sem_prefixo = auth_token.replace("Bearer ", "")
 
     try:
-        response = requests.post(url, headers=headers, json=payload)
-        print("📌 Resposta Mercado Pago:", response.status_code, response.text)
+        # 🔍 Decodifica o token JWT para extrair o ID do cliente
+        payload = jwt.decode(token_sem_prefixo, os.getenv(
+            "JWT_SECRET"), algorithms=["HS256"])
+        cliente_id = payload.get("id")
 
-        response.raise_for_status()
-        response_json = response.json()
+        # 🚨 Verifica se o token é válido
+        if not cliente_id:
+            return jsonify({"erro": "Token inválido ou expirado"}), 401
 
-        qr_data = response_json.get("point_of_interaction", {}).get(
-            "transaction_data", {}).get("qr_code", "")
-        payment_id = response_json.get("id")  # ID do pagamento gerado
+        # ✅ Obtém uma conexão com o banco de dados
+        conn = obter_conexao()
+        if conn is None:
+            return jsonify({"erro": "Erro ao conectar ao banco de dados"}), 500
 
-        if not qr_data or not payment_id:
-            print("❌ Erro: Falha ao obter QR Code do Mercado Pago.")
-            return jsonify({"erro": "Falha ao gerar QR Code"}), 400
+        cursor = conn.cursor(dictionary=True)
 
-        return jsonify({"qr_code": qr_data, "payment_id": payment_id})
+        # 🔍 Busca nome e CPF do cliente no banco de dados
+        query = "SELECT nome, cpf FROM clientes WHERE id = %s"
+        cursor.execute(query, (cliente_id,))
+        cliente = cursor.fetchone()
 
-    except requests.exceptions.RequestException as e:
-        print(f"❌ Erro ao gerar QR Code: {str(e)}")
-        return jsonify({"erro": str(e)}), 400
+        # 🔒 Fecha o cursor e a conexão com o banco
+        cursor.close()
+        conn.close()
+
+        # 🚨 Verifica se o cliente foi encontrado
+        if not cliente:
+            return jsonify({"erro": "Cliente não encontrado"}), 404
+
+        # ✅ Obtém os dados do cliente
+        nome_cliente = cliente["nome"]
+        cpf_cliente = cliente["cpf"]
+
+        # 🔗 URL da API do Mercado Pago para criar um pagamento PIX
+        url = "https://api.mercadopago.com/v1/payments"
+
+        # ✅ Configuração dos headers da requisição
+        headers = {
+            # Token de autenticação do Mercado Pago
+            "Authorization": f"Bearer {MP_ACCESS_TOKEN}",
+            "Content-Type": "application/json",
+            # Garante que a transação não será duplicada
+            "X-Idempotency-Key": str(uuid.uuid4())
+        }
+
+        # ✅ Payload com os dados do pagamento a serem enviados para o Mercado Pago
+        payload = {
+            "transaction_amount": float(valor),  # 💰 Valor do pagamento
+            "description": descricao,  # 📄 Descrição da transação
+            "payment_method_id": "pix",  # 📌 Método de pagamento (PIX)
+            "payer": {
+                "first_name": nome_cliente,  # 🏷️ Nome do pagador
+                "identification": {
+                    "type": "CPF",
+                    "number": cpf_cliente  # 📌 CPF do pagador autenticado
+                }
+            },
+            "external_reference": "pedido123",  # 🔗 Referência externa do pagamento
+            # 🔔 URL para notificações de pagamento
+            "notification_url": "https://setta.dev.br/notificacao-pagamento"
+        }
+
+        print("📌 Enviando payload para Mercado Pago:", payload)
+
+        try:
+            # 📡 Enviando requisição para o Mercado Pago
+            response = requests.post(url, headers=headers, json=payload)
+
+            # 📌 Log da resposta da API do Mercado Pago
+            print("📌 Resposta Mercado Pago:",
+                  response.status_code, response.text)
+
+            # 🚨 Lança erro caso a resposta não seja bem-sucedida
+            response.raise_for_status()
+            response_json = response.json()
+
+            # 🔍 Obtém os dados do QR Code e ID do pagamento
+            qr_data = response_json.get("point_of_interaction", {}).get(
+                "transaction_data", {}).get("qr_code", "")
+            payment_id = response_json.get("id")  # ID do pagamento gerado
+
+            # 🚨 Verifica se os dados necessários foram recebidos
+            if not qr_data or not payment_id:
+                print("❌ Erro: Falha ao obter QR Code do Mercado Pago.")
+                return jsonify({"erro": "Falha ao gerar QR Code"}), 400
+
+            # ✅ Retorna os dados do QR Code para o frontend
+            return jsonify({"qr_code": qr_data, "payment_id": payment_id})
+
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Erro ao gerar QR Code: {str(e)}")
+            return jsonify({"erro": str(e)}), 400
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({"erro": "Token expirado"}), 401
+
+    except jwt.InvalidTokenError:
+        return jsonify({"erro": "Token inválido"}), 401
+
+    except mysql.connector.Error as e:
+        return jsonify({"erro": "Erro no banco de dados", "detalhe": str(e)}), 500
 
 
 # ------------------ ROTA PARA VERIFICAR QR CODE PIX FOI PAGO (MERCADO PAGO) ------------------ #
@@ -240,8 +316,8 @@ def obter_dados_cliente():
 
         cursor = conn.cursor(dictionary=True)
 
-        # ✅ Agora a busca é feita pelo ID do usuário
-        query = "SELECT id, nome, email FROM clientes WHERE id = %s"
+        # ✅ Busca nome e CPF do cliente no banco de dados
+        query = "SELECT nome, cpf FROM clientes WHERE id = %s"
         cursor.execute(query, (cliente_id,))
         cliente = cursor.fetchone()
 
@@ -251,7 +327,8 @@ def obter_dados_cliente():
         if not cliente:
             return jsonify({"erro": "Cliente não encontrado"}), 404
 
-        return jsonify(cliente)
+        nome_cliente = cliente["nome"]
+        cpf_cliente = cliente["cpf"]
 
     except jwt.ExpiredSignatureError:
         return jsonify({"erro": "Token expirado"}), 401
