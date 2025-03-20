@@ -6,6 +6,15 @@ body {
 }
 
 .container {
+    #saudacao {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+    
+    .logout-container {
+        text-align: center;
+        margin-top: 10px;
+    }
     h2 {
         text-align: center;
     }

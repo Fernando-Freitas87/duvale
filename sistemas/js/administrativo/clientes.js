@@ -30,10 +30,10 @@ async function carregarUsuario() {
         const mesReferencia = new Date(dadosMensalidade.data_vencimento).toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
  
         document.getElementById('mes-referencia').textContent = mesReferencia;
-        document.getElementById('subtotal').textContent = dadosMensalidade.subtotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('desconto').textContent = dadosMensalidade.desconto.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('juros').textContent = dadosMensalidade.juros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('valor').textContent = dadosMensalidade.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('subtotal').textContent = (dadosMensalidade.subtotal ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('desconto').textContent = (dadosMensalidade.desconto ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('juros').textContent = (dadosMensalidade.juros ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('valor').textContent = (dadosMensalidade.valor ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
         mostrarToast("❌ Não foi possível carregar todos os dados necessários.");
