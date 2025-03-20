@@ -1,5 +1,8 @@
-gunicorn
-Flask
+flask
 flask-cors
+PyJWT
+requests
 mysql-connector-python
+qrcode
+gunicorn
 python-dotenv
