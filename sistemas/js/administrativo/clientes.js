@@ -1,5 +1,17 @@
 const apiBaseUrl = "https://duvale-production.up.railway.app";
 
+function calcularJurosEMulta(valorMensalidade, diasAtraso) {
+    const multa = valorMensalidade * 0.02;
+    const jurosDiarios = valorMensalidade * 0.00033;
+    const juros = jurosDiarios * diasAtraso;
+
+    return {
+        multa,
+        juros,
+        valorTotal: valorMensalidade + multa + juros
+    };
+}
+
 async function carregarUsuario() {
     try {
         const token = localStorage.getItem('authToken');
@@ -34,9 +46,17 @@ async function carregarUsuario() {
  
         document.getElementById('mes-referencia').textContent = mesReferencia;
         document.getElementById('subtotal').textContent = (dadosMensalidade.subtotal ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        const hoje = new Date();
+        const dataVencimento = new Date(dadosMensalidade.data_vencimento);
+        const diasAtraso = Math.max(Math.ceil((hoje - dataVencimento) / (1000 * 60 * 60 * 24)), 0);
+
+        const valorMensalidade = dadosMensalidade.subtotal ?? 0;
+
+        const { multa, juros, valorTotal } = calcularJurosEMulta(valorMensalidade, diasAtraso);
+
         document.getElementById('desconto').textContent = (dadosMensalidade.desconto ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('juros').textContent = (dadosMensalidade.juros ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('valor').textContent = (dadosMensalidade.valor ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('juros').textContent = juros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('valor').textContent = valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
         mostrarToast("❌ Não foi possível carregar todos os dados necessários.");
