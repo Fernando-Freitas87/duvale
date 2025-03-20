@@ -1,6 +1,5 @@
 const apiBaseUrl = "https://duvale-production.up.railway.app";
 
-//✅ Carregar nome e saudação do usuário
 async function carregarUsuario() {
     try {
         const token = localStorage.getItem('authToken');
@@ -23,11 +22,15 @@ async function carregarUsuario() {
  
         exibirSaudacao(nome);
  
-        const respostaMensalidade = await fetch(`${apiBaseUrl}/api/cliente/mensalidade?status=atraso`);
+        const respostaMensalidade = await fetch(`${apiBaseUrl}/api/cliente/mensalidade?status=atraso`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
         if (!respostaMensalidade.ok) throw new Error('Falha ao carregar mensalidade.');
  
         const dadosMensalidade = await respostaMensalidade.json();
-        const mesReferencia = new Date(dadosMensalidade.data_vencimento).toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
+        const mesReferencia = dadosMensalidade.data_vencimento 
+            ? new Date(dadosMensalidade.data_vencimento).toLocaleString('pt-BR', { month: 'short', year: 'numeric' })
+            : "Mês não disponível";
  
         document.getElementById('mes-referencia').textContent = mesReferencia;
         document.getElementById('subtotal').textContent = (dadosMensalidade.subtotal ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -97,7 +100,7 @@ async function gerarQRCode() {
 // Função simples para logout
 function logout() {
     localStorage.removeItem('authToken');
-    window.location.href = '/Index.html';
+    window.location.href = 'sistemas/Index.html';
 }
 
 //✅ Exibir QR Code no HTML
