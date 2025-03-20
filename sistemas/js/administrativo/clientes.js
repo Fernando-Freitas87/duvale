@@ -1,53 +1,56 @@
 const apiBaseUrl = "https://duvale-production.up.railway.app"; // ou a URL correta da API
 
- 
- /***************************************************************
-   * [3] CARREGAR E EXIBIR NOME DO USUÁRIO LOGADO
-   ***************************************************************/
-  async function carregarUsuario() {
-    try {
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-        console.warn('Token de autenticação não encontrado. Nome padrão será exibido.');
-        exibirNomeUsuario('Usuário');
-        return;
-      }
+/***************************************************************
+  * [3] CARREGAR E EXIBIR NOME DO USUÁRIO LOGADO
+***************************************************************/
+async function carregarUsuario() {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      console.warn('Token de autenticação não encontrado. Redirecionando para página inicial.');
+      window.location.href = '/Index.html'; // corrigido para minúsculo
+      return;
+    }
 
-      const response = await fetch(`${apiBaseUrl}/api/cliente/mensalidade`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+    const response = await fetch(`${apiBaseUrl}/api/cliente/mensalidade`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
 
-      if (!response.ok) {
-        console.warn(`Erro ao carregar o usuário: ${response.status}`);
-        exibirNomeUsuario('Usuário');
-        return;
-      }
-
-      const data = await response.json();
-      exibirNomeUsuario(data.nome || 'Usuário');
-    } catch (error) {
-      console.error('Erro ao carregar o nome do usuário:', error);
+    if (!response.ok) {
+      console.warn(`Erro ao carregar o usuário: ${response.status}`);
       exibirNomeUsuario('Usuário');
+      return;
     }
+
+    const data = await response.json();
+    exibirNomeUsuario(data.nome || 'Usuário');
+
+  } catch (error) {
+    console.error('Erro ao carregar o nome do usuário:', error);
+    exibirNomeUsuario('Usuário');
   }
-
-  function exibirNomeUsuario(nome) {
-    const userNameElement = document.getElementById('user-name');
-    if (userNameElement) {
-      userNameElement.textContent = nome;
-    } else {
-      console.error('Elemento com ID "user-name" não encontrado no DOM.');
-    }
-  }
-
-
- /***************************************************************
-   * [3] CARREGAR E EXIBIR NOME DO USUÁRIO LOGADO
-   ***************************************************************/
-function logout() {
-    localStorage.removeItem("authToken");
-    window.location.href = '/login.html';
 }
+
+function exibirNomeUsuario(nome) {
+  const userNameElement = document.getElementById('user-name');
+  if (userNameElement) {
+    userNameElement.textContent = nome;
+  } else {
+    console.error('Elemento com ID "user-name" não encontrado no DOM.');
+  }
+}
+
+/***************************************************************
+  * [4] LOGOUT DO USUÁRIO
+***************************************************************/
+function logout() {
+  localStorage.removeItem("authToken");
+  window.location.href = '/Index.html';
+}
+
+// Apenas inicializa carregarUsuario, que já chama exibirNomeUsuario internamente
+carregarUsuario();
+
 
 //#############################################################################
 // ✅ Função para GERAR QR CODE MERCADO PAGO
@@ -219,9 +222,4 @@ async function verificarPagamento(paymentId, intervaloTimer) {
 }
 
 
-  /***************************************************************
-   * [8] INICIALIZAÇÕES GERAIS
-   ***************************************************************/
 
-carregarUsuario();
-exibirNomeUsuario();
