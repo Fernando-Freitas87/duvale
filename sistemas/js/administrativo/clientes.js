@@ -83,6 +83,12 @@ async function gerarQRCode() {
     }
 }
 
+// Função simples para logout
+function logout() {
+    localStorage.removeItem('authToken');
+    window.location.href = '/Index.html';
+}
+
 //✅ Exibir QR Code no HTML
 function exibirQRCode({ qr_code, qr_data }) {
     document.getElementById('qrcode-container').style.display = 'block';
