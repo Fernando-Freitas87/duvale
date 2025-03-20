@@ -3,8 +3,19 @@ const apiBaseUrl = "https://duvale-production.up.railway.app";
 //✅ Carregar nome e saudação do usuário
 async function carregarUsuario() {
     try {
-        const respostaUsuario = await fetch(`${apiBaseUrl}/api/usuario`);
-        if (!respostaUsuario.ok) throw new Error('Falha ao carregar usuário.');
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            window.location.href = '/Index.html';
+            return;
+        }
+        
+        const respostaUsuario = await fetch(`${apiBaseUrl}/api/usuario`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!respostaUsuario.ok) {
+            window.location.href = '/Index.html';
+            return;
+        }
  
         const dadosUsuario = await respostaUsuario.json();
         const nome = dadosUsuario.nome || "Usuário";
