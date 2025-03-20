@@ -1,7 +1,57 @@
+const apiBaseUrl = "https://duvale-production.up.railway.app"; // ou a URL correta da API
+
+ 
+ /***************************************************************
+   * [3] CARREGAR E EXIBIR NOME DO USUÁRIO LOGADO
+   ***************************************************************/
+  async function carregarUsuario() {
+    try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        console.warn('Token de autenticação não encontrado. Nome padrão será exibido.');
+        exibirNomeUsuario('Usuário');
+        return;
+      }
+
+      const response = await fetch(`${apiBaseUrl}/api/cliente/mensalidade`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!response.ok) {
+        console.warn(`Erro ao carregar o usuário: ${response.status}`);
+        exibirNomeUsuario('Usuário');
+        return;
+      }
+
+      const data = await response.json();
+      exibirNomeUsuario(data.nome || 'Usuário');
+    } catch (error) {
+      console.error('Erro ao carregar o nome do usuário:', error);
+      exibirNomeUsuario('Usuário');
+    }
+  }
+
+  function exibirNomeUsuario(nome) {
+    const userNameElement = document.getElementById('user-name');
+    if (userNameElement) {
+      userNameElement.textContent = nome;
+    } else {
+      console.error('Elemento com ID "user-name" não encontrado no DOM.');
+    }
+  }
+
+
+ /***************************************************************
+   * [3] CARREGAR E EXIBIR NOME DO USUÁRIO LOGADO
+   ***************************************************************/
+function logout() {
+    localStorage.removeItem("authToken");
+    window.location.href = '/login.html';
+}
+
 //#############################################################################
 // ✅ Função para GERAR QR CODE MERCADO PAGO
 //#############################################################################
-const apiBaseUrl = "https://duvale-production.up.railway.app"; // ou a URL correta da API
 /**
  * Gera um QR Code PIX usando a API do Mercado Pago.
  * 
@@ -13,10 +63,9 @@ async function gerarQRCode() {
     console.log("Função gerarQRCode() foi chamada!");
 
     // 🔍 Obtém o valor da mensalidade na interface
-    const valorLabel = document.getElementById('valor');
-    const valorResponse = await fetch('/api/mensalidade');
+    const valorResponse = await fetch(`${apiBaseUrl}/api/mensalidade`);
     const valorData = await valorResponse.json();
-    const valor = parseFloat(valorData.valor.replace("R$", "").replace(",", ".").trim());
+    const valor = parseFloat(valorData.valor);
 
     // 🚨 Verifica se o valor é válido
     if (isNaN(valor) || valor <= 0) {
@@ -168,3 +217,11 @@ async function verificarPagamento(paymentId, intervaloTimer) {
         }
     }, 10000); // ⏳ Executa a cada 10 segundos
 }
+
+
+  /***************************************************************
+   * [8] INICIALIZAÇÕES GERAIS
+   ***************************************************************/
+
+carregarUsuario();
+exibirNomeUsuario();
