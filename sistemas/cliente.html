@@ -4,20 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/cliente.css">
-    <title>Cliente | DuVale</title>
+    <title>Pagamento de Mensalidade</title>
 </head>
 <body>
-
-
 <!-- CARD INICIAL -->    
 <div class="container">
-    <img src="./img/duvalep.png" alt="Logo Duvale" class="logo">
-    <p id="user-name">Usuário</p>
-    <a href="#" onclick="logout()" class="logout-btn">Sair</a> <!-- ✅ Botão de logout -->
+    <img src="frontend/img/duvalep.png" alt="Logo Duvale" class="logo">
     <div class="card checkout">
         <div class="details">
             <span><strong>Mensalidade:</strong><span id="mes-referencia">Mar/2025</span></span>
-            <span><strong>Subtotal:</strong> <span id="valor"><sup>R$</sup> 450,00</span></span>
+            <span><strong>Subtotal:</strong> <span>R$ 450,00</span></span>
             <span><strong>Desconto:</strong> <span>R$ 0,00</span></span>
             <span><strong>Juros/multas:</strong> <span>R$ 0,00</span></span>
         </div>
@@ -40,116 +36,13 @@
     </div>
 </div>
 <!--rodape da pagina-->
+<footer class="footerr">
+    <hr class="footer-hr">
     <p>
-        <hr class="footer-hr">
-        <footer class="footerr">
         Setta Software Solutions. Todos os direitos reservados | Desenvolvido por Fernando Freitas © 2024 
         | <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer">Suporte</a>
     </p>
 </footer>
-<script src="js/administrativo/clientes.js"></script>
-<script>
-    /**
-     * ✅ Função para buscar o valor da mensalidade no backend e exibir no frontend
-     */
-    async function carregarMensalidade() {
-        try {
-            const response = await fetch(`${apiBaseUrl}/api/mensalidade`);
-            if (!response.ok) throw new Error("Erro ao obter valor da mensalidade.");
-
-            const data = await response.json();
-            document.getElementById("valor").innerHTML = `<sup>R$</sup> ${data.valor.toFixed(2)}`;
-
-        } catch (error) {
-            console.error("❌ Erro ao carregar valor da mensalidade:", error);
-            document.getElementById("valor").innerHTML = `<sup>R$</sup> 450.00`; // Valor padrão
-        }
-    }
-
-    // ✅ Chama a função ao carregar a página
-    document.addEventListener("DOMContentLoaded", async () => {
-        try {
-            await carregarUsuario();
-            await carregarMensalidade();
-        } catch (error) {
-            console.error("Erro na inicialização:", error);
-        }
-    });
-
-    //#############################################################################
-    // ✅ Função para GERAR QR CODE MERCADO PAGO
-    //#############################################################################
-
-    /**
-     * Gera um QR Code PIX usando a API do Mercado Pago.
-     * 
-     * - Obtém o valor da mensalidade do elemento HTML.
-     * - Envia uma requisição `POST` para `/gerar-qrcode` no backend.
-     * - Exibe o QR Code gerado e o código PIX no frontend.
-     */
-    async function gerarQRCode() {
-        console.log("Função gerarQRCode() foi chamada!");
-
-        // 🔍 Obtém o valor da mensalidade na interface
-        const valorLabel = document.getElementById('valor');
-        const valor = parseFloat(valorLabel.textContent.replace("R$", "").replace(",", ".").trim());
-
-        // 🚨 Verifica se o valor é válido
-        if (isNaN(valor) || valor <= 0) {
-            document.getElementById('resultado').innerHTML = "❌ Informe um valor válido!";
-            return;
-        }
-
-        try {
-            // 📡 Faz a requisição ao backend para gerar o QR Code
-            const response = await fetch(`${apiBaseUrl}/gerar-qrcode`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem("authToken")}` },
-                body: JSON.stringify({ valor: valor, descricao: "Mensalidade Aluguel" })
-            });
-
-            // 🚨 Verifica se a resposta do servidor é válida
-            if (!response.ok) {
-                throw new Error(`Erro no servidor (${response.status})`);
-            }
-
-            const data = await response.json();
-            console.log("Resposta do servidor:", data);
-
-            // 🚨 Garante que os dados necessários foram retornados
-            if (!data || !data.qr_code || !data.qr_data || !data.payment_id) {
-                document.getElementById('resultado').innerText = "❌ Erro ao gerar QR Code.";
-                return;
-            }
-
-            // ✅ Exibe o QR Code gerado
-            document.getElementById('qrcode-container').style.display = 'block';
-            document.getElementById('qrcode').src = `data:image/png;base64,${data.qr_code}`;
-            document.getElementById('qrcode').style.display = 'block';
-
-            // ✅ Exibe código PIX e botão de cópia
-            const codigoPixElemento = document.getElementById('codigo-pix');
-            const botaoCopiar = document.getElementById('botao-copiar');
-
-            codigoPixElemento.value = data.qr_data;
-            codigoPixElemento.style.display = 'block';
-            botaoCopiar.style.display = 'inline-block';
-
-            // ✅ Define um tempo limite de 3 minutos para o pagamento
-            iniciarTemporizador(3, data.payment_id);
-
-        } catch (error) {
-            document.getElementById('resultado').innerText = `❌ Erro: ${error.message}`;
-            console.error("Erro:", error);
-        }
-    }
-
-    function ocultarElementos() {
-        ["qrcode-container", "qrcode", "codigo-pix", "botao-copiar"].forEach(id => {
-            const elemento = document.getElementById(id);
-            if (elemento) elemento.style.display = 'none';
-        });
-    }
-</script>
+<script src="js/clientes.js"></script>
 </body>
 </html>
