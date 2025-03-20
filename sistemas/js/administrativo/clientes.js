@@ -19,7 +19,7 @@ async function carregarUsuario() {
  
         const dadosUsuario = await respostaUsuario.json();
         const nome = dadosUsuario.nome || "Usuário";
-        document.getElementById('user-name').textContent = nome;
+        document.getElementById('user-name').textContent = nome.split(' ').slice(0,2).join(' ');
  
         exibirSaudacao(nome);
  
