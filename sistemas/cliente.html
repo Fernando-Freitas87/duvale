@@ -1,41 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/cliente.css">
     <title>Pagamento de Mensalidade</title>
 </head>
 <body>
-<!-- CARD INICIAL -->    
+<!-- CARD INICIAL -->
 <div class="container">
-    <img src="frontend/img/duvalep.png" alt="Logo Duvale" class="logo">
+    <img src="img/duvalep.png" alt="Logo Duvale" class="logo">
+    <h2>Olá, <span id="user-name">Usuário</span>!</h2>
     <div class="card checkout">
         <div class="details">
-            <span><strong>Mensalidade:</strong><span id="mes-referencia">Mar/2025</span></span>
-            <span><strong>Subtotal:</strong> <span>R$ 450,00</span></span>
-            <span><strong>Desconto:</strong> <span>R$ 0,00</span></span>
-            <span><strong>Juros/multas:</strong> <span>R$ 0,00</span></span>
+            <span><strong>Mensalidade:</strong> <span id="mes-referencia">Mar/2025</span></span>
+            <span><strong>Subtotal:</strong> <span id="subtotal">R$ 450,00</span></span>
+            <span><strong>Desconto:</strong> <span id="desconto">R$ 0,00</span></span>
+            <span><strong>Juros/multas:</strong> <span id="juros">R$ 0,00</span></span>
         </div>
-        <div class="checkout--footer" onclick="gerarQRCode()">
+        <div class="checkout--footer">
             <span class="tooltip">Clique para gerar o QR Code PIX</span>
-            <label id="valor" class="price"><sup>R$</sup> 1,00</label>
-            <button class="checkout-btn" type="button" id="gerar-pix">
+            <span id="valor" class="price">R$ 1,00</span>
+            <button class="checkout-btn" type="button" id="gerar-pix" aria-label="Gerar QR Code PIX">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Pix">
             </button>
         </div>
         <p id="resultado" class="mensagem-status" style="text-align: center;"></p>
         <div id="qrcode-container" style="display: none; text-align: center;">
-            <img id="qrcode" src="" alt="QR Code PIX" class="qr-code" style="display: none;">
+            <img id="qrcode" src="" alt="QR Code PIX" class="qr-code">
             <div class="progress" style="margin-top: 15px; height: 20px; display: none;">
                 <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>          
-            <textarea id="codigo-pix" rows="3" readonly></textarea>
+            </div>
+            <textarea id="codigo-pix" rows="3" readonly style="display:none;"></textarea>
             <button onclick="copiarCodigoPix()" id="botao-copiar" class="botao-copiar">📋 Copiar Código PIX</button>
         </div>
     </div>
 </div>
-<!--rodape da pagina-->
+<!-- rodape da pagina -->
 <footer class="footerr">
     <hr class="footer-hr">
     <p>
@@ -44,5 +45,7 @@
     </p>
 </footer>
 <script src="js/clientes.js"></script>
+<script src="js/mensalidades.js"></script>
+
 </body>
 </html>
