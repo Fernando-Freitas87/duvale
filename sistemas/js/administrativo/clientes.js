@@ -91,7 +91,9 @@ async function carregarUsuario() {
         if (!respostaMensalidades.ok) throw new Error('Falha ao carregar mensalidades atrasadas.');
 
         const respostaJson = await respostaMensalidades.json();
-        const lista = Array.isArray(respostaJson.mensalidades) ? respostaJson.mensalidades : [];
+        const lista = Array.isArray(respostaJson.mensalidades) 
+            ? respostaJson.mensalidades.filter(m => m.dias_atraso > 0) // Mantém apenas atrasadas
+            : [];
 
         let subtotal = 0;
         let totalCorrigido = 0;
