@@ -9,7 +9,7 @@ async function obterClienteId(token) {
         if (!respostaUsuario.ok) throw new Error('Erro ao buscar ID do cliente.');
 
         const dadosUsuario = await respostaUsuario.json();
-        return dadosUsuario.id;  // Retorna apenas o ID do cliente
+        return dadosUsuario.id || null;  // Retorna apenas o ID do cliente
 
     } catch (erro) {
         console.error("Erro ao obter ID do cliente:", erro);
@@ -18,10 +18,11 @@ async function obterClienteId(token) {
 }
 
 function calcularJurosEMulta(valorMensalidade, diasAtraso) {
+    valorMensalidade = parseFloat(valorMensalidade) || 0; // Garantir que seja um número
     const multa = valorMensalidade * 0.02;
     const jurosDiarios = valorMensalidade * 0.00033;
     const juros = jurosDiarios * diasAtraso;
- 
+
     return {
         multa,
         juros,
@@ -37,12 +38,13 @@ async function calcularValorTotalAtrasado(token) {
 
         if (!resposta.ok) throw new Error('Falha ao carregar mensalidades atrasadas.');
 
-        const mensalidades = await resposta.json();
+        const respostaJson = await resposta.json();
+        const mensalidades = Array.isArray(respostaJson.mensalidades) ? respostaJson.mensalidades : [];
 
         let valorTotal = 0;
 
         mensalidades.forEach(mensalidade => {
-            const valor = mensalidade.valor || 0;
+            const valor = parseFloat(mensalidade.valor) || 0;
             const dataVencimento = new Date(mensalidade.data_vencimento);
             const hoje = new Date();
             const diasAtraso = Math.max(Math.ceil((hoje - dataVencimento) / (1000 * 60 * 60 * 24)), 0);
@@ -68,22 +70,13 @@ async function carregarUsuario() {
             window.location.href = 'sistemas/Index.html';
             return;
         }
-        
-        const respostaUsuario = await fetch(`${apiBaseUrl}/api/usuario`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (!respostaUsuario.ok) {
-            window.location.href = '/Index.html';
+
+        const clienteId = await obterClienteId(token);
+        if (!clienteId) {
+            console.error("ID do cliente não encontrado.");
             return;
         }
- 
-        const dadosUsuario = await respostaUsuario.json();
-        const nome = dadosUsuario.nome || "Usuário";
-        document.getElementById('user-name').textContent = nome.split(' ').slice(0,2).join(' ');
- 
-        exibirSaudacao(nome.split(' ').slice(0,2).join(' '));
- 
-        const clienteId = await obterClienteId(token);
+
         const respostaMensalidades = await fetch(`${apiBaseUrl}/api/mensalidades/cliente/${clienteId}/atrasadas`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -91,10 +84,10 @@ async function carregarUsuario() {
         if (!respostaMensalidades.ok) throw new Error('Falha ao carregar mensalidades atrasadas.');
 
         const respostaJson = await respostaMensalidades.json();
-        const lista = respostaJson?.mensalidades;
-        if (!Array.isArray(lista)) {
-            console.error("⚠️ Erro: 'lista' não é um array!", lista);
-            return; // Se não for um array, encerra a execução para evitar erros
+        const lista = Array.isArray(respostaJson.mensalidades) ? respostaJson.mensalidades : [];
+
+        if (!lista.length) {
+            console.warn("⚠️ Nenhuma mensalidade atrasada encontrada.");
         }
 
         let subtotal = 0;
@@ -102,7 +95,7 @@ async function carregarUsuario() {
         const datas = [];
 
         lista.forEach(mensalidade => {
-            const valor = mensalidade.valor ?? 0;
+            const valor = parseFloat(mensalidade.valor) || 0;
             const dataVenc = new Date(mensalidade.data_vencimento);
             datas.push(dataVenc);
 
@@ -123,10 +116,12 @@ async function carregarUsuario() {
             referencia = inicio === fim ? inicio : `${inicio} até ${fim}`;
         }
 
+        document.getElementById('user-name').textContent = nome.split(' ').slice(0,2).join(' ');
         document.getElementById('mes-referencia').textContent = referencia;
-        document.getElementById('subtotal').textContent = (subtotal ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('juros').textContent = ((totalCorrigido ?? 0) - (subtotal ?? 0)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('valor').textContent = (totalCorrigido ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('subtotal').textContent = subtotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('juros').textContent = (totalCorrigido - subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('valor').textContent = totalCorrigido.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
     } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
         mostrarToast("❌ Não foi possível carregar todos os dados necessários.");
