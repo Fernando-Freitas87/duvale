@@ -116,7 +116,19 @@ async function carregarUsuario() {
             referencia = inicio === fim ? inicio : `${inicio} até ${fim}`;
         }
 
+        const respostaUsuario = await fetch(`${apiBaseUrl}/api/usuario`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!respostaUsuario.ok) {
+            window.location.href = '/Index.html';
+            return;
+        }
+
+        const dadosUsuario = await respostaUsuario.json();
+        const nome = dadosUsuario.nome || "Usuário"; // Definir nome antes de usar
         document.getElementById('user-name').textContent = nome.split(' ').slice(0,2).join(' ');
+
         document.getElementById('mes-referencia').textContent = referencia;
         document.getElementById('subtotal').textContent = Math.round(subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
         document.getElementById('juros').textContent = Math.round(totalCorrigido - subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
