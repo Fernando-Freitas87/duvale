@@ -93,7 +93,7 @@ app.use('/api/mensalidades', mensalidadesRoutes);      // Rotas para operações
 app.use('/api/cadastro/clientes', cadastroClientesRoutes); // Rotas para cadastro de clientes
 app.use('/api/cadastro/imoveis', cadastroImoveisRoutes);   // Rotas para cadastro de imóveis
 app.use('/api/cadastro/contratos', cadastroContratosRoutes); // Rotas para cadastro de contratos
-app.use('/api/cadastro/mensalidades', cadastroMensalidadesRoutes); // Rotas para cadastro de mensalidades
+app.use('/api/mensalidades', cadastroMensalidadesRoutes); // Rotas para cadastro de mensalidades
 app.use('/api/imoveis', imoveisRoutes);                // Rotas para operações com imóveis
 app.use('/api/contratos', contratosRoutes);            // Rotas para operações com contratos
 app.use('/api/caixa', caixaRoutes);                    // Rotas para operações de caixa
