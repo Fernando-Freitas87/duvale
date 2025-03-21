@@ -195,7 +195,7 @@ async function carregarMensalidadesCliente(token) {
             return;
         }
 
-        const respostaMensalidades = await fetch(`${apiBaseUrl}/api/mensalidades/${clienteId}/atrasadas`, {
+        const respostaMensalidades = await fetch(`${apiBaseUrl}/api/cliente/${clienteId}/atrasadas`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 

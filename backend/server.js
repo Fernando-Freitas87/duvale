@@ -41,7 +41,6 @@ app.use(cors({
 /**
  * Importação de Controllers e Rotas
  */
-const mensalidadesGraficosRoutes = require('./routes/mensalidadesGraficosRoutes');
 const avisosRoutes = require("./routes/avisos.routes");
 const loginRoutes = require('./routes/login');
 const usuarioController = require('./controllers/usuarioController');
@@ -55,7 +54,6 @@ const cadastroMensalidadesRoutes = require('./routes/cadastroMensalidadesRoutes'
 const imoveisRoutes = require('./routes/imoveisRoutes');
 const contratosRoutes = require('./routes/contratosRoutes');
 const caixaRoutes = require('./routes/caixaRoutes');
-const imoveisGraficosRoutes = require('./routes/imoveisGraficosRoutes');
 const relatoriosRoutes = require("./routes/relatorios");
 
 
@@ -99,8 +97,6 @@ app.use('/api/cadastro/mensalidades', cadastroMensalidadesRoutes); // Rotas para
 app.use('/api/imoveis', imoveisRoutes);                // Rotas para operações com imóveis
 app.use('/api/contratos', contratosRoutes);            // Rotas para operações com contratos
 app.use('/api/caixa', caixaRoutes);                    // Rotas para operações de caixa
-app.use('/api/imoveis', imoveisGraficosRoutes);
-app.use('/api/mensalidades', mensalidadesGraficosRoutes);
 app.use("/api/relatorios", relatoriosRoutes);
 
 

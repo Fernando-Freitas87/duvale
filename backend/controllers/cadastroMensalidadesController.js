@@ -33,3 +33,36 @@ exports.gerarMensalidades = async (req, res) => {
         res.status(500).json({ error: 'Erro ao gerar mensalidades.' });
     }
 };
+
+exports.getMensalidadesAtrasadasCliente = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ error: "ID do cliente é obrigatório." });
+        }
+
+        const [mensalidades] = await db.query(
+            `SELECT 
+                m.id,
+                m.valor,
+                m.data_vencimento,
+                DATEDIFF(CURDATE(), m.data_vencimento) AS dias_atraso
+            FROM mensalidades m
+            JOIN contratos c ON m.contrato_id = c.id
+            WHERE c.cliente_id = ? AND m.status = 'em atraso'
+            ORDER BY m.data_vencimento ASC`, 
+            [id]
+        );
+
+        if (mensalidades.length === 0) {
+            return res.json({ message: "Nenhuma mensalidade em atraso.", mensalidades: [] });
+        }
+
+        res.json({ mensalidades });
+
+    } catch (error) {
+        console.error("Erro ao buscar mensalidades atrasadas:", error);
+        res.status(500).json({ error: "Erro ao buscar mensalidades atrasadas." });
+    }
+};
