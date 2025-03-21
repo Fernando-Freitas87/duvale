@@ -126,7 +126,7 @@ async function carregarUsuario() {
         }
 
         const dadosUsuario = await respostaUsuario.json();
-        const nome = dadosUsuario.nome || "Usuário"; // Garantir que a variável seja definida antes do uso
+        const nome = dadosUsuario.nome ? dadosUsuario.nome : "Usuário"; // Garantir que a variável seja definida antes do uso
         document.getElementById('user-name').textContent = nome.split(' ').slice(0,2).join(' ');
 
         document.getElementById('mes-referencia').textContent = referencia;
