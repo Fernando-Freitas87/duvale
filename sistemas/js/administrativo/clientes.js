@@ -1,5 +1,22 @@
 const apiBaseUrl = "https://duvale-production.up.railway.app";
 
+async function obterClienteId(token) {
+    try {
+        const respostaUsuario = await fetch(`${apiBaseUrl}/api/usuario`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!respostaUsuario.ok) throw new Error('Erro ao buscar ID do cliente.');
+
+        const dadosUsuario = await respostaUsuario.json();
+        return dadosUsuario.id;  // Retorna apenas o ID do cliente
+
+    } catch (erro) {
+        console.error("Erro ao obter ID do cliente:", erro);
+        return null;
+    }
+}
+
 function calcularJurosEMulta(valorMensalidade, diasAtraso) {
     const multa = valorMensalidade * 0.02;
     const jurosDiarios = valorMensalidade * 0.00033;
@@ -101,9 +118,9 @@ async function carregarUsuario() {
         }
 
         document.getElementById('mes-referencia').textContent = referencia;
-        document.getElementById('subtotal').textContent = subtotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('juros').textContent = (totalCorrigido - subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('valor').textContent = totalCorrigido.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('subtotal').textContent = (subtotal ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('juros').textContent = ((totalCorrigido ?? 0) - (subtotal ?? 0)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('valor').textContent = (totalCorrigido ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
         mostrarToast("❌ Não foi possível carregar todos os dados necessários.");
@@ -168,6 +185,28 @@ async function gerarQRCode() {
 function logout() {
     localStorage.removeItem('authToken');
     window.location.href = 'Index.html';
+}
+
+async function carregarMensalidadesCliente(token) {
+    try {
+        const clienteId = await obterClienteId(token);
+        if (!clienteId) {
+            console.error("ID do cliente não encontrado.");
+            return;
+        }
+
+        const respostaMensalidades = await fetch(`${apiBaseUrl}/api/mensalidades/${clienteId}/atrasadas`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!respostaMensalidades.ok) throw new Error('Erro ao carregar mensalidades atrasadas.');
+
+        const lista = await respostaMensalidades.json();
+        console.log("Mensalidades atrasadas:", lista);
+
+    } catch (erro) {
+        console.error("Erro ao carregar mensalidades:", erro);
+    }
 }
 
 //✅ Exibir QR Code no HTML
