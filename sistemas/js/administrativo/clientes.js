@@ -134,7 +134,8 @@ async function carregarUsuario() {
             console.error("Erro ao obter nome do usuário:", erro);
         }
 
-        document.getElementById('user-name').textContent = nome.split(' ').slice(0,2).join(' ');
+        const saudacao = gerarSaudacao();
+        document.getElementById('saudacao').textContent = `${saudacao}, ${nome.split(' ').slice(0, 2).join(' ')}!`;
 
         document.getElementById('mes-referencia').textContent = referencia;
         document.getElementById('subtotal').textContent = Math.round(subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -145,6 +146,13 @@ async function carregarUsuario() {
         console.error("Erro ao carregar dados:", erro);
         mostrarToast("❌ Não foi possível carregar todos os dados necessários.");
     }
+}
+
+function gerarSaudacao() {
+    const hora = new Date().getHours();
+    if (hora < 12) return "Bom dia";
+    if (hora < 18) return "Boa tarde";
+    return "Boa noite";
 }
 
 //✅ Exibir saudação personalizada
