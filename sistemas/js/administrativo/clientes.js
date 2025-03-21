@@ -48,7 +48,7 @@ async function carregarUsuario() {
     try {
         const token = localStorage.getItem('authToken');
         if (!token) {
-            window.location.href = '/Index.html';
+            window.location.href = 'sistemas/Index.html';
             return;
         }
         
@@ -66,47 +66,44 @@ async function carregarUsuario() {
  
         exibirSaudacao(nome.split(' ').slice(0,2).join(' '));
  
-        const respostaMensalidade = await fetch(`${apiBaseUrl}/api/cliente/mensalidade?status=atraso`, {
+        const respostaMensalidades = await fetch(`${apiBaseUrl}/api/cliente/mensalidades?status=atraso`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        if (!respostaMensalidade.ok) throw new Error('Falha ao carregar mensalidade.');
- 
-        const dadosMensalidade = await respostaMensalidade.json();
-        const mensalidadesAtrasadas = await fetch(`${apiBaseUrl}/api/cliente/mensalidades?status=atraso`, {
-            headers: { 'Authorization': `Bearer ${token}` }
+
+        if (!respostaMensalidades.ok) throw new Error('Falha ao carregar mensalidades atrasadas.');
+
+        const lista = await respostaMensalidades.json();
+
+        let subtotal = 0;
+        let totalCorrigido = 0;
+        const datas = [];
+
+        lista.forEach(mensalidade => {
+            const valor = mensalidade.valor ?? 0;
+            const dataVenc = new Date(mensalidade.data_vencimento);
+            datas.push(dataVenc);
+
+            subtotal += valor;
+
+            const hoje = new Date();
+            const diasAtraso = Math.max(Math.ceil((hoje - dataVenc) / (1000 * 60 * 60 * 24)), 0);
+
+            const { valorTotal } = calcularJurosEMulta(valor, diasAtraso);
+            totalCorrigido += valorTotal;
         });
-        
-        let textoMeses = "Mês não disponível";
-        if (mensalidadesAtrasadas.ok) {
-            const lista = await mensalidadesAtrasadas.json();
-            if (lista.length <= 3) {
-                const meses = lista.map(m => {
-                    const data = new Date(m.data_vencimento);
-                    return data.toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
-                });
-                textoMeses = meses.join(', ');
-            } else {
-                const datas = lista.map(m => new Date(m.data_vencimento)).sort((a, b) => a - b);
-                const inicio = datas[0].toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
-                const fim = datas[datas.length - 1].toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
-                textoMeses = `${inicio} até ${fim}`;
-            }
+
+        let referencia = "Mês não disponível";
+        if (datas.length > 0) {
+            datas.sort((a, b) => a - b);
+            const inicio = datas[0].toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
+            const fim = datas[datas.length - 1].toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
+            referencia = datas.length === 1 ? inicio : `${inicio} até ${fim}`;
         }
-        
-        document.getElementById('mes-referencia').textContent = textoMeses;
-        document.getElementById('subtotal').textContent = (dadosMensalidade.subtotal ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        const hoje = new Date();
-        const dataVencimento = new Date(dadosMensalidade.data_vencimento);
-        const diasAtraso = Math.max(Math.ceil((hoje - dataVencimento) / (1000 * 60 * 60 * 24)), 0);
 
-        const valorMensalidade = dadosMensalidade.subtotal ?? 0;
-
-        const { multa, juros, valorTotal } = calcularJurosEMulta(valorMensalidade, diasAtraso);
-
-        document.getElementById('desconto').textContent = (dadosMensalidade.desconto ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('juros').textContent = juros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        const valorTotalAtrasado = await calcularValorTotalAtrasado(token);
-        document.getElementById('valor').textContent = valorTotalAtrasado.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('mes-referencia').textContent = referencia;
+        document.getElementById('subtotal').textContent = subtotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('juros').textContent = (totalCorrigido - subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('valor').textContent = totalCorrigido.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
         mostrarToast("❌ Não foi possível carregar todos os dados necessários.");
@@ -170,7 +167,7 @@ async function gerarQRCode() {
 // Função simples para logout
 function logout() {
     localStorage.removeItem('authToken');
-    window.location.href = 'sistemas/Index.html';
+    window.location.href = 'Index.html';
 }
 
 //✅ Exibir QR Code no HTML
