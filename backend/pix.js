@@ -59,6 +59,18 @@ app.listen(PORT, () => {
 });
 
 //✅ Gerar QR Code via Node.js e API Externa
+const VALOR_FIXO_MENSALIDADE = 150.00; // Defina aqui o valor correto
+
+function calcularValorTotalAtrasado() {
+    const hoje = new Date();
+    const dataVencimento = new Date("2024-03-01"); // Definir a data correta
+    const diasAtraso = Math.max(Math.ceil((hoje - dataVencimento) / (1000 * 60 * 60 * 24)), 0);
+
+    const { valorTotal } = calcularJurosEMulta(VALOR_FIXO_MENSALIDADE, diasAtraso);
+
+    return valorTotal;
+}
+
 async function gerarQRCode() {
     try {
         mostrarToast("🔄 Gerando QR Code...");
@@ -69,7 +81,8 @@ async function gerarQRCode() {
             return;
         }
 
-        const valorTotal = await calcularValorTotalAtrasado(token);
+        const valorTotal = calcularValorTotalAtrasado(); // Agora calcula direto no front
+
         if (!valorTotal || isNaN(valorTotal)) {
             mostrarToast("❌ Valor da mensalidade inválido.");
             return;

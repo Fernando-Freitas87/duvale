@@ -1,4 +1,5 @@
 const apiBaseUrl = "https://duvale-production.up.railway.app";
+const VALOR_FIXO_MENSALIDADE = 150.00; // Defina aqui o valor correto
 
 async function obterClienteId(token) {
     try {
@@ -30,46 +31,23 @@ function calcularJurosEMulta(valorMensalidade, diasAtraso) {
     };
 }
 
-async function calcularValorTotalAtrasado(token) {
-    try {
-        const resposta = await fetch(`${apiBaseUrl}/api/cliente/mensalidades?status=atraso`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+function calcularValorTotalAtrasado() {
+    const hoje = new Date();
+    const dataVencimento = new Date("2024-03-01"); // Definir a data correta
+    const diasAtraso = Math.max(Math.ceil((hoje - dataVencimento) / (1000 * 60 * 60 * 24)), 0);
 
-        if (!resposta.ok) throw new Error('Falha ao carregar mensalidades atrasadas.');
+    const { valorTotal } = calcularJurosEMulta(VALOR_FIXO_MENSALIDADE, diasAtraso);
 
-        const respostaJson = await resposta.json();
-        const mensalidades = Array.isArray(respostaJson.mensalidades) ? respostaJson.mensalidades : [];
-
-        let valorTotal = 0;
-
-        mensalidades.forEach(mensalidade => {
-            const valor = parseFloat(mensalidade.valor) || 0;
-            const dataVencimento = new Date(mensalidade.data_vencimento);
-            const hoje = new Date();
-            const diasAtraso = Math.max(Math.ceil((hoje - dataVencimento) / (1000 * 60 * 60 * 24)), 0);
-
-            const { valorTotal: valorComJurosEMulta } = calcularJurosEMulta(valor, diasAtraso);
-
-            valorTotal += valorComJurosEMulta;
-        });
-
-        return valorTotal;
-
-    } catch (erro) {
-        console.error("Erro ao calcular total atrasado:", erro);
-        mostrarToast("❌ Erro ao calcular mensalidades atrasadas.");
-        return 0;
-    }
+    return valorTotal;
 }
 
 async function carregarUsuario() {
     try {
-    const token = localStorage.getItem('authToken');
-    if (!token || typeof token !== 'string' || token.trim() === '') {
-        window.location.href = 'Index.html';
-        return;
-    }
+        const token = localStorage.getItem('authToken');
+        if (!token || typeof token !== 'string' || token.trim() === '') {
+            window.location.href = 'Index.html';
+            return;
+        }
 
         const clienteId = await obterClienteId(token);
         if (!clienteId) {
@@ -179,7 +157,8 @@ async function gerarQRCode() {
             return;
         }
 
-        const valorTotal = await calcularValorTotalAtrasado(token);
+        const valorTotal = calcularValorTotalAtrasado(); // Agora calcula direto no front
+
         if (!valorTotal || isNaN(valorTotal)) {
             mostrarToast("❌ Valor da mensalidade inválido.");
             return;
