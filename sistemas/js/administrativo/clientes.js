@@ -150,9 +150,9 @@ async function carregarUsuario() {
 
 function gerarSaudacao() {
     const hora = new Date().getHours();
-    if (hora < 12) return "Bom dia";
-    if (hora < 18) return "Boa tarde";
-    return "Boa noite";
+    if (hora < 12) return "BOM DIA";
+    if (hora < 18) return "BOA TARDE";
+    return "BOA NOITE";
 }
 
 //✅ Exibir saudação personalizada
