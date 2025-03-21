@@ -6,38 +6,45 @@ body {
     background: url("../img/fundo1.png") no-repeat center center fixed;
     background-size: cover;
     font-family: sans-serif;
-  }
+}
 
 .container {
-    #saudacao {
-        text-align: center;
-        margin-bottom: 5px;
-    }
-    
-    .logout-container {
-        .logout-link {
-            color: #d9534f;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-        
-        .logout-link:hover {
-            color: #c9302c;
-            text-decoration: underline;
-        }
-        text-align: center;
-        margin-top: 10px;
-    }
-    h2 {
-        text-align: center;
-    }
     max-width: 400px;
     margin: auto;
     background: white;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.logout-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.logout-link {
+    color: #d9534f;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.logout-link:hover {
+    color: #c9302c;
+    text-decoration: underline;
+}
+
+.logout-link svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+h2 {
+    text-align: center;
 }
 
 .logo {
@@ -320,5 +327,4 @@ textarea {
 .menu-container div:hover {
     transform: scale(1.1);
     background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
 }
