@@ -4,12 +4,44 @@ function calcularJurosEMulta(valorMensalidade, diasAtraso) {
     const multa = valorMensalidade * 0.02;
     const jurosDiarios = valorMensalidade * 0.00033;
     const juros = jurosDiarios * diasAtraso;
-
+ 
     return {
         multa,
         juros,
         valorTotal: valorMensalidade + multa + juros
     };
+}
+
+async function calcularValorTotalAtrasado(token) {
+    try {
+        const resposta = await fetch(`${apiBaseUrl}/api/cliente/mensalidades?status=atraso`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!resposta.ok) throw new Error('Falha ao carregar mensalidades atrasadas.');
+
+        const mensalidades = await resposta.json();
+
+        let valorTotal = 0;
+
+        mensalidades.forEach(mensalidade => {
+            const valor = mensalidade.valor || 0;
+            const dataVencimento = new Date(mensalidade.data_vencimento);
+            const hoje = new Date();
+            const diasAtraso = Math.max(Math.ceil((hoje - dataVencimento) / (1000 * 60 * 60 * 24)), 0);
+
+            const { valorTotal: valorComJurosEMulta } = calcularJurosEMulta(valor, diasAtraso);
+
+            valorTotal += valorComJurosEMulta;
+        });
+
+        return valorTotal;
+
+    } catch (erro) {
+        console.error("Erro ao calcular total atrasado:", erro);
+        mostrarToast("❌ Erro ao calcular mensalidades atrasadas.");
+        return 0;
+    }
 }
 
 async function carregarUsuario() {
@@ -32,7 +64,7 @@ async function carregarUsuario() {
         const nome = dadosUsuario.nome || "Usuário";
         document.getElementById('user-name').textContent = nome.split(' ').slice(0,2).join(' ');
  
-        exibirSaudacao(nome);
+        exibirSaudacao(nome.split(' ').slice(0,2).join(' '));
  
         const respostaMensalidade = await fetch(`${apiBaseUrl}/api/cliente/mensalidade?status=atraso`, {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -40,11 +72,28 @@ async function carregarUsuario() {
         if (!respostaMensalidade.ok) throw new Error('Falha ao carregar mensalidade.');
  
         const dadosMensalidade = await respostaMensalidade.json();
-        const mesReferencia = dadosMensalidade.data_vencimento 
-            ? new Date(dadosMensalidade.data_vencimento).toLocaleString('pt-BR', { month: 'short', year: 'numeric' })
-            : "Mês não disponível";
- 
-        document.getElementById('mes-referencia').textContent = mesReferencia;
+        const mensalidadesAtrasadas = await fetch(`${apiBaseUrl}/api/cliente/mensalidades?status=atraso`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        let textoMeses = "Mês não disponível";
+        if (mensalidadesAtrasadas.ok) {
+            const lista = await mensalidadesAtrasadas.json();
+            if (lista.length <= 3) {
+                const meses = lista.map(m => {
+                    const data = new Date(m.data_vencimento);
+                    return data.toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
+                });
+                textoMeses = meses.join(', ');
+            } else {
+                const datas = lista.map(m => new Date(m.data_vencimento)).sort((a, b) => a - b);
+                const inicio = datas[0].toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
+                const fim = datas[datas.length - 1].toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
+                textoMeses = `${inicio} até ${fim}`;
+            }
+        }
+        
+        document.getElementById('mes-referencia').textContent = textoMeses;
         document.getElementById('subtotal').textContent = (dadosMensalidade.subtotal ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
         const hoje = new Date();
         const dataVencimento = new Date(dadosMensalidade.data_vencimento);
@@ -56,7 +105,8 @@ async function carregarUsuario() {
 
         document.getElementById('desconto').textContent = (dadosMensalidade.desconto ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
         document.getElementById('juros').textContent = juros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('valor').textContent = valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        const valorTotalAtrasado = await calcularValorTotalAtrasado(token);
+        document.getElementById('valor').textContent = valorTotalAtrasado.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
         mostrarToast("❌ Não foi possível carregar todos os dados necessários.");
@@ -68,9 +118,9 @@ function exibirSaudacao(nome) {
     const hora = new Date().getHours();
     let saudacao;
 
-    if (hora < 12) saudacao = "Bom dia";
-    else if (hora < 18) saudacao = "Boa tarde";
-    else saudacao = "Boa noite";
+    if (hora < 12) saudacao = "BOM DIA";
+    else if (hora < 18) saudacao = "BOA TARDE";
+    else saudacao = "BOA NOITE";
 
     document.getElementById('saudacao').textContent = `${saudacao}, ${nome}!`;
 }

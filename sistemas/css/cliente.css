@@ -12,6 +12,17 @@ body {
     }
     
     .logout-container {
+        .logout-link {
+            color: #d9534f;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .logout-link:hover {
+            color: #c9302c;
+            text-decoration: underline;
+        }
         text-align: center;
         margin-top: 10px;
     }
