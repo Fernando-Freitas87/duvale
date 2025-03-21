@@ -115,12 +115,12 @@ async function carregarUsuario() {
             totalCorrigido += valorTotal;
         });
 
-        let referencia = "Mês não disponível";
+        let referencia = "Nenhuma mensalidade em atraso";
         if (datas.length > 0) {
             datas.sort((a, b) => a - b);
             const inicio = datas[0].toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
             const fim = datas[datas.length - 1].toLocaleString('pt-BR', { month: 'short', year: 'numeric' });
-            referencia = datas.length === 1 ? inicio : `${inicio} até ${fim}`;
+            referencia = inicio === fim ? inicio : `${inicio} até ${fim}`;
         }
 
         document.getElementById('mes-referencia').textContent = referencia;
