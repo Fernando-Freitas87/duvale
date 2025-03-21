@@ -38,7 +38,10 @@ exports.getMensalidadesAtrasadasCliente = async (req, res) => {
     try {
         const { id } = req.params;
 
+        console.log("🔍 Buscando mensalidades para cliente ID:", id);
+
         if (!id) {
+            console.error("❌ ID do cliente não foi fornecido.");
             return res.status(400).json({ error: "ID do cliente é obrigatório." });
         }
 
@@ -56,6 +59,7 @@ exports.getMensalidadesAtrasadasCliente = async (req, res) => {
         );
 
         if (!mensalidades || mensalidades.length === 0) {
+            console.log("✅ Nenhuma mensalidade em atraso encontrada para o cliente.");
             return res.status(200).json({ message: "Nenhuma mensalidade em atraso.", mensalidades: [] });
         }
 

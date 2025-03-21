@@ -83,7 +83,8 @@ async function carregarUsuario() {
  
         exibirSaudacao(nome.split(' ').slice(0,2).join(' '));
  
-        const respostaMensalidades = await fetch(`${apiBaseUrl}/api/cliente/mensalidades?status=atraso`, {
+        const clienteId = await obterClienteId(token);
+        const respostaMensalidades = await fetch(`${apiBaseUrl}/api/mensalidades/cliente/${clienteId}/atrasadas`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
