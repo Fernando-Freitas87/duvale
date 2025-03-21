@@ -116,17 +116,24 @@ async function carregarUsuario() {
             referencia = inicio === fim ? inicio : `${inicio} até ${fim}`;
         }
 
-        const respostaUsuario = await fetch(`${apiBaseUrl}/api/usuario`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+        let nome = "Usuário"; // Definir um valor padrão
 
-        if (!respostaUsuario.ok) {
-            window.location.href = '/Index.html';
-            return;
+        try {
+            const respostaUsuario = await fetch(`${apiBaseUrl}/api/usuario`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (!respostaUsuario.ok) {
+                window.location.href = '/Index.html';
+                return;
+            }
+
+            const dadosUsuario = await respostaUsuario.json();
+            nome = dadosUsuario.nome ? dadosUsuario.nome : "Usuário"; // Garantir que `nome` tenha um valor válido
+        } catch (erro) {
+            console.error("Erro ao obter nome do usuário:", erro);
         }
 
-        const dadosUsuario = await respostaUsuario.json();
-        const nome = dadosUsuario.nome ? dadosUsuario.nome : "Usuário"; // Garantir que a variável seja definida antes do uso
         document.getElementById('user-name').textContent = nome.split(' ').slice(0,2).join(' ');
 
         document.getElementById('mes-referencia').textContent = referencia;
