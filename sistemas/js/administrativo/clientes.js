@@ -118,9 +118,9 @@ async function carregarUsuario() {
 
         document.getElementById('user-name').textContent = nome.split(' ').slice(0,2).join(' ');
         document.getElementById('mes-referencia').textContent = referencia;
-        document.getElementById('subtotal').textContent = subtotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('juros').textContent = (totalCorrigido - subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('valor').textContent = totalCorrigido.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('subtotal').textContent = Math.round(subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('juros').textContent = Math.round(totalCorrigido - subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        document.getElementById('valor').textContent = Math.round(totalCorrigido).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
     } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
