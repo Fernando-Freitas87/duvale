@@ -340,7 +340,7 @@ app.post('/api/webhook', async (req, res) => {
         // Consulta o status do pagamento no Mercado Pago
         const resposta = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
             headers: {
-                'Authorization': `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`
+                'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
             }
         });
 

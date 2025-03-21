@@ -20,7 +20,6 @@ app.post('/api/pix', async (req, res) => {
             return res.status(400).json({ error: "Valor inválido!" });
         }
 
-        // Configurar o pagamento via Mercado Pago
         const resposta = await axios.post('https://api.mercadopago.com/v1/payments', {
             transaction_amount: parseFloat(valor),
             description: descricao || "Pagamento via Pix",
@@ -34,22 +33,30 @@ app.post('/api/pix', async (req, res) => {
             }
         }, {
             headers: {
-                'Authorization': `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
+                'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`,
                 'Content-Type': 'application/json'
             }
         });
 
-        // Retornar os dados do QR Code
-        const dados = resposta.data;
+        if (!resposta.data || !resposta.data.point_of_interaction) {
+            throw new Error("Erro na resposta do Mercado Pago: Estrutura inesperada.");
+        }
+
         return res.json({
-            qr_code: dados.point_of_interaction.transaction_data.qr_code_base64,
-            qr_data: dados.point_of_interaction.transaction_data.qr_code,
-            payment_id: dados.id
+            qr_code: resposta.data.point_of_interaction.transaction_data.qr_code_base64 || null,
+            qr_data: resposta.data.point_of_interaction.transaction_data.qr_code || null,
+            payment_id: resposta.data.id
         });
 
     } catch (error) {
         console.error("Erro ao gerar QR Code:", error.response ? error.response.data : error.message);
-        res.status(500).json({ error: "Erro ao processar pagamento" });
+        
+        let mensagemErro = "Erro ao processar pagamento";
+        if (error.response) {
+            mensagemErro = `Erro ${error.response.status}: ${JSON.stringify(error.response.data)}`;
+        }
+
+        res.status(500).json({ error: mensagemErro });
     }
 });
 
