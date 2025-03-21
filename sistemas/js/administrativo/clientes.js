@@ -65,11 +65,11 @@ async function calcularValorTotalAtrasado(token) {
 
 async function carregarUsuario() {
     try {
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-            window.location.href = 'sistemas/Index.html';
-            return;
-        }
+    const token = localStorage.getItem('authToken');
+    if (!token || typeof token !== 'string' || token.trim() === '') {
+        window.location.href = 'Index.html';
+        return;
+    }
 
         const clienteId = await obterClienteId(token);
         if (!clienteId) {
