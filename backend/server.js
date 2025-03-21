@@ -20,12 +20,21 @@ const { atualizarStatusMensalidades } = require('./services/mensalidadesService'
 // 🔹 **DECLARE O `app` PRIMEIRO**
 const app = express();
 
-// Configure CORS para permitir o domínio do frontend
-app.use(cors({
-  origin: '*',  // Permitir todas as origens temporariamente para depuração
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+/**
+ * Middleware de CORS
+ */
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");  // Permitir todas as origens
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  
+  // Responder requisições OPTIONS antes de seguir para as demais rotas
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
+});
 
 /**
  * Importação de Controllers e Rotas
