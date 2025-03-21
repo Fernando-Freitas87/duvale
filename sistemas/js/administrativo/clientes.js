@@ -325,3 +325,37 @@ function ocultarElementos() {
 
 //✅ Inicializa tudo ao carregar a página
 document.addEventListener('DOMContentLoaded', carregarUsuario);
+
+// ✅ Webhook para verificar status de pagamento no Mercado Pago
+app.post('/api/webhook', async (req, res) => {
+    try {
+        const { action, data } = req.body;
+
+        if (action !== "payment.created" && action !== "payment.updated") {
+            return res.status(200).json({ message: "Evento ignorado" });
+        }
+
+        const paymentId = data.id;
+
+        // Consulta o status do pagamento no Mercado Pago
+        const resposta = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+            headers: {
+                'Authorization': `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`
+            }
+        });
+
+        const status = resposta.data.status;
+
+        if (status === "approved") {
+            console.log(`✅ Pagamento ${paymentId} aprovado!`);
+        } else {
+            console.log(`🔄 Pagamento ${paymentId} está no status: ${status}`);
+        }
+
+        return res.status(200).json({ message: "Webhook processado com sucesso" });
+
+    } catch (error) {
+        console.error("Erro ao processar webhook:", error.response ? error.response.data : error.message);
+        res.status(500).json({ error: "Erro ao processar webhook" });
+    }
+});
