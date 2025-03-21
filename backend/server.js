@@ -21,19 +21,8 @@ const { atualizarStatusMensalidades } = require('./services/mensalidadesService'
 const app = express();
 
 // Configure CORS para permitir o domínio do frontend
-const allowedOrigins = [
-  'https://fernando-freitas87.github.io', 
-  'https://setta.dev.br' // Novo domínio
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: '*',  // Permitir todas as origens temporariamente para depuração
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -56,17 +45,9 @@ const contratosRoutes = require('./routes/contratosRoutes');
 const caixaRoutes = require('./routes/caixaRoutes');
 const relatoriosRoutes = require("./routes/relatorios");
 
-
-
-
 /**
  * Middlewares Globais
  */
-app.use(cors({
-  origin: allowedOrigins,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'frontend')));
@@ -98,9 +79,6 @@ app.use('/api/imoveis', imoveisRoutes);                // Rotas para operações
 app.use('/api/contratos', contratosRoutes);            // Rotas para operações com contratos
 app.use('/api/caixa', caixaRoutes);                    // Rotas para operações de caixa
 app.use("/api/relatorios", relatoriosRoutes);
-
-
-
 
 /**
  * Rota para Obter Informações do Usuário Autenticado
