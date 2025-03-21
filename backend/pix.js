@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 
 // Rota para gerar QR Code Pix via Mercado Pago
 app.post('/api/pix', async (req, res) => {
+    console.log("📌 Rota /api/pix foi acessada"); // Log para depuração
     try {
         const { valor, descricao } = req.body;
 
@@ -60,6 +61,11 @@ app.post('/api/pix', async (req, res) => {
     }
 });
 
+// Rota de teste
+app.get('/test', (req, res) => {
+    res.send("🔥 API PIX RODANDO!");
+});
+
 // ✅ Webhook para verificar status de pagamento no Mercado Pago
 app.post('/api/webhook', async (req, res) => {
     try {
@@ -91,6 +97,13 @@ app.post('/api/webhook', async (req, res) => {
     } catch (error) {
         console.error("Erro ao processar webhook:", error.response ? error.response.data : error.message);
         res.status(500).json({ error: "Erro ao processar webhook" });
+    }
+});
+
+// Listar todas as rotas carregadas
+app._router.stack.forEach((route) => {
+    if (route.route) {
+        console.log(`✅ Rota carregada: ${route.route.path}`);
     }
 });
 

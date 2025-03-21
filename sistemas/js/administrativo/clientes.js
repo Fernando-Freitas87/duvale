@@ -359,3 +359,8 @@ app.post('/api/webhook', async (req, res) => {
         res.status(500).json({ error: "Erro ao processar webhook" });
     }
 });
+
+// Adicionando rota de teste
+app.get('/test', (req, res) => {
+    res.send("🔥 API PIX RODANDO!");
+});
