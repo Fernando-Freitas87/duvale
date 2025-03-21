@@ -91,9 +91,11 @@ async function carregarUsuario() {
         if (!respostaMensalidades.ok) throw new Error('Falha ao carregar mensalidades atrasadas.');
 
         const respostaJson = await respostaMensalidades.json();
-        const lista = Array.isArray(respostaJson.mensalidades) 
-            ? respostaJson.mensalidades.filter(m => m.dias_atraso > 0) // Mantém apenas atrasadas
-            : [];
+        const lista = respostaJson?.mensalidades;
+        if (!Array.isArray(lista)) {
+            console.error("⚠️ Erro: 'lista' não é um array!", lista);
+            return; // Se não for um array, encerra a execução para evitar erros
+        }
 
         let subtotal = 0;
         let totalCorrigido = 0;
