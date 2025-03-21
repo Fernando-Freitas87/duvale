@@ -97,13 +97,14 @@ async function carregarUsuario() {
         lista.forEach(mensalidade => {
             const valor = parseFloat(mensalidade.valor) || 0;
             const dataVenc = new Date(mensalidade.data_vencimento);
-            datas.push(dataVenc);
-
-            subtotal += valor;
-
             const hoje = new Date();
-            const diasAtraso = Math.max(Math.ceil((hoje - dataVenc) / (1000 * 60 * 60 * 24)), 0);
-
+            const diasAtraso = Math.ceil((hoje - dataVenc) / (1000 * 60 * 60 * 24));
+ 
+            if (diasAtraso <= 0) return; // Ignora mensalidades não vencidas
+ 
+            datas.push(dataVenc);
+            subtotal += valor;
+ 
             const { valorTotal } = calcularJurosEMulta(valor, diasAtraso);
             totalCorrigido += valorTotal;
         });
