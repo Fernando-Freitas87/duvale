@@ -164,6 +164,8 @@ async function gerarQRCode() {
             return;
         }
 
+        console.log("📌 Rota /api/pix foi acessada"); // Log de depuração inicial
+
         const resposta = await fetch(`${apiBaseUrl}/api/pix`, {
             method: 'POST',
             headers: {
@@ -174,6 +176,11 @@ async function gerarQRCode() {
                 valor: valorTotal.toFixed(2),
                 descricao: "Mensalidade DuVale"
             })
+        });
+
+        console.log("🛠️ Corpo da requisição enviado:", {
+            valor: valorTotal.toFixed(2),
+            descricao: "Mensalidade DuVale"
         });
 
         if (!resposta.ok) throw new Error(`Erro do servidor: ${resposta.status}`);
@@ -363,4 +370,12 @@ app.post('/api/webhook', async (req, res) => {
 // Adicionando rota de teste
 app.get('/test', (req, res) => {
     res.send("🔥 API PIX RODANDO!");
+});
+
+// Listar todas as rotas carregadas para debug
+console.log("🔍 Listando rotas registradas no servidor:");
+app._router.stack.forEach((route) => {
+    if (route.route) {
+        console.log(`✅ Rota carregada: ${route.route.path}`);
+    }
 });
