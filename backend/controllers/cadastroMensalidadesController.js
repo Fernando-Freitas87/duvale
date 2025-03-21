@@ -50,19 +50,19 @@ exports.getMensalidadesAtrasadasCliente = async (req, res) => {
                 DATEDIFF(CURDATE(), m.data_vencimento) AS dias_atraso
             FROM mensalidades m
             JOIN contratos c ON m.contrato_id = c.id
-        WHERE c.cliente_id = ? AND (m.status = 'pendente' OR m.status = 'em atraso')
+            WHERE c.cliente_id = ? AND (m.status = 'pendente' OR m.status = 'em atraso')
             ORDER BY m.data_vencimento ASC`, 
             [id]
         );
 
-        if (mensalidades.length === 0) {
-            return res.json({ message: "Nenhuma mensalidade em atraso.", mensalidades: [] });
+        if (!mensalidades || mensalidades.length === 0) {
+            return res.status(200).json({ message: "Nenhuma mensalidade em atraso.", mensalidades: [] });
         }
 
         res.json({ mensalidades });
 
     } catch (error) {
-        console.error("Erro ao buscar mensalidades atrasadas:", error);
-        res.status(500).json({ error: "Erro ao buscar mensalidades atrasadas." });
+        console.error("❌ Erro ao buscar mensalidades atrasadas:", error);
+        res.status(500).json({ error: "Erro ao buscar mensalidades atrasadas. Verifique o servidor." });
     }
 };
