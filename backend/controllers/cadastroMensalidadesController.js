@@ -50,7 +50,7 @@ exports.getMensalidadesAtrasadasCliente = async (req, res) => {
                 DATEDIFF(CURDATE(), m.data_vencimento) AS dias_atraso
             FROM mensalidades m
             JOIN contratos c ON m.contrato_id = c.id
-            WHERE c.cliente_id = ? AND m.status = 'em atraso'
+        WHERE c.cliente_id = ? AND (m.status = 'pendente' OR m.status = 'em atraso')
             ORDER BY m.data_vencimento ASC`, 
             [id]
         );
