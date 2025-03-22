@@ -332,16 +332,3 @@ function ocultarElementos() {
 
 //✅ Inicializa tudo ao carregar a página
 document.addEventListener('DOMContentLoaded', carregarUsuario);
-
-// Adicionando rota de teste
-app.get('/test', (req, res) => {
-    res.send("🔥 API PIX RODANDO!");
-});
-
-// Listar todas as rotas carregadas para debug
-console.log("🔍 Listando rotas registradas no servidor:");
-app._router.stack.forEach((route) => {
-    if (route.route) {
-        console.log(`✅ Rota carregada: ${route.route.path}`);
-    }
-});
