@@ -82,7 +82,8 @@ app.post('/api/webhook', async (req, res) => {
     try {
         const { action, data } = req.body;
 
-        if (action !== "payment.created" && action !== "payment.updated") {
+        if (!["payment.created", "payment.updated"].includes(action)) {
+            console.log(`📭 Webhook ignorado: ${action}`);
             return res.status(200).json({ message: "Evento ignorado" });
         }
 
@@ -91,7 +92,7 @@ app.post('/api/webhook', async (req, res) => {
         // Consulta o status do pagamento no Mercado Pago
         const resposta = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
             headers: {
-                'Authorization': `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`
+                'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
             }
         });
 
@@ -99,6 +100,7 @@ app.post('/api/webhook', async (req, res) => {
 
         if (status === "approved") {
             console.log(`✅ Pagamento ${paymentId} aprovado!`);
+            // Aqui pode-se atualizar banco de dados, notificar usuário, etc.
         } else {
             console.log(`🔄 Pagamento ${paymentId} está no status: ${status}`);
         }
@@ -106,8 +108,8 @@ app.post('/api/webhook', async (req, res) => {
         return res.status(200).json({ message: "Webhook processado com sucesso" });
 
     } catch (error) {
-        console.error("Erro ao processar webhook:", error.response ? error.response.data : error.message);
-        res.status(500).json({ error: "Erro ao processar webhook" });
+        console.error("❌ Erro ao processar webhook:", error.response?.data || error.message);
+        return res.status(500).json({ error: "Erro ao processar webhook" });
     }
 });
 
