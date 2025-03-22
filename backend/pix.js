@@ -11,13 +11,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Listar todas as rotas carregadas para debug
-console.log("🔍 Listando rotas registradas no servidor:");
-app._router.stack.forEach((route) => {
-    if (route.route) {
-        console.log(`✅ Rota carregada: ${route.route.path}`);
-    }
-});
 
 // Rota para gerar QR Code Pix via Mercado Pago
 app.post('/api/pix', async (req, res) => {
@@ -121,6 +114,14 @@ app.post('/api/webhook', async (req, res) => {
 // Iniciar o servidor
 app.listen(PORT, () => {
     console.log(`🔥 Servidor rodando na porta ${PORT}`);
+
+    // Listar todas as rotas carregadas para debug
+    console.log("🔍 Listando rotas registradas no servidor:");
+    app._router.stack.forEach((route) => {
+        if (route.route) {
+            console.log(`✅ Rota carregada: ${route.route.path}`);
+        }
+    });
 });
 
 //✅ Gerar QR Code via Node.js e API Externa
