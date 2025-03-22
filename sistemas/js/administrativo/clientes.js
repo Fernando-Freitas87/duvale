@@ -333,42 +333,6 @@ function ocultarElementos() {
 //✅ Inicializa tudo ao carregar a página
 document.addEventListener('DOMContentLoaded', carregarUsuario);
 
-// ✅ Webhook para verificar status de pagamento no Mercado Pago
-app.post('/api/webhook', async (req, res) => {
-    try {
-        const { action, data } = req.body;
-
-        if (!["payment.created", "payment.updated"].includes(action)) {
-            console.log(`📭 Webhook ignorado: ${action}`);
-            return res.status(200).json({ message: "Evento ignorado" });
-        }
-
-        const paymentId = data.id;
-
-        // Consulta o status do pagamento no Mercado Pago
-        const resposta = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-            headers: {
-                'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
-            }
-        });
-
-        const status = resposta.data.status;
-
-        if (status === "approved") {
-            console.log(`✅ Pagamento ${paymentId} aprovado!`);
-            // Aqui pode-se atualizar banco de dados, notificar usuário, etc.
-        } else {
-            console.log(`🔄 Pagamento ${paymentId} está no status: ${status}`);
-        }
-
-        return res.status(200).json({ message: "Webhook processado com sucesso" });
-
-    } catch (error) {
-        console.error("❌ Erro ao processar webhook:", error.response?.data || error.message);
-        return res.status(500).json({ error: "Erro ao processar webhook" });
-    }
-});
-
 // Adicionando rota de teste
 app.get('/test', (req, res) => {
     res.send("🔥 API PIX RODANDO!");
