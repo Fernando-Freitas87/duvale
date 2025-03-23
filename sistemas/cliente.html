@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/cliente.css">
-    <title>Cliente | DuVale</title>
+</title>
+    <style>.hidden { display: none; }</style>
 </head>
 <body>
 <!-- CARD INICIAL -->
 <div class="container">
-    <img src="img/duvalep.png" alt="Logo Duvale" class="logo">
+    <img src="img/duvalep.png" alt="Logo da Autoescola DuVale" class="logo">
     <h2 id="saudacao"></h2>
     <p class="logout-container">
         <a href="#" onclick="logout()" class="logout-link" aria-label="Sair da sua conta">
@@ -21,7 +22,7 @@
         <div class="details">
             <span><strong>Mensalidade:</strong> <span id="mes-referencia">/</span></span>
             <span><strong>Subtotal:</strong> <span id="subtotal">R$ 0,00</span></span>
-            <span><strong>Desconto:</strong> <span id="desconto">R$ 0,00</span></span>
+            <!-- <span><strong>Desconto:</strong> <span id="desconto">R$ 0,00</span></span> -->
             <span><strong>Juros/multas:</strong> <span id="juros">R$ 0,00</span></span>
         </div>
         <div class="checkout--footer">
@@ -34,7 +35,7 @@
         <p id="resultado" class="mensagem-status" style="text-align: center;"></p>
         <div id="qrcode-container" style="display: none; text-align: center;">
             <img id="qrcode" src="" alt="QR Code PIX" class="qr-code">
-            <div class="progress" style="margin-top: 15px; height: 20px; display: none;">
+            <div class="progress hidden" style="margin-top: 15px; height: 20px;">
                 <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <textarea id="codigo-pix" rows="3" readonly style="display:none;"></textarea>
