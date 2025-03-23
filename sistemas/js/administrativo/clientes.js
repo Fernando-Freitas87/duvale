@@ -6,6 +6,11 @@ async function obterClienteId(token) {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
+        if (respostaUsuario.status === 403) {
+            localStorage.removeItem('authToken');
+            window.location.href = 'Index.html';
+            return;
+        }
         if (!respostaUsuario.ok) throw new Error('Erro ao buscar ID do cliente.');
 
         const dadosUsuario = await respostaUsuario.json();
@@ -160,10 +165,11 @@ async function carregarUsuario() {
                 statusLabel = '✅';
             } else if (diasAtraso > 0) {
                 statusClasse = 'atrasado';
-                statusLabel = '❗️';
+                statusLabel = ' ⚠️ ';
             } else {
+                statusLabel = ' 📆 ';
                 statusClasse = 'emdia';
-                statusLabel = '🕓';
+
             }
 
             botao.className = `${index === 0 ? 'active' : ''} btn-indicador ${statusClasse}`;
@@ -176,14 +182,17 @@ async function carregarUsuario() {
             const div = document.createElement('div');
             div.className = `carousel-item${index === 0 ? ' active' : ''}`;
             div.innerHTML = `
-                <div class="details" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div><strong>Vencimento:</strong> ${dataVenc.toLocaleDateString()}</div>
-                    <div><strong>Valor:</strong> ${valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
-                    ${diasAtraso > 0 ? `<div><strong>Multa:</strong> ${multa.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>` : ''}
-                    <div><strong>${tipoTaxa}:</strong> ${juros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
-                    <div><strong>Total:</strong> ${valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
-                </div>
-            `;
+            <div class="cupom-estilo">
+              <div class="title">DuVale</div>
+              <hr>
+              <div class="linha"><strong>Vencimento:</strong> ${dataVenc.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}</div>
+              <div class="linha"><strong>Valor:</strong> ${valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
+              ${diasAtraso > 0 ? `<div class="linha"><strong>Multa:</strong> ${multa.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>` : ''}
+              <div class="linha"><strong>${tipoTaxa}:</strong> ${juros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
+              <hr>
+              <div class="linha"><strong>Total:</strong> ${valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
+            </div>
+          `;
             div.dataset.valorPix = valorTotal.toFixed(2);
             div.dataset.pago = mensalidadePaga;
             innerContainer.appendChild(div);
