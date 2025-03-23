@@ -320,8 +320,13 @@ textarea {
 /* 🎯 Estilo personalizado para o carrossel */
 #carouselExampleIndicators {
     width: 100%;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    max-width: 400px; /* Igualando à largura da div container */
+    margin: 20px auto; /* Adiciona 8px de espaçamento acima e abaixo */
+    border-radius: 12px; /* Cantos arredondados */
+    padding: 8px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .carousel-inner {
@@ -372,7 +377,6 @@ textarea {
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%23ccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 5l7 7-7 7'%3E%3C/path%3E%3C/svg%3E");
 }
 
-/* Estilo para os botões de indicador com mês */
 #carouselExampleIndicators .carousel-indicators {
     display: flex;
     flex-wrap: nowrap;
@@ -380,12 +384,20 @@ textarea {
     scroll-behavior: smooth;
     justify-content: flex-start;
     gap: 6px;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    padding: 5px;
-    max-width: 100%;
+    padding: 5px 10px;
+    max-width: 300px;
+    margin: 0 auto;
     scrollbar-width: none;
     scroll-padding-left: 20px;
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    z-index: 999;
 }
 
 #carouselExampleIndicators .carousel-indicators::-webkit-scrollbar {
@@ -393,17 +405,18 @@ textarea {
 }
 
 .btn-indicador {
-    flex: 0 0 calc(25% - 6px);
-    max-width: calc(25% - 6px);
-    background-color: #f1f1f1;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 6px 8px;
-    font-size: 13px;
-    font-weight: bold;
+    flex: 0 0 auto;
+    min-width: 72px;
+    background-color: #f9f9f9;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    padding: 4px 6px;
+    font-size: 12px;
+    font-weight: 500;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    margin-right: 6px;
 }
 
 .btn-indicador.active,
@@ -411,7 +424,7 @@ textarea {
     background-color: #28a745;
     color: #fff;
     border-color: #218838;
-    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 0 0 2px rgb(20, 75, 33);
 }
 
 .hidden { display: none; }
@@ -434,14 +447,8 @@ textarea {
 }
 .carrossel-discreto {
     background-color: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: none;
-    padding: 10px;
-    margin-top: 10px;
-}
-.carousel-control-prev,
-.carousel-control-next {
-    align-items: flex-start;
-    margin-top: 36px; /* Alinha com a altura dos botões de mês */
+    padding: 20px;
+    margin-top: 20px;
 }

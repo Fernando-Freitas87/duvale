@@ -1,5 +1,4 @@
 const apiBaseUrl = "https://duvale-production.up.railway.app";
-const VALOR_FIXO_MENSALIDADE = 150.00; // Defina aqui o valor correto
 
 async function obterClienteId(token) {
     try {
@@ -29,16 +28,6 @@ function calcularJurosEMulta(valorMensalidade, diasAtraso) {
         juros,
         valorTotal: valorMensalidade + multa + juros
     };
-}
-
-function calcularValorTotalAtrasado() {
-    const hoje = new Date();
-    const dataVencimento = new Date("2024-03-01"); // Definir a data correta
-    const diasAtraso = Math.max(Math.ceil((hoje - dataVencimento) / (1000 * 60 * 60 * 24)), 0);
-
-    const { valorTotal } = calcularJurosEMulta(VALOR_FIXO_MENSALIDADE, diasAtraso);
-
-    return valorTotal;
 }
 
 async function carregarUsuario() {
@@ -264,8 +253,8 @@ async function gerarQRCode() {
             return;
         }
 
-        const valorTotal = calcularValorTotalAtrasado(); // Agora calcula direto no front
-
+        const itemAtivo = document.querySelector('.carousel-item.active');
+        const valorTotal = itemAtivo ? parseFloat(itemAtivo.dataset.valorPix) : 0;
         if (!valorTotal || isNaN(valorTotal)) {
             mostrarToast("❌ Valor da mensalidade inválido.");
             return;
