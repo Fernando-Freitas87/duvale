@@ -72,7 +72,10 @@ async function carregarUsuario() {
         let totalCorrigido = 0;
         const datas = [];
 
-        lista.forEach(mensalidade => {
+        lista.sort((a, b) => new Date(a.data_vencimento) - new Date(b.data_vencimento));
+
+        lista.forEach((mensalidade, index) => {
+            const mensalidadePaga = mensalidade.status === 'pago';
             const valor = parseFloat(mensalidade.valor) || 0;
             const dataVenc = new Date(mensalidade.data_vencimento);
             const hoje = new Date();
@@ -116,10 +119,114 @@ async function carregarUsuario() {
         const saudacao = gerarSaudacao();
         document.getElementById('saudacao').textContent = `${saudacao}, ${nome.split(' ').slice(0, 2).join(' ')}!`;
 
-        document.getElementById('mes-referencia').textContent = referencia;
-        document.getElementById('subtotal').textContent = Math.round(subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('juros').textContent = Math.round(totalCorrigido - subtotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        document.getElementById('valor').textContent = Math.round(totalCorrigido).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        const primeiroItemValor = lista.length && lista[0].status !== 'pago'
+            ? calcularJurosEMulta(parseFloat(lista[0].valor), Math.ceil((new Date() - new Date(lista[0].data_vencimento)) / (1000 * 60 * 60 * 24))).valorTotal
+            : parseFloat(lista[0]?.valor) || 0;
+
+        document.getElementById('valor').textContent = primeiroItemValor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+        const indicatorsContainer = document.getElementById('carousel-indicators');
+        const innerContainer = document.getElementById('carousel-inner');
+
+        if (!indicatorsContainer || !innerContainer) {
+            console.error("🚫 Elementos do carrossel não encontrados no DOM.");
+            return;
+        }
+
+        lista.forEach((mensalidade, index) => {
+            const mensalidadePaga = mensalidade.status === 'pago';
+            const valor = parseFloat(mensalidade.valor) || 0;
+            const dataVenc = new Date(mensalidade.data_vencimento);
+            const hoje = new Date();
+            const diasAtraso = Math.ceil((hoje - dataVenc) / (1000 * 60 * 60 * 24));
+            let multa = 0, juros = 0, valorTotal = valor;
+            let tipoTaxa = "Juros";
+            
+            if (diasAtraso > 0) {
+                const resultado = calcularJurosEMulta(valor, diasAtraso);
+                multa = resultado.multa;
+                juros = resultado.juros;
+                valorTotal = resultado.valorTotal;
+            } else {
+                tipoTaxa = "Desconto";
+                const desconto = valor * 0.00033 * Math.abs(diasAtraso);
+                juros = desconto;
+                valorTotal = valor - desconto;
+            }
+
+            // Indicadores
+            const botao = document.createElement('button');
+            botao.setAttribute('type', 'button');
+            botao.setAttribute('data-target', '#carouselExampleIndicators');
+            botao.setAttribute('data-slide-to', index.toString());
+
+            let statusClasse = '';
+            let statusLabel = '';
+
+            if (mensalidadePaga) {
+                statusClasse = 'pago';
+                statusLabel = '✅';
+            } else if (diasAtraso > 0) {
+                statusClasse = 'atrasado';
+                statusLabel = '❗️';
+            } else {
+                statusClasse = 'emdia';
+                statusLabel = '🕓';
+            }
+
+            botao.className = `${index === 0 ? 'active' : ''} btn-indicador ${statusClasse}`;
+            const mesAno = dataVenc.toLocaleString('pt-BR', { month: 'short', year: '2-digit' });
+            botao.textContent = `${mesAno}${statusLabel}`;
+
+            indicatorsContainer.appendChild(botao);
+
+            // Conteúdo da mensalidade
+            const div = document.createElement('div');
+            div.className = `carousel-item${index === 0 ? ' active' : ''}`;
+            div.innerHTML = `
+                <div class="details" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div><strong>Vencimento:</strong> ${dataVenc.toLocaleDateString()}</div>
+                    <div><strong>Valor:</strong> ${valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
+                    ${diasAtraso > 0 ? `<div><strong>Multa:</strong> ${multa.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>` : ''}
+                    <div><strong>${tipoTaxa}:</strong> ${juros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
+                    <div><strong>Total:</strong> ${valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
+                </div>
+            `;
+            div.dataset.valorPix = valorTotal.toFixed(2);
+            div.dataset.pago = mensalidadePaga;
+            innerContainer.appendChild(div);
+        });
+
+        $('#carouselExampleIndicators').on('slid.bs.carousel', function (e) {
+            const index = $(e.relatedTarget).index();
+            const botoes = document.querySelectorAll('.btn-indicador');
+            botoes.forEach((b, i) => b.classList.toggle('active', i === index));
+            const ativo = botoes[index];
+            ativo.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+            const itens = document.querySelectorAll('.carousel-item');
+            const itemAtual = itens[index];
+            const gerarBtn = document.getElementById('gerar-pix');
+
+    if (itemAtual && gerarBtn) {
+        const isPago = itemAtual.dataset.pago === "true";
+        gerarBtn.disabled = isPago;
+    }
+    const valorSpan = document.getElementById('valor');
+    if (valorSpan && itemAtual.dataset.valorPix) {
+        const valorAtual = parseFloat(itemAtual.dataset.valorPix);
+        if (!isNaN(valorAtual)) {
+            valorSpan.textContent = valorAtual.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            });
+        }
+    }
+        });
+        
 
     } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
@@ -331,4 +438,6 @@ function ocultarElementos() {
 }
 
 //✅ Inicializa tudo ao carregar a página
-document.addEventListener('DOMContentLoaded', carregarUsuario);
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => carregarUsuario(), 300);
+});

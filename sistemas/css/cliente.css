@@ -7,6 +7,16 @@ body {
     background-size: cover;
     font-family: sans-serif;
 }
+.btn-pago {
+    background-color: #17a2b8;
+    border-color: #117a8b;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-pago:hover {
+    background-color: #117a8b;
+}
 
 .container {
     max-width: 400px;
@@ -61,37 +71,6 @@ h2 {
     color: #333;
     font-size: 22px;
     margin-bottom: 15px;
-}
-
-.details {
-    background: #f0f0f0;
-    padding: 10px;
-    border-radius: 12px;
-    text-align: left;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.details span {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
-    margin: 8px 0;
-    color: #444;
-    font-weight: 500;
-}
-
-/* Melhor ajuste para telas menores */
-@media (max-width: 480px) {
-    .details {
-        padding: 15px;
-    }
-    
-    .details span {
-        flex-direction: column;
-        align-items: flex-start;
-        font-size: 14px;
-    }
 }
 
 .checkout--footer {
@@ -225,10 +204,6 @@ textarea {
     .checkout-btn img {
         width: 40px;
     }
-    .details span {
-        flex-direction: column;
-        align-items: flex-start;
-    }
     .price {
         font-size: 20px;
     }
@@ -340,4 +315,133 @@ textarea {
 }
 .card.checkout {
     width: 90%;
+}
+
+/* 🎯 Estilo personalizado para o carrossel */
+#carouselExampleIndicators {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.carousel-inner {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.carousel-item {
+    transition: transform 0.5s ease;
+}
+
+.carousel-indicators li {
+    background-color: #28a745;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-image: none;
+    background-color: transparent;
+    width: auto;
+    height: auto;
+}
+
+.carousel-control-prev::before,
+.carousel-control-next::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    mask-size: cover;
+    -webkit-mask-size: cover;
+    background-color: #ccc;
+}
+
+.carousel-control-prev::before {
+    mask-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%23ccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 19l-7-7 7-7'%3E%3C/path%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%23ccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 19l-7-7 7-7'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.carousel-control-next::before {
+    mask-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%23ccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 5l7 7-7 7'%3E%3C/path%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%23ccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 5l7 7-7 7'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* Estilo para os botões de indicador com mês */
+#carouselExampleIndicators .carousel-indicators {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    justify-content: flex-start;
+    gap: 6px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    padding: 5px;
+    max-width: 100%;
+    scrollbar-width: none;
+    scroll-padding-left: 20px;
+}
+
+#carouselExampleIndicators .carousel-indicators::-webkit-scrollbar {
+    display: none;
+}
+
+.btn-indicador {
+    flex: 0 0 calc(25% - 6px);
+    max-width: calc(25% - 6px);
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-indicador.active,
+.btn-indicador:hover {
+    background-color: #28a745;
+    color: #fff;
+    border-color: #218838;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
+}
+
+.hidden { display: none; }
+
+.btn-indicador.pago {
+    border-color: #218838;
+    background-color: #e6f4ea;
+    color: #155724;
+}
+
+.btn-indicador.atrasado {
+    border-color: #dc3545;
+    background-color: #f8d7da;
+    color: #721c24;
+}
+.btn-indicador.emdia {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+}
+.carrossel-discreto {
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    box-shadow: none;
+    padding: 10px;
+    margin-top: 10px;
+}
+.carousel-control-prev,
+.carousel-control-next {
+    align-items: flex-start;
+    margin-top: 36px; /* Alinha com a altura dos botões de mês */
 }
