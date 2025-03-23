@@ -499,24 +499,41 @@ textarea {
     display: block;
     width: 100%;
     max-width: 400px;
-    line-height: 1.3em;
-    font-family: Tahoma, Geneva, sans-serif;
-    font-size: 13px;
+    line-height: 1.4em;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
     background: #fff;
-    border: 1px dashed #BCBCBC;
-    padding: 16px;
+    border: 1px dashed #aaa;
+    padding: 18px;
     border-radius: 10px;
     margin: 12px auto;
     color: #333;
-}
-
-.cupom-estilo .title {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+  
+  .cupom-estilo .title {
     text-align: center;
-    font-size: 1.4em;
+    font-size: 1.2em;
     font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 10px;
-}
+  }
+  
+  .cupom-estilo hr {
+    border: none;
+    border-top: 1px dashed #aaa;
+    margin: 10px 0;
+  }
+  
+  .cupom-estilo .linha {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  
+  .cupom-estilo .linha strong {
+    font-weight: bold;
+  }
 
 .cupom-estilo table {
     width: 100%;
