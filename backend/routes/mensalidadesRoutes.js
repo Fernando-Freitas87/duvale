@@ -9,6 +9,7 @@ router.get('/avisos', mensalidadesController.getAvisosGerenciais);
 router.get('/em-atraso', mensalidadesController.getAtrasados);
 router.get('/a-vencer', mensalidadesController.getAVencer);
 router.get('/resumo', mensalidadesController.getResumo);
+router.get('/cliente/:id', mensalidadesController.getMensalidadesPorCliente);
 router.put('/:id/status', mensalidadesController.atualizarStatusMensalidade);
 
 // Rotas do cliente

@@ -1,5 +1,3 @@
-// backend/controllers/mensalidadesController.js
-
 const db = require('../db');
 const logger = require('../utils/logger');
 
@@ -388,5 +386,37 @@ exports.getContratosProximos = async (req, res) => {
   } catch (error) {
     logger.error(`Erro ao buscar contratos próximos: ${error.message}`);
     res.status(500).json({ error: 'Erro ao buscar contratos próximos ao vencimento.' });
+  }
+};
+
+/**
+ * Rota: GET /api/mensalidades/cliente/:id
+ * Retorna TODAS as mensalidades (pagas, pendentes, em atraso) de um cliente
+ */
+exports.getMensalidadesPorCliente = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const query = `
+      SELECT 
+        m.id AS id,
+        m.valor,
+        m.data_vencimento,
+        m.status,
+        c.nome AS cliente_nome,
+        i.descricao AS imovel
+      FROM mensalidades m
+      JOIN contratos con ON m.contrato_id = con.id
+      JOIN clientes c ON con.cliente_id = c.id
+      JOIN imoveis i ON con.imovel_id = i.id
+      WHERE c.id = ?
+      ORDER BY m.data_vencimento ASC
+    `;
+
+    const [rows] = await db.query(query, [id]);
+    res.json({ mensalidades: rows });
+  } catch (error) {
+    console.error("Erro ao buscar mensalidades do cliente:", error.message);
+    res.status(500).json({ error: "Erro ao buscar mensalidades do cliente." });
   }
 };

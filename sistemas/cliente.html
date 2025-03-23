@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container">
-    <img src="img/duvalep.png" alt="Logo da Autoescola DuVale" class="logo">
+  <img src="img/duvalep.png" alt="Logo da Autoescola DuVale" class="logo">
     <h2 id="saudacao"></h2>
 
     <p class="logout-container">
@@ -26,40 +26,38 @@
 
 
 
-    <div class="checkout--footer">
-        <span class="tooltip">Clique para gerar o QR Code PIX</span>
-        <span id="valor" class="price">R$ 0,00</span>
-        <button class="checkout-btn" type="button" id="gerar-pix" onclick="gerarQRCode()" aria-label="Gerar QR Code PIX">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Pix">
-        </button>
-    </div>
+  <div class="checkout--footer">
+    <span class="tooltip">Clique para gerar o QR Code PIX</span>
+    <span id="valor" class="price">R$ 0,00</span>
+    <button class="checkout-btn" type="button" id="gerar-pix" onclick="gerarQRCode()" aria-label="Gerar QR Code PIX">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Pix">
+    </button>
+  </div>
 
   <p id="resultado" class="mensagem-status" style="text-align: center;"></p>
-    <div id="qrcode-container" style="display: none; text-align: center;">
-        <img id="qrcode" src="" alt="QR Code PIX" class="qr-code">
-        <div class="progress hidden" style="margin-top: 15px; height: 20px;">
-        <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <textarea id="codigo-pix" rows="3" readonly style="display:none;"></textarea>
-        <button onclick="copiarCodigoPix()" id="botao-copiar" class="botao-copiar">📋 Copiar Código PIX</button>
+  <div id="qrcode-container" style="display: none; text-align: center;">
+    <img id="qrcode" src="" alt="QR Code PIX" class="qr-code">
+    <div class="progress hidden" style="margin-top: 15px; height: 20px;">
+      <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
-  
-</div>
+    <textarea id="codigo-pix" rows="3" readonly style="display:none;"></textarea>
+    <button onclick="copiarCodigoPix()" id="botao-copiar" class="botao-copiar">📋 Copiar Código PIX</button>
+  </div>
     <!-- Carrossel AGORA dentro do container -->
     <div id="carouselExampleIndicators" class="carousel slide carrossel-discreto" data-ride="carousel" data-interval="false">
         <ol class="carousel-indicators" id="carousel-indicators"></ol>
         <div class="carousel-inner" id="carousel-inner"></div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Anterior</span>
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Anterior</span>
         </a>
         <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Próximo</span>
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Próximo</span>
         </a>
-    </div>
+      </div>
 </div>
-   
+
 <footer class="footerr">
   <hr class="footer-hr">
   <p>

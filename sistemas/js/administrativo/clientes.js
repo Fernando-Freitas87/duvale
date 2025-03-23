@@ -55,7 +55,7 @@ async function carregarUsuario() {
             return;
         }
 
-        const respostaMensalidades = await fetch(`${apiBaseUrl}/api/mensalidades/cliente/${clienteId}/atrasadas`, {
+        const respostaMensalidades = await fetch(`${apiBaseUrl}/api/mensalidades/cliente/${clienteId}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -81,7 +81,7 @@ async function carregarUsuario() {
             const hoje = new Date();
             const diasAtraso = Math.ceil((hoje - dataVenc) / (1000 * 60 * 60 * 24));
  
-            if (diasAtraso <= 0) return; // Ignora mensalidades não vencidas
+            // if (diasAtraso <= 0) return; // Ignora mensalidades não vencidas
  
             datas.push(dataVenc);
             subtotal += valor;
