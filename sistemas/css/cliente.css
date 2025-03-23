@@ -518,3 +518,34 @@ textarea {
  .meu-slide.ativo {
      display: block;
  }
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.title.with-arrows {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-inline {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.btn-inline:hover {
+  opacity: 1;
+}
+
+.btn-inline svg {
+  width: 18px;
+  height: 18px;
+  stroke: #444;
+}

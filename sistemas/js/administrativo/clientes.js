@@ -172,8 +172,8 @@ async function carregarUsuario() {
             const mesAnoFormatado = dataVenc.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
 
             div.innerHTML = `
-              <div class="cupom-estilo">
-                <div class="title">Mensalidade - ${mesAnoFormatado}</div>
+            <div class="cupom-estilo">
+                <div class="title">${mesAnoFormatado}</div>
                 <hr>
                 <div class="linha"><strong>Vencimento:</strong> ${dataVenc.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}</div>
                 <div class="linha"><strong>Status:</strong> ${status.toUpperCase()}</div>
