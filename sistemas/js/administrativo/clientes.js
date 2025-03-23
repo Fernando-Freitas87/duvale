@@ -173,8 +173,19 @@ async function carregarUsuario() {
 
             div.innerHTML = `
             <div class="cupom-estilo">
-                <div class="title">${mesAnoFormatado}</div>
-                <hr>
+<div class="title with-arrows">
+  <button class="btn-inline" onclick="navegarAnterior()" aria-label="Anterior">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 18L9 12L15 6" stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <span>${mesAnoFormatado}</span>
+  <button class="btn-inline" onclick="navegarProximo()" aria-label="Próximo">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 6L15 12L9 18" stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>                <hr>
                 <div class="linha"><strong>Vencimento:</strong> ${dataVenc.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}</div>
                 <div class="linha"><strong>Status:</strong> ${status.toUpperCase()}</div>
                 <div class="linha"><strong>Valor:</strong> ${valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
@@ -401,50 +412,51 @@ function ocultarElementos() {
     document.getElementById('codigo-pix').style.display = 'none';
 }
 
-//✅ Inicializa tudo ao carregar a página
+// Global variables for the carousel
+let indiceAtual = 0;
+let slides = [];
+
 function ativarCarrosselManual() {
-    const slides = document.querySelectorAll('.meu-slide');
-    let indiceAtual = 0;
-
-    function mostrarSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('ativo', i === index);
-        });
-    }
-
-    document.getElementById('btn-anterior').addEventListener('click', () => {
-        if (indiceAtual > 0) {
-            indiceAtual -= 1;
-            mostrarSlide(indiceAtual);
-            atualizarValor(indiceAtual);
-        }
-    });
-
-    document.getElementById('btn-proximo').addEventListener('click', () => {
-        if (indiceAtual < slides.length - 1) {
-            indiceAtual += 1;
-            mostrarSlide(indiceAtual);
-            atualizarValor(indiceAtual);
-        }
-    });
-
-    function atualizarValor(indice) {
-        const item = slides[indice];
-        const valor = parseFloat(item.dataset.valorPix);
-        if (!isNaN(valor)) {
-            document.getElementById('valor').textContent = valor.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL"
-            });
-            document.getElementById('gerar-pix').disabled = item.dataset.pago === "true";
-        }
-    }
-
+    slides = document.querySelectorAll('.meu-slide');
     mostrarSlide(indiceAtual);
     atualizarValor(indiceAtual);
+}
+
+function mostrarSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.toggle('ativo', i === index);
+    });
+}
+
+function atualizarValor(indice) {
+    const item = slides[indice];
+    const valor = parseFloat(item.dataset.valorPix);
+    if (!isNaN(valor)) {
+        document.getElementById('valor').textContent = valor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+        document.getElementById('gerar-pix').disabled = item.dataset.pago === "true";
+    }
 }
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('loading-overlay').style.display = 'flex';
     setTimeout(() => carregarUsuario(), 300);
     
 });
+
+function navegarAnterior() {
+    if (indiceAtual > 0) {
+        indiceAtual--;
+        mostrarSlide(indiceAtual);
+        atualizarValor(indiceAtual);
+    }
+}
+
+function navegarProximo() {
+    if (indiceAtual < slides.length - 1) {
+        indiceAtual++;
+        mostrarSlide(indiceAtual);
+        atualizarValor(indiceAtual);
+    }
+}
