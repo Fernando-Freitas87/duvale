@@ -181,18 +181,20 @@ async function carregarUsuario() {
             // Conteúdo da mensalidade
             const div = document.createElement('div');
             div.className = `carousel-item${index === 0 ? ' active' : ''}`;
+            const mesAnoFormatado = dataVenc.toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' });
+
             div.innerHTML = `
-            <div class="cupom-estilo">
-              <div class="title">DuVale</div>
-              <hr>
-              <div class="linha"><strong>Vencimento:</strong> ${dataVenc.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}</div>
-              <div class="linha"><strong>Valor:</strong> ${valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
-              ${diasAtraso > 0 ? `<div class="linha"><strong>Multa:</strong> ${multa.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>` : ''}
-              <div class="linha"><strong>${tipoTaxa}:</strong> ${juros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
-              <hr>
-              <div class="linha"><strong>Total:</strong> ${valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
-            </div>
-          `;
+              <div class="cupom-estilo">
+                <div class="title">DuVale - ${mesAnoFormatado}</div>
+                <hr>
+                <div class="linha"><strong>Vencimento:</strong> ${dataVenc.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}</div>
+                <div class="linha"><strong>Valor:</strong> ${valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
+                ${diasAtraso > 0 ? `<div class="linha"><strong>Multa:</strong> ${multa.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>` : ''}
+                <div class="linha"><strong>${tipoTaxa}:</strong> ${juros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
+                <hr>
+                <div class="linha"><strong>Total:</strong> ${valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
+              </div>
+            `;
             div.dataset.valorPix = valorTotal.toFixed(2);
             div.dataset.pago = mensalidadePaga;
             innerContainer.appendChild(div);
