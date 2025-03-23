@@ -187,6 +187,7 @@ async function carregarUsuario() {
             div.dataset.valorPix = valorTotal.toFixed(2);
             div.dataset.pago = mensalidadePaga;
             innerContainer.appendChild(div);
+            ativarCarrosselManual();
         });
         
 
@@ -412,15 +413,19 @@ function ativarCarrosselManual() {
     }
 
     document.getElementById('btn-anterior').addEventListener('click', () => {
-        indiceAtual = (indiceAtual - 1 + slides.length) % slides.length;
-        mostrarSlide(indiceAtual);
-        atualizarValor(indiceAtual);
+        if (indiceAtual > 0) {
+            indiceAtual -= 1;
+            mostrarSlide(indiceAtual);
+            atualizarValor(indiceAtual);
+        }
     });
 
     document.getElementById('btn-proximo').addEventListener('click', () => {
-        indiceAtual = (indiceAtual + 1) % slides.length;
-        mostrarSlide(indiceAtual);
-        atualizarValor(indiceAtual);
+        if (indiceAtual < slides.length - 1) {
+            indiceAtual += 1;
+            mostrarSlide(indiceAtual);
+            atualizarValor(indiceAtual);
+        }
     });
 
     function atualizarValor(indice) {
@@ -441,5 +446,5 @@ function ativarCarrosselManual() {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('loading-overlay').style.display = 'flex';
     setTimeout(() => carregarUsuario(), 300);
-    setTimeout(() => ativarCarrosselManual(), 600);
+    
 });

@@ -86,28 +86,6 @@ h2 {
     position: relative;
 }
 
-/* Estilização da Tooltip */
-.tooltip {
-    position: absolute;
-    background-color: black;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s, visibility 0.3s;
-    white-space: nowrap;
-    top: -30px; /* Ajuste para exibir acima do elemento */
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.checkout--footer:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
-}
-
 .price {
     font-size: 24px;
     font-weight: bold;
@@ -398,101 +376,6 @@ textarea {
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 999;
-}
-
-#carouselExampleIndicators .carousel-indicators::-webkit-scrollbar {
-    display: none;
-}
-
-.btn-indicador {
-    flex: 0 0 auto;
-    min-width: 72px;
-    background-color: #f9f9f9;
-    border: 1px solid #dcdcdc;
-    border-radius: 5px;
-    padding: 4px 6px;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    margin-right: 6px;
-}
-
-.btn-indicador.active,
-.btn-indicador:hover {
-    background-color: #28a745;
-    color: #fff;
-    border-color: #218838;
-    box-shadow: 0 0 0 2px rgb(20, 75, 33);
-}
-
-.hidden { display: none; }
-
-.btn-indicador.pago {
-    border-color: #218838;
-    background-color: #e6f4ea;
-    color: #155724;
-}
-
-.btn-indicador.atrasado {
-    border-color: #dc3545;
-    background-color: #f8d7da;
-    color: #721c24;
-}
-.btn-indicador.emdia {
-    background-color: #fff3cd;
-    border-color: #ffeeba;
-    color: #856404;
-}
-.carrossel-discreto {
-    background-color: rgba(255, 255, 255, 0.85);
-    border-radius: 12px;
-    box-shadow: none;
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.details {
-    background-color: #fdfdfd;
-    padding: 18px;
-    border-radius: 14px;
-    margin: 12px auto;
-    max-width: 95%;
-    font-size: 16px;
-    font-family: 'Courier New', Courier, monospace;
-    line-height: 1.6;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-}
-
-.details::before,
-.details::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 12px;
-    background: repeating-linear-gradient(
-        -45deg,
-        #ccc,
-        #ccc 6px,
-        transparent 6px,
-        transparent 12px
-    );
-}
-
-.details::before {
-    top: 0;
-}
-
-.details::after {
-    bottom: 0;
-}
-
-.details div {
-    margin-bottom: 4px;
 }
 
 .cupom-estilo {

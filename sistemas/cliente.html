@@ -24,14 +24,14 @@
           </a>
         </p>
   
-      <!-- Moved carousel indicators below container -->
-      
       <div class="carousel-controls">
         <button id="btn-anterior" aria-label="Anterior">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15 18L9 12L15 6" stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
+
+        <!-- Moved carousel indicators below container -->
         <div class="carousel-inner" id="carousel-inner"></div>
 
         <button id="btn-proximo" aria-label="Próximo">
@@ -40,8 +40,8 @@
           </svg>
         </button>
       </div>
+
       <div class="checkout--footer">
-        <span class="tooltip">Clique para gerar o QR Code PIX</span>
         <span id="valor" class="price">R$ 0,00</span>
         <button class="checkout-btn" type="button" id="gerar-pix" onclick="gerarQRCode()" aria-label="Gerar QR Code PIX">
           <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Pix">
