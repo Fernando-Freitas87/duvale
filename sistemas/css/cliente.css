@@ -337,7 +337,7 @@ textarea {
     margin-top: 20px;
 }
 
-.carousel-item {
+ .meu-slide {
     transition: transform 0.5s ease;
 }
 
@@ -571,3 +571,67 @@ textarea {
 .ttu {
     text-transform: uppercase;
 }
+
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+ .carousel-controls {
+     display: flex;
+     justify-content: space-between;
+     width: 100%;
+     max-width: 400px;
+     margin: 10px auto;
+ }
+ 
+ .carousel-controls button {
+     background: transparent;
+     border: none;
+     cursor: pointer;
+     padding: 4px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     opacity: 0.7;
+     transition: opacity 0.2s ease;
+ }
+ 
+ .carousel-controls button:hover {
+     opacity: 1;
+ }
+ 
+ .carousel-controls svg {
+     width: 24px;
+     height: 24px;
+     stroke: #444;
+ }
+ 
+ .meu-slide {
+     display: none;
+ }
+ 
+ .meu-slide.ativo {
+     display: block;
+ }

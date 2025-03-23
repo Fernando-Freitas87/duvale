@@ -74,6 +74,14 @@ async function carregarUsuario() {
             const dataVenc = new Date(mensalidade.data_vencimento);
             const hoje = new Date();
             const diasAtraso = Math.ceil((hoje - dataVenc) / (1000 * 60 * 60 * 24));
+            let status = '';
+            if (mensalidadePaga) {
+                status = 'pago';
+            } else if (diasAtraso > 0) {
+                status = 'atrasado';
+            } else {
+                status = 'a_vencer';
+            }
  
             // if (diasAtraso <= 0) return; // Ignora mensalidades não vencidas
  
@@ -122,10 +130,9 @@ async function carregarUsuario() {
             currency: "BRL"
         });
 
-        const indicatorsContainer = document.getElementById('carousel-indicators');
         const innerContainer = document.getElementById('carousel-inner');
 
-        if (!indicatorsContainer || !innerContainer) {
+        if (!innerContainer) {
             console.error("🚫 Elementos do carrossel não encontrados no DOM.");
             return;
         }
@@ -135,8 +142,16 @@ async function carregarUsuario() {
             const valor = parseFloat(mensalidade.valor) || 0;
             const dataVenc = new Date(mensalidade.data_vencimento);
             const hoje = new Date();
-            const diasAtraso = Math.ceil((hoje - dataVenc) / (1000 * 60 * 60 * 24));
-            let multa = 0, juros = 0, valorTotal = valor;
+    const diasAtraso = Math.ceil((hoje - dataVenc) / (1000 * 60 * 60 * 24));
+    let status = '';
+    if (mensalidadePaga) {
+        status = 'pago';
+    } else if (diasAtraso > 0) {
+        status = 'atrasado';
+    } else {
+        status = 'a_vencer';
+    }
+    let multa = 0, juros = 0, valorTotal = valor;
             let tipoTaxa = "Juros";
             
             if (diasAtraso > 0) {
@@ -151,43 +166,17 @@ async function carregarUsuario() {
                 valorTotal = valor - desconto;
             }
 
-            // Indicadores
-            const botao = document.createElement('button');
-            botao.setAttribute('type', 'button');
-            botao.setAttribute('data-target', '#carouselExampleIndicators');
-            botao.setAttribute('data-slide-to', index.toString());
-
-            let statusClasse = '';
-            let statusLabel = '';
-
-            if (mensalidadePaga) {
-                statusClasse = 'pago';
-                statusLabel = '✅';
-            } else if (diasAtraso > 0) {
-                statusClasse = 'atrasado';
-                statusLabel = ' ⚠️ ';
-            } else {
-                statusLabel = ' 📆 ';
-                statusClasse = 'emdia';
-
-            }
-
-            botao.className = `${index === 0 ? 'active' : ''} btn-indicador ${statusClasse}`;
-            const mesAno = dataVenc.toLocaleString('pt-BR', { month: 'short', year: '2-digit' });
-            botao.textContent = `${mesAno}${statusLabel}`;
-
-            indicatorsContainer.appendChild(botao);
-
             // Conteúdo da mensalidade
             const div = document.createElement('div');
-            div.className = `carousel-item${index === 0 ? ' active' : ''}`;
-            const mesAnoFormatado = dataVenc.toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' });
+            div.className = `meu-slide${index === 0 ? ' ativo' : ''}`;
+            const mesAnoFormatado = dataVenc.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
 
             div.innerHTML = `
               <div class="cupom-estilo">
-                <div class="title">DuVale - ${mesAnoFormatado}</div>
+                <div class="title">Mensalidade - ${mesAnoFormatado}</div>
                 <hr>
                 <div class="linha"><strong>Vencimento:</strong> ${dataVenc.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}</div>
+                <div class="linha"><strong>Status:</strong> ${status.toUpperCase()}</div>
                 <div class="linha"><strong>Valor:</strong> ${valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
                 ${diasAtraso > 0 ? `<div class="linha"><strong>Multa:</strong> ${multa.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>` : ''}
                 <div class="linha"><strong>${tipoTaxa}:</strong> ${juros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
@@ -199,35 +188,9 @@ async function carregarUsuario() {
             div.dataset.pago = mensalidadePaga;
             innerContainer.appendChild(div);
         });
-
-        $('#carouselExampleIndicators').on('slid.bs.carousel', function (e) {
-            const index = $(e.relatedTarget).index();
-            const botoes = document.querySelectorAll('.btn-indicador');
-            botoes.forEach((b, i) => b.classList.toggle('active', i === index));
-            const ativo = botoes[index];
-            ativo.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-
-            const itens = document.querySelectorAll('.carousel-item');
-            const itemAtual = itens[index];
-            const gerarBtn = document.getElementById('gerar-pix');
-
-    if (itemAtual && gerarBtn) {
-        const isPago = itemAtual.dataset.pago === "true";
-        gerarBtn.disabled = isPago;
-    }
-    const valorSpan = document.getElementById('valor');
-    if (valorSpan && itemAtual.dataset.valorPix) {
-        const valorAtual = parseFloat(itemAtual.dataset.valorPix);
-        if (!isNaN(valorAtual)) {
-            valorSpan.textContent = valorAtual.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL"
-            });
-        }
-    }
-        });
         
 
+    document.getElementById('loading-overlay').style.display = 'none';
     } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
         mostrarToast("❌ Não foi possível carregar todos os dados necessários.");
@@ -264,7 +227,7 @@ async function gerarQRCode() {
             return;
         }
 
-        const itemAtivo = document.querySelector('.carousel-item.active');
+        const itemAtivo = document.querySelector('.meu-slide.ativo');
         const valorTotal = itemAtivo ? parseFloat(itemAtivo.dataset.valorPix) : 0;
         if (!valorTotal || isNaN(valorTotal)) {
             mostrarToast("❌ Valor da mensalidade inválido.");
@@ -438,6 +401,45 @@ function ocultarElementos() {
 }
 
 //✅ Inicializa tudo ao carregar a página
+function ativarCarrosselManual() {
+    const slides = document.querySelectorAll('.meu-slide');
+    let indiceAtual = 0;
+
+    function mostrarSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('ativo', i === index);
+        });
+    }
+
+    document.getElementById('btn-anterior').addEventListener('click', () => {
+        indiceAtual = (indiceAtual - 1 + slides.length) % slides.length;
+        mostrarSlide(indiceAtual);
+        atualizarValor(indiceAtual);
+    });
+
+    document.getElementById('btn-proximo').addEventListener('click', () => {
+        indiceAtual = (indiceAtual + 1) % slides.length;
+        mostrarSlide(indiceAtual);
+        atualizarValor(indiceAtual);
+    });
+
+    function atualizarValor(indice) {
+        const item = slides[indice];
+        const valor = parseFloat(item.dataset.valorPix);
+        if (!isNaN(valor)) {
+            document.getElementById('valor').textContent = valor.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            });
+            document.getElementById('gerar-pix').disabled = item.dataset.pago === "true";
+        }
+    }
+
+    mostrarSlide(indiceAtual);
+    atualizarValor(indiceAtual);
+}
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('loading-overlay').style.display = 'flex';
     setTimeout(() => carregarUsuario(), 300);
+    setTimeout(() => ativarCarrosselManual(), 600);
 });
