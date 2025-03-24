@@ -16,7 +16,7 @@ body {
 }
 
 /* Wrapper principal para centralizar o conteúdo */
-.login-wrapper {
+main.login-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -172,7 +172,7 @@ h1 {
 
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: 250px;
+    max-width: 90vw;
     background-color: #333;
     color: #fff;
     text-align: center;

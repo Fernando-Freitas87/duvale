@@ -17,7 +17,7 @@
 </head>
 <body>
     <!-- Wrapper para o layout geral da página -->
-    <div class="login-wrapper">
+    <main class="login-wrapper">
         <!-- Contêiner do formulário de login -->
         <div class="login-container">
             <!-- Logo -->
@@ -35,14 +35,15 @@
             <!-- Campo de entrada do PIN -->
             <form id="login-form" action="javascript:void(0);">
                 <div class="pin-container">
-                    <input type="password" maxlength="1" class="pin-box" id="pin-1">
-                    <input type="password" maxlength="1" class="pin-box" id="pin-2">
-                    <input type="password" maxlength="1" class="pin-box" id="pin-3">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-1" name="pin-1" inputmode="numeric" autocomplete="one-time-code">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-2" name="pin-2" inputmode="numeric" autocomplete="one-time-code">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-3" name="pin-3" inputmode="numeric" autocomplete="one-time-code">
                     <span>-</span>
-                    <input type="password" maxlength="1" class="pin-box" id="pin-4">
-                    <input type="password" maxlength="1" class="pin-box" id="pin-5">
-                    <input type="password" maxlength="1" class="pin-box" id="pin-6">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-4" name="pin-4" inputmode="numeric" autocomplete="one-time-code">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-5" name="pin-5" inputmode="numeric" autocomplete="one-time-code">
+                    <input type="password" maxlength="1" class="pin-box" id="pin-6" name="pin-6" inputmode="numeric" autocomplete="one-time-code">
                 </div>
+                <button type="submit" style="display:none" aria-hidden="true">Enviar</button>
             </form>
 
             <!-- Texto de instrução para solicitar PIN -->
@@ -69,7 +70,7 @@
                 <p>Desenvolvido por Fernando Freitas | &copy; 2024</p>
             </footer>
         </div>
-    </div>
+    </main>
 
     <!-- Importação do script JavaScript -->
     <script src="./js/app.js"></script>
