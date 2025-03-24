@@ -194,3 +194,12 @@ h1 {
     visibility: visible;
     opacity: 1;
 }
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+    margin: 16px auto;
+    width: 70%;
+    border-radius: 2px;
+}
