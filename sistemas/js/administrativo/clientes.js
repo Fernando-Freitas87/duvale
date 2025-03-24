@@ -1,4 +1,17 @@
 const apiBaseUrl = "https://duvale-production.up.railway.app";
+window.navegarAnterior = function () {
+  const container = document.getElementById('carousel-inner');
+  if (container) {
+    container.scrollBy({ left: -container.clientWidth, behavior: 'smooth' });
+  }
+};
+
+window.navegarProximo = function () {
+  const container = document.getElementById('carousel-inner');
+  if (container) {
+    container.scrollBy({ left: container.clientWidth, behavior: 'smooth' });
+  }
+};
 
 async function obterClienteId(token) {
     try {
@@ -198,7 +211,7 @@ async function carregarUsuario() {
             div.dataset.valorPix = valorTotal.toFixed(2);
             div.dataset.pago = mensalidadePaga;
             innerContainer.appendChild(div);
-            ativarCarrosselManual();
+            
         });
         
 
@@ -414,49 +427,23 @@ function ocultarElementos() {
 
 // Global variables for the carousel
 let indiceAtual = 0;
+window.navegarAnterior = function () {
+  const container = document.getElementById('carousel-inner');
+  if (container) {
+    container.scrollBy({ left: -container.clientWidth, behavior: 'smooth' });
+  }
+};
+
+window.navegarProximo = function () {
+  const container = document.getElementById('carousel-inner');
+  if (container) {
+    container.scrollBy({ left: container.clientWidth, behavior: 'smooth' });
+  }
+};
 let slides = [];
 
-function ativarCarrosselManual() {
-    slides = document.querySelectorAll('.meu-slide');
-    mostrarSlide(indiceAtual);
-    atualizarValor(indiceAtual);
-}
-
-function mostrarSlide(index) {
-    slides.forEach((slide, i) => {
-        slide.classList.toggle('ativo', i === index);
-    });
-}
-
-function atualizarValor(indice) {
-    const item = slides[indice];
-    const valor = parseFloat(item.dataset.valorPix);
-    if (!isNaN(valor)) {
-        document.getElementById('valor').textContent = valor.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
-        document.getElementById('gerar-pix').disabled = item.dataset.pago === "true";
-    }
-}
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('loading-overlay').style.display = 'flex';
     setTimeout(() => carregarUsuario(), 300);
-    
 });
 
-function navegarAnterior() {
-    if (indiceAtual > 0) {
-        indiceAtual--;
-        mostrarSlide(indiceAtual);
-        atualizarValor(indiceAtual);
-    }
-}
-
-function navegarProximo() {
-    if (indiceAtual < slides.length - 1) {
-        indiceAtual++;
-        mostrarSlide(indiceAtual);
-        atualizarValor(indiceAtual);
-    }
-}
