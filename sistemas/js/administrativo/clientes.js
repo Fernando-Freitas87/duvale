@@ -1,15 +1,19 @@
 const apiBaseUrl = "https://duvale-production.up.railway.app";
 window.navegarAnterior = function () {
   const container = document.getElementById('carousel-inner');
-  if (container) {
-    container.scrollBy({ left: -container.clientWidth, behavior: 'smooth' });
+  const slideWidth = container.querySelector('.meu-slide')?.offsetWidth || 0;
+  if (container && slideWidth) {
+    container.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+    setTimeout(atualizarValorPix, 400);
   }
 };
 
 window.navegarProximo = function () {
   const container = document.getElementById('carousel-inner');
-  if (container) {
-    container.scrollBy({ left: container.clientWidth, behavior: 'smooth' });
+  const slideWidth = container.querySelector('.meu-slide')?.offsetWidth || 0;
+  if (container && slideWidth) {
+    container.scrollBy({ left: slideWidth, behavior: 'smooth' });
+    setTimeout(atualizarValorPix, 400);
   }
 };
 
@@ -142,6 +146,7 @@ async function carregarUsuario() {
             style: "currency",
             currency: "BRL"
         });
+        setTimeout(atualizarValorPix, 100);
 
         const innerContainer = document.getElementById('carousel-inner');
 
@@ -181,7 +186,7 @@ async function carregarUsuario() {
 
             // Conteúdo da mensalidade
             const div = document.createElement('div');
-            div.className = `meu-slide${index === 0 ? ' ativo' : ''}`;
+            div.className = `meu-slide`;
             const mesAnoFormatado = dataVenc.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
 
             div.innerHTML = `
@@ -213,6 +218,14 @@ async function carregarUsuario() {
             innerContainer.appendChild(div);
             
         });
+        setTimeout(() => {
+          const container = document.getElementById('carousel-inner');
+          const primeiroSlide = container.querySelector('.meu-slide');
+          if (primeiroSlide) {
+            container.scrollTo({ left: primeiroSlide.offsetLeft, behavior: 'smooth' });
+            atualizarValorPix();
+          }
+        }, 200);
         
 
     document.getElementById('loading-overlay').style.display = 'none';
@@ -429,15 +442,19 @@ function ocultarElementos() {
 let indiceAtual = 0;
 window.navegarAnterior = function () {
   const container = document.getElementById('carousel-inner');
-  if (container) {
-    container.scrollBy({ left: -container.clientWidth, behavior: 'smooth' });
+  const slideWidth = container.querySelector('.meu-slide')?.offsetWidth || 0;
+  if (container && slideWidth) {
+    container.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+    setTimeout(atualizarValorPix, 400);
   }
 };
 
 window.navegarProximo = function () {
   const container = document.getElementById('carousel-inner');
-  if (container) {
-    container.scrollBy({ left: container.clientWidth, behavior: 'smooth' });
+  const slideWidth = container.querySelector('.meu-slide')?.offsetWidth || 0;
+  if (container && slideWidth) {
+    container.scrollBy({ left: slideWidth, behavior: 'smooth' });
+    setTimeout(atualizarValorPix, 400);
   }
 };
 let slides = [];
@@ -445,5 +462,43 @@ let slides = [];
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('loading-overlay').style.display = 'flex';
     setTimeout(() => carregarUsuario(), 300);
+    document.getElementById('carousel-inner').addEventListener('scroll', () => {
+      clearTimeout(window._scrollTimer);
+      window._scrollTimer = setTimeout(() => {
+        atualizarValorPix();
+      }, 200);
+    });
 });
 
+
+function atualizarValorPix() {
+  const container = document.getElementById('carousel-inner');
+  const slides = container.querySelectorAll('.meu-slide');
+  const containerRect = container.getBoundingClientRect();
+
+  let slideCentral = null;
+  let menorDiferenca = Infinity;
+
+  slides.forEach(slide => {
+    const slideRect = slide.getBoundingClientRect();
+    const centroSlide = slideRect.left + slideRect.width / 2;
+    const centroContainer = containerRect.left + containerRect.width / 2;
+    const diferenca = Math.abs(centroSlide - centroContainer);
+
+    if (diferenca < menorDiferenca) {
+      menorDiferenca = diferenca;
+      slideCentral = slide;
+    }
+  });
+
+  if (slideCentral) {
+    const valorPix = parseFloat(slideCentral.dataset.valorPix || "0");
+    if (!isNaN(valorPix)) {
+      document.getElementById('valor').textContent = valorPix.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+      document.getElementById('gerar-pix').disabled = slideCentral.dataset.pago === "true";
+    }
+  }
+}

@@ -308,15 +308,26 @@ textarea {
 }
 
 .carousel-inner {
-    padding: 15px;
-    background-color: #fff;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    gap: 0px;
+    padding: 0 16px;
+    background-color: transparent;
     border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
+    justify-content: center;
 }
 
- .meu-slide {
-    transition: transform 0.5s ease;
+.meu-slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+    scroll-snap-align: center;
+    scroll-margin: 12px;
+    display: flex !important;
+    justify-content: center;
 }
 
 .carousel-indicators li {
@@ -511,13 +522,6 @@ textarea {
      stroke: #444;
  }
  
- .meu-slide {
-     display: none;
- }
- 
- .meu-slide.ativo {
-     display: block;
- }
 .carousel-wrapper {
   position: relative;
   width: 100%;
@@ -575,3 +579,7 @@ textarea {
     height: 18px;
     stroke: #444;
   }
+.scroll-container {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
