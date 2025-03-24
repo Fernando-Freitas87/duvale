@@ -91,13 +91,15 @@ h1 {
 @media (max-width: 480px) {
     .pin-container {
         gap: 6px;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        justify-content: center;
     }
 
     .pin-box {
-        width: 36px;
-        height: 36px;
-        font-size: 1.1rem;
+        width: 30px;
+        height: 34px;
+        font-size: 1rem;
     }
 
     .login-container {
