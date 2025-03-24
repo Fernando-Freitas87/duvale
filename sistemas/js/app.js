@@ -116,10 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.href = 'Inicial.html';
         } else {
           displayMessage('Tipo de usuário inválido.', 'error');
+          return;
         }
       } else {
         attempts++; // Incrementa tentativa
-        displayMessage(`PIN inválido. Tentativa ${attempts} de ${MAX_ATTEMPTS}.`, 'error');
+        displayMessage(`PIN incorreto. Verifique os números digitados. Tentativa ${attempts} de ${MAX_ATTEMPTS}.`, 'error');
         resetPinFields();
       }
     } catch (error) {
