@@ -42,6 +42,8 @@ main.login-wrapper {
 .logo {
     max-width: 150px;
     margin-bottom: 15px;
+    transition: all 0.3s ease;
+
 }
 
 /* Estilização do título */
@@ -64,6 +66,8 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    max-width: 100%;
+    overflow-x: auto;
     margin: 15px 0;
     flex-wrap: wrap; /* Permite ajuste automático em telas menores */
 }
@@ -83,14 +87,14 @@ h1 {
 }
 
 .pin-box:focus {
-    border-color: #3498db;
-    transform: scale(1.1);
+    border-color: #007bff;
+    box-shadow: 0 0 4px #007bff;
 }
 
 /* Ajustes para telas menores */
 @media (max-width: 480px) {
     .pin-container {
-        gap: 4px;
+        gap: 2px;
         flex-wrap: nowrap;
         flex-direction: row;
         justify-content: center;
@@ -113,8 +117,10 @@ h1 {
     }
 
     .logo {
-        max-width: 100px;
-        margin-bottom: 10px;
+        max-width: 140px; /* um pouco maior no mobile também */
+        margin-bottom: 18px;
+        transition: all 0.3s ease;
+
     }
 
     .tooltip .tooltiptext {
@@ -165,14 +171,12 @@ h1 {
 }
 
 /* Ajustes para tablets */
-@media (max-width: 768px) {
-    .pin-box {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
-    }
+.pin-box {
+    width: 18px;
+    height: 28px;
+    font-size: 0.9rem;
+    border-radius: 5px;
 }
-
 /* Estilização do tooltip */
 .tooltip {
     position: relative;
