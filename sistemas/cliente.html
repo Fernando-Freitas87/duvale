@@ -10,7 +10,6 @@
 <div id="loading-overlay">
   <div class="loading-spinner"></div>
 </div>
-<div id="carouselExampleIndicators" class="carousel slide carrossel-discreto" data-ride="carousel" data-interval="false">
     
     <div class="container">
       <img src="img/duvalep.png" alt="Logo da imabiliaria DuVale" class="logo">
@@ -24,13 +23,9 @@
           </a>
         </p>
   
-      <div class="carousel-wrapper">
-        <div class="carousel-inner" id="carousel-inner"></div>
- 
-        <div class="carousel-controls">
-
-        </div>
-      </div>
+       <div id="carouselExampleIndicators" class="carousel-wrapper">
+         <div class="carousel-inner" id="carousel-inner"></div>
+       </div>
 
       <div class="checkout--footer">
         <span id="valor" class="price">R$ 0,00</span>
@@ -38,6 +33,7 @@
           <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Pix">
         </button>
       </div>
+
       <p id="resultado" class="mensagem-status" style="text-align: center;"></p>
       <div id="qrcode-container" style="display: none; text-align: center;">
         <img id="qrcode" src="" alt="QR Code PIX" class="qr-code">
@@ -47,16 +43,9 @@
         <textarea id="codigo-pix" rows="3" readonly style="display:none;"></textarea>
         <button onclick="copiarCodigoPix()" id="botao-copiar" class="botao-copiar">📋 Copiar Código PIX</button>
       </div>
-    </div>
   </div>
 
-<footer class="footerr">
-  <hr class="footer-hr">
-  <p>
-    Setta Software Solutions. Todos os direitos reservados | Desenvolvido por Fernando Freitas © 2024 
-    | <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer">Suporte</a>
-  </p>
-</footer>
+
 <script defer src="js/administrativo/clientes.js"></script>
 <script defer type="module" src="js/administrativo/mensalidades.js"></script>
 </body>
