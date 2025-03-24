@@ -90,16 +90,37 @@ h1 {
 /* Ajustes para telas menores */
 @media (max-width: 480px) {
     .pin-container {
-        gap: 8px; /* Ajusta o espaçamento para telas pequenas */
+        gap: 6px;
+        flex-wrap: wrap;
     }
 
     .pin-box {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem; /* Ajusta o tamanho da fonte */
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+    }
+
+    .login-container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    .logo {
+        max-width: 120px;
+    }
+
+    .tooltip .tooltiptext {
+        max-width: 80vw;
+        font-size: 0.75rem;
+    }
+
+    #datetime {
+        font-size: 0.8rem;
     }
 }
-
 
 /* Mensagem de erro ou sucesso */
 .message {
@@ -135,24 +156,6 @@ h1 {
     margin-top: 20px;
     font-size: 0.8rem;
     color: #777;
-}
-
-/* Ajustes para telas menores */
-@media (max-width: 480px) {
-    .login-container {
-        width: 90%; /* Aumenta a largura disponível em telas menores */
-        padding: 20px;
-    }
-
-    .pin-box {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-    }
 }
 
 /* Ajustes para tablets */
