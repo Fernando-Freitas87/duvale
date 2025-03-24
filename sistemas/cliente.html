@@ -27,11 +27,11 @@
          <div class="carousel-inner" id="carousel-inner"></div>
        </div>
 
-      <div class="checkout--footer">
-        <span id="valor" class="price">R$ 0,00</span>
-        <button class="checkout-btn" type="button" id="gerar-pix" onclick="gerarQRCode()" aria-label="Gerar QR Code PIX">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Pix">
-        </button>
+       <div class="checkout--footer">
+        <div class="pix-area-clicavel" onclick="gerarQRCode()" role="button" aria-label="Gerar QR Code PIX">
+          <span id="valor" class="price">R$ 0,00</span>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Pix" class="pix-logo">
+        </div>
       </div>
 
       <p id="resultado" class="mensagem-status" style="text-align: center;"></p>

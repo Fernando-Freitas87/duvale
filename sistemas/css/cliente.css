@@ -582,3 +582,22 @@ textarea {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
 }
+.pix-area-clicavel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+  }
+  
+  .pix-area-clicavel:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .pix-logo {
+    width: 70px;
+    max-width: 100%;
+  }
