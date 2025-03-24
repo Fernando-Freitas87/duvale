@@ -90,16 +90,16 @@ h1 {
 /* Ajustes para telas menores */
 @media (max-width: 480px) {
     .pin-container {
-        gap: 3px;
+        gap: 2px;
         flex-wrap: nowrap;
         flex-direction: row;
         justify-content: center;
     }
 
     .pin-box {
-        width: 28px;
-        height: 32px;
-        font-size: 0.95rem;
+        width: 24px;
+        height: 30px;
+        font-size: 0.85rem;
     }
 
     .login-container {
