@@ -220,9 +220,10 @@ async function carregarUsuario() {
         });
         setTimeout(() => {
           const container = document.getElementById('carousel-inner');
-          const primeiroSlide = container.querySelector('.meu-slide');
-          if (primeiroSlide) {
-            container.scrollTo({ left: primeiroSlide.offsetLeft, behavior: 'smooth' });
+          const slides = [...container.querySelectorAll('.meu-slide')];
+          const primeiroNaoPago = slides.find(slide => slide.dataset.pago === "false");
+          if (primeiroNaoPago) {
+            container.scrollTo({ left: primeiroNaoPago.offsetLeft, behavior: 'smooth' });
             atualizarValorPix();
           }
         }, 200);
