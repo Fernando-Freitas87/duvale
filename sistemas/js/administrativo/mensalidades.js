@@ -28,6 +28,11 @@ export async function carregarResumo() {
     atualizarTabela("tabela-vencer-corpo", []);
   }
 }
+document.addEventListener("DOMContentLoaded", async () => {
+  await carregarResumo();
+  await carregarEmAtraso();
+  await carregarAVencer();
+});
 
 /**
  * Atualiza os valores exibidos nos cards.

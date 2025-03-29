@@ -40,7 +40,7 @@ main.login-wrapper {
 
 /* Estiliza o logo */
 .logo {
-    max-width: 150px;
+    max-width: 240px;
     margin-bottom: 15px;
     transition: all 0.3s ease;
 
@@ -74,22 +74,18 @@ h1 {
 
 /* Caixa do PIN otimizada para mobile */
 .pin-box {
-    width: 45px;
+    width: 35px;
     height: 45px;
+    font-size: 22px;
     text-align: center;
-    font-size: 1.5rem;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    color: #333;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.pin-box:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 4px #007bff;
-}
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    margin: 1px;
+  }
+  
+  .pin-box:focus {
+    border-color: #003e80;
+  }
 
 /* Ajustes para telas menores */
 @media (max-width: 480px) {
@@ -117,7 +113,7 @@ h1 {
     }
 
     .logo {
-        max-width: 140px; /* um pouco maior no mobile também */
+        max-width: 160px; /* um pouco maior no mobile também */
         margin-bottom: 18px;
         transition: all 0.3s ease;
 
@@ -170,13 +166,7 @@ h1 {
     color: #777;
 }
 
-/* Ajustes para tablets */
-.pin-box {
-    width: 18px;
-    height: 28px;
-    font-size: 0.9rem;
-    border-radius: 5px;
-}
+
 /* Estilização do tooltip */
 .tooltip {
     position: relative;
