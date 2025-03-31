@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/cliente.css">
-  <title>Cliente | DuVale</title>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cliente.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <title>Cliente | DuVale</title>
+  </head>
 <body>
 <div id="loading-overlay">
   <div class="loading-spinner"></div>
@@ -28,8 +29,8 @@
        </div>
 
        <div class="checkout--footer">
-        <div class="pix-area-clicavel" onclick="gerarQRCode()" role="button" aria-label="Gerar QR Code PIX">
-          <span id="valor" class="price">R$ 0,00</span>
+        <div id="gerar-pix" class="pix-area-clicavel" onclick="gerarQRCode()" role="button" aria-label="Gerar QR Code PIX">
+        <span id="valor" class="price">R$ 0,00</span>
           <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Pix" class="pix-logo">
         </div>
       </div>
@@ -43,6 +44,7 @@
         <textarea id="codigo-pix" rows="3" readonly style="display:none;"></textarea>
         <button onclick="copiarCodigoPix()" id="botao-copiar" class="botao-copiar">📋 Copiar Código PIX</button>
       </div>
+      <div id="card-imoveis-cadastrados-valor" style="display: none;"></div>
   </div>
 
 
