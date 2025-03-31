@@ -205,5 +205,3 @@ function atualizarPaginacao(tipo, page, total, limit) {
     });
   });
 }
-
-
