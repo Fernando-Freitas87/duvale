@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 // Rota para gerar QR Code Pix via Mercado Pago
-router.post('/pix', async (req, res) => {
+router.post('/', async (req, res) => {
     console.log("📌 Rota /api/pix foi acessada"); // Log de depuração inicial
 
     try {
