@@ -6,8 +6,10 @@
  * - Faz requisição à /api/usuario para obter nome.
  * - Exibe no elemento #user-name.
  */
-const apiBaseUrl = "https://duvale-production.up.railway.app";
-
+const apiBaseUrl = window.location.hostname.includes("setta.dev.br")
+  ? "https://duvale-production.up.railway.app"
+  : "http://localhost:5000";
+  
 export async function carregarUsuario() {
   try {
     const token = localStorage.getItem("authToken");

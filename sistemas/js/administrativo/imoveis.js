@@ -1,5 +1,10 @@
 // imoveis.js
-const apiBaseUrl = "https://duvale-production.up.railway.app";
+const apiBaseUrl = window.location.hostname.includes("setta.dev.br")
+  ? "https://duvale-production.up.railway.app"
+  : "http://localhost:5000";
+
+
+
 let paginaAtual = 1; // Página inicial
 const limitePorPagina = 10; // Quantidade de registros por página
 

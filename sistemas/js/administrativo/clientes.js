@@ -1,5 +1,8 @@
-const apiBaseUrl = "https://duvale-production.up.railway.app";
-window.navegarAnterior = function () {
+const apiBaseUrl = window.location.hostname.includes("setta.dev.br")
+  ? "https://duvale-production.up.railway.app"
+  : "http://localhost:5000";
+  
+  window.navegarAnterior = function () {
   const container = document.getElementById('carousel-inner');
   const slideWidth = container.querySelector('.meu-slide')?.offsetWidth || 0;
   if (container && slideWidth) {

@@ -19,24 +19,34 @@ router.post('/', async (req, res) => {
         }
 
         console.log(`✅ Processando pagamento: Valor: R$ ${valor}, Descrição: ${descricao}`);
-
-        const resposta = await axios.post('https://api.mercadopago.com/v1/payments', {
-            transaction_amount: parseFloat(valor),
-            description: descricao || "Pagamento via Pix",
-            payment_method_id: "pix",
-            payer: {
-                email: "cliente@email.com",
-                identification: {
-                    type: "CPF",
-                    number: "12345678900"
+ 
+        try {
+            const resposta = await axios.post('https://api.mercadopago.com/v1/payments', {
+                transaction_amount: parseFloat(valor),
+                description: descricao || "Pagamento via Pix",
+                payment_method_id: "pix",
+                payer: {
+                    email: "cliente@email.com",
+                    identification: {
+                        type: "CPF",
+                        number: "12345678900"
+                    }
                 }
-            }
-        }, {
-            headers: {
-                'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`,
-                'Content-Type': 'application/json'
-            }
-        });
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+ 
+            console.log("🔄 Resposta da API do Mercado Pago:", resposta.data);
+        } catch (err) {
+            console.error("🚨 Erro ao fazer requisição ao Mercado Pago:");
+            console.error("📦 Status:", err?.response?.status);
+            console.error("📦 Data:", err?.response?.data);
+            console.error("📦 Headers:", err?.response?.headers);
+            throw err;
+        }
 
         console.log("🔄 Resposta da API do Mercado Pago:", resposta.data);
 

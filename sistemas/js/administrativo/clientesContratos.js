@@ -1,8 +1,9 @@
 /**
  * Carrega os clientes do banco de dados e exibe na tabela do painel gerencial.
  */
-const apiBaseUrl = "https://duvale-production.up.railway.app";
-
+const apiBaseUrl = window.location.hostname.includes("setta.dev.br")
+  ? "https://duvale-production.up.railway.app"
+  : "http://localhost:5000";
 
 /**
  * Verifica se o token de autenticação está presente no localStorage.

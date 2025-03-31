@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const { jsPDF } = window.jspdf;
 
-  const apiBaseUrl = window.location.hostname.includes("localhost")
-    ? "http://localhost:3000"
-    : "https://duvale-production.up.railway.app";
+  const apiBaseUrl = window.location.hostname.includes("setta.dev.br")
+  ? "https://duvale-production.up.railway.app"
+  : "http://localhost:5000";
 
   const carregarImagemBase64 = (url) => new Promise((resolve, reject) => {
     const img = new Image();

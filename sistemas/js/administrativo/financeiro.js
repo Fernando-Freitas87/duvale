@@ -1,7 +1,11 @@
 // ----------------------------------------------------------------------
 // Script para Gerenciamento do Caixa com Modal para Transações
 // ----------------------------------------------------------------------
-const apiBaseUrl = "https://duvale-production.up.railway.app";
+const apiBaseUrl = window.location.hostname.includes("setta.dev.br")
+  ? "https://duvale-production.up.railway.app"
+  : "http://localhost:5000";
+
+
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     // Recupera o token de autenticação do localStorage
