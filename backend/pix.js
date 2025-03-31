@@ -6,7 +6,6 @@ const router = express.Router();
 
 // Rota para gerar QR Code Pix via Mercado Pago
 router.post('/', async (req, res) => {
-    console.log("📌 Rota /api/pix foi acessada"); // Log de depuração inicial
 
     try {
         console.log("🛠️ Corpo da requisição recebido:", req.body);
@@ -22,7 +21,7 @@ router.post('/', async (req, res) => {
 
         const resposta = await axios.post('https://api.mercadopago.com/v1/payments', {
             transaction_amount: parseFloat(valor),
-            description: descricao || "Pagamento via Pix",
+            description: descricao || "Pix",
             payment_method_id: "pix",
             payer: {
                 email: "grupoesilveira@gmail.com",
@@ -30,11 +29,16 @@ router.post('/', async (req, res) => {
                     type: "CPF",
                     number: "01973165309"
                 }
-            }
-        }, {
+            },
+            external_reference: `pedido-${Date.now()}`,
+            notification_url: "https://setta.dev.br/notificacao-pagamento"
+        },
+         
+        {
             headers: {
                 'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-Idempotency-Key': `${Date.now()}-${Math.random()}`
             }
         });
 
