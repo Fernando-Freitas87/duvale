@@ -1,19 +1,11 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const axios = require('axios');
-const bodyParser = require('body-parser');
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
+const router = express.Router();
 
 
 // Rota para gerar QR Code Pix via Mercado Pago
-app.post('/api/pix', async (req, res) => {
+router.post('/pix', async (req, res) => {
     console.log("📌 Rota /api/pix foi acessada"); // Log de depuração inicial
 
     try {
@@ -73,19 +65,8 @@ app.post('/api/pix', async (req, res) => {
 });
 
 // Rota de teste
-app.get('/test', (req, res) => {
+router.get('/test', (req, res) => {
     res.send("🔥 API PIX RODANDO!");
 });
 
-// Iniciar o servidor
-app.listen(PORT, () => {
-    console.log(`🔥 Servidor rodando na porta ${PORT}`);
-
-    // Listar todas as rotas carregadas para debug
-    console.log("🔍 Listando rotas registradas no servidor:");
-    app._router.stack.forEach((route) => {
-        if (route.route) {
-            console.log(`✅ Rota carregada: ${route.route.path}`);
-        }
-    });
-});
+module.exports = router;
