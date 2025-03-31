@@ -17,6 +17,25 @@ const logger = require('./utils/logger');
 const { authenticateToken } = require('./middlewares/auth');
 const { atualizarStatusMensalidades } = require('./services/mensalidadesService');
 
+/**
+ * Importação de Controllers e Rotas
+ */
+const avisosRoutes = require("./routes/avisos.routes");
+const loginRoutes = require('./routes/login');
+const usuarioController = require('./controllers/usuarioController');
+const clientesRoutes = require('./routes/clientesRoutes');
+const gerencialRoutes = require('./routes/gerencialRoutes');
+const mensalidadesRoutes = require('./routes/mensalidadesRoutes');
+const cadastroClientesRoutes = require('./routes/cadastroClientesRoutes');
+const cadastroImoveisRoutes = require('./routes/cadastroImoveisRoutes');
+const cadastroContratosRoutes = require('./routes/cadastroContratosRoutes');
+const cadastroMensalidadesRoutes = require('./routes/cadastroMensalidadesRoutes');
+const imoveisRoutes = require('./routes/imoveisRoutes');
+const contratosRoutes = require('./routes/contratosRoutes');
+const caixaRoutes = require('./routes/caixaRoutes');
+const relatoriosRoutes = require("./routes/relatorios");
+const pixRoutes = require('./pix'); // Rota Pix via Mercado Pago
+
 // 🔹 **DECLARE O `app` PRIMEIRO**
 const app = express();
 
@@ -35,24 +54,6 @@ app.use((req, res, next) => {
 
   next();
 });
-
-/**
- * Importação de Controllers e Rotas
- */
-const avisosRoutes = require("./routes/avisos.routes");
-const loginRoutes = require('./routes/login');
-const usuarioController = require('./controllers/usuarioController');
-const clientesRoutes = require('./routes/clientesRoutes');
-const gerencialRoutes = require('./routes/gerencialRoutes');
-const mensalidadesRoutes = require('./routes/mensalidadesRoutes');
-const cadastroClientesRoutes = require('./routes/cadastroClientesRoutes');
-const cadastroImoveisRoutes = require('./routes/cadastroImoveisRoutes');
-const cadastroContratosRoutes = require('./routes/cadastroContratosRoutes');
-const cadastroMensalidadesRoutes = require('./routes/cadastroMensalidadesRoutes');
-const imoveisRoutes = require('./routes/imoveisRoutes');
-const contratosRoutes = require('./routes/contratosRoutes');
-const caixaRoutes = require('./routes/caixaRoutes');
-const relatoriosRoutes = require("./routes/relatorios");
 
 /**
  * Middlewares Globais
@@ -88,6 +89,7 @@ app.use('/api/imoveis', imoveisRoutes);                // Rotas para operações
 app.use('/api/contratos', contratosRoutes);            // Rotas para operações com contratos
 app.use('/api/caixa', caixaRoutes);                    // Rotas para operações de caixa
 app.use("/api/relatorios", relatoriosRoutes);
+app.use("/api/pix", pixRoutes); // Registro da rota Pix Mercado Pago
 
 /**
  * Rota para Obter Informações do Usuário Autenticado
