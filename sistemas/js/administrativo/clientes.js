@@ -216,6 +216,9 @@ async function carregarUsuario() {
             div.dataset.valorPix = valorTotal.toFixed(2);
             div.dataset.pago = mensalidadePaga;
             innerContainer.appendChild(div);
+            if (index === 0 && !document.querySelector('.meu-slide.ativo')) {
+                div.classList.add('ativo');
+            }
             
         });
         setTimeout(() => {
@@ -223,6 +226,7 @@ async function carregarUsuario() {
           const slides = [...container.querySelectorAll('.meu-slide')];
           const primeiroNaoPago = slides.find(slide => slide.dataset.pago === "false");
           if (primeiroNaoPago) {
+            primeiroNaoPago.classList.add('ativo');
             container.scrollTo({ left: primeiroNaoPago.offsetLeft, behavior: 'smooth' });
             atualizarValorPix();
           }
@@ -267,6 +271,10 @@ async function gerarQRCode() {
         }
 
         const itemAtivo = document.querySelector('.meu-slide.ativo');
+        if (!itemAtivo) {
+            mostrarToast("❌ Nenhuma mensalidade selecionada.");
+            return;
+        }
         const valorTotal = itemAtivo ? parseFloat(itemAtivo.dataset.valorPix) : 0;
         if (!valorTotal || isNaN(valorTotal)) {
             mostrarToast("❌ Valor da mensalidade inválido.");
