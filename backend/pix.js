@@ -19,7 +19,12 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: "Valor inválido!" });
         }
 
-        console.log(`✅ Processando pagamento: Valor: R$ ${valor}, Descrição: ${descricao}`);
+        console.log("✅ Processando pagamento com os seguintes dados:");
+        console.log("Valor:", valor);
+        console.log("Descrição:", descricao);
+        console.log("Contrato ID:", contrato_id);
+        console.log("Vencimento:", vencimento);
+        console.log("Usuário:", user);
 
         const resposta = await axios.post('https://api.mercadopago.com/v1/payments', {
           transaction_amount: parseFloat(valor),
