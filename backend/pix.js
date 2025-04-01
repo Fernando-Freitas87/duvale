@@ -10,7 +10,9 @@ router.post('/', async (req, res) => {
     try {
         console.log("🛠️ Corpo da requisição recebido:", req.body);
 
-        const { valor, descricao } = req.body;
+        const { valor, descricao, contrato_id, vencimento, user } = req.body;
+        const [first_name, ...resto] = (user?.nome || "").split(" ");
+        const last_name = resto.join(" ") || "Não Informado";
 
         if (!valor || isNaN(valor)) {
             console.error("❌ Erro: Valor inválido recebido:", valor);
@@ -20,54 +22,54 @@ router.post('/', async (req, res) => {
         console.log(`✅ Processando pagamento: Valor: R$ ${valor}, Descrição: ${descricao}`);
 
         const resposta = await axios.post('https://api.mercadopago.com/v1/payments', {
-            transaction_amount: parseFloat(valor),
-            description: descricao || "Mensalidade de Aluguel - DuVale",
-            payment_method_id: "pix",
-            statement_descriptor: "DUVALE ALUGUEL",
-            external_reference: `mensalidade-${Date.now()}`,
-            notification_url: "https://setta.dev.br/notificacao-pagamento",
-            payer: {
-                email: "grupoesilveira@gmail.com",
-                first_name: "Fernando",
-                last_name: "Freitas",
-                identification: {
-                    type: "CPF",
-                    number: "01973165309"
-                },
-                address: {
-                    zip_code: "62595-000",
-                    street_name: "Rua do Contrato",
-                    street_number: "100",
-                    neighborhood: "Centro",
-                    city: "Cruz",
-                    federal_unit: "CE"
-                }
+          transaction_amount: parseFloat(valor),
+          description: descricao || "Mensalidade de Aluguel - DuVale",
+          payment_method_id: "pix",
+          statement_descriptor: "DUVALE ALUGUEL",
+          external_reference: `mensalidade-${Date.now()}`,
+          notification_url: "https://setta.dev.br/notificacao-pagamento",
+          payer: {
+            email: user?.email || "email@indefinido.com",
+            first_name,
+            last_name,
+            identification: {
+              type: "CPF",
+              number: user?.cpf || "00000000000"
             },
-            device: {
-                id: req.headers['user-agent'] || `dispositivo-${Date.now()}`
-            },
-            metadata: {
-                origem: "mensalidade-contrato",
-                contrato_id: "EXEMPLO1234",
-                vencimento: new Date().toISOString().split("T")[0]
-            },
-            additional_info: {
-                items: [{
-                    id: "MENSALIDADE123",
-                    title: descricao || "Mensalidade de Aluguel",
-                    description: "Referente à mensalidade do contrato de aluguel",
-                    quantity: 1,
-                    unit_price: parseFloat(valor),
-                    category_id: "services"
-                }]
+            address: {
+              zip_code: "62595-000",
+              street_name: "Rua do Contrato",
+              street_number: "100",
+              neighborhood: "Centro",
+              city: "Cruz",
+              federal_unit: "CE"
             }
-        }, 
+          },
+          device: {
+            id: req.headers['user-agent'] || `dispositivo-${Date.now()}`
+          },
+          metadata: {
+            origem: "mensalidade-contrato",
+            contrato_id: contrato_id || "NAO_INFORMADO",
+            vencimento: vencimento || new Date().toISOString().split("T")[0]
+          },
+          additional_info: {
+            items: [{
+              id: contrato_id || "MENSALIDADE123",
+              title: descricao || "Mensalidade de Aluguel",
+              description: `Mensalidade referente ao contrato ${contrato_id || "desconhecido"}`,
+              quantity: 1,
+              unit_price: parseFloat(valor),
+              category_id: "services"
+            }]
+          }
+        },
         {
-            headers: {
-                'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`,
-                'Content-Type': 'application/json',
-                'X-Idempotency-Key': `${Date.now()}-${Math.random()}`
-            }
+          headers: {
+            'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`,
+            'Content-Type': 'application/json',
+            'X-Idempotency-Key': `${Date.now()}-${Math.random()}`
+          }
         });
 
         console.log("🔄 Resposta da API do Mercado Pago:", resposta.data);
