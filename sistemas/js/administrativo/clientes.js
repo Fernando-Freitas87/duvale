@@ -138,7 +138,7 @@ async function carregarUsuario() {
             const dadosUsuario = await respostaUsuario.json();
             nome = dadosUsuario.nome ? dadosUsuario.nome : "Usuário"; // Garantir que `nome` tenha um valor válido
             emailCliente = dadosUsuario.email || "email@indefinido.com";
-            cpfCliente = dadosUsuario.cpf || "00000000000";
+            cpfCliente = /^[0-9]{11}$/.test(dadosUsuario.cpf) ? dadosUsuario.cpf : "19119119100";
         } catch (erro) {
             console.error("Erro ao obter nome do usuário:", erro);
         }
