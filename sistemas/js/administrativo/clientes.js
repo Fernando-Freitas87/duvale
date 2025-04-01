@@ -1,6 +1,7 @@
 const apiBaseUrl = window.location.hostname.includes("setta.dev.br")
   ? "https://duvale-production.up.railway.app"
   : "http://localhost:5000";
+let nome = "Usuário";
   
   window.navegarAnterior = function () {
   const container = document.getElementById('carousel-inner');
@@ -292,16 +293,21 @@ async function gerarQRCode() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({
-                valor: valorTotal.toFixed(2),
-                descricao: "Mensalidade DuVale"
-            })
+            body: JSON.stringify(payloadPix)
         });
 
-        console.log("🛠️ Corpo da requisição enviado:", {
+        const payloadPix = {
             valor: valorTotal.toFixed(2),
-            descricao: "Mensalidade DuVale"
-        });
+            descricao: "Mensalidade DuVale",
+            contrato_id: "CONTRATO-EXEMPLO",
+            vencimento: new Date().toISOString().split("T")[0],
+            user: {
+                nome: nome,
+                email: "grupoesilveira@gmail.com",
+                cpf: "01973165309"
+            }
+        };
+        console.log("🛠️ Corpo da requisição enviado:", payloadPix);
 
         if (!resposta.ok) throw new Error(`Erro do servidor: ${resposta.status}`);
 
