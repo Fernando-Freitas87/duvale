@@ -223,6 +223,7 @@ async function carregarUsuario() {
             `;
             div.dataset.valorPix = valorTotal.toFixed(2);
             div.dataset.pago = mensalidadePaga;
+            div.dataset.contratoId = mensalidade.contrato_id || "NAO-INFORMADO";
             innerContainer.appendChild(div);
             if (index === 0 && !document.querySelector('.meu-slide.ativo')) {
                 div.classList.add('ativo');
