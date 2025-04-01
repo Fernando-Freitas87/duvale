@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
             last_name,
             identification: {
               type: "CPF",
-              number: user?.cpf || "00000000000"
+              number: user?.cpf || "27841534876"
             },
             address: {
               zip_code: "62030-000",
