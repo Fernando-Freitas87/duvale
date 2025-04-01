@@ -11,11 +11,9 @@ router.post('/', async (req, res) => {
         console.log("🛠️ Corpo da requisição recebido:", req.body);
 
         const { valor, descricao, vencimento, user } = req.body;
-        const contrato_id = (req.body.contrato_id && req.body.contrato_id !== 'CONTRATO-NAO-DEFINIDO')
+        const contrato_id = req.body.contrato_id && req.body.contrato_id !== 'CONTRATO-NAO-DEFINIDO'
             ? req.body.contrato_id
-            : (req.body?.user?.contrato_id && req.body.user.contrato_id !== 'CONTRATO-NAO-DEFINIDO')
-                ? req.body.user.contrato_id
-                : `TESTE-${Date.now()}`;
+            : (req.body?.user?.contrato_id || 'REF-122318');
         const [first_name, ...resto] = (user?.nome || "").split(" ");
         const last_name = resto.join(" ") || "Não Informado";
 
