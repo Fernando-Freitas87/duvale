@@ -10,7 +10,10 @@ router.post('/', async (req, res) => {
     try {
         console.log("🛠️ Corpo da requisição recebido:", req.body);
 
-        const { valor, descricao, contrato_id, vencimento, user } = req.body;
+        const { valor, descricao, vencimento, user } = req.body;
+        const contrato_id = req.body.contrato_id && req.body.contrato_id !== 'NAO-INFORMADO'
+            ? req.body.contrato_id
+            : (user?.contrato_id || 'NAO-INFORMADO');
         const [first_name, ...resto] = (user?.nome || "").split(" ");
         const last_name = resto.join(" ") || "Não Informado";
 
@@ -31,7 +34,7 @@ router.post('/', async (req, res) => {
           description: descricao || "Mensalidade de Aluguel - DuVale",
           payment_method_id: "pix",
           statement_descriptor: "DUVALE ALUGUEL",
-          external_reference: `mensalidade-${contrato_id && contrato_id !== "NAO-INFORMADO" ? contrato_id : `TEMP-${Date.now()}`}-${vencimento}`,
+          external_reference: `mensalidade-${contrato_id}-${vencimento}`,
           notification_url: "https://setta.dev.br/notificacao-pagamento",
           payer: {
             email: user?.email || "email@indefinido.com",
@@ -55,7 +58,7 @@ router.post('/', async (req, res) => {
           },
           metadata: {
             origem: "mensalidade-contrato",
-            contrato_id: contrato_id && contrato_id !== "NAO-INFORMADO" ? contrato_id : `CONTRATO-${Date.now()}`,
+            contrato_id: contrato_id,
             vencimento: vencimento || new Date().toISOString().split("T")[0]
           },
           additional_info: {
