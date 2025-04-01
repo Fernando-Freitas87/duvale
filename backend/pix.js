@@ -29,56 +29,28 @@ router.post('/', async (req, res) => {
         console.log("Vencimento:", vencimento);
         console.log("Usuário:", user);
 
-        const resposta = await axios.post('https://api.mercadopago.com/v1/payments', {
+        const payload = {
           transaction_amount: parseFloat(valor),
-          description: descricao || "Mensalidade de Aluguel - DuVale",
+          description: descricao || "Mensalidade de Aluguel",
           payment_method_id: "pix",
-          statement_descriptor: "DUVALE ALUGUEL",
-          external_reference: `mensalidade-${contrato_id}-${vencimento}`,
           notification_url: "https://setta.dev.br/notificacao-pagamento",
           payer: {
             email: user?.email || "email@indefinido.com",
-            first_name,
-            last_name,
             identification: {
               type: "CPF",
               number: user?.cpf || "27841534876"
-            },
-            address: {
-              zip_code: "62030-000",
-              street_name: "Av. José Monteiro Melo",
-              street_number: "590",
-              neighborhood: "Centro",
-              city: "Acaraú",
-              federal_unit: "CE"
             }
           },
-          device: {
-            id: req.headers['user-agent'] || `dispositivo-${Date.now()}`
-          },
-          metadata: {
-            origem: "mensalidade-contrato",
-            contrato_id: contrato_id,
-            vencimento: vencimento || new Date().toISOString().split("T")[0]
-          },
-          additional_info: {
-            items: [{
-              id: contrato_id || "MENSALIDADE123",
-              title: descricao || "Mensalidade de Aluguel",
-              description: descricao,
-              quantity: 1,
-              unit_price: parseFloat(valor),
-              category_id: "services"
-            }]
-          }
-        },
-        {
-          headers: {
-            'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`,
-            'Content-Type': 'application/json',
-            'X-Idempotency-Key': `${Date.now()}-${Math.random()}`
-          }
-        });
+          external_reference: `mensalidade-${contrato_id}-${vencimento}`
+        };
+
+        const headers = {
+          'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`,
+          'Content-Type': 'application/json',
+          'X-Idempotency-Key': `${Date.now()}-${Math.random()}`
+        };
+
+        const resposta = await axios.post('https://api.mercadopago.com/v1/payments', payload, { headers });
 
         console.log("🔄 Resposta da API do Mercado Pago:", resposta.data);
 
