@@ -123,7 +123,7 @@ async function carregarUsuario() {
             referencia = inicio === fim ? inicio : `${inicio} até ${fim}`;
         }
 
-        let nome = "Usuário"; // Definir um valor padrão
+        nome = "Usuário"; // Definir um valor padrão
 
         try {
             const respostaUsuario = await fetch(`${apiBaseUrl}/api/usuario`, {
@@ -291,12 +291,19 @@ async function gerarQRCode() {
 
         console.log("📌 Rota /api/pix foi acessada"); // Log de depuração inicial
 
+        const descricaoMes = itemAtivo?.querySelector('.title span')?.textContent?.trim() || "Mensalidade DuVale";
+        const [primeiroNome, ...sobrenomeArray] = nome.trim().split(" ");
+        const sobrenome = sobrenomeArray.join(" ") || "Não Informado";
+
         const payloadPix = {
             valor: valorTotal.toFixed(2),
-            descricao: "Mensalidade DuVale",
-            contrato_id: itemAtivo?.dataset.contratoId || "CONTRATO-NAO-DEFINIDO",            vencimento: new Date().toISOString().split("T")[0],
+            descricao: descricaoMes,
+            contrato_id: itemAtivo?.dataset.contratoId || "CONTRATO-NAO-DEFINIDO",
+            vencimento: new Date().toISOString().split("T")[0],
             user: {
                 nome: nome,
+                first_name: primeiroNome,
+                last_name: sobrenome,
                 email: emailCliente,
                 cpf: cpfCliente
             }
