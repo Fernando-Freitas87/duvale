@@ -267,9 +267,13 @@ function exibirSaudacao(nome) {
     document.getElementById('saudacao').textContent = `${saudacao}, ${nome}!`;
 }
 
-//✅ Gerar QR Code via Node.js e API Externa
 async function gerarQRCode() {
     try {
+        // Verifica se os dados do usuário estão carregados; se não, carrega-os.
+        if (nome === "Usuário" || emailCliente === "" || cpfCliente === "") {
+            await carregarUsuario();
+        }
+        
         mostrarToast("🔄 Gerando QR Code...");
 
         const token = localStorage.getItem('authToken');
@@ -318,7 +322,6 @@ async function gerarQRCode() {
             },
             body: JSON.stringify(payloadPix)
         });
-
 
         if (!resposta.ok) throw new Error(`Erro do servidor: ${resposta.status}`);
 
