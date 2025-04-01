@@ -24,6 +24,8 @@ router.post('/', async (req, res) => {
             description: descricao || "Mensalidade de Aluguel - DuVale",
             payment_method_id: "pix",
             statement_descriptor: "DUVALE ALUGUEL",
+            external_reference: `mensalidade-${Date.now()}`,
+            notification_url: "https://setta.dev.br/notificacao-pagamento",
             payer: {
                 email: "grupoesilveira@gmail.com",
                 first_name: "Fernando",
@@ -41,15 +43,25 @@ router.post('/', async (req, res) => {
                     federal_unit: "CE"
                 }
             },
+            device: {
+                id: req.headers['user-agent'] || `dispositivo-${Date.now()}`
+            },
             metadata: {
                 origem: "mensalidade-contrato",
                 contrato_id: "EXEMPLO1234",
                 vencimento: new Date().toISOString().split("T")[0]
             },
-            external_reference: `mensalidade-${Date.now()}`,
-            notification_url: "https://setta.dev.br/notificacao-pagamento"
-        },
-         
+            additional_info: {
+                items: [{
+                    id: "MENSALIDADE123",
+                    title: descricao || "Mensalidade de Aluguel",
+                    description: "Referente à mensalidade do contrato de aluguel",
+                    quantity: 1,
+                    unit_price: parseFloat(valor),
+                    category_id: "services"
+                }]
+            }
+        }, 
         {
             headers: {
                 'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`,
