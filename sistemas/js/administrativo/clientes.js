@@ -223,7 +223,9 @@ async function carregarUsuario() {
             `;
             div.dataset.valorPix = valorTotal.toFixed(2);
             div.dataset.pago = mensalidadePaga;
-            div.dataset.contratoId = mensalidade.contrato_id || "REF-122318";
+            const mes = String(dataVenc.getMonth() + 1).padStart(2, '0');
+            const ano = dataVenc.getFullYear();
+            div.dataset.contratoId = mensalidade.contrato_id || `MENSAL-${mensalidade.id}-${ano}${mes}`;
             innerContainer.appendChild(div);
             if (index === 0 && !document.querySelector('.meu-slide.ativo')) {
                 div.classList.add('ativo');
