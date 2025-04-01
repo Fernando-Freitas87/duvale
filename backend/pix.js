@@ -37,11 +37,11 @@ router.post('/', async (req, res) => {
               number: user?.cpf || "00000000000"
             },
             address: {
-              zip_code: "62595-000",
-              street_name: "Rua do Contrato",
-              street_number: "100",
+              zip_code: "62030-000",
+              street_name: "Av. José Monteiro Melo",
+              street_number: "590",
               neighborhood: "Centro",
-              city: "Cruz",
+              city: "Acaraú",
               federal_unit: "CE"
             }
           },
@@ -57,7 +57,7 @@ router.post('/', async (req, res) => {
             items: [{
               id: contrato_id || "MENSALIDADE123",
               title: descricao || "Mensalidade de Aluguel",
-              description: `Mensalidade referente ao contrato ${contrato_id || "desconhecido"}`,
+              description: descricao,
               quantity: 1,
               unit_price: parseFloat(valor),
               category_id: "services"
@@ -96,6 +96,42 @@ router.post('/', async (req, res) => {
 
         res.status(500).json({ error: mensagemErro });
     }
+});
+
+// Rota de notificação do Mercado Pago
+router.post('/notificacao-pagamento', async (req, res) => {
+  try {
+    const { type, data } = req.body;
+
+    if (type !== 'payment' || !data?.id) {
+      return res.sendStatus(200); // Ignora se não for notificação de pagamento
+    }
+
+    const pagamentoId = data.id;
+
+    const resposta = await axios.get(`https://api.mercadopago.com/v1/payments/${pagamentoId}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}`
+      }
+    });
+
+    const pagamento = resposta.data;
+
+    if (pagamento.status === 'approved') {
+      const contratoId = pagamento.metadata?.contrato_id;
+
+      if (contratoId) {
+        console.log(`✅ Pagamento aprovado para contrato ${contratoId}. Atualizando status no banco...`);
+        const conexao = require('./db'); // Certifique-se de que o arquivo db.js exporta a conexão MySQL
+        await conexao.query("UPDATE mensalidades SET status = 'pago' WHERE contrato_id = ?", [contratoId]);
+      }
+    }
+
+    res.sendStatus(200);
+  } catch (erro) {
+    console.error("❌ Erro ao processar notificação de pagamento:", erro.message);
+    res.sendStatus(500);
+  }
 });
 
 // Rota de teste

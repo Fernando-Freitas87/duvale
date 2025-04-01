@@ -2,6 +2,8 @@ const apiBaseUrl = window.location.hostname.includes("setta.dev.br")
   ? "https://duvale-production.up.railway.app"
   : "http://localhost:5000";
 let nome = "Usuário";
+let emailCliente = "";
+let cpfCliente = "";
   
   window.navegarAnterior = function () {
   const container = document.getElementById('carousel-inner');
@@ -135,6 +137,8 @@ async function carregarUsuario() {
 
             const dadosUsuario = await respostaUsuario.json();
             nome = dadosUsuario.nome ? dadosUsuario.nome : "Usuário"; // Garantir que `nome` tenha um valor válido
+            emailCliente = dadosUsuario.email || "email@indefinido.com";
+            cpfCliente = dadosUsuario.cpf || "00000000000";
         } catch (erro) {
             console.error("Erro ao obter nome do usuário:", erro);
         }
@@ -287,6 +291,18 @@ async function gerarQRCode() {
 
         console.log("📌 Rota /api/pix foi acessada"); // Log de depuração inicial
 
+        const payloadPix = {
+            valor: valorTotal.toFixed(2),
+            descricao: "Mensalidade DuVale",
+            contrato_id: itemAtivo?.dataset.contratoId || "CONTRATO-NAO-DEFINIDO",            vencimento: new Date().toISOString().split("T")[0],
+            user: {
+                nome: nome,
+                email: emailCliente,
+                cpf: cpfCliente
+            }
+        };
+        console.log("🛠️ Corpo da requisição enviado:", payloadPix);
+
         const resposta = await fetch(`${apiBaseUrl}/api/pix`, {
             method: 'POST',
             headers: {
@@ -296,18 +312,6 @@ async function gerarQRCode() {
             body: JSON.stringify(payloadPix)
         });
 
-        const payloadPix = {
-            valor: valorTotal.toFixed(2),
-            descricao: "Mensalidade DuVale",
-            contrato_id: "CONTRATO-EXEMPLO",
-            vencimento: new Date().toISOString().split("T")[0],
-            user: {
-                nome: nome,
-                email: "grupoesilveira@gmail.com",
-                cpf: "01973165309"
-            }
-        };
-        console.log("🛠️ Corpo da requisição enviado:", payloadPix);
 
         if (!resposta.ok) throw new Error(`Erro do servidor: ${resposta.status}`);
 
