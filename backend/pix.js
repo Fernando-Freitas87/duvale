@@ -11,9 +11,11 @@ router.post('/', async (req, res) => {
         console.log("🛠️ Corpo da requisição recebido:", req.body);
 
         const { valor, descricao, vencimento, user } = req.body;
-        const contrato_id = req.body.contrato_id && req.body.contrato_id !== 'NAO-INFORMADO'
+        const contrato_id = (req.body.contrato_id && req.body.contrato_id !== 'CONTRATO-NAO-DEFINIDO')
             ? req.body.contrato_id
-            : (user?.contrato_id || 'NAO-INFORMADO');
+            : (req.body?.user?.contrato_id && req.body.user.contrato_id !== 'CONTRATO-NAO-DEFINIDO')
+                ? req.body.user.contrato_id
+                : `TESTE-${Date.now()}`;
         const [first_name, ...resto] = (user?.nome || "").split(" ");
         const last_name = resto.join(" ") || "Não Informado";
 
@@ -25,7 +27,7 @@ router.post('/', async (req, res) => {
         console.log("✅ Processando pagamento com os seguintes dados:");
         console.log("Valor:", valor);
         console.log("Descrição:", descricao);
-        console.log("Contrato ID:", contrato_id);
+        console.log("Contrato ID:", contrato_id || req.body.contrato_id);
         console.log("Vencimento:", vencimento);
         console.log("Usuário:", user);
 
