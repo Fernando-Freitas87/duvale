@@ -21,16 +21,32 @@ router.post('/', async (req, res) => {
 
         const resposta = await axios.post('https://api.mercadopago.com/v1/payments', {
             transaction_amount: parseFloat(valor),
-            description: descricao || "Pix",
+            description: descricao || "Mensalidade de Aluguel - DuVale",
             payment_method_id: "pix",
+            statement_descriptor: "DUVALE ALUGUEL",
             payer: {
                 email: "grupoesilveira@gmail.com",
+                first_name: "Fernando",
+                last_name: "Freitas",
                 identification: {
                     type: "CPF",
                     number: "01973165309"
+                },
+                address: {
+                    zip_code: "62595-000",
+                    street_name: "Rua do Contrato",
+                    street_number: "100",
+                    neighborhood: "Centro",
+                    city: "Cruz",
+                    federal_unit: "CE"
                 }
             },
-            external_reference: `pedido-${Date.now()}`,
+            metadata: {
+                origem: "mensalidade-contrato",
+                contrato_id: "EXEMPLO1234",
+                vencimento: new Date().toISOString().split("T")[0]
+            },
+            external_reference: `mensalidade-${Date.now()}`,
             notification_url: "https://setta.dev.br/notificacao-pagamento"
         },
          
