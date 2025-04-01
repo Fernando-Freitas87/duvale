@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
           description: descricao || "Mensalidade de Aluguel - DuVale",
           payment_method_id: "pix",
           statement_descriptor: "DUVALE ALUGUEL",
-          external_reference: `mensalidade-${Date.now()}`,
+          external_reference: `mensalidade-${contrato_id && contrato_id !== "NAO-INFORMADO" ? contrato_id : `TEMP-${Date.now()}`}-${vencimento}`,
           notification_url: "https://setta.dev.br/notificacao-pagamento",
           payer: {
             email: user?.email || "email@indefinido.com",
@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
           },
           metadata: {
             origem: "mensalidade-contrato",
-            contrato_id: contrato_id || "NAO_INFORMADO",
+            contrato_id: contrato_id && contrato_id !== "NAO-INFORMADO" ? contrato_id : `CONTRATO-${Date.now()}`,
             vencimento: vencimento || new Date().toISOString().split("T")[0]
           },
           additional_info: {
