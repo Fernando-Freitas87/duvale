@@ -10,7 +10,10 @@ router.post('/', async (req, res) => {
     try {
         console.log("🛠️ Corpo da requisição recebido:", req.body);
 
-        const { valor, descricao, vencimento, user } = req.body;
+    const { valor, descricao, vencimento, user } = req.body;
+    if (!user || typeof user !== 'object') {
+      return res.status(400).json({ error: "Dados do usuário inválidos!" });
+    }
         const contrato_id = req.body.contrato_id && req.body.contrato_id !== 'CONTRATO-NAO-DEFINIDO'
             ? req.body.contrato_id
             : (req.body?.user?.contrato_id || 'REF-122318');
@@ -41,7 +44,10 @@ router.post('/', async (req, res) => {
               number: user?.cpf || "27841534876"
             }
           },
-          external_reference: `mensalidade-${contrato_id}-${vencimento}`
+          metadata: {
+            contrato_id: contrato_id
+          },
+          external_reference: `mensalidade-${contrato_id}-${vencimento}-${Date.now()}`
         };
 
         const headers = {
@@ -98,7 +104,7 @@ router.post('/notificacao-pagamento', async (req, res) => {
     const pagamento = resposta.data;
 
     if (pagamento.status === 'approved') {
-      const contratoId = pagamento.metadata?.contrato_id;
+      const contratoId = pagamento.metadata?.contrato_id || null;
 
       if (contratoId) {
         console.log(`✅ Pagamento aprovado para contrato ${contratoId}. Atualizando status no banco...`);
