@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DuVale Administração</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        /* Modal backdrop */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Sidebar transition */
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        /* Hover effects */
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Table row hover */
+        .table-row-hover:hover {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+    <!-- Main Layout -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar bg-blue-900 text-white w-64 flex-shrink-0 flex flex-col transition-all duration-300 ease-in-out">
+            <div class="flex items-center justify-between p-4 border-b border-blue-800">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-building text-2xl text-yellow-400"></i>
+                    <span class="text-xl font-bold">DuVale</span>
+                </div>
+                <button id="sidebar-toggle" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="p-4 flex-1 overflow-y-auto">
+                <div class="mb-8">
+                    <div class="flex items-center space-x-3 p-3 rounded-lg bg-blue-800">
+                        <div class="w-10 h-10 rounded-full bg-blue-700 flex items-center justify-center">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">Admin</p>
+                            <p class="text-xs text-blue-200">Administrador</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <nav>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg bg-blue-800 text-white">
+                                <i class="fas fa-tachometer-alt w-5 text-center"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-800 text-blue-100 hover:text-white transition">
+                                <i class="fas fa-home w-5 text-center"></i>
+                                <span>Imóveis</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-800 text-blue-100 hover:text-white transition">
+                                <i class="fas fa-file-contract w-5 text-center"></i>
+                                <span>Contratos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-800 text-blue-100 hover:text-white transition">
+                                <i class="fas fa-users w-5 text-center"></i>
+                                <span>Clientes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-800 text-blue-100 hover:text-white transition">
+                                <i class="fas fa-money-bill-wave w-5 text-center"></i>
+                                <span>Cobranças</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-800 text-blue-100 hover:text-white transition">
+                                <i class="fas fa-chart-line w-5 text-center"></i>
+                                <span>Relatórios</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div class="p-4 border-t border-blue-800">
+                <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-800 text-blue-100 hover:text-white transition">
+                    <i class="fas fa-cog w-5 text-center"></i>
+                    <span>Configurações</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-800 text-blue-100 hover:text-white transition">
+                    <i class="fas fa-sign-out-alt w-5 text-center"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm">
+                <div class="flex items-center justify-between px-6 py-3">
+                    <div class="flex items-center">
+                        <button id="mobile-sidebar-toggle" class="md:hidden text-gray-600 focus:outline-none mr-4">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <button class="text-gray-600 focus:outline-none">
+                                <i class="fas fa-bell text-xl"></i>
+                                <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">3</span>
+                            </button>
+                        </div>
+                        <div class="relative">
+                            <button class="text-gray-600 focus:outline-none">
+                                <i class="fas fa-envelope text-xl"></i>
+                                <span class="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full text-xs text-white flex items-center justify-center">5</span>
+                            </button>
+                        </div>
+                        <div class="w-px h-8 bg-gray-200"></div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="text-sm font-medium hidden md:block">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <!-- Welcome Banner -->
+                <div class="bg-gradient-to-r from-blue-800 to-blue-600 rounded-xl shadow-md p-6 mb-6 text-white animate__animated animate__fadeIn">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div>
+                            <h2 class="text-2xl font-bold mb-2">Bem-vindo, Admin</h2>
+                            <p class="opacity-90">Aqui está um resumo das atividades e métricas do sistema.</p>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <button class="bg-white text-blue-800 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition">
+                                <i class="fas fa-plus mr-2"></i> Novo Contrato
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Metrics Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white rounded-xl shadow-md p-6 card-hover transition duration-300 animate__animated animate__fadeInUp">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Total de Imóveis</p>
+                                <h3 class="text-2xl font-bold mt-1">248</h3>
+                                <p class="text-green-500 text-sm mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i> 5% este mês
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                <i class="fas fa-home text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md p-6 card-hover transition duration-300 animate__animated animate__fadeInUp animate__delay-1s">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Contratos Ativos</p>
+                                <h3 class="text-2xl font-bold mt-1">187</h3>
+                                <p class="text-green-500 text-sm mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i> 3% este mês
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                <i class="fas fa-file-contract text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md p-6 card-hover transition duration-300 animate__animated animate__fadeInUp animate__delay-2s">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Vencimentos</p>
+                                <h3 class="text-2xl font-bold mt-1">12</h3>
+                                <p class="text-red-500 text-sm mt-1">
+                                    <i class="fas fa-exclamation-circle mr-1"></i> Atenção
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
+                                <i class="fas fa-calendar-exclamation text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md p-6 card-hover transition duration-300 animate__animated animate__fadeInUp animate__delay-3s">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Receita Mensal</p>
+                                <h3 class="text-2xl font-bold mt-1">R$ 85,240</h3>
+                                <p class="text-green-500 text-sm mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i> 8% este mês
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                                <i class="fas fa-money-bill-wave text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white rounded-xl shadow-md p-6 animate__animated animate__fadeIn">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Receita Mensal</h3>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 text-xs bg-blue-100 text-blue-800 rounded-md">Mensal</button>
+                                <button class="px-3 py-1 text-xs bg-gray-100 text-gray-800 rounded-md">Anual</button>
+                            </div>
+                        </div>
+                        <div id="revenue-chart" class="h-64"></div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md p-6 animate__animated animate__fadeIn">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Status de Contratos</h3>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 text-xs bg-blue-100 text-blue-800 rounded-md">2023</button>
+                                <button class="px-3 py-1 text-xs bg-gray-100 text-gray-800 rounded-md">2024</button>
+                            </div>
+                        </div>
+                        <div id="contracts-chart" class="h-64"></div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity and Quick Actions -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-md p-6 animate__animated animate__fadeIn">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Últimos Contratos</h3>
+                            <button class="text-blue-600 text-sm font-medium hover:text-blue-800">Ver todos</button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead>
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contrato</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Imóvel</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vencimento</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="table-row-hover">
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">#CT2023001</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Maria Silva</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Apto 101 - Ed. Primavera</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">15/07/2023</td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Ativo</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">#CT2023002</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">João Oliveira</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Casa 45 - Res. Sol Nascente</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">20/07/2023</td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Ativo</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">#CT2023003</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Ana Souza</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Apto 302 - Ed. Central Park</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">05/07/2023</td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pendente</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">#CT2023004</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Carlos Mendes</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Sala 10 - Centro Empresarial</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">30/06/2023</td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Vencido</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="text-sm text-gray-500">
+                                Mostrando 4 de 187 contratos
+                            </div>
+                            <div class="flex space-x-1">
+                                <button class="px-3 py-1 bg-blue-600 text-white rounded-md">1</button>
+                                <button class="px-3 py-1 bg-white text-gray-700 rounded-md hover:bg-gray-100">2</button>
+                                <button class="px-3 py-1 bg-white text-gray-700 rounded-md hover:bg-gray-100">3</button>
+                                <button class="px-3 py-1 bg-white text-gray-700 rounded-md hover:bg-gray-100">...</button>
+                                <button class="px-3 py-1 bg-white text-gray-700 rounded-md hover:bg-gray-100">10</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md p-6 animate__animated animate__fadeIn">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Ações Rápidas</h3>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <button class="w-full flex items-center space-x-3 p-3 bg-blue-50 text-blue-800 rounded-lg hover:bg-blue-100 transition">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <span class="font-medium">Cadastrar Imóvel</span>
+                            </button>
+                            
+                            <button class="w-full flex items-center space-x-3 p-3 bg-green-50 text-green-800 rounded-lg hover:bg-green-100 transition">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                    <i class="fas fa-file-contract"></i>
+                                </div>
+                                <span class="font-medium">Novo Contrato</span>
+                            </button>
+                            
+                            <button class="w-full flex items-center space-x-3 p-3 bg-purple-50 text-purple-800 rounded-lg hover:bg-purple-100 transition">
+                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <span class="font-medium">Registrar Pagamento</span>
+                            </button>
+                            
+                            <button class="w-full flex items-center space-x-3 p-3 bg-yellow-50 text-yellow-800 rounded-lg hover:bg-yellow-100 transition">
+                                <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <span class="font-medium">Enviar Lembrete</span>
+                            </button>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h4 class="text-sm font-medium text-gray-500 mb-3">Atividades Recentes</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mt-1">
+                                        <i class="fas fa-check text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">Contrato #CT2023005 assinado</p>
+                                        <p class="text-xs text-gray-500">Hoje, 10:45</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 mt-1">
+                                        <i class="fas fa-money-bill-wave text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">Pagamento recebido de #CT2023001</p>
+                                        <p class="text-xs text-gray-500">Ontem, 15:30</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mt-1">
+                                        <i class="fas fa-exclamation text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">Contrato #CT2023004 vencido</p>
+                                        <p class="text-xs text-gray-500">30/06/2023</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Modal Example -->
+    <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md mx-4 animate__animated animate__zoomIn">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Novo Contrato</h3>
+                    <button id="modal-close" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Cliente</label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>Selecione um cliente</option>
+                            <option>Maria Silva</option>
+                            <option>João Oliveira</option>
+                            <option>Ana Souza</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Imóvel</label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>Selecione um imóvel</option>
+                            <option>Apto 101 - Ed. Primavera</option>
+                            <option>Casa 45 - Res. Sol Nascente</option>
+                            <option>Apto 302 - Ed. Central Park</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Data de Início</label>
+                        <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Valor Mensal</label>
+                        <input type="text" placeholder="R$ 0,00" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button id="modal-cancel" class="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                        Cancelar
+                    </button>
+                    <button class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        Salvar Contrato
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Sidebar toggle for mobile
+        document.getElementById('mobile-sidebar-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        });
+        
+        document.getElementById('sidebar-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        });
+        
+        // Modal functionality
+        document.getElementById('modal-close').addEventListener('click', function() {
+            document.getElementById('modal').classList.add('hidden');
+        });
+        
+        document.getElementById('modal-cancel').addEventListener('click', function() {
+            document.getElementById('modal').classList.add('hidden');
+        });
+        
+        // Example of how to open modal (you can attach this to any button)
+        function openModal() {
+            document.getElementById('modal').classList.remove('hidden');
+        }
+        
+        // Google Charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawCharts);
+        
+        function drawCharts() {
+            // Revenue Chart
+            var revenueData = google.visualization.arrayToDataTable([
+                ['Mês', 'Receita'],
+                ['Jan', 65000],
+                ['Fev', 72000],
+                ['Mar', 78000],
+                ['Abr', 81000],
+                ['Mai', 85000],
+                ['Jun', 89000],
+                ['Jul', 92000]
+            ]);
+            
+            var revenueOptions = {
+                curveType: 'function',
+                legend: { position: 'none' },
+                colors: ['#1E40AF'],
+                vAxis: { 
+                    format: 'R$ #,###',
+                    gridlines: { color: 'transparent' }
+                },
+                hAxis: {
+                    gridlines: { color: 'transparent' }
+                },
+                chartArea: {
+                    width: '90%',
+                    height: '80%'
+                }
+            };
+            
+            var revenueChart = new google.visualization.LineChart(document.getElementById('revenue-chart'));
+            revenueChart.draw(revenueData, revenueOptions);
+            
+            // Contracts Chart
+            var contractsData = google.visualization.arrayToDataTable([
+                ['Status', 'Quantidade'],
+                ['Ativos', 187],
+                ['Pendentes', 24],
+                ['Vencidos', 12]
+            ]);
+            
+            var contractsOptions = {
+                pieHole: 0.4,
+                legend: { position: 'labeled' },
+                colors: ['#10B981', '#F59E0B', '#EF4444'],
+                chartArea: {
+                    width: '90%',
+                    height: '80%'
+                }
+            };
+            
+            var contractsChart = new google.visualization.PieChart(document.getElementById('contracts-chart'));
+            contractsChart.draw(contractsData, contractsOptions);
+        }
+        
+        // Resize charts on window resize
+        window.addEventListener('resize', function() {
+            drawCharts();
+        });
+    </script>
+</body>
+</html>
