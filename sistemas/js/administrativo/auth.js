@@ -40,11 +40,11 @@ export async function carregarUsuario() {
  * Exibe o nome do usuário no elemento #user-name.
  */
 function exibirNomeUsuario(nome) {
-  const userNameElement = document.getElementById("user-name");
+  const userNameElement = document.getElementById("usuarioLogado");
   if (userNameElement) {
     userNameElement.textContent = nome;
   } else {
-    console.error('Elemento com ID "user-name" não encontrado no DOM.');
+    console.error('Elemento com ID "usuarioLogado" não encontrado no DOM.');
   }
 }
 

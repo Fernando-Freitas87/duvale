@@ -286,7 +286,7 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Imóveis</p>
-                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">24</h3>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1"><span id="card-imoveis-cadastrados-valor">0</span></h3>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">+2.5% desde o último mês</p>
                             </div>
                             <div class="p-3 rounded-full bg-primary-100 dark:bg-gray-700">
@@ -973,5 +973,13 @@
 
 </body>
   <script src="./js/administrativo/mensalidades.js" type="module"></script>
-                            
+  <div id="modal-editar-contrato" class="fixed inset-0 hidden z-50 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-xl">
+      <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Editar Contrato</h2>
+      <!-- Conteúdo do formulário de edição de contrato será adicionado aqui futuramente -->
+      <button onclick="closeModal('modal-editar-contrato')" class="mt-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+        Fechar
+      </button>
+    </div>
+  </div>                            
 </html>
