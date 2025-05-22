@@ -15,6 +15,7 @@ export async function carregarUsuario() {
     const token = localStorage.getItem("authToken");
     if (!token) {
       exibirNomeUsuario("Usuário");
+      exibirEmailUsuario("usuario@email.com");
       return;
     }
 
@@ -25,27 +26,36 @@ export async function carregarUsuario() {
     if (!response.ok) {
       console.warn(`Erro ao carregar o usuário: ${response.status}`);
       exibirNomeUsuario("Usuário");
+      exibirEmailUsuario("usuario@email.com");
       return;
     }
 
     const usuario = await response.json();
     exibirNomeUsuario(usuario.nome || "Usuário");
+    exibirEmailUsuario(usuario.email || "usuario@email.com");
   } catch (error) {
     console.error("Erro ao carregar o nome do usuário:", error);
     exibirNomeUsuario("Usuário");
+    exibirEmailUsuario("usuario@email.com");
   }
 }
 
 /**
- * Exibe o nome do usuário no elemento #user-name.
+ * Exibe o nome do usuário no elemento #usuarioLogado e #usuarioLogadoSidebar.
  */
 function exibirNomeUsuario(nome) {
   const userNameElement = document.getElementById("usuarioLogado");
-  if (userNameElement) {
-    userNameElement.textContent = nome;
-  } else {
-    console.error('Elemento com ID "usuarioLogado" não encontrado no DOM.');
-  }
+  const userNameSidebar = document.getElementById("usuarioLogadoSidebar");
+  if (userNameElement) userNameElement.textContent = nome;
+  if (userNameSidebar) userNameSidebar.textContent = nome;
+}
+
+/**
+ * Exibe o email do usuário no elemento #emailLogadoSidebar.
+ */
+function exibirEmailUsuario(email) {
+  const emailSidebar = document.getElementById("emailLogadoSidebar");
+  if (emailSidebar) emailSidebar.textContent = email;
 }
 
 /**
