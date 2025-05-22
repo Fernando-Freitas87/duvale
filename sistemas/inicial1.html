@@ -6,11 +6,8 @@
     <title>Dashboard - Gestão de Imóveis</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-          <!-- Importação de Scripts e CSS -->
-          <script type="module" src="js/administrativo/auth.js"></script>
-          <script type="module" src="js/administrativo/imoveis.js"></script>
-          <script type="module" src="js/administrativo/clientesContratos.js"></script>
-          <script type="module" src="js/administrativo/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -98,7 +95,7 @@
         .sidebar-collapsed .logo-icon {
             margin-right: 0;
         }
-        
+                
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -114,7 +111,7 @@
         .dark ::-webkit-scrollbar-thumb {
             background: #475569;
         }
-        
+                
         /* Animation for modal */
         @keyframes modalFadeIn {
             from {
@@ -129,7 +126,7 @@
         .modal-animation {
             animation: modalFadeIn 0.3s ease-out;
         }
-        
+                
         /* Custom checkbox */
         .custom-checkbox {
             appearance: none;
@@ -158,7 +155,7 @@
         .dark .custom-checkbox {
             border-color: #475569;
         }
-        
+                
         /* Table row hover effect */
         .table-row-hover:hover {
             background-color: #f1f5f9;
@@ -166,7 +163,7 @@
         .dark .table-row-hover:hover {
             background-color: #1e293b;
         }
-        
+                
         /* Loading spinner */
         .loading-spinner {
             width: 24px;
@@ -178,6 +175,115 @@
         }
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+        
+        /* Custom tooltip */
+        .custom-tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .custom-tooltip .tooltip-text {
+            visibility: hidden;
+            width: 120px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .custom-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Custom dropdown */
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .custom-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #fff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0.375rem;
+        }
+        .dark .custom-dropdown-content {
+            background-color: #1e293b;
+        }
+        .custom-dropdown:hover .custom-dropdown-content {
+            display: block;
+        }
+        
+        /* Custom badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Custom button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background-color: #0ea5e9;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0284c7;
+        }
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+        }
+        .dark .btn-secondary {
+            background-color: #334155;
+            color: #f8fafc;
+        }
+        .dark .btn-secondary:hover {
+            background-color: #475569;
+        }
+        
+        /* Custom input */
+        .custom-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+        .custom-input:focus {
+            outline: none;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+        }
+        .dark .custom-input {
+            background-color: #1e293b;
+            border-color: #475569;
+            color: #f8fafc;
         }
     </style>
 </head>
@@ -195,7 +301,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
-            
+                        
             <!-- Sidebar Content -->
             <div class="flex-1 overflow-y-auto">
                 <nav class="p-4">
@@ -225,7 +331,7 @@
                             <span class="sidebar-item-text">Configurações</span>
                         </a>
                     </div>
-                    
+                                        
                     <div class="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
                         <h3 class="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider sidebar-item-text">SUPORTE</h3>
                         <div class="mt-2 space-y-1">
@@ -241,7 +347,7 @@
                     </div>
                 </nav>
             </div>
-            
+                        
             <!-- Sidebar Footer -->
             <div class="p-4 border-t border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between">
@@ -259,7 +365,7 @@
                 </div>
             </div>
         </aside>
-        
+                
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden ml-64 transition-all duration-300" id="main-content">
             <!-- Header -->
@@ -270,17 +376,81 @@
                         <h2 class="text-base text-gray-600 dark:text-gray-300">Bem-vindo, <span id="usuarioLogado">Usuário</span></h2>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <button id="notifications-btn" class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
-                            <i class="fas fa-bell"></i>
-                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-                        </button>
-                        <button class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
-                            <i class="fas fa-search"></i>
-                        </button>
+                        <div class="custom-dropdown">
+                            <button id="notifications-btn" class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                                <i class="fas fa-bell"></i>
+                                <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                            </button>
+                            <div class="custom-dropdown-content hidden w-80 mt-2">
+                                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Notificações</h3>
+                                </div>
+                                <div class="max-h-60 overflow-y-auto">
+                                    <div class="p-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 pt-0.5">
+                                                <div class="w-8 h-8 rounded-full bg-primary-100 dark:bg-gray-700 flex items-center justify-center">
+                                                    <i class="fas fa-exclamation-circle text-primary-600 dark:text-primary-400 text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-gray-800 dark:text-white">Contrato próximo a vencer</p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">O contrato CT-2023-001 vence em 3 dias</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 pt-0.5">
+                                                <div class="w-8 h-8 rounded-full bg-danger-100 dark:bg-gray-700 flex items-center justify-center">
+                                                    <i class="fas fa-clock text-danger-600 dark:text-danger-400 text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-gray-800 dark:text-white">Pagamento em atraso</p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">O contrato CT-2023-003 está com 15 dias de atraso</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 pt-0.5">
+                                                <div class="w-8 h-8 rounded-full bg-success-100 dark:bg-gray-700 flex items-center justify-center">
+                                                    <i class="fas fa-check-circle text-success-600 dark:text-success-400 text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-gray-800 dark:text-white">Pagamento confirmado</p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">O pagamento do contrato CT-2023-002 foi confirmado</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 border-t border-gray-200 dark:border-gray-700">
+                                    <a href="#" class="block text-center text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300">
+                                        Ver todas as notificações
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="custom-dropdown">
+                            <button class="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                                <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?name=Admin+User&background=0ea5e9&color=fff" alt="User">
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div class="custom-dropdown-content hidden w-48 mt-2">
+                                <div class="py-1">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Perfil</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Configurações</a>
+                                    <div class="border-t border-gray-200 dark:border-gray-700"></div>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Sair</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>
-            
+                        
             <!-- Main Content Area -->
             <main class="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900">
                 <!-- Stats Cards -->
@@ -289,35 +459,34 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Imóveis</p>
-                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1"><span id="card-imoveis-cadastrados-valor">0</span></h3>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">+2.5% desde o último mês</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1"><span id="card-imoveis-cadastrados-valor">24</span></h3>
+                                <p class="text-xs text-success-600 dark:text-success-400 mt-1">+2.5% desde o último mês</p>
                             </div>
                             <div class="p-3 rounded-full bg-primary-100 dark:bg-gray-700">
                                 <i class="fas fa-home text-primary-600 dark:text-primary-400 text-xl"></i>
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Contratos Ativos</p>
-                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1"><span id="card-contratos-ativos-valor">0</span></h3>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">+5.2% desde o último mês</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1"><span id="card-contratos-ativos-valor">18</span></h3>
+                                <p class="text-xs text-success-600 dark:text-success-400 mt-1">+5.2% desde o último mês</p>
                             </div>
                             <div class="p-3 rounded-full bg-green-100 dark:bg-gray-700">
                                 <i class="fas fa-file-contract text-green-600 dark:text-green-400 text-xl"></i>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Novo Card: Total a Receber -->
+                    
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total a Receber</p>
                                 <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">
-                                    <span id="card-a-receber">R$ 0,00</span>
+                                    <span id="card-a-receber">R$ 32.400,00</span>
                                 </h3>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Atualizado automaticamente</p>
                             </div>
@@ -326,15 +495,15 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Em Atraso</p>
                                 <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">
-                                    <span id="card-total-em-atraso-valor">R$ 0,00</span>
+                                    <span id="card-total-em-atraso-valor">R$ 1.800,00</span>
                                 </h3>
-                                <p class="text-xs text-danger-500 dark:text-danger-400 mt-1">+1 desde o último mês</p>
+                                <p class="text-xs text-danger-600 dark:text-danger-400 mt-1">+1 desde o último mês</p>
                             </div>
                             <div class="p-3 rounded-full bg-danger-100 dark:bg-gray-700">
                                 <i class="fas fa-clock text-danger-600 dark:text-danger-400 text-xl"></i>
@@ -342,39 +511,33 @@
                         </div>
                     </div>
                 </div>
-                
+                                
                 <!-- Charts Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Receita Mensal</h2>
                             <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-xs bg-primary-100 text-primary-700 dark:bg-gray-700 dark:text-primary-400 rounded-full">Mensal</button>
-                                <button class="px-3 py-1 text-xs bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-400 rounded-full">Anual</button>
+                                <button id="btn-mensal" class="px-3 py-1 text-xs bg-primary-100 text-primary-700 dark:bg-gray-700 dark:text-primary-400 rounded-full">Mensal</button>
+                                <button id="btn-anual" class="px-3 py-1 text-xs bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-400 rounded-full">Anual</button>
                             </div>
                         </div>
                         <div class="h-64">
-                            <!-- Chart placeholder -->
-                            <div class="flex items-center justify-center h-full bg-gray-100 dark:bg-gray-700 rounded">
-                                <p class="text-gray-500 dark:text-gray-400">Gráfico de Receita Mensal</p>
-                            </div>
+                            <canvas id="receitaChart"></canvas>
                         </div>
                     </div>
-                    
+                                        
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Status de Contratos</h2>
                             <button class="px-3 py-1 text-xs bg-primary-100 text-primary-700 dark:bg-gray-700 dark:text-primary-400 rounded-full">Ver todos</button>
                         </div>
                         <div class="h-64">
-                            <!-- Chart placeholder -->
-                            <div class="flex items-center justify-center h-full bg-gray-100 dark:bg-gray-700 rounded">
-                                <p class="text-gray-500 dark:text-gray-400">Gráfico de Status de Contratos</p>
-                            </div>
+                            <canvas id="statusContratosChart"></canvas>
                         </div>
                     </div>
                 </div>
-                
+                                
                 <!-- Tables Section -->
                 <div class="grid grid-cols-1 gap-6">
                     <!-- Próximos a Vencer Table -->
@@ -403,14 +566,20 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">CT-2023-001</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">João Silva</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Casa 123</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">15/07/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-warning-100 text-warning-800 dark:bg-gray-700 dark:text-warning-400">
+                                                <i class="fas fa-clock mr-1"></i> 15/07/2023
+                                            </span>
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">R$ 1.500,00</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            <button class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                            <button class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3 custom-tooltip">
                                                 <i class="fas fa-edit"></i>
+                                                <span class="tooltip-text">Editar</span>
                                             </button>
-                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300 custom-tooltip">
                                                 <i class="fas fa-trash"></i>
+                                                <span class="tooltip-text">Excluir</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -418,14 +587,20 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">CT-2023-002</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Maria Souza</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Apto 456</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">20/07/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-warning-100 text-warning-800 dark:bg-gray-700 dark:text-warning-400">
+                                                <i class="fas fa-clock mr-1"></i> 20/07/2023
+                                            </span>
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">R$ 2.300,00</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            <button class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                            <button class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3 custom-tooltip">
                                                 <i class="fas fa-edit"></i>
+                                                <span class="tooltip-text">Editar</span>
                                             </button>
-                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300 custom-tooltip">
                                                 <i class="fas fa-trash"></i>
+                                                <span class="tooltip-text">Excluir</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -454,7 +629,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                                        
                     <!-- Em Atraso Table -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
@@ -481,17 +656,24 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">CT-2023-003</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Carlos Oliveira</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Casa 789</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-danger-600 dark:text-danger-400">15 dias</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-danger-600 dark:text-danger-400">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-danger-100 text-danger-800 dark:bg-gray-700 dark:text-danger-400">
+                                                <i class="fas fa-exclamation-circle mr-1"></i> 15 dias
+                                            </span>
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">R$ 1.800,00</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            <button class="btn-icone-baixar text-success-600 dark:text-success-400 hover:text-success-900 dark:hover:text-success-300 mr-3">
+                                            <button class="text-success-600 dark:text-success-400 hover:text-success-900 dark:hover:text-success-300 mr-3 custom-tooltip">
                                                 <i class="fas fa-file-invoice-dollar"></i>
+                                                <span class="tooltip-text">Registrar Pagamento</span>
                                             </button>
-                                            <button class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                            <button class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3 custom-tooltip">
                                                 <i class="fas fa-edit"></i>
+                                                <span class="tooltip-text">Editar</span>
                                             </button>
-                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300 custom-tooltip">
                                                 <i class="fas fa-trash"></i>
+                                                <span class="tooltip-text">Excluir</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -520,7 +702,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                                        
                     <!-- Imóveis Table -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
@@ -552,11 +734,13 @@
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-success-100 text-success-800 dark:bg-gray-700 dark:text-success-400">Alugado</span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            <button onclick="openModal('modal-editar-imovel')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                            <button onclick="openModal('modal-editar-imovel')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3 custom-tooltip">
                                                 <i class="fas fa-edit"></i>
+                                                <span class="tooltip-text">Editar</span>
                                             </button>
-                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300 custom-tooltip">
                                                 <i class="fas fa-trash"></i>
+                                                <span class="tooltip-text">Excluir</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -569,11 +753,13 @@
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-warning-100 text-warning-800 dark:bg-gray-700 dark:text-warning-400">Disponível</span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            <button onclick="openModal('modal-editar-imovel')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                            <button onclick="openModal('modal-editar-imovel')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3 custom-tooltip">
                                                 <i class="fas fa-edit"></i>
+                                                <span class="tooltip-text">Editar</span>
                                             </button>
-                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300 custom-tooltip">
                                                 <i class="fas fa-trash"></i>
+                                                <span class="tooltip-text">Excluir</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -605,7 +791,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                                        
                     <!-- Clientes Table -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
@@ -633,11 +819,13 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">(85) 99999-9999</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Brasileiro</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            <button onclick="openModal('modal-editar-cliente')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                            <button onclick="openModal('modal-editar-cliente')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3 custom-tooltip">
                                                 <i class="fas fa-edit"></i>
+                                                <span class="tooltip-text">Editar</span>
                                             </button>
-                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300 custom-tooltip">
                                                 <i class="fas fa-trash"></i>
+                                                <span class="tooltip-text">Excluir</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -647,11 +835,13 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">(85) 98888-8888</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Brasileira</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            <button onclick="openModal('modal-editar-cliente')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                            <button onclick="openModal('modal-editar-cliente')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3 custom-tooltip">
                                                 <i class="fas fa-edit"></i>
+                                                <span class="tooltip-text">Editar</span>
                                             </button>
-                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300 custom-tooltip">
                                                 <i class="fas fa-trash"></i>
+                                                <span class="tooltip-text">Excluir</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -661,7 +851,7 @@
                         <div id="paginacao-clientes" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <div class="flex-1 flex justify-between sm:hidden">
                                 <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
-                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                                <a href="#" class="ml-3 relative inline-flex items Center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
                             </div>
                             <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                                 <div>
@@ -674,7 +864,7 @@
                                         <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
                                         <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
                                         <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
-                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex itemsCenter px-4 py-2 border text-sm font-medium">3</a>
                                         <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
                                         <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">5</a>
                                         <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
@@ -683,7 +873,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                                        
                     <!-- Contratos Table -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
@@ -715,11 +905,13 @@
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-success-100 text-success-800 dark:bg-gray-700 dark:text-success-400">Ativo</span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            <button onclick="openModal('modal-editar-contrato')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                            <button onclick="openModal('modal-editar-contrato')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3 custom-tooltip">
                                                 <i class="fas fa-edit"></i>
+                                                <span class="tooltip-text">Editar</span>
                                             </button>
-                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300 custom-tooltip">
                                                 <i class="fas fa-trash"></i>
+                                                <span class="tooltip-text">Excluir</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -732,11 +924,13 @@
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-success-100 text-success-800 dark:bg-gray-700 dark:text-success-400">Ativo</span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            <button onclick="openModal('modal-editar-contrato')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                            <button onclick="openModal('modal-editar-contrato')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3 custom-tooltip">
                                                 <i class="fas fa-edit"></i>
+                                                <span class="tooltip-text">Editar</span>
                                             </button>
-                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300 custom-tooltip">
                                                 <i class="fas fa-trash"></i>
+                                                <span class="tooltip-text">Excluir</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -783,7 +977,7 @@
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                
+                                
                 <div class="space-y-4">
                     <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                         <div class="flex items-start">
@@ -801,7 +995,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                                        
                     <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                         <div class="flex items-start">
                             <div class="flex-shrink-0 pt-0.5">
@@ -818,7 +1012,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                                        
                     <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                         <div class="flex items-start">
                             <div class="flex-shrink-0 pt-0.5">
@@ -836,7 +1030,7 @@
                         </div>
                     </div>
                 </div>
-                
+                                
                 <div class="mt-6 flex justify-end">
                     <button class="btn-secondary px-4 py-2 text-sm font-medium rounded-md mr-2" onclick="closeModal('modal-avisos')">
                         Fechar
@@ -851,143 +1045,5 @@
     
     <!-- Modal Editar Imóvel -->
     <div id="modal-editar-imovel" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-animation">
-            <div class="p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Editar Imóvel</h3>
-                    <button onclick="closeModal('modal-editar-imovel')" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                
-                <form>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="col-span-2">
-                            <label for="descricao" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descrição</label>
-                            <input type="text" id="descricao" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Descrição do imóvel">
-                        </div>
-                        
-                        <div class="col-span-2">
-                            <label for="endereco" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Endereço</label>
-                            <input type="text" id="endereco" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Endereço completo">
-                        </div>
-                        
-                        <div>
-                            <label for="tipo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo</label>
-                            <select id="tipo" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
-                                <option value="residencial">Residencial</option>
-                                <option value="comercial">Comercial</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                            <select id="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
-                                <option value="disponivel">Disponível</option>
-                                <option value="alugado">Alugado</option>
-                                <option value="manutencao">Em manutenção</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label for="enel" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nº Cliente ENEL</label>
-                            <input type="text" id="enel" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Número do cliente">
-                        </div>
-                        
-                        <div>
-                            <label for="cagece" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Matrícula CAGECE</label>
-                            <input type="text" id="cagece" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Matrícula">
-                        </div>
-                        
-                        <div class="col-span-2">
-                            <label for="observacoes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Observações</label>
-                            <textarea id="observacoes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Observações adicionais"></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 flex justify-end">
-                        <button type="button" onclick="closeModal('modal-editar-imovel')" class="btn-secondary px-4 py-2 text-sm font-medium rounded-md mr-2">
-                            Cancelar
-                        </button>
-                        <button type="submit" class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
-                            <i class="fas fa-save mr-2"></i> Salvar Alterações
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal Editar Cliente -->
-    <div id="modal-editar-cliente" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-animation">
-            <div class="p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Editar Cliente</h3>
-                    <button onclick="closeModal('modal-editar-cliente')" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                
-                <form>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="nome" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nome Completo</label>
-                            <input type="text" id="nome" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Nome do cliente">
-                        </div>
-                        
-                        <div>
-                            <label for="cpf" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">CPF</label>
-                            <input type="text" id="cpf" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="000.000.000-00">
-                        </div>
-                        
-                        <div>
-                            <label for="telefone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Telefone</label>
-                            <input type="text" id="telefone" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="(00) 00000-0000">
-                        </div>
-                        
-                        <div>
-                            <label for="pin" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">PIN</label>
-                            <input type="text" id="pin" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="PIN de acesso">
-                        </div>
-                        
-                        <div>
-                            <label for="nacionalidade" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nacionalidade</label>
-                            <input type="text" id="nacionalidade" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Nacionalidade">
-                        </div>
-                        
-                        <div>
-                            <label for="tipo-documento" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de Documento</label>
-                            <select id="tipo-documento" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
-                                <option value="rg">RG</option>
-                                <option value="cnh">CNH</option>
-                                <option value="passaporte">Passaporte</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label for="numero-documento" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Número do Documento</label>
-                            <input type="text" id="numero-documento" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Número do documento">
-                        </div>
-                        
-                        <div>
-                            <label for="data-nascimento" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Data de Nascimento</label>
-                            <input type="date" id="data-nascimento" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
-                        </div>
-                        
-                        <div class="col-span-2">
-                            <label for="observacoes-cliente" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Observações</label>
-                            <textarea id="observacoes-cliente" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:
-
-</body>
-  <script src="./js/administrativo/mensalidades.js" type="module"></script>
-  <div id="modal-editar-contrato" class="fixed inset-0 hidden z-50 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-xl">
-      <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Editar Contrato</h2>
-      <!-- Conteúdo do formulário de edição de contrato será adicionado aqui futuramente -->
-      <button onclick="closeModal('modal-editar-contrato')" class="mt-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
-        Fechar
-      </button>
-    </div>
-  </div>                            
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh]
 </html>
