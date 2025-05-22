@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo - DuVale</title>
-    <script type="module" src="js/administrativo/auth.js"></script>
-    <script type="module" src="js/administrativo/imoveis.js"></script>
-    <script type="module" src="js/administrativo/clientesContratos.js"></script>
-    <script type="module" src="js/administrativo/dashboard.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
-    
-    <!-- Tailwind CSS -->
+    <title>Dashboard - Gestão de Imóveis</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+          <!-- Importação de Scripts e CSS -->
+          <script type="module" src="js/administrativo/auth.js"></script>
+          <script type="module" src="js/administrativo/imoveis.js"></script>
+          <script type="module" src="js/administrativo/clientesContratos.js"></script>
+          <script type="module" src="js/administrativo/dashboard.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -19,906 +18,960 @@
                 extend: {
                     colors: {
                         primary: {
-                            light: '#1e40af',
-                            dark: '#3b82f6'
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
                         },
                         secondary: {
-                            light: '#10b981',
-                            dark: '#10b981'
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        success: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
                         },
                         danger: {
-                            light: '#dc2626',
-                            dark: '#ef4444'
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d',
                         },
                         warning: {
-                            light: '#f59e0b',
-                            dark: '#f59e0b'
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
                         },
-                        dark: {
-                            light: '#1e293b',
-                            dark: '#0f172a'
-                        },
-                        light: {
-                            light: '#f8fafc',
-                            dark: '#1e293b'
-                        }
                     }
                 }
             }
         }
     </script>
-    
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    
-    <!-- Custom CSS -->
     <style>
+        .sidebar-collapsed {
+            width: 4rem;
+        }
+        .sidebar-collapsed .sidebar-item-text {
+            display: none;
+        }
+        .sidebar-collapsed .sidebar-item-icon {
+            margin-right: 0;
+        }
+        .sidebar-collapsed .logo-text {
+            display: none;
+        }
+        .sidebar-collapsed .logo-icon {
+            margin-right: 0;
+        }
+        
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(241, 241, 241, 0.1);
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(199, 210, 254, 0.5);
+            background: #cbd5e1;
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(165, 180, 252, 0.7);
-        }
-        
         .dark ::-webkit-scrollbar-thumb {
-            background: rgba(100, 116, 139, 0.5);
-        }
-        .dark ::-webkit-scrollbar-thumb:hover {
-            background: rgba(148, 163, 184, 0.7);
+            background: #475569;
         }
         
-        /* Smooth transitions */
-        .transition-all {
-            transition: all 0.3s ease;
+        /* Animation for modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .modal-animation {
+            animation: modalFadeIn 0.3s ease-out;
         }
         
-        /* Card hover effect */
-        .card-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        /* Custom checkbox */
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
         }
-        
-        .dark .card-hover:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        .custom-checkbox:checked {
+            background-color: #0ea5e9;
+            border-color: #0ea5e9;
         }
-        
-        /* Notification badge */
-        .notification-badge {
+        .custom-checkbox:checked::after {
+            content: '\2713';
             position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background-color: #ef4444;
             color: white;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .dark .custom-checkbox {
+            border-color: #475569;
         }
         
-        /* Sidebar animation */
-        @keyframes slideIn {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
+        /* Table row hover effect */
+        .table-row-hover:hover {
+            background-color: #f1f5f9;
+        }
+        .dark .table-row-hover:hover {
+            background-color: #1e293b;
         }
         
-        @keyframes slideOut {
-            from { transform: translateX(0); }
-            to { transform: translateX(-100%); }
+        /* Loading spinner */
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
         }
-        
-        .sidebar-slide-in {
-            animation: slideIn 0.3s forwards;
-        }
-        
-        .sidebar-slide-out {
-            animation: slideOut 0.3s forwards;
-        }
-        
-        /* Overlay for sidebar */
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 40;
-            display: none;
-        }
-        
-        /* Dark mode transitions */
-        .dark-mode-transition * {
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-        }
-        
-        /* Search box */
-        .search-box {
-            position: absolute;
-            right: 0;
-            top: 100%;
-            width: 300px;
-            background: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            z-index: 10;
-            display: none;
-        }
-        
-        .dark .search-box {
-            background: #1e293b;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Highlight search results */
-        .search-highlight {
-            background-color: #fef08a;
-            color: #000;
-        }
-        
-        .dark .search-highlight {
-            background-color: #713f12;
-            color: #fff;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 640px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tables-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .search-box {
-                width: 250px;
-                right: -50px;
-            }
-            
-            .sidebar-collapsed {
-                width: 0;
-                overflow: hidden;
-                padding: 0;
-                border: none;
-            }
-            
-            .sidebar-expanded {
-                width: 100%;
-                max-width: 300px;
-                position: fixed;
-                z-index: 50;
-                height: 100vh;
-            }
-            
-            .content-expanded {
-                margin-left: 0;
-            }
-        }
-        
-        @media (min-width: 641px) and (max-width: 1024px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tables-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .sidebar-collapsed {
-                width: 80px;
-                overflow: hidden;
-            }
-            
-            .sidebar-collapsed .sidebar-text {
-                display: none;
-            }
-            
-            .sidebar-collapsed .sidebar-icon {
-                margin-right: 0;
-                justify-content: center;
-            }
-            
-            .content-collapsed {
-                margin-left: 80px;
-            }
-        }
-        
-        @media (min-width: 1025px) {
-            .sidebar-collapsed {
-                width: 80px;
-                overflow: hidden;
-            }
-            
-            .sidebar-collapsed .sidebar-text {
-                display: none;
-            }
-            
-            .sidebar-collapsed .sidebar-icon {
-                margin-right: 0;
-                justify-content: center;
-            }
-            
-            .content-collapsed {
-                margin-left: 80px;
-            }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-slate-900 font-sans flex h-screen overflow-hidden dark-mode-transition">
-    <!-- Sidebar Overlay (for mobile) -->
-    <div id="sidebarOverlay" class="sidebar-overlay md:hidden" onclick="toggleSidebar()"></div>
-    
-    <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="bg-blue-900 dark:bg-slate-800 text-white w-64 md:w-72 h-full flex-shrink-0 flex flex-col z-50 fixed transition-all duration-300 ease-in-out">
-        <!-- Logo and Toggle -->
-        <div class="p-4 flex items-center justify-between border-b border-blue-800 dark:border-slate-700">
-            <div class="flex items-center space-x-2">
-                <img src="img/duvaleb.png" alt="DuVale Logo" class="h-10">
-            </div>
-            <button id="sidebarToggle" class="md:hidden text-white focus:outline-none" onclick="toggleSidebar()">
-                <i class="fas fa-times text-lg"></i>
-            </button>
-        </div>
-        
-        <!-- User Profile -->
-        <div class="p-4 border-b border-blue-800 dark:border-slate-700">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full bg-blue-700 dark:bg-slate-600 flex items-center justify-center">
-                    <i class="fas fa-user text-white"></i>
+<body class="h-full bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+    <div class="flex h-full">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 h-full bg-white dark:bg-gray-800 shadow-md flex flex-col transition-all duration-300 fixed z-50">
+            <!-- Logo -->
+            <div class="p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <i class="fas fa-home text-primary-600 dark:text-primary-400 text-2xl logo-icon"></i>
+                    <span class="ml-3 text-xl font-semibold text-gray-800 dark:text-white logo-text">Gestão Imóveis</span>
                 </div>
-                <div class="sidebar-text">
-                    <p class="font-medium">Admin</p>
-                    <p class="text-xs text-blue-200 dark:text-slate-300">Administrador</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Navigation Menu -->
-        <nav class="flex-1 overflow-y-auto p-2">
-            <ul class="space-y-1">
-                <li>
-                    <a href="inicial1.html" class="flex items-center p-3 text-white bg-blue-800 dark:bg-slate-700 rounded-lg sidebar-icon">
-                        <i class="fas fa-chart-line w-6 text-center mr-3"></i>
-                        <span class="font-medium sidebar-text">Administrativo</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="Financeiro.html" class="flex items-center p-3 text-blue-200 dark:text-slate-300 hover:bg-blue-800 dark:hover:bg-slate-700 hover:text-white rounded-lg transition-all sidebar-icon">
-                        <i class="fas fa-wallet w-6 text-center mr-3"></i>
-                        <span class="font-medium sidebar-text">Financeiro</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="Cadastro.html" class="flex items-center p-3 text-blue-200 dark:text-slate-300 hover:bg-blue-800 dark:hover:bg-slate-700 hover:text-white rounded-lg transition-all sidebar-icon">
-                        <i class="fas fa-user-plus w-6 text-center mr-3"></i>
-                        <span class="font-medium sidebar-text">Cadastro</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="relatorios.html" class="flex items-center p-3 text-blue-200 dark:text-slate-300 hover:bg-blue-800 dark:hover:bg-slate-700 hover:text-white rounded-lg transition-all sidebar-icon">
-                        <i class="fas fa-file-lines w-6 text-center mr-3"></i>
-                        <span class="font-medium sidebar-text">Relatórios</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://wa.me/5588981202539" target="_blank" class="flex items-center p-3 text-blue-200 dark:text-slate-300 hover:bg-blue-800 dark:hover:bg-slate-700 hover:text-white rounded-lg transition-all sidebar-icon">
-                        <i class="fas fa-headset w-6 text-center mr-3"></i>
-                        <span class="font-medium sidebar-text">Suporte</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        
-        <!-- Theme Toggle and Logout -->
-        <div class="p-4 border-t border-blue-800 dark:border-slate-700 space-y-2">
-            <button id="themeToggle" class="w-full flex items-center p-3 text-blue-200 dark:text-slate-300 hover:bg-blue-800 dark:hover:bg-slate-700 hover:text-white rounded-lg transition-all sidebar-icon">
-                <i id="themeIcon" class="fas fa-moon w-6 text-center mr-3"></i>
-                <span class="font-medium sidebar-text">Modo Escuro</span>
-            </button>
-            <a href="Index.html" class="flex items-center p-3 text-blue-200 dark:text-slate-300 hover:bg-blue-800 dark:hover:bg-slate-700 hover:text-white rounded-lg transition-all sidebar-icon">
-                <i class="fas fa-power-off w-6 text-center mr-3"></i>
-                <span class="font-medium sidebar-text">Sair</span>
-            </a>
-        </div>
-    </aside>
-    
-    <!-- Main Content -->
-    <div id="mainContent" class="flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out md:ml-64 lg:ml-72">
-        <!-- Top Header -->
-        <header class="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 py-4 px-6 flex items-center justify-between">
-            <div class="flex items-center">
-                <button id="mobileSidebarToggle" class="md:hidden text-gray-600 dark:text-slate-300 focus:outline-none mr-4" onclick="toggleSidebar()">
-                    <i class="fas fa-bars text-xl"></i>
+                <button id="sidebar-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                    <i class="fas fa-bars"></i>
                 </button>
-                <button id="desktopSidebarToggle" class="hidden md:block text-gray-600 dark:text-slate-300 focus:outline-none mr-4" onclick="toggleSidebarDesktop()">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-                <h1 class="text-2xl font-semibold text-gray-800 dark:text-white flex items-center">
-                    <i class="fas fa-chart-line text-blue-600 dark:text-blue-400 mr-3"></i>
-                    Painel Administrativo
-                </h1>
-                <div id="currentDateTime" class="ml-4 text-sm text-gray-500 dark:text-slate-400 hidden md:block"></div>
             </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative">
-                    <button id="searchButton" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 focus:outline-none">
-                        <i class="fas fa-search text-gray-500 dark:text-slate-300"></i>
-                    </button>
-                    <div id="searchBox" class="search-box">
-                        <div class="relative">
-                            <input type="text" id="searchInput" placeholder="Buscar na página..." 
-                                   class="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white">
-                            <button id="closeSearch" class="absolute right-3 top-2 text-gray-500 dark:text-slate-300">
-                                <i class="fas fa-times"></i>
-                            </button>
+            
+            <!-- Sidebar Content -->
+            <div class="flex-1 overflow-y-auto">
+                <nav class="p-4">
+                    <div class="space-y-1">
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg bg-primary-50 text-primary-700 dark:bg-gray-700 dark:text-primary-400 sidebar-item">
+                            <i class="fas fa-tachometer-alt sidebar-item-icon mr-3 text-primary-600 dark:text-primary-400"></i>
+                            <span class="sidebar-item-text">Dashboard</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                            <i class="fas fa-home sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                            <span class="sidebar-item-text">Imóveis</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                            <i class="fas fa-users sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                            <span class="sidebar-item-text">Clientes</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                            <i class="fas fa-file-contract sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                            <span class="sidebar-item-text">Contratos</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                            <i class="fas fa-chart-line sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                            <span class="sidebar-item-text">Relatórios</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                            <i class="fas fa-cog sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                            <span class="sidebar-item-text">Configurações</span>
+                        </a>
+                    </div>
+                    
+                    <div class="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <h3 class="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider sidebar-item-text">SUPORTE</h3>
+                        <div class="mt-2 space-y-1">
+                            <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                                <i class="fas fa-question-circle sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                                <span class="sidebar-item-text">Ajuda</span>
+                            </a>
+                            <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                                <i class="fas fa-envelope sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                                <span class="sidebar-item-text">Contato</span>
+                            </a>
                         </div>
-                        <div id="searchResults" class="mt-2 text-sm text-gray-600 dark:text-slate-300"></div>
                     </div>
-                </div>
-                <div class="relative">
-                    <button id="btnNotificacoes" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 focus:outline-none">
-                        <i class="fas fa-bell text-gray-500 dark:text-slate-300"></i>
-                        <span class="notification-badge">0</span>
-                    </button>
-                </div>
-                <div class="relative">
-                    <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 focus:outline-none">
-                        <i class="fas fa-cog text-gray-500 dark:text-slate-300"></i>
+                </nav>
+            </div>
+            
+            <!-- Sidebar Footer -->
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?name=Admin+User&background=0ea5e9&color=fff" alt="User">
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-700 dark:text-gray-200 sidebar-item-text">Admin User</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 sidebar-item-text">admin@example.com</p>
+                        </div>
+                    </div>
+                    <button id="dark-mode-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
                     </button>
                 </div>
             </div>
-        </header>
+        </aside>
         
-        <!-- Dashboard Content -->
-        <main class="flex-1 overflow-y-auto px-4 md:px-6 py-6 bg-gray-50 dark:bg-slate-900">
-            <!-- Welcome Banner -->
-            <div class="bg-gradient-to-r from-blue-800 to-blue-600 dark:from-blue-900 dark:to-blue-700 rounded-xl shadow-md p-6 mb-6 text-white">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <h2 class="text-2xl font-bold mb-2">Bem-vindo, <span id="usuarioLogado">Usuário</span></h2>
-                        <p class="opacity-90">Aqui está um resumo das atividades e métricas do sistema.</p>
-                    </div>
-                    <div class="mt-4 md:mt-0">
-                        <button class="bg-white text-blue-800 dark:bg-blue-100 dark:text-blue-800 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 dark:hover:bg-blue-200 transition">
-                            <i class="fas fa-plus mr-2"></i> Novo Contrato
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden ml-64 transition-all duration-300" id="main-content">
+            <!-- Header -->
+            <header class="bg-white dark:bg-gray-800 shadow-sm z-10">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">Dashboard</h1>
+                    <div class="flex items-center space-x-4">
+                        <button id="notifications-btn" class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                        <button class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                            <i class="fas fa-search"></i>
                         </button>
                     </div>
                 </div>
-            </div>
+            </header>
             
-            <!-- Stats Cards -->
-            <div class="grid stats-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <!-- Properties Card -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 p-6 card-hover transition-all">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-gray-500 dark:text-slate-400 font-medium">Imóveis</h3>
-                        <div class="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg">
-                            <i class="fas fa-home text-blue-600 dark:text-blue-400"></i>
-                        </div>
-                    </div>
-                    <p id="card-imoveis-cadastrados-valor" class="text-3xl font-bold text-gray-800 dark:text-white">0</p>
-                    <p class="text-sm text-gray-500 dark:text-slate-400 mt-2">
-                        <span class="text-gray-500">
-                            <i class="fas fa-info-circle mr-1"></i> Sem dados recentes
-                        </span>
-                    </p>
-                </div>
-                
-                <!-- Active Contracts Card -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 p-6 card-hover transition-all">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-gray-500 dark:text-slate-400 font-medium">Contratos Ativos</h3>
-                        <div class="bg-green-100 dark:bg-green-900/30 p-2 rounded-lg">
-                            <i class="fas fa-file-contract text-green-600 dark:text-green-400"></i>
-                        </div>
-                    </div>
-                    <p id="card-contratos-ativos-valor" class="text-3xl font-bold text-gray-800 dark:text-white">0</p>
-                    <p class="text-sm text-gray-500 dark:text-slate-400 mt-2">
-                        <span class="text-gray-500">
-                            <i class="fas fa-info-circle mr-1"></i> Sem dados recentes
-                        </span>
-                    </p>
-                </div>
-                
-                <!-- Due Soon Card -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 p-6 card-hover transition-all">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-gray-500 dark:text-slate-400 font-medium">Total a Vencer</h3>
-                        <div class="bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded-lg">
-                            <i class="fas fa-clock text-yellow-600 dark:text-yellow-400"></i>
-                        </div>
-                    </div>
-                    <p id="card-a-receber" class="text-3xl font-bold text-gray-800 dark:text-white">R$ 0,00</p>
-                    <p class="text-sm text-gray-500 dark:text-slate-400 mt-2">
-                        <span class="text-gray-500">
-                            <i class="fas fa-info-circle mr-1"></i> Sem dados recentes
-                        </span>
-                    </p>
-                </div>
-                
-                <!-- Overdue Card -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 p-6 card-hover transition-all">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-gray-500 dark:text-slate-400 font-medium">Total em Atraso</h3>
-                        <div class="bg-red-100 dark:bg-red-900/30 p-2 rounded-lg">
-                            <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400"></i>
-                        </div>
-                    </div>
-                    <p id="card-total-em-atraso-valor" class="text-3xl font-bold text-gray-800 dark:text-white">R$ 0,00</p>
-                    <p class="text-sm text-gray-500 dark:text-slate-400 mt-2">
-                        <span class="text-gray-500">
-                            <i class="fas fa-info-circle mr-1"></i> Sem dados recentes
-                        </span>
-                    </p>
-                </div>
-            </div>
-            
-            <!-- Charts Section -->
-            <div class="grid charts-grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 p-6 min-w-0">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Receita Mensal</h3>
-                        <div class="flex flex-wrap gap-2">
-                            <button class="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 rounded-md">Mensal</button>
-                            <button class="px-3 py-1 text-xs bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-slate-300 rounded-md">Anual</button>
-                        </div>
-                    </div>
-                    <div id="revenue-chart" class="h-64 flex items-center justify-center">
-                        <p class="text-gray-500 dark:text-slate-400">Nenhum dado disponível para exibir</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 p-6 min-w-0">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Status de Contratos</h3>
-                        <div class="flex flex-wrap gap-2">
-                            <button class="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 rounded-md">2024</button>
-                            <button class="px-3 py-1 text-xs bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-slate-300 rounded-md">2025</button>
-                        </div>
-                    </div>
-                    <div id="contracts-chart" class="h-64 flex items-center justify-center">
-                        <p class="text-gray-500 dark:text-slate-400">Nenhum dado disponível para exibir</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Recent Activity and Tables -->
-            <div class="grid tables-grid grid-cols-1 gap-6">
-                <!-- Due Soon Section -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between">
-                        <h2 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
-                            <i class="fas fa-clock text-yellow-500 mr-2"></i>
-                            Próximos a vencer
-                        </h2>
-                        <button class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">Ver todos</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
-                            <thead class="bg-gray-50 dark:bg-slate-700">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Inquilino</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Imóvel</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Vencimento</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Valor</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Vence em:</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabela-vencer-corpo" class="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
-                                <tr>
-                                    <td colspan="5" class="px-6 py-4 text-center text-gray-500 dark:text-slate-400">
-                                        Nenhum contrato próximo do vencimento
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- Overdue Section -->
-                <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between">
-                        <h2 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
-                            <i class="fas fa-exclamation-circle text-red-500 mr-2"></i>
-                            Em atraso
-                        </h2>
-                        <button class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">Ver todos</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
-                            <thead class="bg-gray-50 dark:bg-slate-700">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Inquilino</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Imóvel</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Vencimento</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Valor</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Vencido a:</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabela-atraso-corpo" class="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
-                                <tr>
-                                    <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-slate-400">
-                                        Nenhum contrato em atraso no momento
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="px-6 py-3 border-t border-gray-100 dark:border-slate-700 flex items-center justify-between text-sm text-gray-500 dark:text-slate-400">
-                        Mostrando 0 de 0 contratos
-                    </div>
-                </div>
-            </div>
-        </main>
-        
-        <!-- Footer -->
-        <footer class="bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 py-4 px-6">
-            <p class="text-sm text-gray-500 dark:text-slate-400 text-center">
-                Setta Software Solutions. Todos os direitos reservados | Desenvolvido por Fernando Freitas © 2024
-                | <a href="https://wa.me/5588981202539" target="_blank" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">Suporte</a>
-            </p>
-        </footer>
-    </div>
-    
-    <!-- Notifications Modal -->
-    <div id="modalAviso" class="fixed inset-0 z-50 hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-bottom bg-white dark:bg-slate-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                <div class="bg-white dark:bg-slate-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">Avisos</h3>
-                                <button id="closeModalAviso" class="text-gray-400 hover:text-gray-500 dark:hover:text-slate-300 focus:outline-none">
-                                    <i class="fas fa-times"></i>
-                                </button>
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Imóveis</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">24</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">+2.5% desde o último mês</p>
                             </div>
-                            <div id="modalBodyAviso" class="mt-2 max-h-96 overflow-y-auto">
-                                <div class="p-4 text-center text-gray-500 dark:text-slate-400">
-                                    Nenhuma notificação no momento
+                            <div class="p-3 rounded-full bg-primary-100 dark:bg-gray-700">
+                                <i class="fas fa-home text-primary-600 dark:text-primary-400 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Contratos Ativos</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">18</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">+5.2% desde o último mês</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-green-100 dark:bg-gray-700">
+                                <i class="fas fa-file-contract text-green-600 dark:text-green-400 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Próximos a Vencer</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">3</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">-1 desde o último mês</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-yellow-100 dark:bg-gray-700">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Em Atraso</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">2</h3>
+                                <p class="text-xs text-danger-500 dark:text-danger-400 mt-1">+1 desde o último mês</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-danger-100 dark:bg-gray-700">
+                                <i class="fas fa-clock text-danger-600 dark:text-danger-400 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Receita Mensal</h2>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 text-xs bg-primary-100 text-primary-700 dark:bg-gray-700 dark:text-primary-400 rounded-full">Mensal</button>
+                                <button class="px-3 py-1 text-xs bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-400 rounded-full">Anual</button>
+                            </div>
+                        </div>
+                        <div class="h-64">
+                            <!-- Chart placeholder -->
+                            <div class="flex items-center justify-center h-full bg-gray-100 dark:bg-gray-700 rounded">
+                                <p class="text-gray-500 dark:text-gray-400">Gráfico de Receita Mensal</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Status de Contratos</h2>
+                            <button class="px-3 py-1 text-xs bg-primary-100 text-primary-700 dark:bg-gray-700 dark:text-primary-400 rounded-full">Ver todos</button>
+                        </div>
+                        <div class="h-64">
+                            <!-- Chart placeholder -->
+                            <div class="flex items-center justify-center h-full bg-gray-100 dark:bg-gray-700 rounded">
+                                <p class="text-gray-500 dark:text-gray-400">Gráfico de Status de Contratos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tables Section -->
+                <div class="grid grid-cols-1 gap-6">
+                    <!-- Próximos a Vencer Table -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Próximos a Vencer</h2>
+                            <button class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                                <i class="fas fa-plus mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Contrato</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cliente</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Imóvel</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Vencimento</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valor</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-vencer-corpo" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <!-- Sample data rows -->
+                                    <tr class="table-row-hover">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">CT-2023-001</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">João Silva</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Casa 123</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">15/07/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">R$ 1.500,00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <button class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">CT-2023-002</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Maria Souza</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Apto 456</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">20/07/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">R$ 2.300,00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <button class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginacao-vencer" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
+                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">2</span> de <span class="font-medium">2</span> resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                                        <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Em Atraso Table -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Contratos em Atraso</h2>
+                            <button class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                                <i class="fas fa-plus mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Contrato</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cliente</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Imóvel</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Dias em Atraso</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valor</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-atraso-corpo" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <!-- Sample data rows -->
+                                    <tr class="table-row-hover">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">CT-2023-003</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Carlos Oliveira</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Casa 789</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-danger-600 dark:text-danger-400">15 dias</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">R$ 1.800,00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <button class="btn-icone-baixar text-success-600 dark:text-success-400 hover:text-success-900 dark:hover:text-success-300 mr-3">
+                                                <i class="fas fa-file-invoice-dollar"></i>
+                                            </button>
+                                            <button class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginacao-atraso" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
+                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">1</span> de <span class="font-medium">1</span> resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                                        <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Imóveis Table -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Imóveis</h2>
+                            <button onclick="openModal('modal-editar-imovel')" class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                                <i class="fas fa-plus mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Código</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Descrição</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Endereço</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipo</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="imoveis-corpo" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <!-- Sample data rows -->
+                                    <tr class="table-row-hover">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">IM-001</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Casa 2 quartos</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Rua A, 123</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Residencial</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-success-100 text-success-800 dark:bg-gray-700 dark:text-success-400">Alugado</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <button onclick="openModal('modal-editar-imovel')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">IM-002</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Apto 3 quartos</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Av. B, 456</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Residencial</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-warning-100 text-warning-800 dark:bg-gray-700 dark:text-warning-400">Disponível</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <button onclick="openModal('modal-editar-imovel')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginacao-imoveis" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
+                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">2</span> de <span class="font-medium">24</span> resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                                        <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</a>
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">8</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Clientes Table -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Clientes</h2>
+                            <button onclick="openModal('modal-editar-cliente')" class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                                <i class="fas fa-plus mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nome</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">CPF</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Telefone</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nacionalidade</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="clientes-corpo" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <!-- Sample data rows -->
+                                    <tr class="table-row-hover">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">João Silva</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">123.456.789-00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">(85) 99999-9999</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Brasileiro</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <button onclick="openModal('modal-editar-cliente')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Maria Souza</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">987.654.321-00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">(85) 98888-8888</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Brasileira</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <button onclick="openModal('modal-editar-cliente')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginacao-clientes" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
+                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">2</span> de <span class="font-medium">15</span> resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                                        <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</a>
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">5</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contratos Table -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Contratos</h2>
+                            <button onclick="openModal('modal-editar-contrato')" class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                                <i class="fas fa-plus mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Código</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cliente</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Imóvel</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valor</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contratos-corpo" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <!-- Sample data rows -->
+                                    <tr class="table-row-hover">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">CT-2023-001</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">João Silva</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Casa 123</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">R$ 1.500,00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-success-100 text-success-800 dark:bg-gray-700 dark:text-success-400">Ativo</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <button onclick="openModal('modal-editar-contrato')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row-hover">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">CT-2023-002</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Maria Souza</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">Apto 456</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">R$ 2.300,00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-success-100 text-success-800 dark:bg-gray-700 dark:text-success-400">Ativo</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            <button onclick="openModal('modal-editar-contrato')" class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 mr-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger-600 dark:text-danger-400 hover:text-danger-900 dark:hover:text-danger-300">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginacao-contratos" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
+                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">2</span> de <span class="font-medium">18</span> resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                                        <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</a>
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">6</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 dark:bg-slate-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        Marcar todos como lidos
+            </main>
+        </div>
+    </div>
+    
+    <!-- Modal Avisos -->
+    <div id="modal-avisos" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-animation">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Avisos</h3>
+                    <button onclick="closeModal('modal-avisos')" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                        <i class="fas fa-times"></i>
                     </button>
-                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-600 text-base font-medium text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 pt-0.5">
+                                <div class="w-10 h-10 rounded-full bg-primary-100 dark:bg-gray-700 flex items-center justify-center">
+                                    <i class="fas fa-exclamation-circle text-primary-600 dark:text-primary-400"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-medium text-gray-800 dark:text-white">Contrato próximo a vencer</h4>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">Hoje, 10:30</span>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">O contrato CT-2023-001 do cliente João Silva vence em 3 dias.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 pt-0.5">
+                                <div class="w-10 h-10 rounded-full bg-danger-100 dark:bg-gray-700 flex items-center justify-center">
+                                    <i class="fas fa-clock text-danger-600 dark:text-danger-400"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-medium text-gray-800 dark:text-white">Pagamento em atraso</h4>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">Ontem, 15:45</span>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">O contrato CT-2023-003 do cliente Carlos Oliveira está com pagamento atrasado há 15 dias.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 pt-0.5">
+                                <div class="w-10 h-10 rounded-full bg-success-100 dark:bg-gray-700 flex items-center justify-center">
+                                    <i class="fas fa-check-circle text-success-600 dark:text-success-400"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-medium text-gray-800 dark:text-white">Pagamento confirmado</h4>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">2 dias atrás</span>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">O pagamento do contrato CT-2023-002 foi confirmado.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex justify-end">
+                    <button class="btn-secondary px-4 py-2 text-sm font-medium rounded-md mr-2" onclick="closeModal('modal-avisos')">
                         Fechar
+                    </button>
+                    <button class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                        <i class="fas fa-check-circle mr-2"></i> Marcar todos como lidos
                     </button>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- JavaScript -->
-    <script>
-        // Toggle sidebar function for mobile
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            const mainContent = document.getElementById('mainContent');
-            
-            if (sidebar.classList.contains('hidden')) {
-                // Show sidebar
-                sidebar.classList.remove('hidden');
-                sidebar.classList.add('sidebar-expanded');
-                overlay.style.display = 'block';
-                mainContent.classList.add('content-expanded');
-            } else {
-                // Hide sidebar
-                sidebar.classList.add('sidebar-slide-out');
-                overlay.style.display = 'none';
-                mainContent.classList.remove('content-expanded');
+    <!-- Modal Editar Imóvel -->
+    <div id="modal-editar-imovel" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-animation">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Editar Imóvel</h3>
+                    <button onclick="closeModal('modal-editar-imovel')" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
                 
-                // Remove animation classes after animation completes
-                setTimeout(() => {
-                    sidebar.classList.remove('sidebar-slide-in', 'sidebar-slide-out', 'sidebar-expanded');
-                    sidebar.classList.add('hidden');
-                }, 300);
-            }
-        }
-        
-        // Toggle sidebar function for desktop
-        function toggleSidebarDesktop() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
-            
-            if (sidebar.classList.contains('sidebar-collapsed')) {
-                // Expand sidebar
-                sidebar.classList.remove('sidebar-collapsed');
-                mainContent.classList.remove('content-collapsed');
-            } else {
-                // Collapse sidebar
-                sidebar.classList.add('sidebar-collapsed');
-                mainContent.classList.add('content-collapsed');
-            }
-        }
-        
-        // Initialize sidebar state
-        function initSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            const mainContent = document.getElementById('mainContent');
-            
-            if (window.innerWidth < 768) {
-                // Mobile - sidebar hidden by default
-                sidebar.classList.add('hidden');
-                overlay.style.display = 'none';
-                mainContent.classList.add('content-expanded');
-            } else {
-                // Desktop - sidebar expanded by default
-                sidebar.classList.remove('hidden', 'sidebar-collapsed');
-                overlay.style.display = 'none';
-                mainContent.classList.remove('content-collapsed', 'content-expanded');
-            }
-        }
-        
-        // Dark mode toggle
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            const themeIcon = document.getElementById('themeIcon');
-            
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.setItem('darkMode', 'false');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('darkMode', 'true');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-            }
-        }
-        
-        // Check for saved dark mode preference
-        function checkDarkModePreference() {
-            const html = document.documentElement;
-            const themeIcon = document.getElementById('themeIcon');
-            
-            if (localStorage.getItem('darkMode') === 'true' || 
-                (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                html.classList.add('dark');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-            } else {
-                html.classList.remove('dark');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-            }
-        }
-        
-        // Toggle notifications modal
-        function setupModalToggle() {
-            document.getElementById('btnNotificacoes').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('modalAviso').classList.toggle('hidden');
-            });
-            
-            document.getElementById('closeModalAviso').addEventListener('click', function() {
-                document.getElementById('modalAviso').classList.add('hidden');
-            });
-        }
-        
-        // Close modals when clicking outside
-        function setupModalCloseOnOutsideClick() {
-            const modals = ['modalAviso'];
-            
-            modals.forEach(modalId => {
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.addEventListener('click', function(e) {
-                        if (e.target === modal) {
-                            modal.classList.add('hidden');
-                        }
-                    });
-                }
-            });
-        }
-        
-        // Update current date and time
-        function updateDateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-            const dateTimeStr = now.toLocaleDateString('pt-BR', options);
-            document.getElementById('currentDateTime').textContent = dateTimeStr;
-        }
-        
-        // Search functionality
-        function setupSearch() {
-            const searchButton = document.getElementById('searchButton');
-            const searchBox = document.getElementById('searchBox');
-            const closeSearch = document.getElementById('closeSearch');
-            const searchInput = document.getElementById('searchInput');
-            const searchResults = document.getElementById('searchResults');
-            
-            // Toggle search box
-            searchButton.addEventListener('click', function(e) {
-                e.stopPropagation();
-                searchBox.style.display = searchBox.style.display === 'block' ? 'none' : 'block';
-                if (searchBox.style.display === 'block') {
-                    searchInput.focus();
-                }
-            });
-            
-            // Close search box
-            closeSearch.addEventListener('click', function() {
-                searchBox.style.display = 'none';
-                clearSearch();
-            });
-            
-            // Close search when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!searchBox.contains(e.target) && e.target !== searchButton) {
-                    searchBox.style.display = 'none';
-                    clearSearch();
-                }
-            });
-            
-            // Perform search
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.trim().toLowerCase();
-                
-                if (searchTerm.length < 2) {
-                    clearSearch();
-                    return;
-                }
-                
-                // Clear previous highlights
-                clearSearch();
-                
-                // Search in main content
-                const mainContent = document.querySelector('main');
-                const textNodes = [];
-                const walker = document.createTreeWalker(
-                    mainContent, 
-                    NodeFilter.SHOW_TEXT, 
-                    null, 
-                    false
-                );
-                
-                let node;
-                let resultsCount = 0;
-                
-                while (node = walker.nextNode()) {
-                    if (node.nodeValue.toLowerCase().includes(searchTerm)) {
-                        textNodes.push(node);
-                        resultsCount++;
-                    }
-                }
-                
-                // Highlight matches
-                textNodes.forEach(textNode => {
-                    const parent = textNode.parentNode;
-                    if (parent.nodeName === 'SCRIPT' || parent.nodeName === 'STYLE') {
-                        return;
-                    }
+                <form>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="col-span-2">
+                            <label for="descricao" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descrição</label>
+                            <input type="text" id="descricao" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Descrição do imóvel">
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <label for="endereco" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Endereço</label>
+                            <input type="text" id="endereco" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Endereço completo">
+                        </div>
+                        
+                        <div>
+                            <label for="tipo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo</label>
+                            <select id="tipo" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                <option value="residencial">Residencial</option>
+                                <option value="comercial">Comercial</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                            <select id="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                <option value="disponivel">Disponível</option>
+                                <option value="alugado">Alugado</option>
+                                <option value="manutencao">Em manutenção</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="enel" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nº Cliente ENEL</label>
+                            <input type="text" id="enel" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Número do cliente">
+                        </div>
+                        
+                        <div>
+                            <label for="cagece" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Matrícula CAGECE</label>
+                            <input type="text" id="cagece" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Matrícula">
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <label for="observacoes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Observações</label>
+                            <textarea id="observacoes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Observações adicionais"></textarea>
+                        </div>
+                    </div>
                     
-                    const text = textNode.nodeValue;
-                    const html = text.replace(
-                        new RegExp(searchTerm, 'gi'), 
-                        match => `<span class="search-highlight">${match}</span>`
-                    );
-                    
-                    const span = document.createElement('span');
-                    span.innerHTML = html;
-                    parent.replaceChild(span, textNode);
-                });
-                
-                // Show results count
-                searchResults.textContent = `${resultsCount} resultados encontrados`;
-            });
-            
-            function clearSearch() {
-                const highlights = document.querySelectorAll('.search-highlight');
-                highlights.forEach(highlight => {
-                    const parent = highlight.parentNode;
-                    parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
-                    parent.normalize();
-                });
-                searchResults.textContent = '';
-            }
-        }
-        
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize sidebar
-            initSidebar();
-            
-            // Check for dark mode preference
-            checkDarkModePreference();
-            
-            // Setup event listeners
-            document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
-            document.getElementById('mobileSidebarToggle').addEventListener('click', toggleSidebar);
-            document.getElementById('desktopSidebarToggle').addEventListener('click', toggleSidebarDesktop);
-            document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
-            
-            // Setup modals
-            setupModalToggle();
-            setupModalCloseOnOutsideClick();
-            
-            // Setup search
-            setupSearch();
-            
-            // Update date and time
-            updateDateTime();
-            setInterval(updateDateTime, 60000); // Update every minute
-            
-            // Handle window resize
-            window.addEventListener('resize', function() {
-                initSidebar();
-            });
-        });
-    </script>
-</body>
-<script src="./js/administrativo/mensalidades.js" type="module"></script>
-</script>
-<script type="module">
-  import { carregarAvisos } from './js/administrativo/mensalidades.js';
-
-  document.addEventListener("DOMContentLoaded", async () => {
-    try {
-      const avisos = await carregarAvisos();
-      const modalBody = document.getElementById("modalBodyAviso");
-
-      if (modalBody) {
-        if (avisos.length === 0) {
-          modalBody.innerHTML = '<p class="text-center text-gray-500 dark:text-slate-400">Nenhuma notificação no momento</p>';
-        } else {
-          modalBody.innerHTML = avisos.map(aviso => `
-            <div class="border-b border-gray-200 dark:border-slate-600 py-2">
-              <h4 class="text-md font-semibold text-gray-800 dark:text-white">${aviso.imovel_descricao || 'Imóvel não identificado'}</h4>
-              <p class="text-sm text-gray-600 dark:text-slate-300">${aviso.imovel_endereco || 'Sem endereço informado'}</p>
-              <p class="text-sm mt-1 text-blue-600 dark:text-blue-400">${aviso.aviso || 'Sem detalhes.'}</p>
+                    <div class="mt-6 flex justify-end">
+                        <button type="button" onclick="closeModal('modal-editar-imovel')" class="btn-secondary px-4 py-2 text-sm font-medium rounded-md mr-2">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="fas fa-save mr-2"></i> Salvar Alterações
+                        </button>
+                    </div>
+                </form>
             </div>
-          `).join('');
-        }
-      }
-    } catch (error) {
-      console.error('Erro ao carregar avisos:', error);
-    }
-  });
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const usuario = localStorage.getItem("usuarioLogado") || "Usuário";
-    document.getElementById("usuarioLogado").textContent = usuario;
-  });
-</script>
+        </div>
+    </div>
+    
+    <!-- Modal Editar Cliente -->
+    <div id="modal-editar-cliente" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-animation">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Editar Cliente</h3>
+                    <button onclick="closeModal('modal-editar-cliente')" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="nome" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nome Completo</label>
+                            <input type="text" id="nome" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Nome do cliente">
+                        </div>
+                        
+                        <div>
+                            <label for="cpf" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">CPF</label>
+                            <input type="text" id="cpf" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="000.000.000-00">
+                        </div>
+                        
+                        <div>
+                            <label for="telefone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Telefone</label>
+                            <input type="text" id="telefone" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="(00) 00000-0000">
+                        </div>
+                        
+                        <div>
+                            <label for="pin" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">PIN</label>
+                            <input type="text" id="pin" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="PIN de acesso">
+                        </div>
+                        
+                        <div>
+                            <label for="nacionalidade" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nacionalidade</label>
+                            <input type="text" id="nacionalidade" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Nacionalidade">
+                        </div>
+                        
+                        <div>
+                            <label for="tipo-documento" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de Documento</label>
+                            <select id="tipo-documento" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                <option value="rg">RG</option>
+                                <option value="cnh">CNH</option>
+                                <option value="passaporte">Passaporte</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="numero-documento" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Número do Documento</label>
+                            <input type="text" id="numero-documento" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" placeholder="Número do documento">
+                        </div>
+                        
+                        <div>
+                            <label for="data-nascimento" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Data de Nascimento</label>
+                            <input type="date" id="data-nascimento" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <label for="observacoes-cliente" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Observações</label>
+                            <textarea id="observacoes-cliente" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:
+
+</body>
+  <script src="./js/administrativo/mensalidades.js" type="module"></script>
+                            
 </html>
