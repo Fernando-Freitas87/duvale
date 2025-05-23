@@ -305,6 +305,10 @@
                 <button id="sidebar-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                     <i class="fas fa-bars"></i>
                 </button>
+                <button id="dark-mode-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block"></i>
+                </button>
             </div>
                         
             <!-- Sidebar Content -->
@@ -363,10 +367,6 @@
                             <p id="emailLogadoSidebar" class="text-xs text-gray-500 dark:text-gray-400 sidebar-item-text">usuario@email.com</p>
                         </div>
                     </div>
-                    <button id="dark-mode-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
-                        <i class="fas fa-moon dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:block"></i>
-                    </button>
                 </div>
             </div>
         </aside>
@@ -491,7 +491,7 @@
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total a Receber</p>
                                 <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">
-                                    <span id="card-a-receber">R$ 32.400,00</span>
+                                    <span id="card-a-receber">R$ 0,00</span>
                                 </h3>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Atualizado automaticamente</p>
                             </div>
@@ -506,7 +506,7 @@
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Em Atraso</p>
                                 <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">
-                                    <span id="card-total-em-atraso-valor">R$ 1.800,00</span>
+                                    <span id="card-total-em-atraso-valor">R$ 0,00</span>
                                 </h3>
                                 <p class="text-xs text-danger-600 dark:text-danger-400 mt-1">+1 desde o último mês</p>
                             </div>
@@ -878,7 +878,7 @@
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh]
 </body>
 <!--Modulo js-->
-  <script src="./js/administrativo/mensalidades.js" type="module"></>
+  <script src="./js/administrativo/mensalidades.js" type="module"></script>
   <script src="./js/administrativo/navbar.js" type="module"></script>
 
 </html>
