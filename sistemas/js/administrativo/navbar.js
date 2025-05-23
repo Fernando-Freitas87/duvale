@@ -40,73 +40,51 @@ document.addEventListener("DOMContentLoaded", () => {
     // Configuração do Modal de Avisos
     // ================================
 
-    // Seleciona os elementos do modal de aviso
-    const btnAviso = document.getElementById("btnAviso");
-    const modalAviso = document.getElementById("modalAviso");
-    const closeModalAviso = document.getElementById("closeModalAviso");
-    const iconAviso = document.getElementById("iconAviso");
-    const indicatorAviso = document.getElementById("indicatorAviso");
+    // Seleciona apenas os elementos necessários do modal de aviso
     const modalBodyAviso = document.getElementById("modalBodyAviso");
+    const modalAviso = document.getElementById("modal-avisos");
 
-    // Verifica se os elementos do aviso existem
-    if (!btnAviso || !modalAviso || !closeModalAviso || !iconAviso || !indicatorAviso || !modalBodyAviso) {
-        console.error("Elementos do aviso não encontrados!");
-        return;
-    }
+    if (!modalAviso || !modalBodyAviso) {
+        console.warn("Aviso: Modal de aviso não disponível nesta página.");
+    } else {
+        // Reutiliza o botão de notificação existente, se presente
+        const btnAviso = document.getElementById("notifications-btn") || null;
 
-    // Exibe o modal de aviso ao clicar no botão de aviso
-    btnAviso.addEventListener("click", async () => {
-        modalAviso.style.display = "flex"; // Exibe o modal
-        indicatorAviso.classList.remove("show"); // Remove o indicador de aviso
-        iconAviso.classList.remove("icon-shake"); // Remove a animação do ícone
-      
-        try {
-          const avisos = await carregarAvisos();
-      
-          modalBodyAviso.innerHTML = ""; // Limpa o conteúdo antes de atualizar
-      
-          if (!avisos || avisos.length === 0) {
-            modalBodyAviso.innerHTML = "<p>Nenhum aviso disponível.</p>";
-          } else {
-            avisos.forEach((aviso) => {
-              const avisoElement = document.createElement("div");
-              avisoElement.classList.add("aviso-item");
-              avisoElement.innerHTML = `
-                  <p>
-                      <strong style="color: red; text-transform: uppercase;">
-                          ${aviso.aviso || "Sem detalhes disponíveis."}
-                      </strong> 
-                      ${aviso.imovel_descricao || "Imóvel não identificado"}, 
-                      ${aviso.imovel_endereco || "Não informado"}
-                  </p>
-              `;
-              modalBodyAviso.appendChild(avisoElement);
+        if (btnAviso) {
+            btnAviso.addEventListener("click", async () => {
+                modalAviso.style.display = "flex";
+
+                try {
+                    const avisos = await carregarAvisos();
+                    modalBodyAviso.innerHTML = avisos.length
+                        ? avisos.map(aviso => `
+                            <div class="aviso-item p-2 border border-gray-200 dark:border-gray-700 rounded mb-2">
+                                <p class="text-sm text-gray-800 dark:text-white">
+                                    <strong class="text-red-600 uppercase">${aviso.aviso || "Sem detalhes disponíveis."}</strong><br>
+                                    ${aviso.imovel_descricao || "Imóvel não identificado"}, 
+                                    ${aviso.imovel_endereco || "Não informado"}
+                                </p>
+                            </div>`).join("")
+                        : "<p>Nenhum aviso disponível.</p>";
+                } catch (error) {
+                    console.error("Erro ao carregar avisos:", error);
+                    modalBodyAviso.innerHTML = `<p style="color: red;">Erro ao carregar avisos. Tente novamente mais tarde.</p>`;
+                }
             });
-          }
-        } catch (error) {
-          console.error("Erro ao carregar avisos:", error);
-          modalBodyAviso.innerHTML = `
-            <p style="color: red;">Erro ao carregar avisos. Tente novamente mais tarde.</p>
-          `;
         }
-      });
 
-    // Fecha o modal ao clicar no botão de fechamento
-    closeModalAviso.addEventListener("click", () => {
-        modalAviso.style.display = "none";
-    });
+        const closeBtns = modalAviso.querySelectorAll("[onclick*='closeModal']");
+        closeBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                modalAviso.style.display = "none";
+            });
+        });
 
-    // Fecha o modal ao clicar fora dele
-    window.addEventListener("click", (event) => {
-        if (event.target === modalAviso) {
-            modalAviso.style.display = "none";
-        }
-    });
-
-    // Simulação: Indicador de novos avisos
-    setTimeout(() => {
-        indicatorAviso.classList.add("show");
-        iconAviso.classList.add("icon-shake");
-    }, 2000);
+        window.addEventListener("click", (event) => {
+            if (event.target === modalAviso) {
+                modalAviso.style.display = "none";
+            }
+        });
+    }
 });
 
