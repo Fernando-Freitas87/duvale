@@ -14,35 +14,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Verifica se os elementos essenciais existem
     if (!menuBtn || !menu) {
-        console.error("Menu ou botão de menu não encontrado!");
-        return;
-    }
-
-    // Alterna a exibição do menu ao clicar no botão
-    menuBtn.addEventListener("click", () => {
-        const isOpen = menu.classList.toggle("open"); // Alterna a classe "open" no menu
-
-        // Adiciona ou remove a classe "open2" nos textos do menu com atraso animado
-        menuText.forEach((text, index) => {
-            setTimeout(() => {
-                text.classList.toggle("open2", isOpen);
-            }, index * 50);
+        console.warn("Menu ou botão de menu não encontrado!");
+    } else {
+        // Alterna a exibição do menu ao clicar no botão
+        menuBtn.addEventListener("click", () => {
+            const isOpen = menu.classList.toggle("open");
+            menuText.forEach((text, index) => {
+                setTimeout(() => {
+                    text.classList.toggle("open2", isOpen);
+                }, index * 50);
+            });
         });
-    });
 
-    // Fecha o menu ao clicar fora dele
-    document.addEventListener("click", (event) => {
-        // Verifica se o clique não foi no menu ou no botão do menu
-        if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
-            // Fecha o menu somente se estiver aberto
-            if (menu.classList.contains("open")) {
-                menu.classList.remove("open");
-
-                // Remove a classe "open2" dos textos do menu
-                menuText.forEach((text) => text.classList.remove("open2"));
+        document.addEventListener("click", (event) => {
+            if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
+                if (menu.classList.contains("open")) {
+                    menu.classList.remove("open");
+                    menuText.forEach((text) => text.classList.remove("open2"));
+                }
             }
-        }
-    });
+        });
+    }
 
     // ================================
     // Configuração do Modal de Avisos
