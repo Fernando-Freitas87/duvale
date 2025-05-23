@@ -305,10 +305,6 @@
                 <button id="sidebar-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                     <i class="fas fa-bars"></i>
                 </button>
-                <button id="dark-mode-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
-                    <i class="fas fa-moon dark:hidden"></i>
-                    <i class="fas fa-sun hidden dark:block"></i>
-                </button>
             </div>
                         
             <!-- Sidebar Content -->
@@ -381,6 +377,10 @@
                         <h2 class="text-base text-gray-600 dark:text-gray-300">Bem-vindo, <span id="usuarioLogado">Usuário</span></h2>
                     </div>
                     <div class="flex items-center space-x-4">
+                        <button id="dark-mode-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                            <i class="fas fa-moon dark:hidden"></i>
+                            <i class="fas fa-sun hidden dark:block"></i>
+                        </button>
                         <div class="custom-dropdown">
                             <button id="notifications-btn" class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                                 <i class="fas fa-bell"></i>
@@ -390,6 +390,7 @@
                                 <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                                     <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Notificações</h3>
                                 </div>
+
                                 <div class="max-h-60 overflow-y-auto">
                                     <div class="p-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
                                         <div class="flex items-start">
@@ -435,20 +436,6 @@
                                     <a href="#" class="block text-center text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300">
                                         Ver todas as notificações
                                     </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="custom-dropdown">
-                            <button class="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
-                                <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?name=Admin+User&background=0ea5e9&color=fff" alt="User">
-                                <i class="fas fa-chevron-down text-xs"></i>
-                            </button>
-                            <div class="custom-dropdown-content hidden w-48 mt-2">
-                                <div class="py-1">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Perfil</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Configurações</a>
-                                    <div class="border-t border-gray-200 dark:border-gray-700"></div>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Sair</a>
                                 </div>
                             </div>
                         </div>
