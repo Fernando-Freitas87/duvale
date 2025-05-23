@@ -530,9 +530,18 @@
                     </div>
                 </div>
                                 
+                <!-- Tabs Navigation -->
+                <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200 dark:border-gray-700">
+                  <button class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-primary-500" data-tab="vencer">A Vencer</button>
+                  <button class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-primary-500" data-tab="atraso">Em Atraso</button>
+                  <button class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-primary-500" data-tab="imoveis">Imóveis</button>
+                  <button class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-primary-500" data-tab="clientes">Clientes</button>
+                  <button class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-primary-500" data-tab="contratos">Contratos</button>
+                </div>
                 <!-- Tables Section -->
                 <div class="grid grid-cols-1 gap-6">
                     <!-- Próximos a Vencer Table -->
+                    <div id="tab-vencer" class="tab-section">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Próximos a Vencer</h2>
@@ -579,8 +588,9 @@
                             </div>
                         </div>
                     </div>
-                                        
+                    </div>
                     <!-- Em Atraso Table -->
+                    <div id="tab-atraso" class="tab-section hidden">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Contratos em Atraso</h2>
@@ -627,8 +637,9 @@
                             </div>
                         </div>
                     </div>
-                                        
+                    </div>
                     <!-- Imóveis Table -->
+                    <div id="tab-imoveis" class="tab-section hidden">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Imóveis</h2>
@@ -678,8 +689,9 @@
                             </div>
                         </div>
                     </div>
-                                        
+                    </div>
                     <!-- Clientes Table -->
+                    <div id="tab-clientes" class="tab-section hidden">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Clientes</h2>
@@ -728,8 +740,9 @@
                             </div>
                         </div>
                     </div>
-                                        
+                    </div>
                     <!-- Contratos Table -->
+                    <div id="tab-contratos" class="tab-section hidden">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Contratos</h2>
@@ -778,6 +791,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </main>
@@ -863,9 +877,28 @@
     <!-- Modal Editar Imóvel -->
     <div id="modal-editar-imovel" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh]
-</body>
+  <script>
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabSections = document.querySelectorAll(".tab-section");
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const selected = btn.getAttribute("data-tab");
+        tabSections.forEach(section => {
+          section.classList.add("hidden");
+        });
+        document.getElementById("tab-" + selected).classList.remove("hidden");
+
+        tabButtons.forEach(b => b.classList.remove("border-primary-500", "text-primary-700", "dark:text-primary-400"));
+        btn.classList.add("border-primary-500", "text-primary-700", "dark:text-primary-400");
+      });
+    });
+
+    document.querySelector('[data-tab="vencer"]').click();
 <!--Modulo js-->
   <script src="./js/administrativo/mensalidades.js" type="module"></script>
   <script src="./js/administrativo/navbar.js" type="module"></script>
+
+</body>
 
 </html>
