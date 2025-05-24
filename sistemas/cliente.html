@@ -1,57 +1,788 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/cliente.css">
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <title>Cliente | DuVale</title>
-  </head>
-<body>
-<div id="loading-overlay">
-  <div class="loading-spinner"></div>
-</div>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --error: #ef4444;
+            --success: #10b981;
+            --gray-light: #d1d5db;
+            --gray-dark: #6b7280;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .loading-spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 5px solid rgba(59, 130, 246, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .carousel-inner {
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .meu-slide {
+            scroll-snap-align: start;
+            flex: 0 0 auto;
+        }
+        
+        .pix-area-clicavel {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .pix-area-clicavel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pix-area-clicavel:active {
+            transform: translateY(0);
+        }
+        
+        .qr-code {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+        }
+        
+        .progress-bar {
+            transition: width 1s linear;
+        }
+        
+        .toast {
+            animation: fadeInOut 3s ease-in-out forwards;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(-20px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+        
+        .cupom-estilo {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .slide-destaque {
+            border: 2px solid #3b82f6;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .logo {
+                height: 3rem;
+            }
+            
+            .meu-slide {
+                width: 90%;
+            }
+            
+            .pix-logo {
+                height: 1.5rem;
+            }
+            
+            .qr-code {
+                width: 80%;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .meu-slide {
+                width: 70%;
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-start min-h-screen p-4 md:p-6">
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
+        <div class="loading-spinner"></div>
+    </div>
     
-    <div class="container">
-      <img src="img/duvalep.png" alt="Logo da imabiliaria DuVale" class="logo">
-      <h2 id="saudacao"></h2>
-      <p class="logout-container">
-          <a href="#" onclick="logout()" class="logout-link" aria-label="Sair da sua conta">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-              <path d="M502.6 233.4L329.4 60.2c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9L428.1 224H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h404.1L295.5 417.9c-9.4 9.4-9.4 24.6 0 33.9 4.7 4.7 10.8 7 17 7s12.3-2.3 17-7L502.6 278.6c9.4-9.4 9.4-24.6 0-33.9z"/>
-          </svg>
-          Sair
-          </a>
-        </p>
-  
-       <div id="carouselExampleIndicators" class="carousel-wrapper">
-         <div class="carousel-inner" id="carousel-inner"></div>
-       </div>
-
-       <div class="checkout--footer">
-        <div id="gerar-pix" class="pix-area-clicavel" onclick="gerarQRCode()" role="button" aria-label="Gerar QR Code PIX">
-        <span id="valor" class="price">R$ 0,00</span>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Pix" class="pix-logo">
+    <!-- Main Container -->
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden flex flex-col min-h-[90vh]">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4 md:p-6 text-white">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <img src="img/duvalep.png" alt="Logo da imobiliária DuVale" class="logo h-12 md:h-16">
+                    <div>
+                        <h1 id="saudacao" class="text-lg md:text-xl font-bold"></h1>
+                        <div id="data-hora" class="text-xs opacity-80"></div>
+                    </div>
+                </div>
+                <button onclick="logout()" class="flex items-center space-x-1 text-white hover:text-blue-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="hidden md:inline">Sair</span>
+                </button>
+            </div>
         </div>
-      </div>
-
-      <p id="resultado" class="mensagem-status" style="text-align: center;"></p>
-      <div id="qrcode-container" style="display: none; text-align: center;">
-        <img id="qrcode" src="" alt="QR Code PIX" class="qr-code">
-        <div class="progress hidden" style="margin-top: 15px; height: 20px;">
-          <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        
+        <!-- Content -->
+        <div class="p-4 md:p-6 flex-grow">
+            <!-- Carousel Navigation -->
+            <div class="flex justify-between items-center mb-4">
+                <button onclick="navegarAnterior()" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <h2 class="text-lg font-semibold text-gray-700">Mensalidades</h2>
+                <button onclick="navegarProximo()" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Carousel -->
+            <div id="carousel-inner" class="carousel-inner flex overflow-x-auto space-x-4 py-2 px-2 md:px-4 hide-scrollbar">
+                <!-- Slides will be inserted here by JavaScript -->
+            </div>
+            
+            <!-- Status Message -->
+            <p id="resultado" class="text-center text-sm mt-4 h-6"></p>
+            
+            <!-- PIX Payment Area -->
+            <div class="mt-6">
+                <div id="gerar-pix" class="pix-area-clicavel bg-white border border-blue-200 rounded-lg p-4 flex justify-between items-center shadow-sm hover:shadow-md transition-shadow">
+                    <span id="valor" class="text-xl font-bold text-gray-800">R$ 0,00</span>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-blue-600 font-medium">Pagar com PIX</span>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="PIX" class="pix-logo h-6">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- QR Code Container -->
+            <div id="qrcode-container" class="hidden mt-6 bg-gray-50 rounded-lg p-4">
+                <div class="flex flex-col items-center">
+                    <img id="qrcode" src="" alt="QR Code PIX" class="qr-code mb-4">
+                    <div class="w-full max-w-xs">
+                        <div class="progress bg-gray-200 rounded-full h-2.5 mb-4">
+                            <div id="progress-bar" class="progress-bar bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <textarea id="codigo-pix" rows="3" readonly class="hidden w-full max-w-xs p-2 border border-gray-300 rounded-md mb-2"></textarea>
+                    <button onclick="copiarCodigoPix()" id="botao-copiar" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        <i class="fas fa-copy mr-2"></i>Copiar Código PIX
+                    </button>
+                </div>
+            </div>
         </div>
-        <textarea id="codigo-pix" rows="3" readonly style="display:none;"></textarea>
-        <button onclick="copiarCodigoPix()" id="botao-copiar" class="botao-copiar">📋 Copiar Código PIX</button>
-      </div>
-      <div id="card-imoveis-cadastrados-valor" style="display: none;"></div>
-      <div id="card-contratos-ativos-valor" style="display: none;"></div>
-      <div id="card-a-receber" style="display: none;"></div>
-      <div id="card-total-em-atraso-valor" style="display: none;"></div>
-  </div>
+        
+        <!-- Footer -->
+        <footer class="bg-gray-50 border-t border-gray-200 p-4 text-center text-xs text-gray-500">
+            <div class="flex flex-col sm:flex-row justify-between items-center max-w-4xl mx-auto gap-2">
+                <p>&copy; 2024 Setta Software Solutions. Todos os direitos reservados.</p>
+                <a href="https://wa.me/5588981202539"
+                   target="_blank"
+                   class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                    <i class="fab fa-whatsapp mr-1"></i>
+                    Suporte via WhatsApp
+                </a>
+            </div>
+        </footer>
+    </div>
 
-
-<script defer src="js/administrativo/clientes.js"></script>
-<script defer type="module" src="js/administrativo/mensalidades.js"></script>
+    <script>
+        // API Configuration
+        const apiBaseUrl = window.location.hostname.includes("setta.dev.br") 
+            ? "https://duvale-production.up.railway.app" 
+            : "http://localhost:5000";
+        
+        // State Management
+        const state = {
+            user: {
+                name: "Usuário",
+                email: "",
+                cpf: "",
+                token: localStorage.getItem('authToken') || ""
+            },
+            mensalidades: [],
+            currentPayment: null,
+            paymentCheckInterval: null,
+            timerInterval: null
+        };
+        
+        // DOM Elements
+        const elements = {
+            loadingOverlay: document.getElementById('loading-overlay'),
+            saudacao: document.getElementById('saudacao'),
+            carouselInner: document.getElementById('carousel-inner'),
+            valor: document.getElementById('valor'),
+            gerarPix: document.getElementById('gerar-pix'),
+            qrcodeContainer: document.getElementById('qrcode-container'),
+            qrcode: document.getElementById('qrcode'),
+            codigoPix: document.getElementById('codigo-pix'),
+            botaoCopiar: document.getElementById('botao-copiar'),
+            progressBar: document.getElementById('progress-bar'),
+            resultado: document.getElementById('resultado'),
+            dataHora: document.getElementById('data-hora')
+        };
+        
+        // Utility Functions
+        const utils = {
+            formatCurrency: (value) => {
+                return value.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                });
+            },
+            
+            formatDate: (date) => {
+                return date.toLocaleDateString('pt-BR', { 
+                    day: '2-digit', 
+                    month: 'short', 
+                    year: 'numeric' 
+                });
+            },
+            
+            formatDateTime: (date) => {
+                return date.toLocaleString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            },
+            
+            getGreeting: () => {
+                const hora = new Date().getHours();
+                if (hora < 12) return "BOM DIA";
+                if (hora < 18) return "BOA TARDE";
+                return "BOA NOITE";
+            },
+            
+            showToast: (message) => {
+                const toast = document.createElement('div');
+                toast.className = 'toast fixed top-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-md shadow-lg z-50';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            },
+            
+            calculateFees: (valorMensalidade, diasAtraso) => {
+                valorMensalidade = parseFloat(valorMensalidade) || 0;
+                const multa = valorMensalidade * 0.02;
+                const jurosDiarios = valorMensalidade * 0.00033;
+                const juros = jurosDiarios * diasAtraso;
+                
+                return {
+                    multa,
+                    juros,
+                    valorTotal: valorMensalidade + multa + juros
+                };
+            },
+            
+            updateDateTime: () => {
+                const now = new Date();
+                elements.dataHora.textContent = utils.formatDateTime(now);
+                
+                // Atualiza a cada minuto
+                setTimeout(utils.updateDateTime, 60000);
+            }
+        };
+        
+        // API Functions
+        const api = {
+            getClientId: async () => {
+                try {
+                    const response = await fetch(`${apiBaseUrl}/api/usuario`, {
+                        headers: { 'Authorization': `Bearer ${state.user.token}` }
+                    });
+                    
+                    if (response.status === 403) {
+                        localStorage.removeItem('authToken');
+                        window.location.href = 'Index.html';
+                        return null;
+                    }
+                    
+                    if (!response.ok) throw new Error('Erro ao buscar ID do cliente.');
+                    
+                    const data = await response.json();
+                    return data.id || null;
+                } catch (error) {
+                    console.error("Erro ao obter ID do cliente:", error);
+                    return null;
+                }
+            },
+            
+            getUserData: async () => {
+                try {
+                    const response = await fetch(`${apiBaseUrl}/api/usuario`, {
+                        headers: { 'Authorization': `Bearer ${state.user.token}` }
+                    });
+                    
+                    if (!response.ok) {
+                        window.location.href = '/Index.html';
+                        return null;
+                    }
+                    
+                    return await response.json();
+                } catch (error) {
+                    console.error("Erro ao obter dados do usuário:", error);
+                    return null;
+                }
+            },
+            
+            getMensalidades: async (clientId) => {
+                try {
+                    const response = await fetch(`${apiBaseUrl}/api/mensalidades/cliente/${clientId}`, {
+                        headers: { 'Authorization': `Bearer ${state.user.token}` }
+                    });
+                    
+                    if (!response.ok) throw new Error('Falha ao carregar mensalidades.');
+                    
+                    const data = await response.json();
+                    return Array.isArray(data.mensalidades) ? data.mensalidades : [];
+                } catch (error) {
+                    console.error("Erro ao carregar mensalidades:", error);
+                    return [];
+                }
+            },
+            
+            generatePix: async (payload) => {
+                try {
+                    const response = await fetch(`${apiBaseUrl}/api/pix`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${state.user.token}`
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) throw new Error(`Erro do servidor: ${response.status}`);
+                    
+                    return await response.json();
+                } catch (error) {
+                    console.error("Erro ao gerar PIX:", error);
+                    throw error;
+                }
+            },
+            
+            checkPayment: async (paymentId) => {
+                try {
+                    const response = await fetch(`${apiBaseUrl}/verificar-pagamento/${paymentId}`);
+                    if (!response.ok) throw new Error(`Erro na verificação: ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    console.error("Erro ao verificar pagamento:", error);
+                    throw error;
+                }
+            }
+        };
+        
+        // Carousel Functions
+        const carousel = {
+            currentIndex: 0,
+            
+            navigate: (direction) => {
+                const container = elements.carouselInner;
+                const slideWidth = container.querySelector('.meu-slide')?.offsetWidth || 0;
+                
+                if (container && slideWidth) {
+                    const scrollAmount = direction === 'prev' ? -slideWidth : slideWidth;
+                    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    setTimeout(carousel.updateCurrentValue, 400);
+                }
+            },
+            
+            updateCurrentValue: () => {
+                const container = elements.carouselInner;
+                const slides = container.querySelectorAll('.meu-slide');
+                const containerRect = container.getBoundingClientRect();
+                
+                let centralSlide = null;
+                let smallestDifference = Infinity;
+                
+                slides.forEach(slide => {
+                    const slideRect = slide.getBoundingClientRect();
+                    const slideCenter = slideRect.left + slideRect.width / 2;
+                    const containerCenter = containerRect.left + containerRect.width / 2;
+                    const difference = Math.abs(slideCenter - containerCenter);
+                    
+                    if (difference < smallestDifference) {
+                        smallestDifference = difference;
+                        centralSlide = slide;
+                    }
+                });
+                
+                if (centralSlide) {
+                    // Remove destaque de todos os slides
+                    slides.forEach(slide => slide.classList.remove('slide-destaque'));
+                    
+                    // Adiciona destaque ao slide central
+                    centralSlide.classList.add('slide-destaque');
+                    
+                    const pixValue = parseFloat(centralSlide.dataset.valorPix || "0");
+                    if (!isNaN(pixValue)) {
+                        elements.valor.textContent = utils.formatCurrency(pixValue);
+                        elements.gerarPix.disabled = centralSlide.dataset.pago === "true";
+                    }
+                }
+            },
+            
+            createSlide: (mensalidade) => {
+                const mensalidadePaga = mensalidade.status === 'pago';
+                const valor = parseFloat(mensalidade.valor) || 0;
+                const dataVenc = new Date(mensalidade.data_vencimento);
+                const hoje = new Date();
+                const diasAtraso = Math.ceil((hoje - dataVenc) / (1000 * 60 * 60 * 24));
+                
+                let status = '';
+                if (mensalidadePaga) {
+                    status = 'pago';
+                } else if (diasAtraso > 0) {
+                    status = 'atrasado';
+                } else {
+                    status = 'a_vencer';
+                }
+                
+                let multa = 0, juros = 0, valorTotal = valor;
+                let tipoTaxa = "Juros";
+                
+                if (diasAtraso > 0) {
+                    const resultado = utils.calculateFees(valor, diasAtraso);
+                    multa = resultado.multa;
+                    juros = resultado.juros;
+                    valorTotal = resultado.valorTotal;
+                } else {
+                    tipoTaxa = "Desconto";
+                    const desconto = valor * 0.00033 * Math.abs(diasAtraso);
+                    juros = desconto;
+                    valorTotal = valor - desconto;
+                }
+                
+                const div = document.createElement('div');
+                div.className = 'meu-slide w-64 flex-shrink-0 mx-2';
+                const mesAnoFormatado = utils.formatDate(dataVenc);
+                
+                div.innerHTML = `
+                    <div class="cupom-estilo p-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-semibold text-gray-700">${mesAnoFormatado}</span>
+                        </div>
+                        <hr class="my-2 border-gray-200">
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Vencimento:</span>
+                                <span class="font-medium">${dataVenc.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Status:</span>
+                                <span class="font-medium ${status === 'pago' ? 'text-green-600' : status === 'atrasado' ? 'text-red-600' : 'text-blue-600'}">
+                                    ${status.toUpperCase()}
+                                </span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Valor:</span>
+                                <span class="font-medium">${utils.formatCurrency(valor)}</span>
+                            </div>
+                            ${diasAtraso > 0 ? `
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Multa:</span>
+                                <span class="font-medium">${utils.formatCurrency(multa)}</span>
+                            </div>` : ''}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">${tipoTaxa}:</span>
+                                <span class="font-medium">${utils.formatCurrency(juros)}</span>
+                            </div>
+                        </div>
+                        <hr class="my-3 border-gray-200">
+                        <div class="flex justify-between">
+                            <span class="text-gray-700 font-semibold">Total:</span>
+                            <span class="text-lg font-bold text-blue-600">${utils.formatCurrency(valorTotal)}</span>
+                        </div>
+                    </div>
+                `;
+                
+                div.dataset.valorPix = valorTotal.toFixed(2);
+                div.dataset.pago = mensalidadePaga;
+                const mes = String(dataVenc.getMonth() + 1).padStart(2, '0');
+                const ano = dataVenc.getFullYear();
+                div.dataset.contratoId = mensalidade.contrato_id || `MENSAL-${mensalidade.id}-${ano}${mes}`;
+                
+                return div;
+            },
+            
+            renderSlides: (mensalidades) => {
+                elements.carouselInner.innerHTML = '';
+                
+                // Ordena as mensalidades por data de vencimento (mais antigas primeiro)
+                mensalidades.sort((a, b) => new Date(a.data_vencimento) - new Date(b.data_vencimento));
+                
+                mensalidades.forEach(mensalidade => {
+                    const slide = carousel.createSlide(mensalidade);
+                    elements.carouselInner.appendChild(slide);
+                });
+                
+                // Define a primeira mensalidade não paga como ativa por padrão
+                setTimeout(() => {
+                    const slides = [...elements.carouselInner.querySelectorAll('.meu-slide')];
+                    
+                    // Encontra a primeira mensalidade não paga (mais antiga)
+                    const firstUnpaid = slides.find(slide => slide.dataset.pago === "false");
+                    
+                    if (firstUnpaid) {
+                        firstUnpaid.classList.add('slide-destaque');
+                        elements.carouselInner.scrollTo({ 
+                            left: firstUnpaid.offsetLeft, 
+                            behavior: 'smooth' 
+                        });
+                        
+                        // Atualiza o valor exibido no botão PIX
+                        const valorPix = parseFloat(firstUnpaid.dataset.valorPix || "0");
+                        if (!isNaN(valorPix)) {
+                            elements.valor.textContent = utils.formatCurrency(valorPix);
+                        }
+                    }
+                }, 200);
+            }
+        };
+        
+        // Payment Functions
+        const payment = {
+            generateQRCode: async () => {
+                try {
+                    utils.showToast("🔄 Gerando QR Code...");
+                    
+                    if (!state.user.token) {
+                        window.location.href = 'Index.html';
+                        return;
+                    }
+                    
+                    const activeSlide = document.querySelector('.meu-slide.slide-destaque');
+                    if (!activeSlide) {
+                        utils.showToast("❌ Nenhuma mensalidade selecionada.");
+                        return;
+                    }
+                    
+                    const totalValue = parseFloat(activeSlide.dataset.valorPix);
+                    if (!totalValue || isNaN(totalValue)) {
+                        utils.showToast("❌ Valor da mensalidade inválido.");
+                        return;
+                    }
+                    
+                    const monthDescription = activeSlide.querySelector('.font-semibold')?.textContent?.trim() || "Mensalidade DuVale";
+                    const [firstName, ...lastNameArray] = state.user.name.trim().split(" ");
+                    const lastName = lastNameArray.join(" ") || "Não Informado";
+                    
+                    const payload = {
+                        valor: totalValue.toFixed(2),
+                        descricao: monthDescription,
+                        contrato_id: activeSlide.dataset.contratoId,
+                        vencimento: new Date().toISOString().split("T")[0],
+                        user: {
+                            nome: state.user.name,
+                            first_name: firstName,
+                            last_name: lastName,
+                            email: state.user.email,
+                            cpf: state.user.cpf
+                        }
+                    };
+                    
+                    const pixData = await api.generatePix(payload);
+                    
+                    if (!pixData.qr_code || !pixData.qr_data || !pixData.payment_id) {
+                        utils.showToast("❌ Erro ao gerar QR Code.");
+                        return;
+                    }
+                    
+                    payment.showQRCode(pixData);
+                    payment.startTimer(3, pixData.payment_id);
+                    
+                } catch (error) {
+                    console.error("Erro:", error);
+                    utils.showToast(`❌ ${error.message}`);
+                }
+            },
+            
+            showQRCode: ({ qr_code, qr_data }) => {
+                elements.qrcode.src = `data:image/png;base64,${qr_code}`;
+                elements.codigoPix.value = qr_data;
+                elements.qrcodeContainer.style.display = 'block';
+                elements.codigoPix.style.display = 'block';
+                elements.botaoCopiar.style.display = 'inline-block';
+            },
+            
+            copyPixCode: () => {
+                navigator.clipboard.writeText(elements.codigoPix.value)
+                    .then(() => utils.showToast("📋 Código PIX copiado!"))
+                    .catch(() => utils.showToast("❌ Falha ao copiar código PIX."));
+            },
+            
+            startTimer: (minutes, paymentId) => {
+                let timeLeft = minutes * 60;
+                const totalTime = timeLeft;
+                
+                elements.progressBar.parentElement.style.display = "block";
+                
+                state.timerInterval = setInterval(() => {
+                    if (timeLeft <= 0) {
+                        clearInterval(state.timerInterval);
+                        elements.progressBar.parentElement.style.display = "none";
+                        payment.hidePaymentElements();
+                        utils.showToast("⏰ Tempo limite atingido. Gere outro QR Code.");
+                        return;
+                    }
+                    
+                    const percentage = (timeLeft / totalTime) * 100;
+                    elements.progressBar.style.width = `${percentage}%`;
+                    timeLeft--;
+                }, 1000);
+                
+                payment.checkPaymentStatus(paymentId);
+            },
+            
+            checkPaymentStatus: (paymentId) => {
+                const startTime = Date.now();
+                const timeLimit = 3 * 60 * 1000;
+                
+                state.paymentCheckInterval = setInterval(async () => {
+                    if (Date.now() - startTime >= timeLimit) {
+                        clearInterval(state.paymentCheckInterval);
+                        payment.hidePaymentElements();
+                        utils.showToast("⏰ Tempo limite atingido. Gere outro QR Code.");
+                        return;
+                    }
+                    
+                    try {
+                        const result = await api.checkPayment(paymentId);
+                        
+                        if (result.status === 'approved') {
+                            clearInterval(state.paymentCheckInterval);
+                            clearInterval(state.timerInterval);
+                            payment.hidePaymentElements();
+                            utils.showToast("✅ Pagamento aprovado com sucesso!");
+                        }
+                    } catch (error) {
+                        console.error("Erro ao verificar pagamento:", error);
+                    }
+                }, 10000);
+            },
+            
+            hidePaymentElements: () => {
+                elements.qrcodeContainer.style.display = 'none';
+                elements.botaoCopiar.style.display = 'none';
+                elements.codigoPix.style.display = 'none';
+            }
+        };
+        
+        // Initialization
+        const init = {
+            loadData: async () => {
+                try {
+                    if (!state.user.token) {
+                        window.location.href = 'Index.html';
+                        return;
+                    }
+                    
+                    // Atualiza data e hora
+                    utils.updateDateTime();
+                    
+                    // Load user data
+                    const userData = await api.getUserData();
+                    if (userData) {
+                        state.user.name = userData.nome || "Usuário";
+                        state.user.email = userData.email || "";
+                        state.user.cpf = /^[0-9]{11}$/.test(userData.cpf) ? userData.cpf : "01973165309";
+                        
+                        // Update greeting
+                        const greeting = utils.getGreeting();
+                        elements.saudacao.textContent = `${greeting}, ${state.user.name.split(' ').slice(0, 2).join(' ')}!`;
+                    }
+                    
+                    // Load client ID and mensalidades
+                    const clientId = await api.getClientId();
+                    if (clientId) {
+                        state.mensalidades = await api.getMensalidades(clientId);
+                        
+                        if (state.mensalidades.length > 0) {
+                            // Render carousel (já ordena por data)
+                            carousel.renderSlides(state.mensalidades);
+                        } else {
+                            utils.showToast("⚠️ Nenhuma mensalidade encontrada.");
+                        }
+                    }
+                    
+                } catch (error) {
+                    console.error("Erro ao carregar dados:", error);
+                    utils.showToast("❌ Não foi possível carregar todos os dados necessários.");
+                } finally {
+                    elements.loadingOverlay.style.display = 'none';
+                }
+            },
+            
+            setupEventListeners: () => {
+                // Carousel navigation
+                window.navegarAnterior = () => carousel.navigate('prev');
+                window.navegarProximo = () => carousel.navigate('next');
+                
+                // Carousel scroll detection
+                elements.carouselInner.addEventListener('scroll', () => {
+                    clearTimeout(window._scrollTimer);
+                    window._scrollTimer = setTimeout(() => {
+                        carousel.updateCurrentValue();
+                    }, 200);
+                });
+                
+                // PIX generation
+                elements.gerarPix.addEventListener('click', payment.generateQRCode);
+                
+                // Copy PIX code
+                elements.botaoCopiar.addEventListener('click', payment.copyPixCode);
+                
+                // Logout
+                window.logout = () => {
+                    localStorage.removeItem('authToken');
+                    window.location.href = 'Index.html';
+                };
+            }
+        };
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            init.setupEventListeners();
+            init.loadData();
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cliente.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <title>Cliente | DuVale</title>
+  </head>
+<body>
+<div id="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
+    
+    <div class="container">
+      <img src="img/duvalep.png" alt="Logo da imabiliaria DuVale" class="logo">
+      <h2 id="saudacao"></h2>
+      <p class="logout-container">
+          <a href="#" onclick="logout()" class="logout-link" aria-label="Sair da sua conta">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <path d="M502.6 233.4L329.4 60.2c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9L428.1 224H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h404.1L295.5 417.9c-9.4 9.4-9.4 24.6 0 33.9 4.7 4.7 10.8 7 17 7s12.3-2.3 17-7L502.6 278.6c9.4-9.4 9.4-24.6 0-33.9z"/>
+          </svg>
+          Sair
+          </a>
+        </p>
+  
+       <div id="carouselExampleIndicators" class="carousel-wrapper">
+         <div class="carousel-inner" id="carousel-inner"></div>
+       </div>
+
+       <div class="checkout--footer">
+        <div id="gerar-pix" class="pix-area-clicavel" onclick="gerarQRCode()" role="button" aria-label="Gerar QR Code PIX">
+        <span id="valor" class="price">R$ 0,00</span>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo—pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg" alt="Pix" class="pix-logo">
+        </div>
+      </div>
+
+      <p id="resultado" class="mensagem-status" style="text-align: center;"></p>
+      <div id="qrcode-container" style="display: none; text-align: center;">
+        <img id="qrcode" src="" alt="QR Code PIX" class="qr-code">
+        <div class="progress hidden" style="margin-top: 15px; height: 20px;">
+          <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <textarea id="codigo-pix" rows="3" readonly style="display:none;"></textarea>
+        <button onclick="copiarCodigoPix()" id="botao-copiar" class="botao-copiar">📋 Copiar Código PIX</button>
+      </div>
+      <div id="card-imoveis-cadastrados-valor" style="display: none;"></div>
+      <div id="card-contratos-ativos-valor" style="display: none;"></div>
+      <div id="card-a-receber" style="display: none;"></div>
+      <div id="card-total-em-atraso-valor" style="display: none;"></div>
+  </div>
+
+
+<script defer src="js/administrativo/clientes.js"></script>
+<script defer type="module" src="js/administrativo/mensalidades.js"></script>
+</body>
+</html>
