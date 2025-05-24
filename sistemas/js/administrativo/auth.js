@@ -69,7 +69,7 @@ export function configurarLogout() {
     sairLink.addEventListener("click", (e) => {
       e.preventDefault();
       localStorage.removeItem("authToken");
-      window.location.href = "index.html";
+      window.location.href = "Index.html";
     });
   }
 }
@@ -81,7 +81,7 @@ export function configurarLogout() {
 export function protegerRota() {
   const token = localStorage.getItem("authToken");
   if (!token) {
-    window.location.href = "index.html";
+    window.location.href = "Index.html";
   }
 }
 
