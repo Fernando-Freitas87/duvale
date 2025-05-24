@@ -1,78 +1,318 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <!-- Metadados básicos -->
-    <meta charset="UTF-8"> <!-- Define a codificação de caracteres -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura para responsividade -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="img/duvale.svg" type="image/x-icon">
-
-
-    <!-- Título da página -->
     <title>Login - Imobiliaria DuVale</title>
-
-    <!-- Importação de estilos -->
-    <link rel="stylesheet" href="./css/styles.css"> <!-- Estilos personalizados -->
-
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .pin-box {
+            width: 3rem;
+            height: 3rem;
+            text-align: center;
+            font-size: 1.5rem;
+            border-radius: 0.5rem;
+            border: 2px solid #d1d5db;
+            transition: all 0.3s ease;
+        }
+        
+        .pin-box:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            outline: none;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .message {
+            transition: all 0.3s ease;
+        }
+        
+        .message.error {
+            color: #ef4444;
+        }
+        
+        .message.success {
+            color: #10b981;
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d1d5db, transparent);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+    </style>
 </head>
-<body>
-    <!-- Wrapper para o layout geral da página -->
-    <main class="login-wrapper">
-        <!-- Contêiner do formulário de login -->
-        <div class="login-container">
+<body class="flex items-center justify-center p-4">
+    <main class="w-full max-w-md">
+        <div class="glass-effect rounded-2xl p-8 shadow-xl">
             <!-- Logo -->
-            <img src="img/logop.png" alt="Logo Duvale" class="logo">
-
-            <!-- Título -->
-            <h1>Sistema de Gestão</h1>
-
-            <!-- Linha divisória -->
-            <hr>
-
-            <!-- Instruções para o usuário -->
-            <p class="login-instructions">Digite seu PIN de 6 dígitos para acessar</p>
-
-            <!-- Campo de entrada do PIN -->
-            <form id="login-form" action="javascript:void(0);">
-                <div class="pin-container">
+            <div class="flex justify-center mb-6">
+                <img src="img/logop.png" alt="Logo Duvale" class="h-16">
+            </div>
+            
+            <!-- Title -->
+            <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Sistema de Gestão</h1>
+            
+            <!-- Divider -->
+            <div class="divider my-4"></div>
+            
+            <!-- Instructions -->
+            <p class="text-center text-gray-600 mb-6">Digite seu PIN de 6 dígitos para acessar</p>
+            
+            <!-- PIN Form -->
+            <form id="login-form" action="javascript:void(0);" class="mb-6">
+                <div class="flex items-center justify-center space-x-3 mb-4">
                     <input type="password" maxlength="1" class="pin-box" id="pin-1" name="pin-1" inputmode="numeric" autocomplete="one-time-code">
                     <input type="password" maxlength="1" class="pin-box" id="pin-2" name="pin-2" inputmode="numeric" autocomplete="one-time-code">
                     <input type="password" maxlength="1" class="pin-box" id="pin-3" name="pin-3" inputmode="numeric" autocomplete="one-time-code">
-                    <span>-</span>
+                    <span class="text-gray-400">-</span>
                     <input type="password" maxlength="1" class="pin-box" id="pin-4" name="pin-4" inputmode="numeric" autocomplete="one-time-code">
                     <input type="password" maxlength="1" class="pin-box" id="pin-5" name="pin-5" inputmode="numeric" autocomplete="one-time-code">
                     <input type="password" maxlength="1" class="pin-box" id="pin-6" name="pin-6" inputmode="numeric" autocomplete="one-time-code">
                 </div>
                 <button type="submit" style="display:none" aria-hidden="true">Enviar</button>
             </form>
-
-            <!-- Texto de instrução para solicitar PIN -->
-            <p id="pin-instructions">Caso não tenha um PIN, solicite o acesso.</p>
-
-            <!-- Link para solicitar PIN -->
-            <div class="tooltip">
-                <a href="https://wa.me/5588981202539" target="_blank" class="request-pin-link">Solicitar PIN</a>
-                <span class="tooltiptext">Horário de atendimento: Segunda a Sexta, das 8h às 18h e no Sabado das 8h as 12h.</span>
+            
+            <!-- Message Display -->
+            <div id="message" class="message text-center text-sm h-6 mb-4"></div>
+            
+            <!-- Request PIN -->
+            <p class="text-center text-gray-600 text-sm mb-1">Caso não tenha um PIN, solicite o acesso.</p>
+            <div class="flex justify-center mb-6">
+                <div class="tooltip">
+                    <a href="https://wa.me/5588981202539" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors">
+                        Solicitar PIN
+                    </a>
+                    <span class="tooltiptext">Horário de atendimento: Segunda a Sexta, das 8h às 18h e no Sábado das 8h às 12h.</span>
+                </div>
             </div>
-
-            <!-- Mensagem de erro exibida dinamicamente -->
-            <div id="message" class="message"></div>
-
-            <!-- Local onde será exibida a data e hora -->
-            <p id="datetime">Carregando...</p>
-
-            <!-- Linha divisória -->
-            <hr>
-
-            <!-- Rodapé -->
-            <footer class="footer">
+            
+            <!-- Date and Time -->
+            <div class="divider my-4"></div>
+            <p id="datetime" class="text-center text-gray-500 text-sm">Carregando...</p>
+            
+            <!-- Footer -->
+            <div class="divider my-4"></div>
+            <footer class="text-center text-gray-500 text-xs">
                 <p>Setta Software Solutions. Direitos reservados.</p>
                 <p>Desenvolvido por Fernando Freitas | &copy; 2024</p>
             </footer>
         </div>
     </main>
 
-    <!-- Importação do script JavaScript -->
-    <script src="./js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM elements
+            const pinBoxes = document.querySelectorAll('.pin-box');
+            const message = document.getElementById('message');
+            const datetimeElement = document.getElementById('datetime');
+            
+            // API base URL
+            const apiBaseUrl = "https://duvale-production.up.railway.app";
+            
+            // Update date and time every second
+            function updateDatetime() {
+                try {
+                    const now = new Date();
+                    const dayNames = [
+                        'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira',
+                        'Quinta-feira', 'Sexta-feira', 'Sábado'
+                    ];
+                    datetimeElement.textContent = 
+                        `${dayNames[now.getDay()]}, ${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}`;
+                } catch (error) {
+                    console.error('Erro ao atualizar data e hora:', error);
+                }
+            }
+            setInterval(updateDatetime, 1000);
+            updateDatetime();
+            
+            // Configure PIN input events
+            pinBoxes.forEach((box, index) => {
+                // Allow only numbers and auto-navigate between fields
+                box.addEventListener('input', () => {
+                    box.value = box.value.replace(/[^0-9]/g, '');
+                    if (box.value && index < pinBoxes.length - 1) {
+                        pinBoxes[index + 1].focus();
+                    } else if (index === pinBoxes.length - 1) {
+                        const pin = Array.from(pinBoxes).map(b => b.value).join('');
+                        validatePin(pin);
+                    }
+                });
+                
+                // Navigate to previous field with Backspace
+                box.addEventListener('keydown', (event) => {
+                    if (event.key === 'Backspace' && !box.value && index > 0) {
+                        pinBoxes[index - 1].focus();
+                    }
+                });
+            });
+            
+            // Check authentication token
+            const authToken = localStorage.getItem('authToken');
+            const currentPage = window.location.pathname;
+            
+            if (!authToken && !currentPage.includes('Index.html')) {
+                alert('Sessão expirada. Faça login novamente.');
+                window.location.href = 'Index.html';
+                return;
+            }
+            
+            if (authToken && !currentPage.includes('Index.html')) {
+                fetch(`${apiBaseUrl}/api/usuario`, {
+                    headers: { Authorization: `Bearer ${authToken}` },
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Erro ao carregar dados do usuário.');
+                        return response.json();
+                    })
+                    .then(userData => {
+                        localStorage.setItem('userName', userData.nome || 'Usuário');
+                        const userNameElement = document.getElementById('user-name');
+                        if (userNameElement) userNameElement.textContent = userData.nome;
+                    })
+                    .catch(err => {
+                        console.error('Erro ao validar sessão:', err);
+                        alert('Sessão inválida. Faça login novamente.');
+                        localStorage.removeItem('authToken');
+                        window.location.href = 'Index.html';
+                    });
+            }
+            
+            // Validate PIN function
+            let attempts = 0;
+            const MAX_ATTEMPTS = 5;
+            
+            async function validatePin(pin) {
+                if (pin.length !== 6) {
+                    displayMessage('O PIN deve conter 6 dígitos.', 'error');
+                    resetPinFields();
+                    return;
+                }
+                
+                if (attempts >= MAX_ATTEMPTS) {
+                    displayMessage('Muitas tentativas falhas. Tente novamente mais tarde.', 'error');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(`${apiBaseUrl}/api/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ pin }),
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        localStorage.setItem('authToken', data.token);
+                        if (data.type === 'cliente') {
+                            window.location.href = 'cliente.html';
+                        } else if (data.type === 'administrador') {
+                            window.location.href = 'Inicial.html';
+                        } else {
+                            displayMessage('Tipo de usuário inválido.', 'error');
+                            return;
+                        }
+                    } else {
+                        attempts++;
+                        displayMessage(`PIN incorreto. Verifique os números digitados. Tentativa ${attempts} de ${MAX_ATTEMPTS}.`, 'error');
+                        resetPinFields();
+                    }
+                } catch (error) {
+                    console.error('Erro na validação do PIN:', error);
+                    displayMessage('Erro ao conectar ao servidor.', 'error');
+                }
+            }
+            
+            // Display message function
+            function displayMessage(text, type) {
+                if (message) {
+                    message.textContent = text;
+                    message.className = `message ${type}`;
+                    setTimeout(() => {
+                        message.textContent = '';
+                        message.className = 'message';
+                    }, 3000);
+                }
+            }
+            
+            // Reset PIN fields function
+            function resetPinFields() {
+                pinBoxes.forEach(box => (box.value = ''));
+                pinBoxes[0].focus();
+            }
+            
+            // Load client name function
+            async function carregarNomeCliente() {
+                try {
+                    console.log("Buscando nome do cliente...");
+                    const response = await fetch(`${apiBaseUrl}/api/cliente/dados`, {
+                        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+                    });
+                    if (!response.ok) throw new Error('Erro ao obter dados do cliente.');
+                    const data = await response.json();
+                    console.log("Nome do cliente carregado:", data.nome);
+                    document.getElementById('nome-cliente').textContent = data.nome || 'Usuário';
+                } catch (error) {
+                    console.error('Erro ao carregar nome do cliente:', error);
+                    document.getElementById('nome-cliente').textContent = 'Erro ao carregar usuário';
+                }
+            }
+            
+            // Logout function
+            window.logout = function () {
+                console.log("Realizando logout...");
+                localStorage.removeItem("authToken");
+                window.location.href = "Index.html";
+            }
+            
+            // Load client name if needed
+            if (document.getElementById('nome-cliente')) {
+                carregarNomeCliente();
+            }
+        });
+    </script>
 </body>
 </html>
