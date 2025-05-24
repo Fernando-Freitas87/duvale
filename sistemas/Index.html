@@ -291,15 +291,15 @@
             const authToken = localStorage.getItem('authToken');
             const currentPage = window.location.pathname;
             
-            if (!authToken && !currentPage.includes('Index.html')) {
+            if (!authToken && !currentPage.includes('index.html')) {
                 displayMessage('Sessão expirada. Faça login novamente.', 'error');
                 setTimeout(() => {
-                    window.location.href = 'Index.html';
+                    window.location.href = 'index.html';
                 }, 2000);
                 return;
             }
             
-            if (authToken && !currentPage.includes('Index.html')) {
+            if (authToken && !currentPage.includes('index.html')) {
                 fetch(`${apiBaseUrl}/api/usuario`, {
                     headers: { Authorization: `Bearer ${authToken}` },
                 })
@@ -317,7 +317,7 @@
                         displayMessage('Sessão inválida. Faça login novamente.', 'error');
                         localStorage.removeItem('authToken');
                         setTimeout(() => {
-                            window.location.href = 'Index.html';
+                            window.location.href = 'index.html';
                         }, 2000);
                     });
             }
@@ -417,7 +417,7 @@
             window.logout = function () {
                 console.log("Realizando logout...");
                 localStorage.removeItem("authToken");
-                window.location.href = "Index.html";
+                window.location.href = "index.html";
             }
             
             // Load client name if needed
