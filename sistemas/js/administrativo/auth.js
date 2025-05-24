@@ -69,7 +69,22 @@ export function configurarLogout() {
     sairLink.addEventListener("click", (e) => {
       e.preventDefault();
       localStorage.removeItem("authToken");
-      window.location.href = "Index.html";
+      window.location.href = "index.html";
     });
   }
 }
+
+/**
+ * Protege rotas que exigem autenticação.
+ * Redireciona para index.html caso não haja token.
+ */
+export function protegerRota() {
+  const token = localStorage.getItem("authToken");
+  if (!token) {
+    window.location.href = "index.html";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  configurarLogout();
+});
