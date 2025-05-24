@@ -85,8 +85,12 @@
         }
     </script>
     <style>
-        .sidebar-collapsed {
+        /* .sidebar-collapsed {
             width: 4rem;
+        } */
+        .sidebar-collapsed {
+            width: 0 !important;
+            overflow: hidden;
         }
         .sidebar-collapsed .sidebar-item-text {
             display: none;
@@ -99,6 +103,9 @@
         }
         .sidebar-collapsed .logo-icon {
             margin-right: 0;
+        }
+        .sidebar-collapsed .logo-container {
+            display: none;
         }
                 
         /* Custom scrollbar */
@@ -297,7 +304,7 @@
         <!-- Sidebar -->
         <aside id="sidebar" class="w-64 h-full bg-white dark:bg-gray-800 shadow-md flex flex-col transition-all duration-300 fixed z-50">
             <!-- Logo -->
-            <div class="p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+            <div class="p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700 logo-container">
                 <div class="flex items-center">
                     <img src="img/duvalep.png" alt="Logo" class="h-8 w-auto logo-icon">
                 </div>
