@@ -898,6 +898,26 @@
         }
       });
     </script>
+
+    <!-- Sidebar toggle script -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("main-content");
+        const toggleButton = document.getElementById("sidebar-toggle");
+
+        toggleButton?.addEventListener("click", () => {
+          sidebar.classList.toggle("sidebar-collapsed");
+          if (sidebar.classList.contains("sidebar-collapsed")) {
+            mainContent.classList.remove("ml-64");
+            mainContent.classList.add("ml-16");
+          } else {
+            mainContent.classList.remove("ml-16");
+            mainContent.classList.add("ml-64");
+          }
+        });
+      });
+    </script>
 </body>
 
 </html>
