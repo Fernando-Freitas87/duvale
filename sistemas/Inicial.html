@@ -1,385 +1,867 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
-
-  <!--Importacoes JS e CSS-->
-  <head>
-      <link rel="shortcut icon" href="img/duvale.svg" type="image/x-icon">
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Painel Administrativo - DuVale</title>
-      <!-- Importação de Scripts e CSS -->
-      <script type="module" src="js/administrativo/auth.js"></script>
-      <script type="module" src="js/administrativo/imoveis.js"></script>
-      <script type="module" src="js/administrativo/clientesContratos.js"></script>
-      <script type="module" src="js/administrativo/dashboard.js"></script>
-      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-      <link rel="stylesheet" href="css/gerencial.css" />
-      <link rel="stylesheet" href="css/navbar.css">
-  </head>
-
-
-  <!--todo o conteudo da pagina-->
-  <body>
-    <!-- Menu Lateral -->
-    <nav id="menu" class="menu">
-      <!-- Botão de abrir/fechar o menu -->
-      <div class="actionBar">
-          <div>
-              <button id="menuBtn" type="button">
-                  <img src="img/duvaleb.svg" alt="Logo Duvale" style="height: 40px;">
-              </button>
-          </div>
-      </div>
-
-
-      <!-- Linha divisória -->
-      <li class="menuBreak">
-          <hr>
-      </li>
-
-      <!-- Opções do Menu -->
-      <ul class="optionsBar">
-          <!-- Administrativo -->
-          <li class="menuItem">
-              <a href="Inicial.html" class="menuOption" title="Administrativo">
-                  <i class="fas fa-chart-line"></i><h5 class="menuText">Administrativo</h5>
-              </a>
-          </li>
-
-          <!-- Financeiro -->
-          <li class="menuItem">
-              <a href="Financeiro.html" class="menuOption" title="Financeiro">
-                  <i class="fa-solid fa-wallet"></i><h5 class="menuText">Financeiro</h5>
-              </a>
-          </li>
-
-          <!-- Cadastro -->
-          <li class="menuItem">
-              <a href="Cadastro.html" class="menuOption" title="Cadastro">
-                  <i class="fa-solid fa-user-plus"></i><h5 class="menuText">Cadastro</h5>
-              </a>
-          </li>
-
-          <!-- Relatórios -->
-          <li class="menuItem">
-              <a href="relatorios.html" class="menuOption" title="Relatórios">
-                <i class="fa-solid fa-file-lines"></i><h5 class="menuText">Relatórios</h5>
-              </a>
-          </li>
-
-          <!-- Suporte -->
-          <li class="menuItem">
-              <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer" class="menuOption" title="Suporte">
-                  <i class="fa-solid fa-headset"></i><h5 class="menuText">Suporte</h5>
-              </a>
-          </li>
-
-          <!-- Botão de aviso no menu -->
-          <li class="menuItem">
-            <a href="#" class="menuOption" id="btnAviso" title="Avisos">
-                <i class="fa-solid fa-bell" id="iconAviso"></i>
-                <span class="indicator" id="indicatorAviso"></span>
-                <h5 class="menuText">Avisos</h5>
-            </a>
-          </li>
-        </ul>
-      <!--modal avisos-->
-        <div id="modalAviso" class="modal">
-        <div class="modalContent">
-          <span id="closeModalAviso" class="close">&times;</span>
-          <h2>Avisos</h2>
-          <div id="modalBodyAviso">
-            <!-- Avisos serão adicionados aqui dinamicamente -->
-          </div>
-        </div>
-        </div>
-
-
-      <!-- Informações do Usuário (Agora melhor estruturado) -->
-        <div class="menuUser">
-          <!-- Sair -->
-          <li class="menuItem">
-            <a href="Index.html" id="sair" class="menuOption" title="Sair">
-              <i class="fa-solid fa-power-off"></i>
-            </a>
-          </li>
-        </div>
-    </nav>
-
-
-    <!-- Conteúdo Principal -->
-    <main class="main-container">
+<html lang="pt-BR" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestão de Imóveis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          <!-- Importação de Scripts e CSS -->
+          <script type="module" src="js/administrativo/auth.js"></script>
+          <script type="module" src="js/administrativo/imoveis.js"></script>
+          <script type="module" src="js/administrativo/clientesContratos.js"></script>
+          <script type="module" src="js/administrativo/dashboard.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        success: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        danger: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d',
+                        },
+                        warning: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .sidebar-collapsed {
+            width: 4rem;
+        }
+        .sidebar-collapsed .sidebar-item-text {
+            display: none;
+        }
+        .sidebar-collapsed .sidebar-item-icon {
+            margin-right: 0;
+        }
+        .sidebar-collapsed .logo-text {
+            display: none;
+        }
+        .sidebar-collapsed .logo-icon {
+            margin-right: 0;
+        }
+                
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+                
+        /* Animation for modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .modal-animation {
+            animation: modalFadeIn 0.3s ease-out;
+        }
+                
+        /* Custom checkbox */
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .custom-checkbox:checked {
+            background-color: #0ea5e9;
+            border-color: #0ea5e9;
+        }
+        .custom-checkbox:checked::after {
+            content: '\2713';
+            position: absolute;
+            color: white;
+            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .dark .custom-checkbox {
+            border-color: #475569;
+        }
+                
+        /* Table row hover effect */
+        .table-row-hover:hover {
+            background-color: #f1f5f9;
+        }
+        .dark .table-row-hover:hover {
+            background-color: #1e293b;
+        }
+                
+        /* Loading spinner */
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
         
-      <!-- titulo da pagina -->
-      <section class="planilhas-header">
-        <h1 class="h1">
-          <i class="fas fa-chart-line"></i> Painel Administrativo
-        </h1>
-      </section>
-      <hr class="divider" />
-      <!-- Cards Dinâmicos -->
-      <section class="overview">
-        <div class="cards">
-          <!-- Card: Imóveis Cadastrados -->
-          <div class="card" id="card-imoveis-cadastrados">
-            <div class="card-header">
-              <h3>Imóveis</h3>
+        /* Custom tooltip */
+        .custom-tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .custom-tooltip .tooltip-text {
+            visibility: hidden;
+            width: 120px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .custom-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Custom dropdown */
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .custom-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #fff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0.375rem;
+        }
+        .dark .custom-dropdown-content {
+            background-color: #1e293b;
+        }
+        .custom-dropdown:hover .custom-dropdown-content {
+            display: block;
+        }
+        
+        /* Custom badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Custom button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background-color: #0ea5e9;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0284c7;
+        }
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+        }
+        .dark .btn-secondary {
+            background-color: #334155;
+            color: #f8fafc;
+        }
+        .dark .btn-secondary:hover {
+            background-color: #475569;
+        }
+        
+        /* Custom input */
+        .custom-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+        .custom-input:focus {
+            outline: none;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+        }
+        .dark .custom-input {
+            background-color: #1e293b;
+            border-color: #475569;
+            color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="h-full bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+    <div class="flex h-full">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 h-full bg-white dark:bg-gray-800 shadow-md flex flex-col transition-all duration-300 fixed z-50">
+            <!-- Logo -->
+            <div class="p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <i class="fas fa-home text-primary-600 dark:text-primary-400 text-2xl logo-icon"></i>
+                    <span class="ml-3 text-xl font-semibold text-gray-800 dark:text-white logo-text">Gestão Imóveis</span>
+                </div>
+                <button id="sidebar-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
-            <hr class="divider" />
-            <p id="card-imoveis-cadastrados-valor">0</p>
-          </div>
+                        
+            <!-- Sidebar Content -->
+            <div class="flex-1 overflow-y-auto">
+                <nav class="p-4">
+                    <div class="space-y-1">
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg bg-primary-50 text-primary-700 dark:bg-gray-700 dark:text-primary-400 sidebar-item">
+                            <i class="fas fa-tachometer-alt sidebar-item-icon mr-3 text-primary-600 dark:text-primary-400"></i>
+                            <span class="sidebar-item-text">Dashboard</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                            <i class="fas fa-home sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                            <span class="sidebar-item-text">Imóveis</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                            <i class="fas fa-users sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                            <span class="sidebar-item-text">Clientes</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                            <i class="fas fa-file-contract sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                            <span class="sidebar-item-text">Contratos</span>
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 sidebar-item">
+                            <i class="fas fa-chart-line sidebar-item-icon mr-3 text-gray-500 dark:text-gray-400"></i>
+                            <span class="sidebar-item-text">Relatórios</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+                        
+            <!-- Sidebar Footer -->
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="ml-3">
+                            <p id="usuarioLogadoSidebar" class="text-sm font-medium text-gray-700 dark:text-gray-200 sidebar-item-text">Usuário</p>
+                            <p id="emailLogadoSidebar" class="text-xs text-gray-500 dark:text-gray-400 sidebar-item-text">usuario@email.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+                
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden ml-64 transition-all duration-300" id="main-content">
+            <!-- Header -->
+            <header class="bg-white dark:bg-gray-800 shadow-sm z-10">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div>
+                        <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">Dashboard</h1>
+                        <h2 class="text-base text-gray-600 dark:text-gray-300">Bem-vindo, <span id="usuarioLogado">Usuário</span></h2>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button id="dark-mode-toggle" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                            <i class="fas fa-moon dark:hidden"></i>
+                            <i class="fas fa-sun hidden dark:block"></i>
+                        </button>
+                        <div class="custom-dropdown">
+                            <button id="notifications-btn" class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                                <i class="fas fa-bell"></i>
+                                <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                            </button>
+                            <div class="custom-dropdown-content hidden w-80 mt-2">
+                                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Notificações</h3>
+                                </div>
 
-          <!-- Card: Contratos Ativos -->
-          <div class="card" id="card-contratos-ativos">
-            <div class="card-header">
-              <h3>Contratos Ativos</h3>
-            </div>
-            <hr class="divider" />
-            <p id="card-contratos-ativos-valor">0</p>
-          </div>
-
-          <!-- Card: Total a Vencer -->
-          <div class="card" id="card-a-vencer">
-            <div class="card-header">
-              <h3>Total a Vencer</h3>
-            </div>
-            <hr class="divider" />
-            <p id="card-a-receber">R$ 0,00</p>
-          </div>
-
-          <!-- Card: Total em Atraso -->
-          <div class="card" id="card-total-em-atraso">
-            <div class="card-header">
-              <h3>Total em Atraso</h3>
-            </div>
-            <hr class="divider" />
-            <p id="card-total-em-atraso-valor">R$ 0,00</p>
-          </div>
+                                <div class="max-h-60 overflow-y-auto">
+                                    <div class="p-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 pt-0.5">
+                                                <div class="w-8 h-8 rounded-full bg-primary-100 dark:bg-gray-700 flex items-center justify-center">
+                                                    <i class="fas fa-exclamation-circle text-primary-600 dark:text-primary-400 text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-gray-800 dark:text-white">Contrato próximo a vencer</p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">O contrato CT-2023-001 vence em 3 dias</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 pt-0.5">
+                                                <div class="w-8 h-8 rounded-full bg-danger-100 dark:bg-gray-700 flex items-center justify-center">
+                                                    <i class="fas fa-clock text-danger-600 dark:text-danger-400 text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-gray-800 dark:text-white">Pagamento em atraso</p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">O contrato CT-2023-003 está com 15 dias de atraso</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 pt-0.5">
+                                                <div class="w-8 h-8 rounded-full bg-success-100 dark:bg-gray-700 flex items-center justify-center">
+                                                    <i class="fas fa-check-circle text-success-600 dark:text-success-400 text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-gray-800 dark:text-white">Pagamento confirmado</p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">O pagamento do contrato CT-2023-002 foi confirmado</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 border-t border-gray-200 dark:border-gray-700">
+                                    <a href="#" class="block text-center text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300">
+                                        Ver todas as notificações
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Botão de sair -->
+                        <button id="sair" class="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200 text-sm font-medium flex items-center">
+                          <i class="fas fa-sign-out-alt mr-2"></i> Sair
+                        </button>
+                    </div>
+                </div>
+            </header>
+                        
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Imóveis</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1"><span id="card-imoveis-cadastrados-valor">24</span></h3>
+                                <p class="text-xs text-success-600 dark:text-success-400 mt-1">+2.5% desde o último mês</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-primary-100 dark:bg-gray-700">
+                                <i class="fas fa-home text-primary-600 dark:text-primary-400 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Contratos Ativos</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1"><span id="card-contratos-ativos-valor">18</span></h3>
+                                <p class="text-xs text-success-600 dark:text-success-400 mt-1">+5.2% desde o último mês</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-green-100 dark:bg-gray-700">
+                                <i class="fas fa-file-contract text-green-600 dark:text-green-400 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total a Receber</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">
+                                    <span id="card-a-receber">R$ 0,00</span>
+                                </h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Atualizado automaticamente</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-blue-100 dark:bg-gray-700">
+                                <i class="fas fa-wallet text-blue-600 dark:text-blue-400 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Em Atraso</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-1">
+                                    <span id="card-total-em-atraso-valor">R$ 0,00</span>
+                                </h3>
+                                <p class="text-xs text-danger-600 dark:text-danger-400 mt-1">+1 desde o último mês</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-danger-100 dark:bg-gray-700">
+                                <i class="fas fa-clock text-danger-600 dark:text-danger-400 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Receita Mensal</h2>
+                            <div class="flex space-x-2">
+                                <button id="btn-mensal" class="px-3 py-1 text-xs bg-primary-100 text-primary-700 dark:bg-gray-700 dark:text-primary-400 rounded-full">Mensal</button>
+                                <button id="btn-anual" class="px-3 py-1 text-xs bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-400 rounded-full">Anual</button>
+                            </div>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="receitaChart"></canvas>
+                        </div>
+                    </div>
+                                        
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Status de Contratos</h2>
+                            <button class="px-3 py-1 text-xs bg-primary-100 text-primary-700 dark:bg-gray-700 dark:text-primary-400 rounded-full">Ver todos</button>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="statusContratosChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                                
+                <!-- Tabs Navigation -->
+                <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200 dark:border-gray-700">
+                  <button class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-primary-500" data-tab="vencer">A Vencer</button>
+                  <button class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-primary-500" data-tab="atraso">Em Atraso</button>
+                  <button class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-primary-500" data-tab="imoveis">Imóveis</button>
+                  <button class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-primary-500" data-tab="clientes">Clientes</button>
+                  <button class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border-b-2 border-transparent hover:border-primary-500" data-tab="contratos">Contratos</button>
+                </div>
+                <!-- Tables Section -->
+                <div class="grid grid-cols-1 gap-6">
+                    <!-- Próximos a Vencer Table -->
+                    <div id="tab-vencer" class="tab-section">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Próximos a Vencer</h2>
+                            <button class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                                <i class="fas fa-plus mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Contrato</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cliente</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Imóvel</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Vencimento</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valor</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-vencer-corpo" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <!-- Dados dinâmicos via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginacao-vencer" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
+                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">2</span> de <span class="font-medium">2</span> resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                                        <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- Em Atraso Table -->
+                    <div id="tab-atraso" class="tab-section hidden">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Contratos em Atraso</h2>
+                            <button class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                                <i class="fas fa-plus mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Contrato</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cliente</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Imóvel</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Dias em Atraso</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valor</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-atraso-corpo" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <!-- Dados dinâmicos via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginacao-atraso" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
+                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">1</span> de <span class="font-medium">1</span> resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                                        <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- Imóveis Table -->
+                    <div id="tab-imoveis" class="tab-section hidden">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Imóveis</h2>
+                            <button onclick="openModal('modal-editar-imovel')" class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                                <i class="fas fa-plus mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Código</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Descrição</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Endereço</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipo</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="imoveis-corpo" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <!-- Dados dinâmicos via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginacao-imoveis" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
+                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">2</span> de <span class="font-medium">24</span> resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                                        <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</a>
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">8</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- Clientes Table -->
+                    <div id="tab-clientes" class="tab-section hidden">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Clientes</h2>
+                            <button onclick="openModal('modal-editar-cliente')" class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                                <i class="fas fa-plus mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nome</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">CPF</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Telefone</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nacionalidade</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="clientes-corpo" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <!-- Dados dinâmicos via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginacao-clientes" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
+                                <a href="#" class="ml-3 relative inline-flex items Center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">2</span> de <span class="font-medium">15</span> resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                                        <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex itemsCenter px-4 py-2 border text-sm font-medium">3</a>
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">5</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- Contratos Table -->
+                    <div id="tab-contratos" class="tab-section hidden">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Contratos</h2>
+                            <button onclick="openModal('modal-editar-contrato')" class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                                <i class="fas fa-plus mr-2"></i> Adicionar
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Código</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cliente</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Imóvel</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valor</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contratos-corpo" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <!-- Dados dinâmicos via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginacao-contratos" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Anterior</a>
+                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Próxima</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">2</span> de <span class="font-medium">18</span> resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                                        <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</a>
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+                                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">6</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Próxima</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </main>
         </div>
-      </section>
-      <br />
-      <!-- Seção: Em Atraso -->
-      <section id="em-atraso-section" style="display: none;">
-        <h2>Em atraso</h2>
-        <table class="table table-red">
-          <thead>
-            <tr>
-              <th>Inquilino</th>
-              <th>Imóvel</th>
-              <th>Vencimento</th>
-              <th>Valor</th>
-              <th>Vencido a:</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-atraso-corpo">
-            <!-- Linhas dinâmicas via JavaScript -->
-          </tbody>
-        </table>
-        <div id="paginacao-atraso" class="pagination"></div>
-      </section>
-      <br />
-      <!-- Seção: Próximos a Vencer -->
-      <section id="a-vencer-section" style="display: block;">
-          <h2>Próximos a vencer</h2>
-          <table class="table table-green">
-            <thead>
-              <tr>
-                <th>Inquilino</th>
-                <th>Imóvel</th>
-                <th>Vencimento</th>
-                <th>Valor</th>
-                <th>Vence em:</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-vencer-corpo">
-              <!-- Linhas dinâmicas via JavaScript -->
-            </tbody>
-          </table>
-          <div id="paginacao-vencer" class="pagination"></div>
-      </section>
-      <br />
-      <!-- Seção: Gerenciamento de Imóveis -->
-      <section id="gerenciar-imoveis-section" style="display: none;">
-          <h2>Gerenciamento de Imóveis</h2>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Descrição</th>
-                <th>Endereço</th>
-                <th>Nº Cliente ENEL</th> <!-- Nova Coluna -->
-                <th>Matricula Nº </th> <!-- Nova Coluna -->
-                <th>Tipo</th>
-                <th>Status</th>
-                <th>Ações</th>
-
-              </tr>
-            </thead>
-            <tbody id="imoveis-corpo">
-              <!-- Linhas dinâmicas via JavaScript -->
-            </tbody>
-          </table>
-          <div id="paginacao-imoveis" class="pagination"></div>
-          <!-- Modal: Editar Imóvel -->
-          <div id="modal-editar-imovel" class="modal" style="display: none;">
-            <div class="modal-content">
-              <h3>Editar Imóvel</h3>
-              <label for="edit-imovel-descricao">Descrição:</label>
-              <input type="text" id="edit-imovel-descricao" />
-          
-              <label for="edit-imovel-endereco">Endereço:</label>
-              <input type="text" id="edit-imovel-endereco" />
-          
-              <label for="edit-imovel-status">Status:</label>
-              <input type="text" id="edit-imovel-status" />
-          
-              <!-- Novos campos -->
-              <label for="edit-imovel-enel">Cliente ENEL N°:</label>
-              <input type="text" id="edit-imovel-enel" />
-          
-              <label for="edit-imovel-cagece">Matricula Nº:</label>
-              <input type="text" id="edit-imovel-cagece" />
-
-              <label for="edit-imovel-tipo">Tipo:</label>
-              <select id="edit-imovel-tipo">
-                <option value="residencial">Residencial</option>
-                <option value="comercial">Comercial</option>
-              </select>
-          
-              <div class="modal-actions">
-                <button id="btn-salvar-imovel" class="btn-primary">Salvar</button>
-                <button id="btn-cancelar-edicao-imovel" class="btn-secondary">Cancelar</button>
-              </div>
+    </div>
+    
+    <!-- Modal Avisos -->
+    <div id="modal-avisos" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-animation">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Avisos</h3>
+                    <button onclick="closeModal('modal-avisos')" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="modalBodyAviso" class="space-y-4"></div>
+                <div class="mt-6 flex justify-end">
+                    <button class="btn-secondary px-4 py-2 text-sm font-medium rounded-md mr-2" onclick="closeModal('modal-avisos')">
+                        Fechar
+                    </button>
+                    <button class="btn-primary px-4 py-2 text-sm font-medium rounded-md">
+                        <i class="fas fa-check-circle mr-2"></i> Marcar todos como lidos
+                    </button>
+                </div>
             </div>
-          </div>
-      </section>
-      <br />
-        <!-- Seção: Gerenciamento de Clientes -->
-      <section id="gerenciar-clientes-section" style="display: none;">
-          <h2>Gerenciamento de Clientes</h2>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Telefone</th>
-                <th>Pin</th>
-                <th>Observações</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="clientes-corpo">
-              <!-- Linhas dinâmicas via JavaScript -->
-            </tbody>
-          </table>
-          <div id="paginacao-clientes" class="pagination"></div>
-
-        <!-- Modal: Editar Cliente -->
-        <div id="modal-editar-cliente" class="modal" style="display: none;">
-          <div class="modal-content">
-            <h3>Editar Cliente</h3>
-            
-            <!-- Campos com classes específicas -->
-            <label for="edit-cliente-nome">Nome:</label>
-            <input type="text" id="edit-cliente-nome" />
-
-            <label for="edit-cliente-cpf">CPF:</label>
-            <input type="text" id="edit-cliente-cpf" />
-
-            <label for="edit-cliente-telefone">Telefone:</label>
-            <input type="tel" id="edit-cliente-telefone" />
-
-            <label for="edit-cliente-pin">PIN:</label>
-            <input type="number" id="edit-cliente-pin" class="pin-input" maxlength="1" />
-
-            <label for="edit-cliente-observacoes">Observações:</label>
-            <textarea id="edit-cliente-observacoes" class="campo-textarea"></textarea>
-
-            <label for="edit-cliente-nacionalidade">Nacionalidade:</label>
-            <input type="text" id="edit-cliente-nacionalidade" />
-
-            <label for="edit-cliente-documento">Tipo do Documento:</label>
-            <input type="text" id="edit-cliente-documento-identidade" />
-
-            <label for="edit-cliente-numero-documento">Número do Documento:</label>
-            <input type="number" id="edit-cliente-numero-documento" class="campo-number" />
-
-            <label for="edit-cliente-data-nascimento">Data de Nascimento:</label>
-            <input type="date" id="edit-cliente-data-nascimento" class="campo-data" />
-
-            <!-- Botões do modal -->
-            <div class="modal-actions">
-              <button id="btn-salvar-cliente" class="btn-primary">Salvar</button>
-              <button id="btn-cancelar-cliente" class="btn-secondary">Cancelar</button>
-            </div>
-          </div>
         </div>
-      </section>
-      <br />
-      <!-- Seção: Gerenciamento de Contratos -->
-      <section id="gerenciar-contratos-section" style="display: none;">
-          <h2>Contratos</h2>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Cliente</th>
-                <th>Imóvel</th>
-                <th>Total de Meses</th>
-                <th>Valor do Aluguel</th>
-                <th>Vencimento</th>
-                <th>Início</th>
-                <th>Fim</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="contratos-corpo">
-              <!-- Linhas dinâmicas via JavaScript -->
-            </tbody>
-          </table>
-          <div id="paginacao-contratos" class="pagination"></div>
+    </div>
+    
+    <!-- Modal Editar Imóvel -->
+    <div id="modal-editar-imovel" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh]">
+        <!-- Conteúdo do modal de editar imóvel aqui -->
+    </div>
+    </div>
 
-          <!-- Modal: Editar Contrato -->
-          <div id="modal-editar-contrato" class="modal-contrato" style="display: none;">
-            <div class="modal-contrato-content">
-              <h3 class="modal-contrato-title">Editar Contrato</h3>
-              
-              <label for="edit-contrato-total-meses" class="modal-contrato-label">Total de Meses:</label>
-              <input type="number" id="edit-total-meses" class="modal-contrato-input" min="1" />
+    <!-- Modal Editar Contrato -->
+    <div id="modal-editar-contrato" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Editar Contrato</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">Formulário de edição de contrato será implementado aqui.</p>
+        <div class="mt-6 flex justify-end">
+          <button onclick="closeModal('modal-editar-contrato')" class="btn-secondary px-4 py-2 text-sm font-medium rounded-md mr-2">Cancelar</button>
+          <button class="btn-primary px-4 py-2 text-sm font-medium rounded-md">Salvar</button>
+        </div>
+      </div>
+    </div>
 
-              <label for="edit-valor-aluguel">Valor do Aluguel:</label>
-              <input type="number" id="edit-valor-aluguel" class="modal-contrato-input" />
-          
-              <label for="edit-dia-vencimento">Dia de Vencimento:</label>
-              <input type="number" id="edit-dia-vencimento" min="1" max="30" class="modal-contrato-input" />
-          
-              <label for="edit-data-inicio" class="modal-contrato-label">Data de Início:</label>
-              <input type="date" id="edit-data-inicio" class="modal-contrato-input modal-contrato-input-date" />
-          
-              <div class="modal-contrato-actions">
-                <button id="btn-contrato-salvar" class="btn-contrato-save">Salvar</button>
-                <button id="btn-contrato-cancelar" class="btn-contrato-cancel">Cancelar</button>   
-              </div>
-          
-            </div>
-          </div>
-      </section>
-  </main>
+    <!-- Modal Editar Cliente -->
+    <div id="modal-editar-cliente" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Editar Cliente</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">Formulário de edição de cliente será implementado aqui.</p>
+        <div class="mt-6 flex justify-end">
+          <button onclick="closeModal('modal-editar-cliente')" class="btn-secondary px-4 py-2 text-sm font-medium rounded-md mr-2">Cancelar</button>
+          <button class="btn-primary px-4 py-2 text-sm font-medium rounded-md">Salvar</button>
+        </div>
+      </div>
+    </div>
+    <!--Modulo js-->
+    <script src="./js/administrativo/mensalidades.js" type="module"></script>
+    <script src="./js/administrativo/navbar.js" type="module"></script>
+    <script>
+      const tabButtons = document.querySelectorAll(".tab-btn");
+      const tabSections = document.querySelectorAll(".tab-section");
 
-    <!--rodape da pagina-->
-    <footer id="footer">
-      <p>
-        Setta Software Solutions. Todos os direitos reservados | Desenvolvido por Fernando Freitas © 2024 
-        | <a href="https://wa.me/5588981202539" target="_blank" rel="noopener noreferrer">Suporte</a>
-      </p>
-    </footer>
-  </body>
+      if (tabButtons.length > 0 && tabSections.length > 0) {
+        tabButtons.forEach(btn => {
+          btn.addEventListener("click", () => {
+            const selected = btn.getAttribute("data-tab");
+            tabSections.forEach(section => {
+              section.classList.add("hidden");
+            });
+            const activeTab = document.getElementById("tab-" + selected);
+            if (activeTab) activeTab.classList.remove("hidden");
 
-  <!--Modulo js-->
-  <script src="./js/administrativo/mensalidades.js" type="module"></script>
-  <script src="./js/administrativo/navbar.js" type="module"></script>
+            tabButtons.forEach(b => b.classList.remove("border-primary-500", "text-primary-700", "dark:text-primary-400"));
+            btn.classList.add("border-primary-500", "text-primary-700", "dark:text-primary-400");
+          });
+        });
+
+        const firstTab = document.querySelector(".tab-btn[data-tab]");
+        if (firstTab) firstTab.click();
+      }
+    </script>
+</body>
 
 </html>
