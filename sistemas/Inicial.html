@@ -372,45 +372,7 @@
                                 </div>
 
                                 <div class="max-h-60 overflow-y-auto">
-                                    <div class="p-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                                        <div class="flex items-start">
-                                            <div class="flex-shrink-0 pt-0.5">
-                                                <div class="w-8 h-8 rounded-full bg-primary-100 dark:bg-gray-700 flex items-center justify-center">
-                                                    <i class="fas fa-exclamation-circle text-primary-600 dark:text-primary-400 text-sm"></i>
-                                                </div>
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-800 dark:text-white">Contrato próximo a vencer</p>
-                                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">O contrato CT-2023-001 vence em 3 dias</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                                        <div class="flex items-start">
-                                            <div class="flex-shrink-0 pt-0.5">
-                                                <div class="w-8 h-8 rounded-full bg-danger-100 dark:bg-gray-700 flex items-center justify-center">
-                                                    <i class="fas fa-clock text-danger-600 dark:text-danger-400 text-sm"></i>
-                                                </div>
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-800 dark:text-white">Pagamento em atraso</p>
-                                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">O contrato CT-2023-003 está com 15 dias de atraso</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                                        <div class="flex items-start">
-                                            <div class="flex-shrink-0 pt-0.5">
-                                                <div class="w-8 h-8 rounded-full bg-success-100 dark:bg-gray-700 flex items-center justify-center">
-                                                    <i class="fas fa-check-circle text-success-600 dark:text-success-400 text-sm"></i>
-                                                </div>
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-800 dark:text-white">Pagamento confirmado</p>
-                                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">O pagamento do contrato CT-2023-002 foi confirmado</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <!-- Avisos reais serão carregados via JavaScript -->
                                 </div>
                                 <div class="p-3 border-t border-gray-200 dark:border-gray-700">
                                     <a href="#" class="block text-center text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300">
@@ -838,6 +800,44 @@
     <!--Modulo js-->
     <script src="./js/administrativo/mensalidades.js" type="module"></script>
     <script src="./js/administrativo/navbar.js" type="module"></script>
+    <!-- Script para carregar avisos dinamicamente ao clicar no botão de notificações -->
+    <script type="module">
+      import { carregarAvisos } from './js/administrativo/mensalidades.js';
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const btnAviso = document.getElementById("notifications-btn");
+        const modalBody = document.getElementById("modalBodyAviso");
+        const modal = document.getElementById("modal-avisos");
+
+        if (!btnAviso || !modal || !modalBody) return;
+
+        btnAviso.addEventListener("click", async () => {
+          modal.style.display = "flex";
+          modalBody.innerHTML = '<p class="text-gray-500">Carregando avisos...</p>';
+
+          try {
+            const avisos = await carregarAvisos();
+            if (avisos.length === 0) {
+              modalBody.innerHTML = '<p class="text-gray-500">Nenhum aviso disponível.</p>';
+              return;
+            }
+
+            modalBody.innerHTML = avisos.map(aviso => `
+              <div class="bg-white dark:bg-gray-700 p-4 rounded shadow border border-gray-200 dark:border-gray-600">
+                <p class="text-sm text-gray-800 dark:text-gray-200">
+                  <strong class="text-danger-600 dark:text-danger-400">${aviso.aviso || 'Sem título'}</strong><br>
+                  ${aviso.imovel_descricao || 'Imóvel não identificado'}<br>
+                  <span class="text-xs text-gray-500">${aviso.imovel_endereco || 'Sem endereço'}</span>
+                </p>
+              </div>
+            `).join('');
+          } catch (error) {
+            modalBody.innerHTML = '<p class="text-red-500">Erro ao carregar avisos.</p>';
+            console.error(error);
+          }
+        });
+      });
+    </script>
     <script>
       const tabButtons = document.querySelectorAll(".tab-btn");
       const tabSections = document.querySelectorAll(".tab-section");
@@ -860,6 +860,43 @@
         const firstTab = document.querySelector(".tab-btn[data-tab]");
         if (firstTab) firstTab.click();
       }
+    </script>
+    <!-- Dark mode logic -->
+    <script>
+      const darkModeToggle = document.getElementById("dark-mode-toggle");
+
+      function setTheme(mode) {
+        const logo = document.querySelector('.logo-icon');
+        if (mode === "dark") {
+          document.documentElement.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+          if (logo) logo.src = "img/duvaleb.png";
+        } else {
+          document.documentElement.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+          if (logo) logo.src = "img/duvalep.png";
+        }
+      }
+
+      function toggleDarkMode() {
+        const isDark = document.documentElement.classList.contains("dark");
+        setTheme(isDark ? "light" : "dark");
+      }
+
+      darkModeToggle?.addEventListener("click", toggleDarkMode);
+
+      // Aplicar tema salvo no carregamento da página
+      document.addEventListener("DOMContentLoaded", () => {
+        const savedTheme = localStorage.getItem("theme");
+        const logo = document.querySelector('.logo-icon');
+        if (savedTheme === "dark") {
+          document.documentElement.classList.add("dark");
+          if (logo) logo.src = "img/duvaleb.png";
+        } else {
+          document.documentElement.classList.remove("dark");
+          if (logo) logo.src = "img/duvalep.png";
+        }
+      });
     </script>
 </body>
 
