@@ -93,6 +93,11 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
+        .slide-destaque {
+            border: 2px solid #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 640px) {
             .logo {
@@ -126,7 +131,7 @@
     </div>
     
     <!-- Main Container -->
-    <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden flex flex-col min-h-[90vh]">
         <!-- Header -->
         <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4 md:p-6 text-white">
             <div class="flex justify-between items-center">
@@ -134,6 +139,7 @@
                     <img src="img/duvalep.png" alt="Logo da imobiliária DuVale" class="logo h-12 md:h-16">
                     <div>
                         <h1 id="saudacao" class="text-lg md:text-xl font-bold"></h1>
+                        <div id="data-hora" class="text-xs opacity-80"></div>
                     </div>
                 </div>
                 <button onclick="logout()" class="flex items-center space-x-1 text-white hover:text-blue-100 transition-colors">
@@ -146,7 +152,7 @@
         </div>
         
         <!-- Content -->
-        <div class="p-4 md:p-6">
+        <div class="p-4 md:p-6 flex-grow">
             <!-- Carousel Navigation -->
             <div class="flex justify-between items-center mb-4">
                 <button onclick="navegarAnterior()" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
@@ -197,6 +203,23 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Footer -->
+        <div class="bg-gray-50 border-t border-gray-200 p-4">
+            <div class="flex justify-between items-center">
+                <div class="text-xs text-gray-500">
+                    © 2023 DuVale Imóveis
+                </div>
+                <div class="flex space-x-4">
+                    <a href="https://wa.me/5588981202539" 
+                       target="_blank" 
+                       class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                        <i class="fab fa-whatsapp mr-1"></i>
+                        <span class="hidden sm:inline">Suporte</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -231,7 +254,8 @@
             codigoPix: document.getElementById('codigo-pix'),
             botaoCopiar: document.getElementById('botao-copiar'),
             progressBar: document.getElementById('progress-bar'),
-            resultado: document.getElementById('resultado')
+            resultado: document.getElementById('resultado'),
+            dataHora: document.getElementById('data-hora')
         };
         
         // Utility Functions
@@ -248,6 +272,16 @@
                     day: '2-digit', 
                     month: 'short', 
                     year: 'numeric' 
+                });
+            },
+            
+            formatDateTime: (date) => {
+                return date.toLocaleString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
                 });
             },
             
@@ -280,6 +314,14 @@
                     juros,
                     valorTotal: valorMensalidade + multa + juros
                 };
+            },
+            
+            updateDateTime: () => {
+                const now = new Date();
+                elements.dataHora.textContent = utils.formatDateTime(now);
+                
+                // Atualiza a cada minuto
+                setTimeout(utils.updateDateTime, 60000);
             }
         };
         
@@ -409,6 +451,12 @@
                 });
                 
                 if (centralSlide) {
+                    // Remove destaque de todos os slides
+                    slides.forEach(slide => slide.classList.remove('slide-destaque'));
+                    
+                    // Adiciona destaque ao slide central
+                    centralSlide.classList.add('slide-destaque');
+                    
                     const pixValue = parseFloat(centralSlide.dataset.valorPix || "0");
                     if (!isNaN(pixValue)) {
                         elements.valor.textContent = utils.formatCurrency(pixValue);
@@ -503,23 +551,33 @@
             renderSlides: (mensalidades) => {
                 elements.carouselInner.innerHTML = '';
                 
+                // Ordena as mensalidades por data de vencimento (mais antigas primeiro)
+                mensalidades.sort((a, b) => new Date(a.data_vencimento) - new Date(b.data_vencimento));
+                
                 mensalidades.forEach(mensalidade => {
                     const slide = carousel.createSlide(mensalidade);
                     elements.carouselInner.appendChild(slide);
                 });
                 
-                // Set first unpaid slide as active
+                // Define a primeira mensalidade não paga como ativa por padrão
                 setTimeout(() => {
                     const slides = [...elements.carouselInner.querySelectorAll('.meu-slide')];
+                    
+                    // Encontra a primeira mensalidade não paga (mais antiga)
                     const firstUnpaid = slides.find(slide => slide.dataset.pago === "false");
                     
                     if (firstUnpaid) {
-                        firstUnpaid.classList.add('ativo');
+                        firstUnpaid.classList.add('slide-destaque');
                         elements.carouselInner.scrollTo({ 
                             left: firstUnpaid.offsetLeft, 
                             behavior: 'smooth' 
                         });
-                        carousel.updateCurrentValue();
+                        
+                        // Atualiza o valor exibido no botão PIX
+                        const valorPix = parseFloat(firstUnpaid.dataset.valorPix || "0");
+                        if (!isNaN(valorPix)) {
+                            elements.valor.textContent = utils.formatCurrency(valorPix);
+                        }
                     }
                 }, 200);
             }
@@ -536,7 +594,7 @@
                         return;
                     }
                     
-                    const activeSlide = document.querySelector('.meu-slide.ativo');
+                    const activeSlide = document.querySelector('.meu-slide.slide-destaque');
                     if (!activeSlide) {
                         utils.showToast("❌ Nenhuma mensalidade selecionada.");
                         return;
@@ -662,6 +720,9 @@
                         return;
                     }
                     
+                    // Atualiza data e hora
+                    utils.updateDateTime();
+                    
                     // Load user data
                     const userData = await api.getUserData();
                     if (userData) {
@@ -680,21 +741,8 @@
                         state.mensalidades = await api.getMensalidades(clientId);
                         
                         if (state.mensalidades.length > 0) {
-                            // Sort by due date
-                            state.mensalidades.sort((a, b) => new Date(a.data_vencimento) - new Date(b.data_vencimento));
-                            
-                            // Render carousel
+                            // Render carousel (já ordena por data)
                             carousel.renderSlides(state.mensalidades);
-                            
-                            // Set initial value
-                            const firstUnpaid = state.mensalidades.find(m => m.status !== 'pago');
-                            if (firstUnpaid) {
-                                const hoje = new Date();
-                                const dataVenc = new Date(firstUnpaid.data_vencimento);
-                                const diasAtraso = Math.ceil((hoje - dataVenc) / (1000 * 60 * 60 * 24));
-                                const { valorTotal } = utils.calculateFees(firstUnpaid.valor, diasAtraso);
-                                elements.valor.textContent = utils.formatCurrency(valorTotal);
-                            }
                         } else {
                             utils.showToast("⚠️ Nenhuma mensalidade encontrada.");
                         }
@@ -742,8 +790,4 @@
         });
     </script>
 </body>
-<footer class="text-center text-gray-500 text-xs">
-    <p>Setta Software Solutions. Direitos reservados.</p>
-    <p>Desenvolvido por Fernando Freitas | &copy; 2024</p>
-</footer>
 </html>
